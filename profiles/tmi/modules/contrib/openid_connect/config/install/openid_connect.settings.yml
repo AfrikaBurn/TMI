@@ -1,0 +1,3 @@
+always_save_userinfo: true
+userinfo_mappings:
+  timezone: zoneinfo

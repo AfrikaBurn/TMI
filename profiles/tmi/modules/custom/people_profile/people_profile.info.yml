@@ -1,0 +1,6 @@
+name: Profile
+description: 'Participant profile management.'
+type: module
+core: 8.x
+version: 8.x-0.0
+package: People

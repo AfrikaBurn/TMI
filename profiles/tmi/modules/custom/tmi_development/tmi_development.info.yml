@@ -1,0 +1,13 @@
+name: Development
+description: 'Modules intended for the development environment.'
+type: module
+core: 8.x
+version: 8.x-0.0
+package: TMI
+dependencies:
+  - block
+  - features_ui
+  - field_ui
+  - menu_ui
+  - system
+  - views_ui

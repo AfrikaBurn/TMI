@@ -1,0 +1,6 @@
+name: Group
+description: 'Participant Groups and Communication.'
+type: module
+core: 8.x
+version: 8.x-0.0
+package: People

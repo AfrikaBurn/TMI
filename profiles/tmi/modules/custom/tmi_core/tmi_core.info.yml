@@ -1,0 +1,13 @@
+name: 'Tribe Management Infrastructure Core'
+description: 'Common configuration'
+type: module
+core: 8.x
+dependencies:
+  - block
+  - contact
+  - help
+  - image
+  - system
+  - user
+package: TMI
+version: 8.x-0.0

@@ -1,0 +1,72 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the OpenID Connect module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function openid_connect_schema() {
+  $schema['openid_connect_authmap'] = array(
+    'description' => 'Stores OpenID Connect authentication mapping.',
+    'fields' => array(
+      'aid' => array(
+        'description' => 'Primary Key: Unique authmap ID.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'uid' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => "User's {users}.uid.",
+      ),
+      'client_name' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'The client name.',
+      ),
+      'sub' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Unique subject identifier.',
+      ),
+    ),
+    'primary key' => array('aid'),
+    'indexes' => array(
+      'uid' => array('uid'),
+      'identifier' => array('client_name', 'sub'),
+    ),
+    'foreign keys' => array(
+      'user' => array(
+        'table' => 'users',
+        'columns' => array('uid' => 'uid'),
+      ),
+    ),
+  );
+
+  return $schema;
+}
+
+/**
+ * Converts client settings to the new format.
+ */
+function openid_connect_update_7100() {
+  foreach (openid_connect_get_plugins(TRUE) as $client) {
+    $client_id = variable_get('openid_connect_client_' . $client['name'] . '_client_id', '');
+    $client_secret = variable_get('openid_connect_client_' . $client['name'] . '_client_secret', '');
+
+    $new_configuration = array(
+      'client_id' => $client_id,
+      'client_secret' => $client_secret,
+    );
+    variable_set('openid_connect_client_' . $client['name'], $new_configuration);
+  }
+}

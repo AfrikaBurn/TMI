@@ -1,0 +1,49 @@
+name: TMI
+description: 'Tribe Management Infrastructure'
+type: profile
+core: 8.x
+dependencies:
+  - admin_toolbar
+  - admin_toolbar_tools
+  - automated_cron
+  - block
+  - block_content
+  - breakpoint
+  - ckeditor
+  - color
+  - comment
+  - config
+  - config_update
+  - contact
+  - contextual
+  - datetime
+  - dblog
+  - dynamic_page_cache
+  - editor
+  - features
+  - file
+  - help
+  - history
+  - image
+  - menu_link_content
+  - node
+  - options
+  - page_cache
+  - path
+  - quickedit
+  - rdf
+  - search
+  - shortcut
+  - system
+  - taxonomy
+  - toolbar
+  - tour
+  - user
+  - views
+themes:
+  - bartik
+  - seven
+package: TMI
+distribution:
+  name: TMI
+version: 8.x-0.0

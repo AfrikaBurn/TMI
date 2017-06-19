@@ -1,0 +1,7 @@
+langcode: en
+status: true
+dependencies: {  }
+id: shift_lead
+label: 'Shift Lead'
+weight: -8
+is_admin: null
