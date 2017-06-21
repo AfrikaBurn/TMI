@@ -4,3 +4,13 @@ type: module
 core: 8.x
 version: 8.x-0.0
 package: People
+dependencies:
+  - datetime
+  - field
+  - field_group
+  - options
+  - people_agreement
+  - telephone
+  - user
+  - viewfield
+  - views

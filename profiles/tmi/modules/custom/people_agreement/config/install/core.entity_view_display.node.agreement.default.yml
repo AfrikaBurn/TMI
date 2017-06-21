@@ -1,0 +1,49 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.agreement.body
+    - field.field.node.agreement.field_agreement
+    - field.field.node.agreement.field_conditions
+    - node.type.agreement
+  module:
+    - text
+    - user
+    - viewfield
+    - webform
+id: node.agreement.default
+targetEntityType: node
+bundle: agreement
+mode: default
+content:
+  body:
+    label: hidden
+    type: text_default
+    weight: 101
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+  field_agreement:
+    weight: 103
+    label: hidden
+    settings:
+      view_title: hidden
+      always_build_output: 0
+      empty_view_title: hidden
+    third_party_settings: {  }
+    type: viewfield_default
+    region: content
+  field_conditions:
+    weight: 102
+    label: hidden
+    settings:
+      source_entity: true
+    third_party_settings: {  }
+    type: webform_entity_reference_entity_view
+    region: content
+  links:
+    weight: 100
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

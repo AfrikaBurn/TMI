@@ -3,6 +3,17 @@ description: 'Common People components.'
 type: module
 core: 8.x
 dependencies:
+  - block
+  - block_content
+  - comment
+  - contact
+  - file
+  - menu_link_content
+  - node
+  - shortcut
+  - taxonomy
+  - tour
   - user
+  - webform
 package: People
 version: 8.x-0.0

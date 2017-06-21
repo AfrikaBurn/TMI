@@ -1,1 +1,5 @@
 bundle: people
+excluded:
+  - field.field.user.user.field_agreements
+  - field.storage.user.field_agreements
+required: true
