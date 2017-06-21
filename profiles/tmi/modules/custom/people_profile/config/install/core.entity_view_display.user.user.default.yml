@@ -102,7 +102,7 @@ mode: default
 content:
   field_agreements:
     weight: 8
-    label: above
+    label: hidden
     settings:
       view_title: hidden
       always_build_output: '1'

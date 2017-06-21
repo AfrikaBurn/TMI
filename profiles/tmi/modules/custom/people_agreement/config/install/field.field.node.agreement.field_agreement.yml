@@ -18,8 +18,8 @@ translatable: false
 default_value:
   -
     token_help: ''
-    display_id: current_user
-    arguments: ''
+    display_id: per_agreement
+    arguments: '[node:nid]'
     target_uuid: 7a825fb0-3f35-4345-a471-1af125d25fd4
 default_value_callback: ''
 settings:
