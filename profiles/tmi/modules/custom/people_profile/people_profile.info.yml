@@ -12,5 +12,4 @@ dependencies:
   - people_agreement
   - telephone
   - user
-  - viewfield
   - views

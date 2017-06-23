@@ -4,7 +4,6 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.agreement.body
-    - field.field.node.agreement.field_agreement
     - field.field.node.agreement.field_conditions
     - node.type.agreement
   module:
@@ -27,5 +26,4 @@ content:
     weight: 100
     region: content
 hidden:
-  field_agreement: true
   field_conditions: true

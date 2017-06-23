@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Module hook implements.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function people_agreement_form_user_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  $storage = $form_state->getStorage();
+  if (isset($storage['user'])){
+    $user = $storage['user'];
+    $form['view_agreements'] = views_embed_view('agreements', 'per_user', $user->id());
+    $form['#group_children']['view_agreements'] = 'group_agreements';
+  }
+}
+
+function people_agreement_user_view(\Drupal\user\UserInterface $account, \Drupal\entity\Plugin\Core\Entity\EntityDisplay $display, $view_mode, $langcode) {
+  dpm($display);
+}

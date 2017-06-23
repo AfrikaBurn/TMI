@@ -3,13 +3,11 @@ status: true
 dependencies:
   config:
     - field.field.node.agreement.body
-    - field.field.node.agreement.field_agreement
     - field.field.node.agreement.field_conditions
     - node.type.agreement
   module:
     - path
     - text
-    - viewfield
     - webform
 id: node.agreement.default
 targetEntityType: node
@@ -31,12 +29,6 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_agreement:
-    weight: 33
-    settings: {  }
-    third_party_settings: {  }
-    type: viewfield_select
-    region: content
   field_conditions:
     weight: 32
     settings: {  }

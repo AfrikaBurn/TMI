@@ -2,7 +2,6 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.user.user.field_agreements
     - field.field.user.user.field_gender
     - field.field.user.user.field_user_date_of_birth
     - field.field.user.user.field_user_first_name
@@ -14,7 +13,6 @@ dependencies:
     - field_group
     - telephone
     - user
-    - viewfield
 third_party_settings:
   field_group:
     group_root:
@@ -118,12 +116,6 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_agreements:
-    weight: 11
-    settings: {  }
-    third_party_settings: {  }
-    type: viewfield_select
-    region: content
   field_gender:
     weight: 2
     settings: {  }

@@ -2,7 +2,6 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.user.user.field_agreements
     - field.field.user.user.field_gender
     - field.field.user.user.field_user_date_of_birth
     - field.field.user.user.field_user_first_name
@@ -14,7 +13,6 @@ dependencies:
     - field_group
     - options
     - user
-    - viewfield
 third_party_settings:
   field_group:
     group_root:
@@ -100,16 +98,6 @@ targetEntityType: user
 bundle: user
 mode: default
 content:
-  field_agreements:
-    weight: 8
-    label: hidden
-    settings:
-      view_title: hidden
-      always_build_output: '1'
-      empty_view_title: hidden
-    third_party_settings: {  }
-    type: viewfield_default
-    region: content
   field_gender:
     weight: 3
     label: above
