@@ -9,6 +9,7 @@ dependencies:
   - menu_ui
   - node
   - path
+  - people_profile
   - text
   - user
   - viewfield

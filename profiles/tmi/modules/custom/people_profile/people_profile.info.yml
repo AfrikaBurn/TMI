@@ -9,7 +9,6 @@ dependencies:
   - field
   - field_group
   - options
-  - people_agreement
   - telephone
   - user
   - views

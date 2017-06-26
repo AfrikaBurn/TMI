@@ -1,5 +1,5 @@
 name: TMI
-description: 'Tribe Management Infrastructure'
+description: 'Tribe Management Infrastructure Install Profile'
 type: profile
 core: 8.x
 dependencies:
