@@ -18,7 +18,7 @@ class WebformEntityRadios extends Radios {
    * {@inheritdoc}
    */
   public static function processRadios(&$element, FormStateInterface $form_state, &$complete_form) {
-    static::setOptions($element);
+    self::setOptions($element);
     return parent::processRadios($element, $form_state, $complete_form);
   }
 

@@ -35,16 +35,15 @@ class WebformTest extends WebformElementBase {
   /**
    * {@inheritdoc}
    */
-  public function formatHtml(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
+  public function formatHtml(array $element, $value, array $options = []) {
     $this->displayMessage(__FUNCTION__);
-    return '<i>' . $this->formatText($element, $webform_submission, $options) . '</i>';
+    return '<i>' . $this->formatText($element, $value, $options) . '</i>';
   }
 
   /**
    * {@inheritdoc}
    */
-  public function formatText(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
-    $value = $this->getValue($element, $webform_submission, $options);
+  public function formatText(array $element, $value, array $options = []) {
     $this->displayMessage(__FUNCTION__);
     return strtoupper($value);
   }

@@ -25,7 +25,7 @@ class WebformUiPathProcessor implements OutboundPathProcessorInterface {
 
     $querystring = [];
     parse_str($request->getQueryString(), $querystring);
-    if (empty($querystring['destination'])) {
+    if (!$querystring['destination']) {
       return $path;
     }
 

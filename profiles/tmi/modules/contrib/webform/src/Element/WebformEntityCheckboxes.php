@@ -18,7 +18,7 @@ class WebformEntityCheckboxes extends Checkboxes {
    * {@inheritdoc}
    */
   public static function processCheckboxes(&$element, FormStateInterface $form_state, &$complete_form) {
-    static::setOptions($element);
+    self::setOptions($element);
     return parent::processCheckboxes($element, $form_state, $complete_form);
   }
 

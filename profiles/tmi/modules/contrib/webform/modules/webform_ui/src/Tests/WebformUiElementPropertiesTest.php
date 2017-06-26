@@ -32,6 +32,9 @@ class WebformUiElementPropertiesTest extends WebformTestBase {
   public function setUp() {
     parent::setUp();
 
+    // Create users.
+    $this->createUsers();
+
     // Create filters.
     $this->createFilters();
   }
@@ -40,7 +43,7 @@ class WebformUiElementPropertiesTest extends WebformTestBase {
    * Tests element properties.
    */
   public function testElementProperties() {
-    $this->drupalLogin($this->rootUser);
+    $this->drupalLogin($this->adminWebformUser);
 
     // Loops through all the elements, edits them via the UI, and checks that
     // the element's render array has not been altered.

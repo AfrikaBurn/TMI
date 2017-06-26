@@ -1,6 +1,6 @@
 /**
  * @file
- * JavaScript behaviors for jquery.inputmask integration.
+ * Javascript behaviors for jquery.inputmask integration.
  */
 
 (function ($, Drupal) {

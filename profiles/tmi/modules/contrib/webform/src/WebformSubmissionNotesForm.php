@@ -4,7 +4,9 @@ namespace Drupal\webform;
 
 use Drupal\Core\Entity\ContentEntityForm;
 use Drupal\Core\Entity\EntityManagerInterface;
+use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Component\Datetime\TimeInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -29,7 +31,7 @@ class WebformSubmissionNotesForm extends ContentEntityForm {
    */
   public function __construct(EntityManagerInterface $entity_manager) {
     parent::__construct($entity_manager);
-    // @todo Update constructor once Webform is only supporting Drupal 8.3.x.
+    // @todo Update constructor once Webform is only support Drupal 8.3.x.
     $this->requestHandler = \Drupal::service('webform.request');
   }
 

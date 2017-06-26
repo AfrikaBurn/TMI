@@ -342,7 +342,7 @@ class WebformSubmission extends ContentEntityBase implements WebformSubmissionIn
    * {@inheritdoc}
    */
   public function getData($key = NULL) {
-    if ($key !== NULL) {
+    if (isset($key)) {
       return (isset($this->data[$key])) ? $this->data[$key] : NULL;
     }
     else {
@@ -393,7 +393,7 @@ class WebformSubmission extends ContentEntityBase implements WebformSubmissionIn
       return $this->webform_id->entity;
     }
     else {
-      return static::$webform;
+      return self::$webform;
     }
   }
 
@@ -578,13 +578,13 @@ class WebformSubmission extends ContentEntityBase implements WebformSubmissionIn
     // @see \Drupal\webform_ui\Form\WebformUiElementTestForm::buildForm()
     if (isset($values['webform']) && ($values['webform'] instanceof WebformInterface)) {
       $webform = $values['webform'];
-      static::$webform = $values['webform'];
+      self::$webform = $values['webform'];
       $values['webform_id'] = 'temp';
     }
     else {
       /** @var \Drupal\webform\WebformInterface $webform */
       $webform = Webform::load($values['webform_id']);
-      static::$webform = NULL;
+      self::$webform = NULL;
     }
 
     // Get request's source entity parameter.
@@ -616,16 +616,24 @@ class WebformSubmission extends ContentEntityBase implements WebformSubmissionIn
       }
     }
 
-    // Set default values.
+    // Set default uri and remote_addr.
     $current_request = \Drupal::requestStack()->getCurrentRequest();
     $values += [
-      'in_draft' => FALSE,
-      'uid' => \Drupal::currentUser()->id(),
-      'langcode' => \Drupal::languageManager()->getCurrentLanguage()->getId(),
-      'token' => Crypt::randomBytesBase64(),
       'uri' => preg_replace('#^' . base_path() . '#', '/', $current_request->getRequestUri()),
       'remote_addr' => ($webform && $webform->isConfidential()) ? '' : $current_request->getClientIp(),
     ];
+
+    // Get default uid and langcode.
+    $values += [
+      'uid' => \Drupal::currentUser()->id(),
+      'langcode' => \Drupal::languageManager()->getCurrentLanguage()->getId(),
+    ];
+
+    // Hard code the token.
+    $values['token'] = Crypt::randomBytesBase64();
+
+    // Set is draft.
+    $values['in_draft'] = FALSE;
 
     $webform->invokeHandlers(__FUNCTION__, $values);
     $webform->invokeElements(__FUNCTION__, $values);

@@ -3,7 +3,6 @@
 namespace Drupal\webform\Controller;
 
 use Drupal\Component\Render\FormattableMarkup;
-use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Controller\ControllerBase;
@@ -17,13 +16,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * Controller for all webform elements.
  */
 class WebformPluginElementController extends ControllerBase implements ContainerInjectionInterface {
-
-  /**
-   * The config factory.
-   *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface
-   */
-  protected $configFactory;
 
   /**
    * The module handler.
@@ -49,8 +41,6 @@ class WebformPluginElementController extends ControllerBase implements Container
   /**
    * Constructs a WebformPluginElementController object.
    *
-   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
-   *   The factory for configuration objects.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *   The module handler.
    * @param \Drupal\Core\Render\ElementInfoManagerInterface $element_info
@@ -58,8 +48,7 @@ class WebformPluginElementController extends ControllerBase implements Container
    * @param \Drupal\webform\WebformElementManagerInterface $element_manager
    *   A webform element plugin manager.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, ModuleHandlerInterface $module_handler, ElementInfoManagerInterface $element_info, WebformElementManagerInterface $element_manager) {
-    $this->configFactory = $config_factory;
+  public function __construct(ModuleHandlerInterface $module_handler, ElementInfoManagerInterface $element_info, WebformElementManagerInterface $element_manager) {
     $this->moduleHandler = $module_handler;
     $this->elementInfo = $element_info;
     $this->elementManager = $element_manager;
@@ -70,7 +59,6 @@ class WebformPluginElementController extends ControllerBase implements Container
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('config.factory'),
       $container->get('module_handler'),
       $container->get('plugin.manager.element_info'),
       $container->get('plugin.manager.webform.element')
@@ -83,8 +71,6 @@ class WebformPluginElementController extends ControllerBase implements Container
   public function index() {
     $webform_form_element_rows = [];
     $element_rows = [];
-
-    $excluded_elements = $this->config('webform.settings')->get('element.excluded_elements');
 
     $default_properties = [
       // Element settings.
@@ -152,7 +138,6 @@ class WebformPluginElementController extends ControllerBase implements Container
         $dependencies = $webform_element_plugin_definition['dependencies'];
 
         $webform_info_definitions = [
-          'excluded' => isset($excluded_elements[$element_plugin_id]),
           'input' => $webform_element->isInput($element),
           'container' => $webform_element->isContainer($element),
           'root' => $webform_element->isRoot(),
@@ -205,7 +190,6 @@ class WebformPluginElementController extends ControllerBase implements Container
             'url' => $api_url,
           ];
         }
-
         $webform_form_element_rows[$element_plugin_id] = [
           'data' => [
             new FormattableMarkup('<div class="webform-form-filter-text-source">@id</div>', ['@id' => $element_plugin_id]),
@@ -222,9 +206,6 @@ class WebformPluginElementController extends ControllerBase implements Container
             $operations ? ['data' => ['#type' => 'operations', '#links' => $operations]] : '',
           ],
         ];
-        if (isset($excluded_elements[$element_plugin_id])) {
-          $webform_form_element_rows[$element_plugin_id]['class'] = ['color-warning'];
-        }
       }
       else {
         $element_rows[$element_plugin_id] = [

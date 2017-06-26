@@ -1,5 +1,5 @@
-name: 'Tribe Management Infrastructure Core'
-description: 'Common configuration'
+name: Core
+description: 'TMI Common configuration'
 type: module
 core: 8.x
 dependencies:

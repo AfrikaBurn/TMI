@@ -39,7 +39,7 @@ class WebformTermCheckboxes extends Checkboxes implements WebformEntityReference
    * {@inheritdoc}
    */
   protected function getElementSelectorInputsOptions(array $element) {
-    static::setOptions($element);
+    self::setOptions($element);
     return parent::getElementSelectorInputsOptions($element);
   }
 

@@ -1,6 +1,6 @@
 /**
  * @file
- * JavaScript behaviors for time integration.
+ * Javascript behaviors for time integration.
  */
 
 (function ($, Drupal) {

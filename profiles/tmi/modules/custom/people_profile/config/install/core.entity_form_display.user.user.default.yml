@@ -48,8 +48,6 @@ third_party_settings:
         required_fields: true
       label: Identity
     group_agreements:
-      children:
-        - field_agreements
       parent_name: group_root
       weight: 21
       format_type: tab

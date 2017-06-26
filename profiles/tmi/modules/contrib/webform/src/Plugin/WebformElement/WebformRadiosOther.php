@@ -18,7 +18,7 @@ class WebformRadiosOther extends Radios {
    * {@inheritdoc}
    */
   public function getDefaultProperties() {
-    return parent::getDefaultProperties() + static::getOtherProperties();
+    return parent::getDefaultProperties() + self::getOtherProperties();
   }
 
 }

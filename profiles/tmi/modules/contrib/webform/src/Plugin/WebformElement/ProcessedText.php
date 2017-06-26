@@ -4,7 +4,6 @@ namespace Drupal\webform\Plugin\WebformElement;
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Mail\MailFormatHelper;
-use Drupal\webform\WebformSubmissionInterface;
 
 /**
  * Provides a 'processed_text' element.
@@ -40,7 +39,7 @@ class ProcessedText extends WebformMarkupBase {
   /**
    * {@inheritdoc}
    */
-  public function buildText(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
+  public function buildText(array $element, $value, array $options = []) {
     // Copy to element so that we can render it without altering the actual
     // $element.
     $render_element = $element;
@@ -50,7 +49,7 @@ class ProcessedText extends WebformMarkupBase {
     // Must remove #type, #text, and #format.
     unset($element['#type'], $element['#text'], $element['#format']);
 
-    return parent::buildText($element, $webform_submission, $options);
+    return parent::buildText($element, $value, $options);
   }
 
   /**

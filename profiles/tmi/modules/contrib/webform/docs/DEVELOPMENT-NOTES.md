@@ -84,12 +84,6 @@ interdiff \
 
 ### Drush 
 
-**Execute Webform update hook **
-
-```bash
-drush php-eval 'module_load_include('install', 'webform'); webform_update_N();';
-```
-
 **Reinstall Webform module.**
 
 ```bash

@@ -1,6 +1,6 @@
 /**
  * @file
- * JavaScript behaviors for IMCE.
+ * Javascript behaviors for IMCE.
  */
 
 (function ($, Drupal) {

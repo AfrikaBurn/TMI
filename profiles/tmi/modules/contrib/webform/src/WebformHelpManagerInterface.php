@@ -45,15 +45,6 @@ interface WebformHelpManagerInterface {
   public function buildHelp($route_name, RouteMatchInterface $route_match);
 
   /**
-   * Build help (aka 'How can we help you?') menu (dropbutton) element.
-   *
-   * @return array
-   *   An render array containing about (aka 'How can we help you?') operations
-   *   (dropbutton) element.
-   */
-  public function buildHelpMenu();
-
-  /**
    * Build the main help page for the Webform module.
    *
    * @return array
@@ -70,7 +61,7 @@ interface WebformHelpManagerInterface {
   public function buildAbout();
 
   /**
-   * Build the elements section.
+   * Build the eleents section.
    *
    * @param bool $docs
    *   Set to TRUE to build exportable HTML documentation.

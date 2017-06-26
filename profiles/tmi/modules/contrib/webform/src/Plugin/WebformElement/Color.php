@@ -53,9 +53,7 @@ class Color extends WebformElementBase {
   /**
    * {@inheritdoc}
    */
-  public function formatHtmlItem(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
-    $value = $this->getValue($element, $webform_submission, $options);
-
+  public function formatHtmlItem(array $element, $value, array $options = []) {
     if (empty($value)) {
       return '';
     }
@@ -71,7 +69,7 @@ class Color extends WebformElementBase {
         ];
 
       default:
-        return parent::formatHtmlItem($element, $webform_submission, $options);
+        return parent::formatHtmlItem($element, $value, $options);
     }
   }
 

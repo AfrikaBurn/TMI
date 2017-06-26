@@ -30,7 +30,7 @@ class WebformTermSelect extends Select {
    * {@inheritdoc}
    */
   public static function processSelect(&$element, FormStateInterface $form_state, &$complete_form) {
-    static::setOptions($element);
+    self::setOptions($element);
 
     $element = parent::processSelect($element, $form_state, $complete_form);
 

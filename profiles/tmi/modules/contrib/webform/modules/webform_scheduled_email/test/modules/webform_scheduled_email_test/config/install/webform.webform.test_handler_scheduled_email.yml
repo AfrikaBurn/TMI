@@ -40,7 +40,9 @@ settings:
   page: true
   page_submit_path: ''
   page_confirm_path: ''
+  form_submit_label: ''
   form_submit_once: false
+  form_submit_attributes: {  }
   form_exception_message: ''
   form_open_message: ''
   form_close_message: ''
@@ -60,15 +62,23 @@ settings:
   wizard_progress_bar: true
   wizard_progress_pages: false
   wizard_progress_percentage: false
+  wizard_next_button_label: ''
+  wizard_next_button_attributes: {  }
+  wizard_prev_button_label: ''
+  wizard_prev_button_attributes: {  }
   wizard_start_label: ''
   wizard_complete: true
   wizard_complete_label: ''
   preview: 0
-  preview_label: ''
-  preview_title: ''
+  preview_next_button_label: ''
+  preview_next_button_attributes: {  }
+  preview_prev_button_label: ''
+  preview_prev_button_attributes: {  }
   preview_message: ''
   draft: all
   draft_auto_save: false
+  draft_button_label: ''
+  draft_button_attributes: {  }
   draft_saved_message: ''
   draft_loaded_message: ''
   confirmation_type: page
@@ -129,8 +139,7 @@ handlers:
         - completed
       to_mail: '[webform_submission:values:send:raw]'
       to_options:
-        - value: tomorrow
-          text: '[site:mail]'
+        tomorrow: '[site:mail]'
       cc_mail: ''
       cc_options: {  }
       bcc_mail: ''
@@ -160,8 +169,7 @@ handlers:
         - completed
       to_mail: '[webform_submission:values:send:raw]'
       to_options:
-        - value: yesterday
-          text: '[site:mail]'
+        yesterday: '[site:mail]'
       cc_mail: ''
       cc_options: {  }
       bcc_mail: ''
@@ -191,8 +199,7 @@ handlers:
         - completed
       to_mail: '[webform_submission:values:send:raw]'
       to_options:
-        - value: last_year
-          text: '[site:mail]'
+        last_year: '[site:mail]'
       cc_mail: ''
       cc_options: {  }
       bcc_mail: ''
@@ -222,8 +229,7 @@ handlers:
         - completed
       to_mail: '[webform_submission:values:send:raw]'
       to_options:
-        - value: broken
-          text: '[site:mail]'
+        broken: '[site:mail]'
       cc_mail: ''
       cc_options: {  }
       bcc_mail: ''
@@ -255,8 +261,7 @@ handlers:
         - updated
       to_mail: '[webform_submission:values:send:raw]'
       to_options:
-        - value: other
-          text: '[site:mail]'
+        other: '[site:mail]'
       cc_mail: ''
       cc_options: {  }
       bcc_mail: ''
@@ -286,8 +291,7 @@ handlers:
         - draft
       to_mail: '[webform_submission:values:send:raw]'
       to_options:
-        - value: draft_reminder
-          text: '[site:mail]'
+        draft_reminder: '[site:mail]'
       cc_mail: ''
       cc_options: {  }
       bcc_mail: ''

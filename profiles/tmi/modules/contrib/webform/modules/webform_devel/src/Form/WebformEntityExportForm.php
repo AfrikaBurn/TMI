@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Export webform configuration.
  */
-class WebformDevelEntityExportForm extends EntityForm {
+class WebformEntityExportForm extends EntityForm {
 
   /**
    * {@inheritdoc}

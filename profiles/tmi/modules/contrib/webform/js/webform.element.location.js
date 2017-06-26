@@ -1,6 +1,6 @@
 /**
  * @file
- * JavaScript behaviors for Geocomplete location integration.
+ * Javascript behaviors for Geocomplete location integration.
  */
 
 (function ($, Drupal, drupalSettings) {

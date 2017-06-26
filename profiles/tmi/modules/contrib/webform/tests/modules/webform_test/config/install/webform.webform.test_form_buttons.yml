@@ -3,54 +3,40 @@ status: open
 dependencies:
   enforced:
     module:
-      - webform_examples
+      - webform_test
 open: null
 close: null
 uid: null
 template: false
-id: example_elements_computed
-title: 'Example: Elements: Computed'
-description: 'Example of a computed element.'
-category: Example
+id: test_form_buttons
+title: 'Test: Webform: Buttons'
+description: 'Test custom webform buttons.'
+category: 'Test: Webform'
 elements: |
-  information:
-    '#title': 'Your Information'
+  wizard_page_1:
     '#type': webform_wizard_page
-    '#next_button_label': 'Preview >'
-    '#open': true
-    first_name:
+    '#title': 'Page 1'
+    text_1:
       '#type': textfield
-      '#title': 'First Name'
-    last_name:
-      '#type': textfield
-      '#title': 'Last Name'
-    date_of_birth:
-      '#type': date
-      '#title': 'Date of Birth'
-    color:
-      '#type': color
-      '#title': 'Favorite Color'
-  preview_information:
-    '#title': Preview
+      '#title': 'Text 1'
+  wizard_page_2:
     '#type': webform_wizard_page
-    '#open': true
-    computed:
-      '#type': webform_computed_twig
-      '#title': 'Computed'
-      '#title_display': hidden
-      '#value': |
-        {% set attributes = create_attribute() %}
-        <h2{{ attributes.setAttribute('id', 'custom').setAttribute('style', 'color:' ~ data.color) }}>
-          Hello {{ data.first_name }} {{ data.last_name }}!!!
-        </h2>
-        <p>You are {{ ('now'|date('Y')) - (data.date_of_birth|date('Y'))  }} years old.</p>
+    '#title': 'Page 2'
+    text_2:
+      '#type': textfield
+      '#title': 'Text 2'
 css: ''
 javascript: ''
 settings:
   page: true
   page_submit_path: ''
   page_confirm_path: ''
+  form_submit_label: ''
   form_submit_once: false
+  form_submit_attributes:
+    class:
+      - form_submit_attributes
+    style: 'color: green'
   form_exception_message: ''
   form_open_message: ''
   form_close_message: ''
@@ -58,7 +44,7 @@ settings:
   form_confidential: false
   form_confidential_message: ''
   form_convert_anonymous: false
-  form_prepopulate: false
+  form_prepopulate: true
   form_prepopulate_source_entity: false
   form_disable_autocomplete: false
   form_novalidate: false
@@ -70,15 +56,38 @@ settings:
   wizard_progress_bar: true
   wizard_progress_pages: false
   wizard_progress_percentage: false
+  wizard_next_button_label: ''
+  wizard_next_button_attributes:
+    class:
+      - wizard_next_button_attributes
+    style: 'color: yellow'
+  wizard_prev_button_label: ''
+  wizard_prev_button_attributes:
+    class:
+      - wizard_prev_button_attributes
+    style: 'color: yellow'
   wizard_start_label: ''
   wizard_complete: true
   wizard_complete_label: ''
-  preview: 0
-  preview_label: ''
-  preview_title: ''
+  preview: 1
+  preview_next_button_label: ''
+  preview_next_button_attributes:
+    class:
+      - preview_next_button_attributes
+    style: 'color: orange'
+  preview_prev_button_label: ''
+  preview_prev_button_attributes:
+    class:
+      - preview_prev_button_attributes
+    style: 'color: orange'
   preview_message: ''
-  draft: none
+  draft: authenticated
   draft_auto_save: false
+  draft_button_label: ''
+  draft_button_attributes:
+    class:
+      - draft_button_attributes
+    style: 'color: blue'
   draft_saved_message: ''
   draft_loaded_message: ''
   confirmation_type: page

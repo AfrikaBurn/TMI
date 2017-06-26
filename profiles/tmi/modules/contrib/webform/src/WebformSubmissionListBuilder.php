@@ -241,29 +241,31 @@ class WebformSubmissionListBuilder extends EntityListBuilder {
 
     // Customize.
     if ($this->customize) {
-      $build['custom_top'] = $this->buildCustomizeButton();
+      $route_name = $this->requestHandler->getRouteName($this->webform, $this->sourceEntity, 'webform.results_submissions.custom');
+      $route_parameters = $this->requestHandler->getRouteParameters($this->webform, $this->sourceEntity) + ['webform' => $this->webform->id()];
+      $route_options = ['query' => \Drupal::destination()->getAsArray()];
+      $build['custom'] = [
+        '#type' => 'link',
+        '#title' => $this->t('Customize'),
+        '#url' => Url::fromRoute($route_name, $route_parameters, $route_options),
+        '#attributes' => WebformDialogHelper::getModalDialogAttributes(800, ['button', 'button-action', 'button--small', 'button-webform-setting']),
+      ];
     }
 
     // Display info.
     if ($total = $this->getTotal($this->keys, $this->state)) {
+      $t_args = [
+        '@total' => $total,
+        '@results' => $this->formatPlural($total, $this->t('submission'), $this->t('submissions')),
+      ];
       $build['info'] = [
-        '#markup' => $this->formatPlural($total, '@total submission', '@total submissions', ['@total' => $total]),
+        '#markup' => $this->t('@total @results', $t_args),
         '#prefix' => '<div>',
         '#suffix' => '</div>',
       ];
     }
 
     $build += parent::render();
-
-    // Customize.
-    // Only displayed when more than 20 submissions are being displayed.
-    if ($this->customize && isset($build['table']['#rows']) && count($build['table']['#rows']) >= 20) {
-      $build['custom_bottom'] = $this->buildCustomizeButton();
-      if (isset($build['pager'])) {
-        $build['pager']['#weight'] = 10;
-      }
-    }
-
 
     $build['table']['#attributes']['class'][] = 'webform-results__table';
 
@@ -274,25 +276,6 @@ class WebformSubmissionListBuilder extends EntityListBuilder {
 
     return $build;
   }
-
-  /**
-   * Build the customize button.
-   *
-   * @return array
-   *   A render array representing the customize button.
-   */
-  protected function buildCustomizeButton() {
-    $route_name = $this->requestHandler->getRouteName($this->webform, $this->sourceEntity, 'webform.results_submissions.custom');
-    $route_parameters = $this->requestHandler->getRouteParameters($this->webform, $this->sourceEntity) + ['webform' => $this->webform->id()];
-    $route_options = ['query' => \Drupal::destination()->getAsArray()];
-    return [
-      '#type' => 'link',
-      '#title' => $this->t('Customize'),
-      '#url' => Url::fromRoute($route_name, $route_parameters, $route_options),
-      '#attributes' => WebformDialogHelper::getModalDialogAttributes(800, ['button', 'button-action', 'button--small', 'button-webform-setting']),
-    ];
-  }
-
 
   /****************************************************************************/
   // Header functions.
@@ -486,12 +469,18 @@ class WebformSubmissionListBuilder extends EntityListBuilder {
 
       default:
         if (strpos($name, 'element__') === 0) {
+          $data = $entity->getData();
+
           $element = $column['element'];
+
+          $key = $column['key'];
+          $value = (isset($data[$key])) ? $data[$key] : '';
+
           $options = $column;
 
           /** @var \Drupal\webform\WebformElementInterface $element_handler */
           $element_handler = $column['plugin'];
-          $html = $element_handler->formatTableColumn($element, $entity, $options);
+          $html = $element_handler->formatTableColumn($element, $value, $options);
           return (is_array($html)) ? ['data' => $html] : $html;
         }
         else {
@@ -678,7 +667,7 @@ class WebformSubmissionListBuilder extends EntityListBuilder {
       $sub_query = Database::getConnection()->select('webform_submission_data', 'sd')
         ->fields('sd', ['sid'])
         ->condition('value', '%' . $keys . '%', 'LIKE');
-      $submission_storage->addQueryConditions($sub_query, $this->webform);
+      $submission_storage->addQueryConditions($sub_query, $this->webform, $this->sourceEntity, $this->account);
 
       $or = $query->orConditionGroup()
         ->condition('sid', $sub_query, 'IN')

@@ -4,7 +4,6 @@ namespace Drupal\webform\Plugin\WebformElement;
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\webform\WebformElementBase;
-use Drupal\webform\WebformSubmissionInterface;
 
 /**
  * Provides a 'webform_time' element.
@@ -37,9 +36,7 @@ class WebformTime extends WebformElementBase {
   /**
    * {@inheritdoc}
    */
-  public function formatTextItem(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
-    $value = $this->getValue($element, $webform_submission, $options);
-
+  public function formatTextItem(array $element, $value, array $options = []) {
     if (empty($value)) {
       return '';
     }
@@ -50,7 +47,7 @@ class WebformTime extends WebformElementBase {
       return date($time_format, strtotime($value));
     }
 
-    return parent::formatTextItem($element, $webform_submission, $options);
+    return parent::formatTextItem($element, $value, $options);
   }
 
   /**

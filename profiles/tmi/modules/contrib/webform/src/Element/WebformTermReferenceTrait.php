@@ -25,10 +25,10 @@ trait WebformTermReferenceTrait {
     }
 
     if (!empty($element['#breadcrumb'])) {
-      $element['#options'] = static::getOptionsBreadcrumb($element, $language);
+      $element['#options'] = self::getOptionsBreadcrumb($element, $language);
     }
     else {
-      $element['#options'] = static::getOptionsTree($element, $language);
+      $element['#options'] = self::getOptionsTree($element, $language);
     }
   }
 

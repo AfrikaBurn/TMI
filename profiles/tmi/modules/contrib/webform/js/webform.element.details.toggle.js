@@ -1,6 +1,6 @@
 /**
  * @file
- * JavaScript behaviors for details element.
+ * Javascript behaviors for details element.
  */
 
 (function ($, Drupal) {
@@ -16,13 +16,7 @@
     attach: function (context) {
       $('.js-webform-details-toggle', context).once('webform-details-toggle').each(function () {
         var $form = $(this);
-
-        // Get only the main details elements and ingnore all nested details.
-        var $details = $form.find('details').filter(function() {
-          // @todo Figure out how to optimize the below code.
-          var $parents = $(this).parentsUntil('.js-webform-details-toggle');
-          return ($parents.find('details').length === 0);
-        });
+        var $details = $form.find('details');
 
         // Toggle is only useful when there are two or more details elements.
         if ($details.length < 2) {

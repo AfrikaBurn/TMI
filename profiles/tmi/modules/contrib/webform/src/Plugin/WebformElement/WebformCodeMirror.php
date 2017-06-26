@@ -5,7 +5,6 @@ namespace Drupal\webform\Plugin\WebformElement;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\webform\WebformElementBase;
 use Drupal\webform\WebformInterface;
-use Drupal\webform\WebformSubmissionInterface;
 
 /**
  * Provides a 'webform_codemirror' element.
@@ -33,9 +32,7 @@ class WebformCodeMirror extends WebformElementBase {
   /**
    * {@inheritdoc}
    */
-  public function formatHtmlItem(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
-    $value = $this->getValue($element, $webform_submission, $options);
-
+  public function formatHtmlItem(array $element, $value, array $options = []) {
     if (empty($value)) {
       return '';
     }
@@ -50,7 +47,7 @@ class WebformCodeMirror extends WebformElementBase {
         ];
 
       default:
-        return parent::formatHtmlItem($element, $webform_submission, $options);
+        return parent::formatHtmlItem($element, $value, $options);
     }
   }
 

@@ -1,6 +1,6 @@
 /**
  * @file
- * JavaScript behaviors for radio buttons.
+ * Javascript behaviors for radio buttons.
  *
  * Fix #states and #required for radios buttons.
  *

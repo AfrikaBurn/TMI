@@ -51,7 +51,7 @@ class WebformRating extends Range {
       $element['#attributes']['value'] = $element['#attributes']['min'];
     }
 
-    $element['#children']['rateit'] = static::buildRateIt($element);
+    $element['#children']['rateit'] = self::buildRateIt($element);
 
     return $element;
   }

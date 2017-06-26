@@ -70,15 +70,10 @@ class WebformEmailMultiple extends FormElement {
         elseif (isset($element['#title'])) {
           $t_args = [
             '%name' => empty($element['#title']) ? $element['#parents'][0] : $element['#title'],
+            '@values' => \Drupal::translation()->formatPlural($element['#cardinality'], t('value'), t('values')),
             '@count' => $element['#cardinality'],
           ];
-          $error_message = \Drupal::translation()->formatPlural(
-            $element['#cardinality'],
-            '%name: this element cannot hold more than @count value.',
-            '%name: this element cannot hold more than @count values.',
-            $t_args
-          );
-          $form_state->setError($element, $error_message);
+          $form_state->setError($element, t('%name: this element cannot hold more than @count @values.', $t_args));
         }
         else {
           $form_state->setError($element);

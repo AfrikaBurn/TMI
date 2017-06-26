@@ -1,6 +1,6 @@
 /**
  * @file
- * JavaScript behaviors for jQuery Word and Counter Counter integration.
+ * Javascript behaviors for jQuery Word and Counter Counter integration.
  */
 
 (function ($, Drupal) {

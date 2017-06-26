@@ -1,6 +1,6 @@
 /**
  * @file
- * JavaScript behaviors for preventing duplicate webform submissions.
+ * Javascript behaviors for preventing duplicate webform submissions.
  */
 
 (function ($, Drupal) {

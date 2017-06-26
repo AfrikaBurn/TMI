@@ -17,35 +17,45 @@ class WebformThirdPartySettingsTest extends WebformTestBase {
   public static $modules = ['node', 'webform'];
 
   /**
+   * {@inheritdoc}
+   */
+  public function setUp() {
+    parent::setUp();
+
+    // Create users.
+    $this->createUsers();
+  }
+
+  /**
    * Tests webform third party settings.
    */
   public function testThirdPartySettings() {
-    $this->drupalLogin($this->rootUser);
+    $this->drupalLogin($this->adminWebformUser);
 
-    // Check 'Webform: Settings' shows no modules installed.
-    $this->drupalGet('admin/structure/webform/settings');
+    // Check 'Webform: Settings: Third party' shows no modules installed.
+    $this->drupalGet('admin/structure/webform/settings/third-party');
     $this->assertRaw('There are no third party settings available.');
 
-    // Check 'Contact: Settings' does not show 'Third party settings'.
-    $this->drupalGet('admin/structure/webform/manage/contact/settings');
-    $this->assertNoRaw('Third party settings');
+    // Check 'Contact: Settings: Third party' shows no modules installed.
+    $this->drupalGet('admin/structure/webform/manage/contact/third-party-settings');
+    $this->assertRaw('There are no third party settings available.');
 
     // Install test third party settings module.
     \Drupal::service('module_installer')->install(['webform_test_third_party_settings']);
 
-    // Check 'Webform: Settings' shows no modules installed.
-    $this->drupalGet('admin/structure/webform/settings');
+    // Check 'Webform: Settings: Third party' shows no modules installed.
+    $this->drupalGet('admin/structure/webform/settings/third-party');
     $this->assertNoRaw('There are no third party settings available.');
 
-    // Check 'Contact: Settings' shows 'Third party settings'.
-    $this->drupalGet('admin/structure/webform/manage/contact/settings');
-    $this->assertRaw('Third party settings');
+    // Check 'Contact: Settings: Third party' shows no modules installed.
+    $this->drupalGet('admin/structure/webform/manage/contact/third-party-settings');
+    $this->assertNoRaw('There are no third party settings available.');
 
-    // Check 'Webform: Settings' message.
+    // Check 'Webform: Settings: Third party' message.
     $edit = [
       'third_party_settings[webform_test_third_party_settings][message]' => 'Message for all webforms',
     ];
-    $this->drupalPostForm('admin/structure/webform/settings', $edit, t('Save configuration'));
+    $this->drupalPostForm('admin/structure/webform/settings/third-party', $edit, t('Save configuration'));
     $this->drupalGet('webform/contact');
     $this->assertRaw('Message for all webforms');
 
@@ -59,7 +69,7 @@ class WebformThirdPartySettingsTest extends WebformTestBase {
     $edit = [
       'third_party_settings[webform_test_third_party_settings][message]' => 'Message for only this webform',
     ];
-    $this->drupalPostForm('admin/structure/webform/manage/contact/settings', $edit, t('Save'));
+    $this->drupalPostForm('admin/structure/webform/manage/contact/third-party-settings', $edit, t('Save'));
     $this->drupalGet('webform/contact');
     $this->assertRaw('Message for only this webform');
 

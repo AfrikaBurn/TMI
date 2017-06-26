@@ -42,6 +42,12 @@ class WebformHandlerEmailAdvancedTest extends WebformTestBase {
       'access user profiles',
       $this->basicHtmlFilter->getPermissionName(),
     ]);
+    $this->adminWebformUser = $this->drupalCreateUser([
+      'access user profiles',
+      'administer webform',
+      'administer users',
+      $this->basicHtmlFilter->getPermissionName(),
+    ]);
     $this->adminSubmissionUser = $this->drupalCreateUser([
       'access user profiles',
       'administer webform submission',
@@ -63,7 +69,7 @@ class WebformHandlerEmailAdvancedTest extends WebformTestBase {
     $webform = Webform::load('test_handler_email_advanced');
 
     // Generate a test submission with a file upload.
-    $this->drupalLogin($this->rootUser);
+    $this->drupalLogin($this->adminWebformUser);
 
     // Check handler's custom reply to and return path.
     $this->drupalPostForm('webform/' . $webform->id() . '/test', [], t('Submit'));

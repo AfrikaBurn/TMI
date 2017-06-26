@@ -3,7 +3,6 @@
 namespace Drupal\webform\Plugin\WebformElement;
 
 use Drupal\webform\WebformElementBase;
-use Drupal\webform\WebformSubmissionInterface;
 
 /**
  * Provides a base 'boolean' class.
@@ -13,9 +12,7 @@ abstract class BooleanBase extends WebformElementBase {
   /**
    * {@inheritdoc}
    */
-  public function formatTextItem(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
-    $value = $this->getValue($element, $webform_submission, $options);
-
+  public function formatTextItem(array $element, $value, array $options = []) {
     $format = $this->getItemFormat($element);
 
     switch ($format) {

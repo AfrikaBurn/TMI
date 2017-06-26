@@ -33,7 +33,6 @@ abstract class WebformCompositeBase extends WebformElementBase {
         // Form display.
         'title_display' => 'invisible',
         'description_display' => '',
-        'disabled' => FALSE,
         // Form validation.
         'required' => FALSE,
         'required_error' => '',
@@ -172,14 +171,17 @@ abstract class WebformCompositeBase extends WebformElementBase {
   /**
    * {@inheritdoc}
    */
-  public function formatTableColumn(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
+  public function formatTableColumn(array $element, $value, array $options = []) {
     if (isset($options['composite_key']) && isset($options['composite_element'])) {
+      $composite_key = $options['composite_key'];
       $composite_element = $options['composite_element'];
-      $composite_element['#webform_key'] = $element['#webform_key'];
-      return $this->elementManager->invokeMethod('formatHtml', $composite_element, $webform_submission, $options);
+      $composite_value = $value[$composite_key];
+      $composite_options = [];
+
+      return $this->elementManager->invokeMethod('formatHtml', $composite_element, $composite_value, $composite_options);
     }
     else {
-      return $this->formatHtml($element, $webform_submission);
+      return $this->formatHtml($element, $value);
     }
   }
 
@@ -343,7 +345,7 @@ abstract class WebformCompositeBase extends WebformElementBase {
           '#states' => $state_disabled,
         ];
       }
-      elseif (in_array($type, ['select', 'webform_select_other']) && ($composite_options = $this->getCompositeElementOptions($composite_key))) {
+      elseif ($type == 'select' && ($composite_options = $this->getCompositeElementOptions($composite_key))) {
         $row['type_and_options']['data'][$composite_key . '__type'] = [
           '#type' => 'select',
           '#required' => TRUE,
@@ -409,9 +411,7 @@ abstract class WebformCompositeBase extends WebformElementBase {
   /**
    * {@inheritdoc}
    */
-  public function formatHtmlItem(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
-    $value = $this->getValue($element, $webform_submission, $options);
-
+  public function formatHtmlItem(array $element, $value, array $options = []) {
     // Return empty value.
     if (empty($value) || empty(array_filter($value))) {
       return '';
@@ -482,9 +482,7 @@ abstract class WebformCompositeBase extends WebformElementBase {
   /**
    * {@inheritdoc}
    */
-  public function formatTextItem(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
-    $value = $this->getValue($element, $webform_submission, $options);
-
+  public function formatTextItem(array $element, $value, array $options = []) {
     // Return empty value.
     if (empty($value) || (is_array($value) && empty(array_filter($value)))) {
       return '';
@@ -580,20 +578,6 @@ abstract class WebformCompositeBase extends WebformElementBase {
   /**
    * {@inheritdoc}
    */
-  protected function getValue(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
-    $value = parent::getValue($element, $webform_submission, $options);
-
-    if (isset($options['composite_key'])) {
-      return (is_array($value) && isset($value[$options['composite_key']])) ? $value[$options['composite_key']] : NULL;
-    }
-    else {
-      return $value;
-    }
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function getItemsDefaultFormat() {
     return 'ul';
   }
@@ -674,13 +658,11 @@ abstract class WebformCompositeBase extends WebformElementBase {
   /**
    * {@inheritdoc}
    */
-  public function buildExportRecord(array $element, WebformSubmissionInterface $webform_submission, array $export_options) {
-    $value = $this->getValue($element, $webform_submission);
-
+  public function buildExportRecord(array $element, $value, array $export_options) {
     if (!empty($element['#multiple'])) {
       $element['#format'] = ($export_options['header_format'] == 'label') ? 'list' : 'raw';
       $export_options['multiple_delimiter'] = PHP_EOL . '---' . PHP_EOL;
-      return parent::buildExportRecord($element, $webform_submission, $export_options);
+      return parent::buildExportRecord($element, $value, $export_options);
     }
 
     $record = [];

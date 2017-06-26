@@ -2,7 +2,6 @@
 
 namespace Drupal\webform\Element;
 
-use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element\FormElement;
 use Drupal\webform\Utility\WebformArrayHelper;
@@ -42,7 +41,7 @@ class WebformLikert extends FormElement {
    */
   public static function processWebformLikert(&$element, FormStateInterface $form_state, &$complete_form) {
     // Get answer with optional N/A.
-    static::processWebformLikertAnswers($element);
+    self::processWebformLikertAnswers($element);
 
     // Build header.
     $header = [
@@ -73,10 +72,7 @@ class WebformLikert extends FormElement {
         $row[$answer_key] = [
           '#parents' => [$element['#name'], $question_key],
           '#type' => 'radio',
-          // Wrap title in span.webform-likert-label so that it can hidden when
-          // Likert is displayed in grid on desktop.
-          // @see webform.element.likert.css
-          '#title' => new FormattableMarkup('<span class="webform-likert-label">@title</span>', ['@title' => $answer_title]),
+          '#title' => $answer_title,
           '#title_display' => 'after',
           // Must cast values as strings to prevent NULL and empty strings.
           // from being evaluated as 0.

@@ -2,7 +2,6 @@
 
 namespace Drupal\webform;
 
-use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\PluginBase;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -25,13 +24,6 @@ abstract class WebformExporterBase extends PluginBase implements WebformExporter
    * @var \Psr\Log\LoggerInterface
    */
   protected $logger;
-
-  /**
-   * The configuration factory.
-   *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface
-   */
-  protected $configFactory;
 
   /**
    * The entity type manager.
@@ -65,19 +57,16 @@ abstract class WebformExporterBase extends PluginBase implements WebformExporter
    *   The plugin implementation definition.
    * @param \Psr\Log\LoggerInterface $logger
    *   A logger instance.
-   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
-   *   The configuration factory.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
    * @param \Drupal\webform\WebformElementManagerInterface $element_manager
    *   The webform element manager.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, LoggerInterface $logger, ConfigFactoryInterface $config_factory, EntityTypeManagerInterface $entity_type_manager, WebformElementManagerInterface $element_manager) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, LoggerInterface $logger, EntityTypeManagerInterface $entity_type_manager, WebformElementManagerInterface $element_manager) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
 
     $this->setConfiguration($configuration);
     $this->logger = $logger;
-    $this->configFactory = $config_factory;
     $this->entityTypeManager = $entity_type_manager;
     $this->entityStorage = $entity_type_manager->getStorage('webform_submission');
     $this->elementManager = $element_manager;
@@ -92,7 +81,6 @@ abstract class WebformExporterBase extends PluginBase implements WebformExporter
       $plugin_id,
       $plugin_definition,
       $container->get('logger.factory')->get('webform'),
-      $container->get('config.factory'),
       $container->get('entity_type.manager'),
       $container->get('plugin.manager.webform.element')
     );
@@ -117,13 +105,6 @@ abstract class WebformExporterBase extends PluginBase implements WebformExporter
    */
   public function getStatus() {
     return TRUE;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function isExcluded() {
-    return $this->configFactory->get('webform.settings')->get('export.excluded_exporters.' . $this->pluginDefinition['id']) ? TRUE : FALSE;
   }
 
   /**

@@ -1,6 +1,6 @@
 /**
  * @file
- * JavaScript behaviors for RateIt integration.
+ * Javascript behaviors for RateIt integration.
  */
 
 (function ($, Drupal) {

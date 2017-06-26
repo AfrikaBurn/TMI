@@ -22,7 +22,6 @@ use Drupal\webform\WebformOptionsInterface;
  *     "list_builder" = "Drupal\webform\WebformOptionsListBuilder",
  *     "form" = {
  *       "default" = "Drupal\webform\WebformOptionsForm",
- *       "duplicate" = "Drupal\webform\WebformOptionsForm",
  *       "delete" = "Drupal\Core\Entity\EntityDeleteForm",
  *     }
  *   },
@@ -34,7 +33,6 @@ use Drupal\webform\WebformOptionsInterface;
  *   links = {
  *     "add-form" = "/admin/structure/webform/settings/options/add",
  *     "edit-form" = "/admin/structure/webform/settings/options/manage/{webform_options}/edit",
- *     "duplicate-form" = "/admin/structure/webform/settings/options/manage/{webform_options}/duplicate",
  *     "delete-form" = "/admin/structure/webform/settings/options/manage/{webform_options}/delete",
  *     "collection" = "/admin/structure/webform/settings/options/manage",
  *   },

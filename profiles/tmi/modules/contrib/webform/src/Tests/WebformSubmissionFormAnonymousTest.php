@@ -32,6 +32,9 @@ class WebformSubmissionFormAnonymousTest extends WebformTestBase {
   public function setUp() {
     parent::setUp();
 
+    // Create users.
+    $this->createUsers();
+
     $this->addWebformSubmissionOwnPermissionsToAnonymous();
   }
 
@@ -46,7 +49,7 @@ class WebformSubmissionFormAnonymousTest extends WebformTestBase {
 
     // Check logout warning.
     $webform_confidential = Webform::load('test_form_confidential');
-    $this->drupalLogin($this->rootUser);
+    $this->drupalLogin($this->adminWebformUser);
     $this->drupalGet('webform/test_form_confidential');
     $this->assertNoFieldById('edit-name');
     $this->assertRaw('This form is confidential.');
@@ -69,7 +72,7 @@ class WebformSubmissionFormAnonymousTest extends WebformTestBase {
 
     // Check that anoymous submissison is not converted to authenticated.
     // @see \Drupal\webform\WebformSubmissionStorage::userLogin
-    $this->drupalLogin($this->rootUser);
+    $this->drupalLogin($this->adminWebformUser);
     $webform_submission = $this->loadSubmission($sid);
     $this->assertEqual($webform_submission->getOwnerId(), 0);
 

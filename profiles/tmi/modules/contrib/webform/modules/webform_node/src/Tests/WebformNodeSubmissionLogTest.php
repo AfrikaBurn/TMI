@@ -24,6 +24,16 @@ class WebformNodeSubmissionLogTest extends WebformNodeTestBase {
   protected static $testWebforms = ['test_submission_log'];
 
   /**
+   * {@inheritdoc}
+   */
+  public function setUp() {
+    parent::setUp();
+
+    // Create users.
+    $this->createUsers();
+  }
+
+  /**
    * Tests webform submission log.
    */
   public function testSubmissionLog() {
@@ -44,7 +54,7 @@ class WebformNodeSubmissionLogTest extends WebformNodeTestBase {
     $this->assertEqual($log->entity_id, $node->id());
 
     // Login.
-    $this->drupalLogin($this->rootUser);
+    $this->drupalLogin($this->adminWebformUser);
 
     // Check webform node results log table has record.
     $this->drupalGet("node/$nid/webform/results/log");

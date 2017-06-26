@@ -1,6 +1,6 @@
 /**
  * @file
- * JavaScript behaviors for iCheck integration.
+ * Javascript behaviors for iCheck integration.
  */
 
 (function ($, Drupal) {

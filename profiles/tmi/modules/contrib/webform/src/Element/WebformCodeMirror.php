@@ -25,7 +25,6 @@ class WebformCodeMirror extends Textarea {
     'javascript' => 'text/javascript',
     'text' => 'text/plain',
     'yaml' => 'text/x-yaml',
-    'php' => 'text/x-php',
   ];
 
   /**
@@ -77,7 +76,7 @@ class WebformCodeMirror extends Textarea {
    */
   public static function processWebformCodeMirror(&$element, FormStateInterface $form_state, &$complete_form) {
     // Check that mode is defined and valid, if not default to (plain) text.
-    if (empty($element['#mode']) || !isset(static::$modes[$element['#mode']])) {
+    if (empty($element['#mode']) || !isset(self::$modes[$element['#mode']])) {
       $element['#mode'] = 'text';
     }
 

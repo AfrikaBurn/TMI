@@ -2,7 +2,6 @@
 
 namespace Drupal\webform\Plugin\WebformElement;
 
-use Drupal\Component\Serialization\Json;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Mail\MailFormatHelper;
 use Drupal\filter\Entity\FilterFormat;
@@ -28,13 +27,11 @@ class TextFormat extends WebformElementBase {
    * {@inheritdoc}
    */
   public function getDefaultProperties() {
-    $default_properties = parent::getDefaultProperties() + [
+    return parent::getDefaultProperties() + [
       // Text format settings.
       'allowed_formats' => [],
       'hide_help' => FALSE,
     ];
-    unset($default_properties['disabled']);
-    return $default_properties;
   }
 
   /**
@@ -73,17 +70,6 @@ class TextFormat extends WebformElementBase {
     if (!empty($element['#hide_help']) && isset($element['format']['help'])) {
       $element['format']['help']['#attributes']['style'] = 'display: none';
     }
-    else {
-      // Display tips in a modal.
-      $element['format']['help']['about']['#attributes']['class'][] = 'use-ajax';
-      $element['format']['help']['about']['#attributes'] += [
-        'data-dialog-type' => 'modal',
-        'data-dialog-options' => Json::encode([
-          'dialogClass' => 'webform-text-format-help-dialog',
-          'width' => 800,
-        ]),
-      ];
-    }
 
     // Hide filter format if the select menu and help is hidden.
     if (!empty($element['#hide_help']) &&
@@ -112,9 +98,7 @@ class TextFormat extends WebformElementBase {
   /**
    * {@inheritdoc}
    */
-  public function formatHtmlItem(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
-    $value = $this->getValue($element, $webform_submission, $options);
-
+  public function formatHtmlItem(array $element, $value, array $options = []) {
     $value = (isset($value['value'])) ? $value['value'] : $value;
     $format = (isset($value['format'])) ? $value['format'] : $this->getItemFormat($element);
     switch ($format) {
@@ -130,9 +114,7 @@ class TextFormat extends WebformElementBase {
   /**
    * {@inheritdoc}
    */
-  public function formatTextItem(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
-    $value = $this->getValue($element, $webform_submission, $options);
-
+  public function formatTextItem(array $element, $value, array $options = []) {
     $format = (isset($value['format'])) ? $value['format'] : $this->getItemFormat($element);
     switch ($format) {
       case 'raw':
@@ -140,7 +122,7 @@ class TextFormat extends WebformElementBase {
 
       case 'value':
       default:
-        $html = $this->formatHtml($element, $webform_submission);
+        $html = $this->formatHtml($element, $value);
         // Convert any HTML to plain-text.
         $html = MailFormatHelper::htmlToText($html);
         // Wrap the mail body for sending.

@@ -1,6 +1,6 @@
 /**
  * @file
- * JavaScript behaviors for CodeMirror integration.
+ * Javascript behaviors for CodeMirror integration.
  */
 
 (function ($, Drupal) {
@@ -39,7 +39,7 @@
           mode: $(this).attr('data-webform-codemirror-mode'),
           lineNumbers: true,
           viewportMargin: Infinity,
-          readOnly: ($(this).prop('readonly') || $(this).prop('disabled')) ? true : false,
+          readOnly: $(this).prop('readonly') ? true : false,
           // Setting for using spaces instead of tabs - https://github.com/codemirror/CodeMirror/issues/988
           extraKeys: {
             Tab: function (cm) {

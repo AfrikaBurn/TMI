@@ -20,6 +20,16 @@ class WebformElementTableTest extends WebformTestBase {
   protected static $testWebforms = ['test_element_table'];
 
   /**
+   * {@inheritdoc}
+   */
+  public function setUp() {
+    parent::setUp();
+
+    // Create users.
+    $this->createUsers();
+  }
+
+  /**
    * Tests building of options elements.
    */
   public function testWebformElementTable() {
@@ -89,7 +99,7 @@ class WebformElementTableTest extends WebformTestBase {
     // Export results.
     /**************************************************************************/
 
-    $this->drupalLogin($this->rootUser);
+    $this->drupalLogin($this->adminWebformUser);
 
     $excluded_columns = $this->getExportColumns($webform);
     unset($excluded_columns['webform_tableselect_sort_custom']);

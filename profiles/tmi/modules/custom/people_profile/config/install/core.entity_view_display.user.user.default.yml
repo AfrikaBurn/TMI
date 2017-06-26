@@ -82,8 +82,6 @@ third_party_settings:
         description: ''
       label: Account
     group_agreements:
-      children:
-        - field_agreements
       parent_name: group_root
       weight: 21
       format_type: tab

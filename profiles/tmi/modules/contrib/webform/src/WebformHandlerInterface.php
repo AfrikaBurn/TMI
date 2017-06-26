@@ -154,14 +154,6 @@ interface WebformHandlerInterface extends PluginInspectionInterface, Configurabl
   public function setStatus($status);
 
   /**
-   * Checks if the handler is excluded via webform.settings.
-   *
-   * @return bool
-   *   TRUE if the handler is excluded.
-   */
-  public function isExcluded();
-
-  /**
    * Returns the webform handler enabled indicator.
    *
    * @return bool
@@ -214,10 +206,6 @@ interface WebformHandlerInterface extends PluginInspectionInterface, Configurabl
    */
   public function getWebform();
 
-  /****************************************************************************/
-  // Webform methods.
-  /****************************************************************************/
-
   /**
    * Alter webform submission webform elements.
    *
@@ -227,10 +215,6 @@ interface WebformHandlerInterface extends PluginInspectionInterface, Configurabl
    *   The webform.
    */
   public function alterElements(array &$elements, WebformInterface $webform);
-
-  /****************************************************************************/
-  // Submission form methods.
-  /****************************************************************************/
 
   /**
    * Alter webform submission webform .
@@ -279,10 +263,6 @@ interface WebformHandlerInterface extends PluginInspectionInterface, Configurabl
    *   A webform submission.
    */
   public function confirmForm(array &$form, FormStateInterface $form_state, WebformSubmissionInterface $webform_submission);
-
-  /****************************************************************************/
-  // Submission methods.
-  /****************************************************************************/
 
   /**
    * Changes the values of an entity before it is created.
@@ -346,10 +326,6 @@ interface WebformHandlerInterface extends PluginInspectionInterface, Configurabl
    */
   public function postDelete(WebformSubmissionInterface $webform_submission);
 
-  /****************************************************************************/
-  // Handler methods.
-  /****************************************************************************/
-
   /**
    * Acts on handler after it has been created and added to webform.
    */
@@ -364,41 +340,5 @@ interface WebformHandlerInterface extends PluginInspectionInterface, Configurabl
    * Acts on handler after it has been removed.
    */
   public function deleteHandler();
-
-  /****************************************************************************/
-  // Element methods.
-  /****************************************************************************/
-
-  /**
-   * Acts on a element after it has been created.
-   *
-   * @param $key
-   *   The element's key.
-   * @param array $element
-   *   The element's properties.
-   */
-  public function createElement($key, array $element);
-
-  /**
-   * Acts on a element after it has been updated.
-   *
-   * @param $key
-   *   The element's key.
-   * @param array $element
-   *   The element's properties.
-   * @param array $original_element
-   *   The original element's properties.
-   */
-  public function updateElement($key, array $element, array $original_element);
-
-  /**
-   * Acts on a element after it has been deleted.
-   *
-   * @param $key
-   *   The element's key.
-   * @param array $element
-   *   The element's properties.
-   */
-  public function deleteElement($key, array $element);
 
 }

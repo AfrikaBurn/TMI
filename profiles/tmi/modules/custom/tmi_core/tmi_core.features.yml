@@ -1,5 +1,4 @@
 bundle: tmi
 excluded:
-  - contact.form.feedback
   - contact.form.personal
 required: true

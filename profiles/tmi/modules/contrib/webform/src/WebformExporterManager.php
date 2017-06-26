@@ -3,7 +3,6 @@
 namespace Drupal\webform;
 
 use Drupal\Core\Cache\CacheBackendInterface;
-use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Plugin\CategorizingPluginManagerTrait;
 use Drupal\Core\Plugin\DefaultPluginManager;
@@ -24,13 +23,6 @@ class WebformExporterManager extends DefaultPluginManager implements WebformExpo
   }
 
   /**
-   * The configuration object factory.
-   *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface
-   */
-  protected $configFactory;
-
-  /**
    * Constructs a WebformExporterManager.
    *
    * @param \Traversable $namespaces
@@ -40,12 +32,9 @@ class WebformExporterManager extends DefaultPluginManager implements WebformExpo
    *   Cache backend instance to use.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_exporter
    *   The module exporter.
-   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
-   *   The configuration object factory.
    */
-  public function __construct(\Traversable $namespaces, CacheBackendInterface $cache_backend, ModuleHandlerInterface $module_exporter, ConfigFactoryInterface $config_factory) {
+  public function __construct(\Traversable $namespaces, CacheBackendInterface $cache_backend, ModuleHandlerInterface $module_exporter) {
     parent::__construct('Plugin/WebformExporter', $namespaces, $module_exporter, 'Drupal\webform\WebformExporterInterface', 'Drupal\webform\Annotation\WebformExporter');
-    $this->configFactory = $config_factory;
 
     $this->alterInfo('webform_exporter_info');
     $this->setCacheBackend($cache_backend, 'webform_exporter_plugins');
@@ -63,20 +52,10 @@ class WebformExporterManager extends DefaultPluginManager implements WebformExpo
   /**
    * {@inheritdoc}
    */
-  public function removeExcludeDefinitions(array $definitions) {
-    $definitions = isset($definitions) ? $definitions : $this->getDefinitions();
-    $excluded = $this->configFactory->get('webform.settings')->get('export.excluded_exporters');
-    return $excluded ? array_diff_key($definitions, $excluded) : $definitions;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function getInstances(array $configuration = []) {
     $instances = [];
     $plugin_definitions = $this->getDefinitions();
     $plugin_definitions = $this->getSortedDefinitions($plugin_definitions);
-    $plugin_definitions = $this->removeExcludeDefinitions($plugin_definitions);
     foreach ($plugin_definitions as $plugin_id => $plugin_definition) {
       $instances[$plugin_id] = $this->createInstance($plugin_id, $configuration);
     }
@@ -89,7 +68,6 @@ class WebformExporterManager extends DefaultPluginManager implements WebformExpo
   public function getOptions() {
     $plugin_definitions = $this->getDefinitions();
     $plugin_definitions = $this->getSortedDefinitions($plugin_definitions);
-    $plugin_definitions = $this->removeExcludeDefinitions($plugin_definitions);
 
     $options = [];
     foreach ($plugin_definitions as $plugin_id => $plugin_definition) {

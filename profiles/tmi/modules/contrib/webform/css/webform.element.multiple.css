@@ -81,7 +81,7 @@
 }
 
 /**
- * Hide Ajax throbber.
+ * Hide AJAX throbber.
  */
 .form-type-webform-multiple .ajax-progress-throbber {
   display: none;

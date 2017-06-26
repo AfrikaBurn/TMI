@@ -3,7 +3,6 @@
 namespace Drupal\webform;
 
 use Drupal\Component\Plugin\PluginBase;
-use Drupal\Component\Utility\Html;
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Component\Utility\Unicode;
 use Drupal\Component\Utility\Xss;
@@ -125,8 +124,10 @@ class WebformElementBase extends PluginBase implements WebformElementInterface {
    *   The token manager.
    * @param \Drupal\webform\WebformLibrariesManagerInterface $libraries_manager
    *   The libraries manager.
+   * @param \Drupal\webform\WebformSubmissionStorageInterface $webform_submission_storage
+   *   The webform submission storage.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, LoggerInterface $logger, ConfigFactoryInterface $config_factory, AccountInterface $current_user, EntityTypeManagerInterface $entity_type_manager, ElementInfoManagerInterface $element_info, WebformElementManagerInterface $element_manager, WebformTokenManagerInterface $token_manager, WebformLibrariesManagerInterface $libraries_manager) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, LoggerInterface $logger, ConfigFactoryInterface $config_factory, AccountInterface $current_user, EntityTypeManagerInterface $entity_type_manager, ElementInfoManagerInterface $element_info, WebformElementManagerInterface $element_manager, WebformTokenManagerInterface $token_manager, WebformLibrariesManagerInterface $libraries_manager, WebformSubmissionStorageInterface $webform_submission_storage) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->logger = $logger;
     $this->configFactory = $config_factory;
@@ -136,7 +137,7 @@ class WebformElementBase extends PluginBase implements WebformElementInterface {
     $this->elementManager = $element_manager;
     $this->tokenManager = $token_manager;
     $this->librariesManager = $libraries_manager;
-    $this->submissionStorage = $entity_type_manager->getStorage('webform_submission');
+    $this->submissionStorage = $webform_submission_storage;
   }
 
   /**
@@ -154,7 +155,8 @@ class WebformElementBase extends PluginBase implements WebformElementInterface {
       $container->get('plugin.manager.element_info'),
       $container->get('plugin.manager.webform.element'),
       $container->get('webform.token_manager'),
-      $container->get('webform.libraries_manager')
+      $container->get('webform.libraries_manager'),
+      $container->get('entity_type.manager')->getStorage('webform_submission')
     );
   }
 
@@ -183,7 +185,6 @@ class WebformElementBase extends PluginBase implements WebformElementInterface {
       'description_display' => '',
       'field_prefix' => '',
       'field_suffix' => '',
-      'disabled' => FALSE,
       // Form validation.
       'required' => FALSE,
       'required_error' => '',
@@ -392,15 +393,8 @@ class WebformElementBase extends PluginBase implements WebformElementInterface {
   /**
    * {@inheritdoc}
    */
-  public function isExcluded() {
-    return $this->configFactory->get('webform.settings')->get('element.excluded_elements.' . $this->pluginDefinition['id']) ? TRUE : FALSE;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function isEnabled() {
-    return !$this->isExcluded();
+    return \Drupal::config('webform.settings')->get('elements.excluded_types.' . $this->pluginDefinition['id']) ? FALSE : TRUE;
   }
 
   /**
@@ -507,7 +501,7 @@ class WebformElementBase extends PluginBase implements WebformElementInterface {
     $element['#access'] = $this->checkAccessRules($operation, $element);
 
     // Add #allowed_tags.
-    $allowed_tags = $this->configFactory->get('webform.settings')->get('element.allowed_tags');
+    $allowed_tags = $this->configFactory->get('webform.settings')->get('elements.allowed_tags');
     switch ($allowed_tags) {
       case 'admin':
         $element['#allowed_tags'] = Xss::getAdminTagList();
@@ -534,7 +528,7 @@ class WebformElementBase extends PluginBase implements WebformElementInterface {
     }
 
     // Add default description display.
-    $default_description_display = $this->configFactory->get('webform.settings')->get('element.default_description_display');
+    $default_description_display = $this->configFactory->get('webform.settings')->get('elements.default_description_display');
     if ($default_description_display && !isset($element['#description_display']) && $this->hasProperty('description_display')) {
       $element['#description_display'] = $default_description_display;
     }
@@ -557,7 +551,7 @@ class WebformElementBase extends PluginBase implements WebformElementInterface {
           $icheck_skin = strtok($element['#icheck'], '-');
         }
       }
-      elseif ($default_icheck = $this->configFactory->get('webform.settings')->get('element.default_icheck')) {
+      elseif ($default_icheck = $this->configFactory->get('webform.settings')->get('elements.default_icheck')) {
         $icheck = $default_icheck;
         $icheck_skin = strtok($default_icheck, '-');
       }
@@ -582,13 +576,6 @@ class WebformElementBase extends PluginBase implements WebformElementInterface {
     }
 
     if ($this->isInput($element)) {
-      // Set custom required error message as 'data-required-error' attribute.
-      // @see Drupal.behaviors.webformRequiredError
-      // @see webform.form.js
-      if (!empty($element['#required_error'])) {
-        $element['#attributes']['data-webform-required-error'] = $element['#required_error'];
-      }
-
       $type = $element['#type'];
 
       // Get and set the element's default #element_validate property so that
@@ -623,7 +610,7 @@ class WebformElementBase extends PluginBase implements WebformElementInterface {
     $this->prepareWrapper($element);
 
     // Replace tokens for all properties.
-    $this->replaceTokens($element, $webform_submission);
+    $element = $this->tokenManager->replace($element, $webform_submission);
   }
 
   /**
@@ -655,22 +642,6 @@ class WebformElementBase extends PluginBase implements WebformElementInterface {
     }
 
     return TRUE;
-  }
-
-  /**
-   * Replace tokens for all element properties.
-   *
-   * @param array $element
-   *   An element.
-   * @param \Drupal\webform\WebformSubmissionInterface $webform_submission
-   *   A webform submission.
-   */
-  protected function replaceTokens(array &$element, WebformSubmissionInterface $webform_submission) {
-    foreach ($element as $key => $value) {
-      if (!Element::child($key)) {
-        $element[$key] = $this->tokenManager->replace($value, $webform_submission);
-      }
-    }
   }
 
   /**
@@ -787,15 +758,15 @@ class WebformElementBase extends PluginBase implements WebformElementInterface {
   /**
    * {@inheritdoc}
    */
-  public function buildHtml(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
-    return $this->build('html', $element, $webform_submission, $options);
+  public function buildHtml(array $element, $value, array $options = []) {
+    return $this->build('html', $element, $value, $options);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function buildText(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
-    return $this->build('text', $element, $webform_submission, $options);
+  public function buildText(array $element, $value, array $options = []) {
+    return $this->build('text', $element, $value, $options);
   }
 
   /**
@@ -807,17 +778,16 @@ class WebformElementBase extends PluginBase implements WebformElementInterface {
    *   An element.
    * @param array|mixed $value
    *   A value.
-   * @param \Drupal\webform\WebformSubmissionInterface $webform_submission
-   *   A webform submission
    * @param array $options
    *   An array of options.
+   *
    * @return array
    *   A render array representing an element as text or HTML.
    */
-  protected function build($format, array &$element, WebformSubmissionInterface $webform_submission, array $options = []) {
+  protected function build($format, array &$element, $value, array $options = []) {
     $options['multiline'] = $this->isMultiline($element);
     $format_function = 'format' . ucfirst($format);
-    $formatted_value = $this->$format_function($element, $webform_submission, $options);
+    $formatted_value = $this->$format_function($element, $value, $options);
 
     // Return NULL for empty formatted value.
     if ($formatted_value === '') {
@@ -833,7 +803,6 @@ class WebformElementBase extends PluginBase implements WebformElementInterface {
       '#theme' => 'webform_element_base_' . $format,
       '#element' => $element,
       '#value' => $formatted_value,
-      '#webform_submission' => $webform_submission,
       '#options' => $options,
     ];
   }
@@ -841,15 +810,15 @@ class WebformElementBase extends PluginBase implements WebformElementInterface {
   /**
    * {@inheritdoc}
    */
-  public function formatHtml(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
-    return $this->format('Html', $element, $webform_submission, $options);
+  public function formatHtml(array $element, $value, array $options = []) {
+    return $this->format('Html', $element, $value, $options);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function formatText(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
-    return $this->format('Text', $element, $webform_submission, $options);
+  public function formatText(array $element, $value, array $options = []) {
+    return $this->format('Text', $element, $value, $options);
   }
 
   /**
@@ -859,17 +828,15 @@ class WebformElementBase extends PluginBase implements WebformElementInterface {
    *   The format type, HTML or Text.
    * @param array $element
    *   An element.
-   * @param \Drupal\webform\WebformSubmissionInterface $webform_submission
-   *   A webform submission.
+   * @param array|mixed $value
+   *   A value.
    * @param array $options
    *   An array of options.
    *
    * @return array|string
    *   The element's value formatted as plain text or a render array.
    */
-  protected function format($type, array &$element, WebformSubmissionInterface $webform_submission, array $options = []) {
-    $value = $this->getValue($element, $webform_submission, $options);
-
+  protected function format($type, array &$element, $value, array $options = []) {
     // Return empty value.
     if ($value === '' || $value === NULL || (is_array($value) && empty($value))) {
       return '';
@@ -878,21 +845,14 @@ class WebformElementBase extends PluginBase implements WebformElementInterface {
     $item_function = 'format' . $type . 'Item';
     $items_function = 'format' . $type . 'Items';
     if ($this->hasMultipleValues($element)) {
-      // Return $options['delta'] which is used by tokens.
-      // @see _webform_token_get_submission_value()
-      if (isset($options['delta'])) {
-        return $this->$item_function($element, $webform_submission, $options);
-      }
-
       $items = [];
-      foreach ($value as $delta => $item) {
-        $items[] = $this->$item_function($element, $webform_submission, ['delta' => $delta] + $options);
+      foreach ($value as $item) {
+        $items[] = $this->$item_function($element, $item, $options);
       }
-
       return $this->$items_function($element, $items, $options);
     }
     else {
-      return $this->$item_function($element, $webform_submission, $options);
+      return $this->$item_function($element, $value, $options);
     }
   }
 
@@ -1030,16 +990,16 @@ class WebformElementBase extends PluginBase implements WebformElementInterface {
    *
    * @param array $element
    *   An element.
-   * @param \Drupal\webform\WebformSubmissionInterface $webform_submission
-   *   A webform submission.
+   * @param array|mixed $value
+   *   A value.
    * @param array $options
    *   An array of options.
    *
    * @return array|string
    *   The element's value formatted as HTML or a render array.
    */
-  protected function formatHtmlItem(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
-    return $this->formatTextItem($element, $webform_submission, $options);
+  protected function formatHtmlItem(array $element, $value, array $options = []) {
+    return $this->formatTextItem($element, $value, $options);
   }
 
   /**
@@ -1047,21 +1007,20 @@ class WebformElementBase extends PluginBase implements WebformElementInterface {
    *
    * @param array $element
    *   An element.
-   * @param \Drupal\webform\WebformSubmissionInterface $webform_submission
-   *   A webform submission.
+   * @param array|mixed $value
+   *   A value.
    * @param array $options
    *   An array of options.
    *
-   * @return
+   * @return string
    *   The element's value formatted as text.
    */
-  protected function formatTextItem(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
-    $value = $this->getValue($element, $webform_submission, $options);
-
-    // Escape all HTML entities.
+  protected function formatTextItem(array $element, $value, array $options = []) {
+    // Apply XSS filter to value that contains HTML tags and is not formatted as
+    // raw.
     $format = $this->getItemFormat($element);
-    if ($format != 'raw' && is_string($value)) {
-      $value = Html::escape($value);
+    if ($format != 'raw' && is_string($value) && strpos($value, '<') !== FALSE) {
+      $value = Xss::filter($value);
     }
 
     // Apply #field prefix and #field_suffix to value.
@@ -1075,36 +1034,6 @@ class WebformElementBase extends PluginBase implements WebformElementInterface {
     }
 
     return $value;
-  }
-
-  /**
-   * Get an element's submission value.
-   *
-   * @param array $element
-   *   An element.
-   * @param \Drupal\webform\WebformSubmissionInterface $webform_submission
-   *   A webform submission.
-   * @param array $options
-   *   An array of options.
-   *
-   * @return array|string
-   *   The element's submission value.
-   */
-  protected function getValue(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
-    if (!isset($element['#webform_key']) && isset($element['#value'])) {
-      return $element['#value'];
-    }
-
-    $value = $webform_submission->getData($element['#webform_key']);
-
-    // Return $options['delta'] which is used by tokens.
-    // @see _webform_token_get_submission_value()
-    if (is_array($value) && isset($options['delta']) && isset($value[$options['delta']])) {
-      return $value[$options['delta']];
-    }
-    else {
-      return $value;
-    }
   }
 
   /**
@@ -1209,8 +1138,8 @@ class WebformElementBase extends PluginBase implements WebformElementInterface {
   /**
    * {@inheritdoc}
    */
-  public function formatTableColumn(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
-    return $this->formatHtml($element, $webform_submission);
+  public function formatTableColumn(array $element, $value, array $options = []) {
+    return $this->formatHtml($element, $value);
   }
 
   /****************************************************************************/
@@ -1276,9 +1205,9 @@ class WebformElementBase extends PluginBase implements WebformElementInterface {
   /**
    * {@inheritdoc}
    */
-  public function buildExportRecord(array $element, WebformSubmissionInterface $webform_submission, array $export_options) {
+  public function buildExportRecord(array $element, $value, array $export_options) {
     $element['#format_items'] = $export_options['multiple_delimiter'];
-    return [$this->formatText($element, $webform_submission, $export_options)];
+    return [$this->formatText($element, $value, $export_options)];
   }
 
   /****************************************************************************/
@@ -1681,19 +1610,13 @@ class WebformElementBase extends PluginBase implements WebformElementInterface {
       ],
       '#description' => $this->t('Setting autocomplete to off will disable autocompletion for this element.'),
     ];
-    $form['form']['disabled'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Disabled'),
-      '#description' => $this->t('Make this field non-editable. Useful for displaying default value. Changeable via JavaScript or developer tools.'),
-      '#return_value' => TRUE,
-    ];
     $form['form']['open'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Open'),
       '#description' => $this->t('Contents should be visible (open) to the user.'),
       '#return_value' => TRUE,
     ];
-    $default_icheck = $this->configFactory->get('webform.settings')->get('element.default_icheck');
+    $default_icheck = $this->configFactory->get('webform.settings')->get('elements.default_icheck');
     $form['form']['icheck'] = [
       '#type' => 'select',
       '#title' => 'Enhance using iCheck',
@@ -1774,7 +1697,7 @@ class WebformElementBase extends PluginBase implements WebformElementInterface {
       '#class__description' => $this->t("Apply classes to the element's wrapper around both the field and its label. Select 'custom...' to enter custom classes."),
       '#style__description' => $this->t("Apply custom styles to the element's wrapper around both the field and its label."),
       '#attributes__description' => $this->t("Enter additional attributes to be added the element's wrapper."),
-      '#classes' => $this->configFactory->get('webform.settings')->get('element.wrapper_classes'),
+      '#classes' => $this->configFactory->get('webform.settings')->get('elements.wrapper_classes'),
     ];
     $form['element_attributes'] = [
       '#type' => 'details',
@@ -1783,7 +1706,7 @@ class WebformElementBase extends PluginBase implements WebformElementInterface {
     $form['element_attributes']['attributes'] = [
       '#type' => 'webform_element_attributes',
       '#title' => $this->t('Element'),
-      '#classes' => $this->configFactory->get('webform.settings')->get('element.classes'),
+      '#classes' => $this->configFactory->get('webform.settings')->get('elements.classes'),
     ];
 
     /* Validation */
@@ -2046,7 +1969,7 @@ class WebformElementBase extends PluginBase implements WebformElementInterface {
 
       // Skip Entity reference element 'selection_settings'.
       // @see \Drupal\webform\Plugin\WebformElement\WebformEntityReferenceTrait::form
-      // @todo Fix entity reference Ajax and move code WebformEntityReferenceTrait.
+      // @todo Fix entity reference AJAX and move code WebformEntityReferenceTrait.
       if (!empty($property_element['#tree']) && $property_name == 'selection_settings') {
         unset($element_properties[$property_name]);
         $property_element['#parents'] = ['properties', $property_name];

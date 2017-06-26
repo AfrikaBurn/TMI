@@ -1,6 +1,6 @@
 /**
  * @file
- * JavaScript behaviors for color element integration.
+ * Javascript behaviors for color element integration.
  */
 
 (function ($, Drupal) {

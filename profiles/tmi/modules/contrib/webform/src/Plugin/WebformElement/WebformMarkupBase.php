@@ -9,9 +9,7 @@ use Drupal\webform\WebformSubmissionInterface;
 /**
  * Provides a base 'markup' element.
  */
-abstract class WebformMarkupBase extends WebformElementBase implements WebformDisplayOnInterface {
-
-  use WebformDisplayOnTrait;
+abstract class WebformMarkupBase extends WebformElementBase {
 
   /**
    * {@inheritdoc}
@@ -33,18 +31,18 @@ abstract class WebformMarkupBase extends WebformElementBase implements WebformDi
   public function getDefaultProperties() {
     return [
       // Markup settings.
-      'display_on' => static::DISPLAY_ON_FORM,
+      'display_on' => 'form',
     ] + $this->getDefaultBaseProperties();
   }
 
   /**
- * {@inheritdoc}
- */
+   * {@inheritdoc}
+   */
   public function prepare(array &$element, WebformSubmissionInterface $webform_submission) {
     parent::prepare($element, $webform_submission);
 
-    // Hide element if it should not be displayed on 'form'.
-    if (!$this->isDisplayOn($element, static::DISPLAY_ON_FORM)) {
+    // Hide markup element is it should be only displayed on 'view'.
+    if (isset($element['#display_on']) && $element['#display_on'] == 'view') {
       $element['#access'] = FALSE;
     }
   }
@@ -52,23 +50,17 @@ abstract class WebformMarkupBase extends WebformElementBase implements WebformDi
   /**
    * {@inheritdoc}
    */
-  public function buildHtml(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
-    // Hide element if it should not be displayed on 'view'.
-    if (!$this->isDisplayOn($element, static::DISPLAY_ON_VIEW)) {
+  public function buildHtml(array $element, $value, array $options = []) {
+    // Hide markup element if it should be only displayed on a 'form'.
+    if (empty($element['#display_on']) || $element['#display_on'] == 'form') {
       return [];
     }
 
-    if ($this->isContainer($element)) {
-      /** @var \Drupal\webform\WebformSubmissionViewBuilderInterface $view_builder */
-      $view_builder = \Drupal::entityTypeManager()->getViewBuilder('webform_submission');
-      $value = $view_builder->buildElements($element, $webform_submission, $options, 'html');
-
-      // Since we are not passing this element to the
-      // webform_container_base_html template we need to replace the default
-      // sub elements with the value (ie renderable sub elements).
-      if (is_array($value)) {
-        $element = $value + $element;
-      }
+    // Since we are not passing this element to the
+    // webform_container_base_html template we need to replace the default
+    // sub elements with the value (ie renderable sub elements).
+    if (is_array($value)) {
+      $element = $value + $element;
     }
 
     return $element;
@@ -77,26 +69,20 @@ abstract class WebformMarkupBase extends WebformElementBase implements WebformDi
   /**
    * {@inheritdoc}
    */
-  public function buildText(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
-    // Hide element if it should not be displayed on 'view'.
-    if (!$this->isDisplayOn($element, static::DISPLAY_ON_VIEW)) {
+  public function buildText(array $element, $value, array $options = []) {
+    // Hide markup element if it should be only displayed on a 'form'.
+    if (empty($element['#display_on']) || $element['#display_on'] == 'form') {
       return [];
     }
 
-    if ($this->isContainer($element)) {
-      // Must remove #prefix and #suffix.
-      unset($element['#prefix'], $element['#suffix']);
+    // Must remove #prefix and #suffix.
+    unset($element['#prefix'], $element['#suffix']);
 
-      /** @var \Drupal\webform\WebformSubmissionViewBuilderInterface $view_builder */
-      $view_builder = \Drupal::entityTypeManager()->getViewBuilder('webform_submission');
-      $value = $view_builder->buildElements($element, $webform_submission, $options, 'text');
-
-      // Since we are not passing this element to the
-      // webform_container_base_text template we need to replace the default
-      // sub elements with the value (ie renderable sub elements).
-      if (is_array($value)) {
-        $element = $value + $element;
-      }
+    // Since we are not passing this element to the
+    // webform_container_base_text template we need to replace the default
+    // sub elements with the value (ie renderable sub elements).
+    if (is_array($value)) {
+      $element = $value + $element;
     }
 
     return $element;
@@ -128,7 +114,11 @@ abstract class WebformMarkupBase extends WebformElementBase implements WebformDi
     $form['markup']['display_on'] = [
       '#type' => 'select',
       '#title' => $this->t('Display on'),
-      '#options' => $this->getDisplayOnOptions(),
+      '#options' => [
+        'form' => t('form only'),
+        'display' => t('viewed submission only'),
+        'both' => t('both form and viewed submission'),
+      ],
     ];
     return $form;
   }

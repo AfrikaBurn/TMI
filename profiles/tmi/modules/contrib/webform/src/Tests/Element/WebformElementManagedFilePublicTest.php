@@ -33,6 +33,9 @@ class WebformElementManagedFilePublicTest extends WebformTestBase {
   public function setUp() {
     parent::setUp();
 
+    // Create users.
+    $this->createUsers();
+
     // Set public file upload support for testing.
     $settings_config = \Drupal::configFactory()->getEditable('webform.settings');
     $settings_config->set('file.file_public', TRUE);
@@ -47,7 +50,7 @@ class WebformElementManagedFilePublicTest extends WebformTestBase {
     $requirements = webform_requirements('runtime');
     $this->assertEqual($requirements['webform_file_private']['value'], (string) t('Private file system is set.'));
 
-    $this->drupalLogin($this->rootUser);
+    $this->drupalLogin($this->adminWebformUser);
 
     // Check element webform warning message for public files.
     $this->drupalGet('admin/structure/webform/manage/test_element_managed_file/element/managed_file_single/edit');
@@ -71,7 +74,7 @@ class WebformElementManagedFilePublicTest extends WebformTestBase {
 
     // Disable managed file element.
     \Drupal::configFactory()->getEditable('webform.settings')
-      ->set('element.excluded_elements.managed_file', 'managed_file')
+      ->set('elements.excluded_types.managed_file', 'managed_file')
       ->save();
 
     // Check disabled managed_file element remove from add element dialog.

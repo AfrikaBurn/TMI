@@ -53,24 +53,12 @@ class WebformAccess {
    * @return \Drupal\Core\Access\AccessResultInterface
    *   The access result.
    */
-  public static function checkLogAccess(WebformInterface $webform = NULL, EntityInterface $source_entity = NULL) {
-    // ISSUE:
-    // Devel routes do not use 'webform' parameter which throws the below error.
-    // Some mandatory parameters are missing ("webform") to generate a URL for
-    // route "entity.webform_submission.canonical"
-    //
-    // WORKAROUND:
-    // Make sure webform parameter is set for all routes.
-    // @see webform_menu_local_tasks_alter()
-    if (!$webform && $webform_submission = \Drupal::routeMatch()->getParameter('webform_submission')) {
-      $webform = $webform_submission->getWebform();
-    }
-
+  public static function checkLogAccess(WebformInterface $webform, EntityInterface $source_entity = NULL) {
     if (!$webform->hasSubmissionLog()) {
       $access_result = AccessResult::forbidden()->addCacheableDependency($webform);
     }
     else {
-      $access_result = static::checkResultsAccess($webform, $source_entity);
+      $access_result = self::checkResultsAccess($webform, $source_entity);
     }
     return $access_result->addCacheTags(['config:webform.settings']);
   }
@@ -168,7 +156,7 @@ class WebformAccess {
    */
   public static function checkWebformWizardPagesAccess(WebformInterface $webform) {
     $elements = $webform->getElementsInitialized();
-    foreach ($elements as $element) {
+    foreach ($elements as $key => $element) {
       if (isset($element['#type']) && $element['#type'] == 'webform_wizard_page') {
         return AccessResult::allowed();
       }

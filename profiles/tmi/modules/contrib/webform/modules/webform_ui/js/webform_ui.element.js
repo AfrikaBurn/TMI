@@ -1,6 +1,6 @@
 /**
  * @file
- * JavaScript behaviors for webform UI element.
+ * Javascript behaviors for webform UI element.
  */
 
 (function ($, Drupal, drupalSettings) {

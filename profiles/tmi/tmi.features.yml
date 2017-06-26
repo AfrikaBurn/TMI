@@ -1,1 +1,6 @@
 bundle: tmi
+excluded:
+  - system.theme
+  - block.block.pagetitle
+  - block.block.tabs
+required: true

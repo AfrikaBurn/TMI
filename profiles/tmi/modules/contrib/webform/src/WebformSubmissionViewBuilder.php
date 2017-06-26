@@ -127,7 +127,7 @@ class WebformSubmissionViewBuilder extends EntityViewBuilder implements WebformS
   /**
    * {@inheritdoc}
    */
-  public function buildElements(array $elements, WebformSubmissionInterface $webform_submission, array $options = [], $format = 'html') {
+  public function buildElements(array $elements, array $data, array $options = [], $format = 'html') {
     $build_method = 'build' . ucfirst($format);
     $build = [];
 
@@ -145,8 +145,37 @@ class WebformSubmissionViewBuilder extends EntityViewBuilder implements WebformS
         continue;
       }
 
-      if ($build_element = $webform_element->$build_method($element, $webform_submission, $options)) {
-        $build[$key] = $build_element;
+      if ($webform_element->isContainer($element)) {
+        $children = $this->buildElements($element, $data, $options, $format);
+        if ($children) {
+          // Add #first and #last property to $children.
+          // This is used to remove return from #last with multiple lines of
+          // text.
+          // @see webform-element-base-text.html.twig
+          reset($children);
+          $first_key = key($children);
+          if (isset($children[$first_key]['#options'])) {
+            $children[$first_key]['#options']['first'] = TRUE;
+          }
+
+          end($children);
+          $last_key = key($children);
+          if (isset($children[$last_key]['#options'])) {
+            $children[$last_key]['#options']['last'] = TRUE;
+          }
+        }
+        // Build the container but make sure it is not empty. Containers
+        // (ie details, fieldsets, etc...) without children will be empty
+        // but markup should always be rendered.
+        if ($build_container = $webform_element->$build_method($element, $children, $options)) {
+          $build[$key] = $build_container;
+        }
+      }
+      else {
+        $value = isset($data[$key]) ? $data[$key] : NULL;
+        if ($build_element = $webform_element->$build_method($element, $value, $options)) {
+          $build[$key] = $build_element;
+        }
       }
     }
     return $build;
@@ -155,7 +184,7 @@ class WebformSubmissionViewBuilder extends EntityViewBuilder implements WebformS
   /**
    * {@inheritdoc}
    */
-  public function buildTable(array $elements, WebformSubmissionInterface $webform_submission, array $options = []) {
+  public function buildTable(array $elements, array $data, array $options = []) {
     $rows = [];
     foreach ($elements as $key => $element) {
       if (isset($options['excluded_elements'][$key])) {
@@ -172,14 +201,14 @@ class WebformSubmissionViewBuilder extends EntityViewBuilder implements WebformS
       }
 
       $title = $element['#admin_title'] ?: $element['#title'] ?: '(' . $key . ')';
-      $html = $webform_element->formatHtml($element, $webform_submission, $options);
+      $value = (isset($data[$key])) ? $webform_element->formatHtml($element, $data[$key], $options) : '';
       $rows[] = [
         [
           'header' => TRUE,
           'data' => $title,
         ],
         [
-          'data' => (is_string($html)) ? ['#markup' => $html] : $html,
+          'data' => (is_string($value)) ? ['#markup' => $value] : $value,
         ],
       ];
     }

@@ -24,6 +24,9 @@ class WebformConfirmationTest extends WebformTestBase {
   public function setUp() {
     parent::setUp();
 
+    // Create users.
+    $this->createUsers();
+
     // Set page.front (aka <front>) to /node instead of /user/login.
     \Drupal::configFactory()->getEditable('system.site')->set('page.front', '/node')->save();
   }
@@ -33,7 +36,7 @@ class WebformConfirmationTest extends WebformTestBase {
    */
   public function testConfirmation() {
     // Login the admin user.
-    $this->drupalLogin($this->rootUser);
+    $this->drupalLogin($this->adminWebformUser);
 
     /* Test confirmation message (confirmation_type=message) */
 

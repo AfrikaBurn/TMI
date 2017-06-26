@@ -1,6 +1,6 @@
 /**
  * @file
- * JavaScript behaviors for custom webform #states.
+ * Javascript behaviors for custom webform #states.
  */
 
 (function ($, Drupal) {
@@ -159,12 +159,6 @@
    */
   function clearValueAndRequired(input) {
     var $input = $(input);
-
-    // Check for #states no clear attribute.
-    // @see https://css-tricks.com/snippets/jquery/make-an-jquery-hasattr/
-    if ($input[0].hasAttribute('data-webform-states-no-clear')) {
-      return;
-    }
 
     // Clear value.
     var type = input.type;

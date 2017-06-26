@@ -163,27 +163,6 @@ class TestWebformHandler extends WebformHandlerBase {
   }
 
   /**
-   * {@inheritdoc}
-   */
-  public function createElement($key, array $element) {
-    $this->displayMessage(__FUNCTION__);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function updateElement($key, array $element, array $original_element) {
-    $this->displayMessage(__FUNCTION__);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function deleteElement($key, array $element) {
-    $this->displayMessage(__FUNCTION__);
-  }
-
-  /**
    * Display the invoked plugin method to end user.
    *
    * @param string $method_name

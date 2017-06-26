@@ -41,26 +41,6 @@ class WebformHelpController extends ControllerBase implements ContainerInjection
   }
 
   /**
-   * Returns dedicated help about (aka How can we help you?) page.
-   *
-   * @param \Symfony\Component\HttpFoundation\Request $request
-   *   The current request.
-   *
-   * @return array
-   *   A renderable array containing a help about (aka How can we help you?) page.
-   */
-  public function about(Request $request) {
-    $build = $this->helpManager->buildAbout();
-    unset($build['title']);
-    $build +=[
-      '#prefix' => '<div class="webform-help">',
-      '#suffix' => '</div>',
-    ];
-    $build['#attached']['library'][] = 'webform/webform.help';
-    return $build;
-  }
-
-  /**
    * Returns dedicated help video page.
    *
    * @param \Symfony\Component\HttpFoundation\Request $request
@@ -71,7 +51,7 @@ class WebformHelpController extends ControllerBase implements ContainerInjection
    * @return array
    *   A renderable array containing a help video player page.
    */
-  public function video(Request $request, $id) {
+  public function index(Request $request, $id) {
     $id = str_replace('-', '_', $id);
     $video = $this->helpManager->getVideo($id);
     if (!$video) {
@@ -97,7 +77,7 @@ class WebformHelpController extends ControllerBase implements ContainerInjection
   }
 
   /**
-   * Route video title callback.
+   * Route title callback.
    *
    * @param \Symfony\Component\HttpFoundation\Request $request
    *   The current request.
@@ -105,9 +85,9 @@ class WebformHelpController extends ControllerBase implements ContainerInjection
    *   The id of the dedicated help section.
    *
    * @return string
-   *   The help video's title.
+   *   The dedicated help section's title.
    */
-  public function videoTitle(Request $request, $id) {
+  public function title(Request $request, $id) {
     $id = str_replace('-', '_', $id);
     $video = $this->helpManager->getVideo($id);
     return (isset($video)) ? $video['title'] : $this->t('Watch video');
