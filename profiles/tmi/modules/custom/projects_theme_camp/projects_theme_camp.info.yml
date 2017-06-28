@@ -9,5 +9,6 @@ dependencies:
   - menu_ui
   - node
   - path
+  - projects_core
   - text
   - user

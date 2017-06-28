@@ -1,0 +1,7 @@
+name: 'Projects Core'
+type: module
+core: 8.x
+version: 8.x-0.0
+package: Projects
+dependencies:
+  - people_group

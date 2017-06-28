@@ -9,6 +9,7 @@ dependencies:
   - field
   - field_group
   - options
+  - people_core
   - telephone
   - user
   - views

@@ -12,5 +12,4 @@ dependencies:
   - node
   - path
   - people_agreement
-  - projects_mutant_vehicle
   - user

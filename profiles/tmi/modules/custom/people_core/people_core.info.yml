@@ -12,10 +12,10 @@ dependencies:
   - group
   - menu_link_content
   - node
-  - projects_mutant_vehicle
   - shortcut
   - taxonomy
   - tour
+  - tmi_core
   - user
   - webform
 package: People
