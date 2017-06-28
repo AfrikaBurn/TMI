@@ -27,22 +27,12 @@ class WebformUiElementTest extends WebformTestBase {
   protected static $testWebforms = ['test_element_dates'];
 
   /**
-   * {@inheritdoc}
-   */
-  public function setUp() {
-    parent::setUp();
-
-    // Create users.
-    $this->createUsers();
-  }
-
-  /**
    * Tests element.
    */
   public function testElements() {
     global $base_path;
 
-    $this->drupalLogin($this->adminWebformUser);
+    $this->drupalLogin($this->rootUser);
 
     $webform_contact = Webform::load('contact');
 
@@ -67,7 +57,7 @@ class WebformUiElementTest extends WebformTestBase {
     /**************************************************************************/
 
     // Check original contact element order.
-    $this->assertEqual(['name', 'email', 'subject', 'message'], array_keys($webform_contact->getElementsDecodedAndFlattened()));
+    $this->assertEqual(['name', 'email', 'subject', 'message', 'actions'], array_keys($webform_contact->getElementsDecodedAndFlattened()));
 
     // Check updated (reverse) contact element order.
     /** @var \Drupal\webform\WebformInterface $webform_contact */
@@ -82,7 +72,7 @@ class WebformUiElementTest extends WebformTestBase {
     \Drupal::entityTypeManager()->getStorage('webform_submission')->resetCache();
     \Drupal::entityTypeManager()->getStorage('webform')->resetCache();
     $webform_contact = Webform::load('contact');
-    $this->assertEqual(['message', 'subject', 'email', 'name'], array_keys($webform_contact->getElementsDecodedAndFlattened()));
+    $this->assertEqual(['message', 'subject', 'email', 'name', 'actions'], array_keys($webform_contact->getElementsDecodedAndFlattened()));
 
     /**************************************************************************/
     // Required.
@@ -120,6 +110,10 @@ class WebformUiElementTest extends WebformTestBase {
 
     // Check that save elements removes element-update class.
     $this->assertNoRaw('color-success js-webform-ui-element-update');
+
+    // Create validate unique element.
+    $this->drupalPostForm('admin/structure/webform/manage/contact/element/add/textfield', ['key' => 'test', 'properties[title]' => 'Test'], t('Save'));
+    $this->assertRaw('The element key is already in use. It must be unique.');
 
     // Check read element.
     $this->drupalGet('webform/contact');

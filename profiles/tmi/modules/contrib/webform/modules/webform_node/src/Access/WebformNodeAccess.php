@@ -7,6 +7,7 @@ use Drupal\Core\Session\AccountInterface;
 use Drupal\node\NodeInterface;
 use Drupal\webform\Access\WebformAccess;
 use Drupal\webform\Plugin\Field\FieldType\WebformEntityReferenceItem;
+use Drupal\webform\WebformSubmissionForm;
 use Drupal\webform\WebformSubmissionInterface;
 
 /**
@@ -30,7 +31,7 @@ class WebformNodeAccess {
    *   The access result.
    */
   public static function checkWebformResultsAccess($operation, $entity_access, NodeInterface $node, AccountInterface $account) {
-    $access_result = self::checkAccess($operation, $entity_access, $node, NULL, $account);
+    $access_result = static::checkAccess($operation, $entity_access, $node, NULL, $account);
     if ($access_result->isAllowed()) {
       $webform_field_name = WebformEntityReferenceItem::getEntityWebformFieldName($node);
       return WebformAccess::checkResultsAccess($node->$webform_field_name->entity, $node);
@@ -56,7 +57,7 @@ class WebformNodeAccess {
    *   The access result.
    */
   public static function checkWebformLogAccess($operation, $entity_access, NodeInterface $node, AccountInterface $account) {
-    $access_result = self::checkWebformResultsAccess($operation, $entity_access, $node, $account);
+    $access_result = static::checkWebformResultsAccess($operation, $entity_access, $node, $account);
     if (!$access_result->isAllowed()) {
       return $access_result;
     }
@@ -87,7 +88,7 @@ class WebformNodeAccess {
    *   The access result.
    */
   public static function checkWebformAccess($operation, $entity_access, NodeInterface $node, AccountInterface $account) {
-    return self::checkAccess($operation, $entity_access, $node, NULL, $account);
+    return static::checkAccess($operation, $entity_access, $node, NULL, $account);
   }
 
   /**
@@ -103,21 +104,21 @@ class WebformNodeAccess {
    *   A webform submission.
    * @param \Drupal\Core\Session\AccountInterface $account
    *   Run access checks for this account.
-   * @param bool $disable_pages
-   *   Flag to disable pages for the current route.
+   * @param string $mode
+   *   The webform display/processs mode.
    * @param bool $resend
    *   Flag to check resend email access.
    *
    * @return \Drupal\Core\Access\AccessResultInterface
    *   The access result.
    */
-  public static function checkWebformSubmissionAccess($operation, $entity_access, NodeInterface $node, WebformSubmissionInterface $webform_submission, AccountInterface $account, $disable_pages = FALSE, $resend = FALSE) {
-    $access_result = self::checkAccess($operation, $entity_access, $node, $webform_submission, $account);
+  public static function checkWebformSubmissionAccess($operation, $entity_access, NodeInterface $node, WebformSubmissionInterface $webform_submission, AccountInterface $account, $mode = NULL, $resend = FALSE) {
+    $access_result = static::checkAccess($operation, $entity_access, $node, $webform_submission, $account);
     if ($access_result->isForbidden()) {
       return $access_result;
     }
 
-    if ($disable_pages) {
+    if ($mode === WebformSubmissionForm::DISABLE_PAGES) {
       return WebformAccess::checkWebformWizardPagesAccess($webform_submission->getWebform());
     }
 

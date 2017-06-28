@@ -1,1 +1,4 @@
 bundle: people
+excluded:
+  - features.bundle.people
+required: true

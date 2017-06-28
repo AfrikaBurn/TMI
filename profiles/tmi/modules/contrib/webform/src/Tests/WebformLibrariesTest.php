@@ -46,7 +46,7 @@ class WebformLibrariesTest extends WebformTestBase {
       'select2' => 'properties[select2]',
     ];
 
-    $this->drupalLogin($this->adminWebformUser);
+    $this->drupalLogin($this->rootUser);
 
     // Enable jquery.chosen.
     $this->drupalPostForm('admin/structure/webform/settings', ['libraries[excluded_libraries][jquery.chosen]' => TRUE], t('Save configuration'));
@@ -70,8 +70,10 @@ class WebformLibrariesTest extends WebformTestBase {
 
     // Exclude optional libraries.
     $edit = [
-      'libraries[excluded_libraries][ckeditor]' => FALSE,
-      'libraries[excluded_libraries][ckeditor_autogrow]' => FALSE,
+      'libraries[excluded_libraries][ckeditor.autogrow]' => FALSE,
+      'libraries[excluded_libraries][ckeditor.fakeobjects]' => FALSE,
+      'libraries[excluded_libraries][ckeditor.image]' => FALSE,
+      'libraries[excluded_libraries][ckeditor.link]' => FALSE,
       'libraries[excluded_libraries][codemirror]' => FALSE,
       'libraries[excluded_libraries][jquery.icheck]' => FALSE,
       'libraries[excluded_libraries][jquery.inputmask]' => FALSE,
@@ -102,8 +104,10 @@ class WebformLibrariesTest extends WebformTestBase {
 
     // Check that status report excludes optional libraries
     $this->drupalGet('admin/reports/status');
-    $this->assertText('The CKEditor library is excluded.');
     $this->assertText('The CKEditor: Autogrow library is excluded.');
+    $this->assertText('The CKEditor: Fakeobjects library is excluded.');
+    $this->assertText('The CKEditor: Image library is excluded.');
+    $this->assertText('The CKEditor: Link library is excluded.');
     $this->assertText('The Code Mirror library is excluded.');
     $this->assertText('The jQuery: iCheck library is excluded.');
     $this->assertText('The jQuery: Input Mask library is excluded.');
@@ -114,12 +118,12 @@ class WebformLibrariesTest extends WebformTestBase {
 
     // Exclude element types that require libraries.
     $edit = [
-      'excluded_types[webform_image_select]' => FALSE,
-      'excluded_types[webform_location]' => FALSE,
-      'excluded_types[webform_rating]' => FALSE,
-      'excluded_types[webform_signature]' => FALSE,
-      'excluded_types[webform_toggle]' => FALSE,
-      'excluded_types[webform_toggles]' => FALSE,
+      'excluded_elements[webform_image_select]' => FALSE,
+      'excluded_elements[webform_location]' => FALSE,
+      'excluded_elements[webform_rating]' => FALSE,
+      'excluded_elements[webform_signature]' => FALSE,
+      'excluded_elements[webform_toggle]' => FALSE,
+      'excluded_elements[webform_toggles]' => FALSE,
     ];
     $this->drupalPostForm('admin/structure/webform/settings', $edit, t('Save configuration'));
 

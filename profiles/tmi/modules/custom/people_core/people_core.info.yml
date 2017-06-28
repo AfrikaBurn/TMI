@@ -7,9 +7,12 @@ dependencies:
   - block_content
   - comment
   - contact
+  - features
   - file
+  - group
   - menu_link_content
   - node
+  - projects_mutant_vehicle
   - shortcut
   - taxonomy
   - tour

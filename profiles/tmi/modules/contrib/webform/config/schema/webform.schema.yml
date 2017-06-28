@@ -11,9 +11,9 @@ webform.settings:
         default_page_base_path:
           type: string
           label: 'Default base path'
-        default_form_submit_label:
+        default_submit_button_label:
           type: label
-          label: 'Default webform submit text'
+          label: 'Default webform submit button label'
         default_form_submit_once:
           type: boolean
           label: 'Prevent duplicate submissions'
@@ -59,6 +59,12 @@ webform.settings:
         default_preview_prev_button_label:
           type: label
           label: 'Default preview previous page button label'
+        default_preview_label:
+          type: text
+          label: 'Default preview label'
+        default_preview_title:
+          type: text
+          label: 'Default preview page title'
         default_preview_message:
           type: text
           label: 'Default preview message'
@@ -108,9 +114,9 @@ webform.settings:
         javascript:
           type: string
           label: 'JavaScript'
-    elements:
+    element:
       type: mapping
-      label: 'Elements default settings'
+      label: 'Element default settings'
       mapping:
         allowed_tags:
           type: string
@@ -130,7 +136,7 @@ webform.settings:
         default_google_maps_api_key:
           type: string
           label: 'Default Google Maps API key'
-        excluded_types:
+        excluded_elements:
           type: ignore
           label: 'Excluded types'
     file:
@@ -241,6 +247,16 @@ webform.settings:
         composite_element_item_format:
           type: string
           label: 'Composite element item format'
+        excluded_exporters:
+          type: ignore
+          label: 'Excluded submission exporters'
+    handler:
+      type: mapping
+      label: 'Handler settings'
+      mapping:
+        excluded_handlers:
+          type: ignore
+          label: 'Excluded submission handlers'
     batch:
       type: mapping
       label: 'Batch settings'
@@ -254,9 +270,9 @@ webform.settings:
         default_batch_delete_size:
           type: integer
           label: 'Batch delete size'
-    purge_settings:
+    purge:
       type: mapping
-      label: 'Automated purging settings'
+      label: 'Purging settings'
       mapping:
         cron_size:
           type: integer
@@ -281,6 +297,9 @@ webform.settings:
         dialog_disabled:
           type: boolean
           label: 'Disable dialogs'
+        help_menu_disabled:
+          type: boolean
+          label: 'Disable help menu'
         offcanvas_disabled:
           type: boolean
           label: 'Disable system tray'
@@ -359,15 +378,9 @@ webform.webform.*:
         page_confirm_path:
           type: string
           label: 'Page confirm URL alias'
-        form_submit_label:
-          type: label
-          label: 'Webform submit text'
         form_submit_once:
           type: boolean
           label: 'Prevent duplicate submissions'
-        form_submit_attributes:
-          type: ignore
-          label: 'Form submit attributes'
         form_open_message:
           type: text
           label: 'Form open message'
@@ -437,33 +450,15 @@ webform.webform.*:
         wizard_complete_label:
           type: label
           label: 'Wizard complete label'
-        wizard_prev_button_label:
-          type: label
-          label: 'Wizard previous page button label'
-        wizard_prev_button_attributes:
-          type: ignore
-          label: 'Wizard previous page button attributes'
-        wizard_next_button_label:
-          type: label
-          label: 'Wizard next page button label'
-        wizard_next_button_attributes:
-          type: ignore
-          label: 'Wizard next page button attributes'
         preview:
           type: integer
           label: 'Enable preview page'
-        preview_next_button_label:
-          type: label
-          label: 'Preview button label'
-        preview_next_button_attributes:
-          type: ignore
-          label: 'Preview button attributes'
-        preview_prev_button_label:
-          type: label
-          label: 'Previous page button label'
-        preview_prev_button_attributes:
-          type: ignore
-          label: 'Previous page button attributes'
+        preview_label:
+          type: text
+          label: 'Preview label'
+        preview_title:
+          type: text
+          label: 'Preview page title'
         preview_message:
           type: text
           label: 'Preview message'
@@ -473,12 +468,6 @@ webform.webform.*:
         draft_auto_save:
           type: boolean
           label: 'Automatically save as draft when previewing and when there are validation errors.'
-        draft_button_label:
-          type: label
-          label: 'Draft button label'
-        draft_button_attributes:
-          type: ignore
-          label: 'Draft button attributes'
         draft_saved_message:
           type: text
           label: 'Draft saved message'
@@ -904,6 +893,10 @@ field.widget.settings.webform_entity_reference_autocomplete:
 field.formatter.settings.webform_entity_reference_entity_view:
   type: mapping
   label: 'Display the referenced webform with default submission data.'
+  mapping:
+    source_entity:
+      type: boolean
+      label: 'Source entity'
 
 field.formatter.settings.webform_entity_reference_link:
   type: mapping

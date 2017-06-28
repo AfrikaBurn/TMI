@@ -4,3 +4,13 @@ type: module
 core: 8.x
 version: 8.x-0.0
 package: People
+dependencies:
+  - features
+  - field
+  - gnode
+  - group
+  - node
+  - path
+  - people_agreement
+  - projects_mutant_vehicle
+  - user

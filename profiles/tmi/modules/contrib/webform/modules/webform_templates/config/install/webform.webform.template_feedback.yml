@@ -34,15 +34,17 @@ elements: |
     '#title': 'Your Email'
     '#type': email
     '#required': true
+  actions:
+    '#type': webform_actions
+    '#title': 'Submit button(s)'
+    '#submit__label': 'Submit feedback'
 css: ''
 javascript: ''
 settings:
   page: true
   page_submit_path: ''
   page_confirm_path: ''
-  form_submit_label: 'Submit feedback'
   form_submit_once: false
-  form_submit_attributes: {  }
   form_exception_message: ''
   form_open_message: ''
   form_close_message: ''
@@ -62,23 +64,15 @@ settings:
   wizard_progress_bar: true
   wizard_progress_pages: false
   wizard_progress_percentage: false
-  wizard_next_button_label: ''
-  wizard_next_button_attributes: {  }
-  wizard_prev_button_label: ''
-  wizard_prev_button_attributes: {  }
   wizard_start_label: ''
   wizard_complete: true
   wizard_complete_label: ''
   preview: 0
-  preview_next_button_label: ''
-  preview_next_button_attributes: {  }
-  preview_prev_button_label: ''
-  preview_prev_button_attributes: {  }
+  preview_label: ''
+  preview_title: ''
   preview_message: ''
   draft: none
   draft_auto_save: false
-  draft_button_label: ''
-  draft_button_attributes: {  }
   draft_saved_message: ''
   draft_loaded_message: ''
   confirmation_type: page
@@ -165,11 +159,16 @@ handlers:
         - completed
       to_mail: '[webform_submission:values:type:raw]'
       to_options:
-        Comments: '[site:mail]'
-        'Report a Bug': '[site:mail]'
-        Questions: '[site:mail]'
-        _other_: '[site:mail]'
-        _default_: '[site:mail]'
+        - value: Comments
+          text: '[site:mail]'
+        - value: 'Report a Bug'
+          text: '[site:mail]'
+        - value: Questions
+          text: '[site:mail]'
+        - value: _other_
+          text: '[site:mail]'
+        - value: _default_
+          text: '[site:mail]'
       cc_mail: ''
       cc_options: {  }
       bcc_mail: ''

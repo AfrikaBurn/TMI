@@ -6,6 +6,7 @@ use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\webform\Element\WebformImageSelect as WebformImageSelectElement;
 use Drupal\webform\Element\WebformMessage as WebformMessageElement;
+use Drupal\webform\WebformSubmissionInterface;
 
 /**
  * Provides a 'image_select' element.
@@ -29,6 +30,7 @@ class WebformImageSelect extends Select {
       $default_properties['options_randomize'],
       $default_properties['field_prefix'],
       $default_properties['field_suffix'],
+      $default_properties['disabled'],
       $default_properties['select2']
     );
 
@@ -62,24 +64,46 @@ class WebformImageSelect extends Select {
   /**
    * {@inheritdoc}
    */
-  protected function formatHtmlItem(array $element, $value, array $options = []) {
+  protected function formatHtmlItem(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
+    $value = $this->getValue($element, $webform_submission, $options);
+
     $format = $this->getItemFormat($element);
     if ($format === 'image') {
       if (isset($element['#images'][$value]) && isset($element['#images'][$value]['src'])) {
+        $src = $element['#images'][$value]['src'];
+
+        // Always use absolute URLs for the src so that it will load via e-mail.
+        if (strpos($src, '/') === 0) {
+          $src = \Drupal::request()->getSchemeAndHttpHost() . $src;
+        }
+
         $image = [
           '#theme' => 'image',
-          '#uri' => $element['#images'][$value]['src'],
+          // ISSUE:
+          // Image src must be an absolute URL so that it can be sent
+          // via e-mail but template_preprocess_image() converts the #uri to
+          // a root-relative URL.
+          // @see template_preprocess_image()
+          //
+          // SOLUTION:
+          // Using 'src' attributes to prevent the #uri from being converted to
+          // a root-relative paths.
+          '#attributes' => ['src' => $src],
           '#title' => $element['#images'][$value]['text'],
         ];
-        if ($image_size = getimagesize($element['#images'][$value]['src'])) {
+
+        // Suppress all image size errors.
+        if ($image_size = @getimagesize($element['#images'][$value]['src'])) {
           $image['#width'] = $image_size[0];
           $image['#height'] = $image_size[1];
         }
+
         $build = [
           '#prefix' => new FormattableMarkup('<figure style="display: inline-block; margin: 0 6px 6px 0; padding: 6px; border: 1px solid #ddd;' . (isset($image['#width']) ? 'width: ' . $image['#width'] . 'px' : '') . '">', []),
           '#suffix' => '</figure>',
           'image' => $image,
         ];
+
         if (!empty($element['#show_label'])) {
           $build['caption'] = [
             '#markup' => $element['#images'][$value]['text'],
@@ -87,6 +111,7 @@ class WebformImageSelect extends Select {
             '#suffix' => '</figcaption>',
           ];
         }
+
         return $build;
       }
       else {
@@ -94,18 +119,18 @@ class WebformImageSelect extends Select {
       }
     }
     else {
-      return parent::formatHtmlItem($element, $value, $options);
+      return parent::formatHtmlItem($element, $webform_submission, $options);
     }
   }
 
   /**
    * {@inheritdoc}
    */
-  protected function formatTextItem(array $element, $value, array $options = []) {
+  protected function formatTextItem(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
     if ($this->getItemFormat($element) == 'image') {
       $element['#format'] = 'value';
     }
-    return parent::formatTextItem($element, $value, $options);
+    return parent::formatTextItem($element, $webform_submission, $options);
   }
 
   /**

@@ -6,6 +6,7 @@ use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 use Drupal\webform\Utility\WebformDialogHelper;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides a webform to manage submission handlers.
@@ -18,6 +19,33 @@ class WebformEntityHandlersForm extends EntityForm {
    * @var \Drupal\webform\WebformInterface
    */
   protected $entity;
+
+  /**
+   * Webform handler manager.
+   *
+   * @var \Drupal\webform\WebformHandlerManagerInterface
+   */
+  protected $handlerManager;
+
+  /**
+   * Constructs a WebformEntityHandlersForm.
+   *
+   * @param \Drupal\webform\WebformHandlerManagerInterface $handler_manager
+   *   The webform handler manager.
+   */
+  public function __construct(WebformHandlerManagerInterface $handler_manager) {
+    $this->handlerManager = $handler_manager;
+
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('plugin.manager.webform.handler')
+    );
+  }
 
   /**
    * {@inheritdoc}
@@ -117,20 +145,30 @@ class WebformEntityHandlersForm extends EntityForm {
       800,
       ['button', 'button-action', 'button--primary', 'button--small']
     );
-    $form['local_actions'] = [
-      'add_element' => [
+
+    // Filter add handler by excluded_handlers.
+    $handler_definitions = $this->handlerManager->getDefinitions();
+    $handler_definitions = $this->handlerManager->removeExcludeDefinitions($handler_definitions);
+    unset($handler_definitions['broken']);
+
+    $form['local_actions'] = [];
+    if (isset($handler_definitions['email'])) {
+      $form['local_actions']['add_email'] = [
         '#type' => 'link',
         '#title' => $this->t('Add email'),
         '#url' => new Url('entity.webform.handler.add_form', ['webform' => $webform->id(), 'webform_handler' => 'email']),
         '#attributes' => $dialog_attributes,
-        'add_page' => [
-          '#type' => 'link',
-          '#title' => $this->t('Add handler'),
-          '#url' => new Url('entity.webform.handlers', ['webform' => $webform->id()]),
-          '#attributes' => $dialog_attributes,
-        ],
-      ],
-    ];
+      ];
+    }
+    unset($handler_definitions['email']);
+    if ($handler_definitions) {
+      $form['local_actions']['add_handler'] = [
+        '#type' => 'link',
+        '#title' => $this->t('Add handler'),
+        '#url' => new Url('entity.webform.handlers', ['webform' => $webform->id()]),
+        '#attributes' => $dialog_attributes,
+      ];
+    }
 
     // Build the list of existing webform handlers for this webform.
     $form['handlers'] = [

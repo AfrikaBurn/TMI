@@ -35,7 +35,6 @@ class WebformUiEntityForm extends WebformEntityForm {
 
     $header = $this->getTableHeader();
 
-
     // Build table rows for elements.
     $rows = [];
     $elements = $this->getOrderableElements();
@@ -98,6 +97,19 @@ class WebformUiEntityForm extends WebformEntityForm {
         ],
       ],
     ] + $rows;
+
+    if (!$webform->hasActions()) {
+      $form['custom_actions'] = [
+        '#prefix' => '<div class="webform-ui-custom-actions">',
+        '#suffix' => '</div>',
+      ];
+      $form['custom_actions']['add_actions'] = [
+        '#type' => 'link',
+        '#title' => $this->t('Edit submit button(s)'),
+        '#url' => new Url('entity.webform_ui.element.add_form', ['webform' => $webform->id(), 'type' => 'webform_actions'], ['query' => ['key' => 'actions']]),
+        '#attributes' => WebformDialogHelper::getModalDialogAttributes(800, ['button', 'button--small']),
+      ];
+    }
 
     // Must preload libraries required by (modal) dialogs.
     WebformDialogHelper::attachLibraries($form);
@@ -315,7 +327,7 @@ class WebformUiEntityForm extends WebformEntityForm {
    * @return array
    *   The row for the element.
    */
-  protected function getElementRow($element, $element_update, $delta) {
+  protected function getElementRow(array $element, $element_update, $delta) {
     /** @var \Drupal\webform\WebformInterface $webform */
     $webform = $this->getEntity();
 
@@ -375,7 +387,7 @@ class WebformUiEntityForm extends WebformEntityForm {
       '#title' => $element['#admin_title'] ?: $element['#title'],
       '#url' => new Url('entity.webform_ui.element.edit_form', [
           'webform' => $webform->id(),
-          'key' => $key
+          'key' => $key,
         ]),
       '#attributes' => $element_dialog_attributes,
       '#prefix' => !empty($indentation) ? $this->renderer->render($indentation) : '',
@@ -391,12 +403,7 @@ class WebformUiEntityForm extends WebformEntityForm {
           '#type' => 'link',
           '#title' => $this->t('Add element'),
           '#url' => new Url('entity.webform_ui.element', $route_parameters, $route_options),
-          '#attributes' => WebformDialogHelper::getModalDialogAttributes(800, [
-            'button',
-            'button-action',
-            'button--primary',
-            'button--small'
-          ]),
+          '#attributes' => WebformDialogHelper::getModalDialogAttributes(800, ['button', 'button-action', 'button--primary', 'button--small']),
         ];
       }
       else {

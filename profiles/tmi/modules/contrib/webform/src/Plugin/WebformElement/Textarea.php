@@ -4,6 +4,7 @@ namespace Drupal\webform\Plugin\WebformElement;
 
 use Drupal\Component\Render\HtmlEscapedText;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\webform\WebformSubmissionInterface;
 
 /**
  * Provides a 'textarea' element.
@@ -34,6 +35,7 @@ class Textarea extends TextBase {
       'field_prefix' => '',
       'field_suffix' => '',
       'placeholder' => '',
+      'disabled' => FALSE,
       'rows' => '',
       // Form validation.
       'required' => FALSE,
@@ -61,7 +63,9 @@ class Textarea extends TextBase {
   /**
    * {@inheritdoc}
    */
-  public function formatHtmlItem(array $element, $value, array $options = []) {
+  public function formatHtmlItem(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
+    $value = $this->getValue($element, $webform_submission, $options);
+
     return [
       '#markup' => nl2br(new HtmlEscapedText($value)),
     ];
@@ -73,6 +77,9 @@ class Textarea extends TextBase {
   public function form(array $form, FormStateInterface $form_state) {
     $form = parent::form($form, $form_state);
     $form['element']['default_value']['#type'] = 'textarea';
+    $form['element']['default_value']['#rows'] = 3;
+    $form['form']['placeholder']['#type'] = 'textarea';
+    $form['form']['placeholder']['#rows'] = 3;
     return $form;
   }
 

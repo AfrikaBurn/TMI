@@ -1,0 +1,16 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.collective
+  enforced:
+    config:
+      - user.role.theme_camp_wrangler
+id: collective-5d7f2251c
+label: 'Theme Camp Wrangler'
+weight: 2
+internal: true
+audience: outsider
+group_type: collective
+permissions_ui: false
+permissions: {  }

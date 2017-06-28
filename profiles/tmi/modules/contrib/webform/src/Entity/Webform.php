@@ -12,8 +12,11 @@ use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\user\Entity\User;
 use Drupal\user\UserInterface;
+use Drupal\webform\Plugin\WebformElement\WebformActions;
 use Drupal\webform\Plugin\WebformElement\WebformManagedFileBase;
+use Drupal\webform\Plugin\WebformElement\WebformWizardPage;
 use Drupal\webform\Utility\WebformElementHelper;
+use Drupal\webform\Utility\WebformReflectionHelper;
 use Drupal\webform\WebformHandlerInterface;
 use Drupal\webform\WebformHandlerPluginCollection;
 use Drupal\webform\WebformInterface;
@@ -38,8 +41,8 @@ use Drupal\webform\WebformSubmissionStorageInterface;
  *       "assets" = "Drupal\webform\WebformEntityAssetsForm",
  *       "access" = "Drupal\webform\WebformEntityAccessForm",
  *       "handlers" = "Drupal\webform\WebformEntityHandlersForm",
- *       "delete" = "Drupal\webform\WebformEntityDeleteForm",
  *       "duplicate" = "Drupal\webform\WebformEntityForm",
+ *       "delete" = "Drupal\webform\WebformEntityDeleteForm",
  *     }
  *   },
  *   admin_permission = "administer webform",
@@ -190,7 +193,7 @@ class Webform extends ConfigEntityBundleBase implements WebformInterface {
   protected $elements;
 
   /**
-   * The CSS stylesheet.
+   * The CSS style sheet.
    *
    * @var string
    */
@@ -265,6 +268,20 @@ class Webform extends ConfigEntityBundleBase implements WebformInterface {
    * @var array
    */
   protected $elementsTranslations;
+
+  /**
+   * Track the elements that are 'webform_actions' (aka submit buttons).
+   *
+   * @var array
+   */
+  protected $elementsActions = [];
+
+  /**
+   * Track the elements that are 'webform_pages' (aka Wizard pages).
+   *
+   * @var array
+   */
+  protected $elementsWizardPages = [];
 
   /**
    * The webform pages.
@@ -360,7 +377,7 @@ class Webform extends ConfigEntityBundleBase implements WebformInterface {
       $this->status = ((bool) $status) ? WebformInterface::STATUS_OPEN : WebformInterface::STATUS_CLOSED;
     }
 
-    // Clear open and close is status is not scheduled.
+    // Clear open and close if status is not scheduled.
     if ($this->status !== WebformInterface::STATUS_SCHEDULED) {
       $this->open = NULL;
       $this->close = NULL;
@@ -451,7 +468,7 @@ class Webform extends ConfigEntityBundleBase implements WebformInterface {
    * {@inheritdoc}
    */
   public function hasSubmissionLog() {
-    return \Drupal::config('webform.settings')->get('settings.default_submission_log') ?: $this->getSetting('submission_log') ?: FALSE;
+    return $this->getSetting('submission_log', TRUE) ?: FALSE;
   }
 
   /**
@@ -512,6 +529,36 @@ class Webform extends ConfigEntityBundleBase implements WebformInterface {
   public function hasContainer() {
     $this->initElements();
     return $this->hasContainer;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function hasActions() {
+    return $this->getNumberOfActions() ? TRUE : FALSE;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getNumberOfActions() {
+    $this->initElements();
+    return count($this->elementsActions);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function hasWizardPages() {
+    return $this->getNumberOfWizardPages() ? TRUE : FALSE;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getNumberOfWizardPages() {
+    $this->initElements();
+    return count($this->elementsWizardPages);
   }
 
   /**
@@ -579,7 +626,10 @@ class Webform extends ConfigEntityBundleBase implements WebformInterface {
    * {@inheritdoc}
    */
   public function getSettings() {
-    return $this->settings + self::getDefaultSettings();
+    // Settings should not be empty even.
+    // https://www.drupal.org/node/2880392.
+    return (isset($this->settings)) ? $this->settings +
+      self::getDefaultSettings() : self::getDefaultSettings();
   }
 
   /**
@@ -587,7 +637,7 @@ class Webform extends ConfigEntityBundleBase implements WebformInterface {
    */
   public function setSettings(array $settings) {
     // Always apply the default settings.
-    $this->settings = self::getDefaultSettings();
+    $this->settings = static::getDefaultSettings();
     // Now apply custom settings.
     foreach ($settings as $name => $value) {
       $this->settings[$name] = $value;
@@ -598,9 +648,15 @@ class Webform extends ConfigEntityBundleBase implements WebformInterface {
   /**
    * {@inheritdoc}
    */
-  public function getSetting($key) {
+  public function getSetting($key, $default = FALSE) {
     $settings = $this->getSettings();
-    return (isset($settings[$key])) ? $settings[$key] : NULL;
+    $value = (isset($settings[$key])) ? $settings[$key] : NULL;
+    if ($default) {
+      return $value ?: \Drupal::config('webform.settings')->get('settings.default_' . $key);
+    }
+    else {
+      return $value;
+    }
   }
 
   /**
@@ -636,9 +692,7 @@ class Webform extends ConfigEntityBundleBase implements WebformInterface {
       'page' => TRUE,
       'page_submit_path' => '',
       'page_confirm_path' => '',
-      'form_submit_label' => '',
       'form_submit_once' => FALSE,
-      'form_submit_attributes' => [],
       'form_exception_message' => '',
       'form_open_message' => '',
       'form_close_message' => '',
@@ -658,23 +712,15 @@ class Webform extends ConfigEntityBundleBase implements WebformInterface {
       'wizard_progress_bar' => TRUE,
       'wizard_progress_pages' => FALSE,
       'wizard_progress_percentage' => FALSE,
-      'wizard_next_button_label' => '',
-      'wizard_next_button_attributes' => [],
-      'wizard_prev_button_label' => '',
-      'wizard_prev_button_attributes' => [],
       'wizard_start_label' => '',
       'wizard_complete' => TRUE,
       'wizard_complete_label' => '',
       'preview' => DRUPAL_DISABLED,
-      'preview_next_button_label' => '',
-      'preview_next_button_attributes' => [],
-      'preview_prev_button_label' => '',
-      'preview_prev_button_attributes' => [],
+      'preview_label' => '',
+      'preview_title' => '',
       'preview_message' => '',
       'draft' => self::DRAFT_ENABLED_NONE,
       'draft_auto_save' => FALSE,
-      'draft_button_label' => '',
-      'draft_button_attributes' => [],
       'draft_saved_message' => '',
       'draft_loaded_message' => '',
       'confirmation_type' => 'page',
@@ -823,18 +869,33 @@ class Webform extends ConfigEntityBundleBase implements WebformInterface {
       ->getForm($webform_submission, $operation);
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getElementsRaw() {
-    return $this->elements;
-  }
 
   /**
    * {@inheritdoc}
    */
   public function getElementsOriginalRaw() {
     return $this->elementsOriginal;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getElementsOriginalDecoded() {
+    $this->elementsOriginal;
+    try {
+      $elements = Yaml::decode($this->elementsOriginal);
+      return (is_array($elements)) ? $elements : [];
+    }
+    catch (\Exception $exception) {
+      return FALSE;
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getElementsRaw() {
+    return $this->elements;
   }
 
   /**
@@ -941,6 +1002,8 @@ class Webform extends ConfigEntityBundleBase implements WebformInterface {
     $this->hasManagedFile = FALSE;
     $this->hasFlexboxLayout = FALSE;
     $this->hasContainer = FALSE;
+    $this->elementsActions = [];
+    $this->elementsWizardPages = [];
     $this->elementsDecodedAndFlattened = [];
     $this->elementsInitializedAndFlattened = [];
     $this->elementsInitializedFlattenedAndHasValue = [];
@@ -993,6 +1056,8 @@ class Webform extends ConfigEntityBundleBase implements WebformInterface {
     $this->hasManagedFile = NULL;
     $this->hasFlexboxLayout = NULL;
     $this->hasContainer = NULL;
+    $this->elementsActions = [];
+    $this->elementsWizardPages = [];
     $this->elementsDecoded = NULL;
     $this->elementsInitialized = NULL;
     $this->elementsDecodedAndFlattened = NULL;
@@ -1014,9 +1079,6 @@ class Webform extends ConfigEntityBundleBase implements WebformInterface {
   protected function initElementsRecursive(array &$elements, $parent = '', $depth = 0) {
     /** @var \Drupal\webform\WebformElementManagerInterface $element_manager */
     $element_manager = \Drupal::service('plugin.manager.webform.element');
-
-    /** @var \Drupal\Core\Render\ElementInfoManagerInterface $element_info */
-    $element_info = \Drupal::service('plugin.manager.element_info');
 
     // Remove ignored properties.
     $elements = WebformElementHelper::removeIgnoredProperties($elements);
@@ -1087,6 +1149,16 @@ class Webform extends ConfigEntityBundleBase implements WebformInterface {
           $this->hasContainer = TRUE;
         }
 
+        // Track actions.
+        if ($element_handler instanceof WebformActions) {
+          $this->elementsActions[$key] = $key;
+        }
+
+        // Track wizard.
+        if ($element_handler instanceof WebformWizardPage) {
+          $this->elementsWizardPages[$key] = $key;
+        }
+
         $element['#webform_multiple'] = $element_handler->hasMultipleValues($element);
         $element['#webform_composite'] = $element_handler->isComposite();
       }
@@ -1135,7 +1207,21 @@ class Webform extends ConfigEntityBundleBase implements WebformInterface {
     $elements = $this->getElementsDecoded();
     // If element is was not added to elements, add it as the last element.
     if (!$this->setElementPropertiesRecursive($elements, $key, $properties, $parent_key)) {
-      $elements[$key] = $properties;
+      if ($this->hasActions()) {
+        // Add element before the last 'webform_actions' element.
+        $last_action_key = end($this->elementsActions);
+        $updated_elements = [];
+        foreach ($elements as $element_key => $element) {
+          if ($element_key == $last_action_key) {
+            $updated_elements[$key] = $properties;
+          }
+          $updated_elements[$element_key] = $element;
+        }
+        $elements = $updated_elements;
+      }
+      else {
+        $elements[$key] = $properties;
+      }
     }
     $this->setElements($elements);
     return $this;
@@ -1280,18 +1366,18 @@ class Webform extends ConfigEntityBundleBase implements WebformInterface {
       // If there is no start page, we must define one.
       if (empty($this->pages)) {
         $this->pages['start'] = [
-          '#title' => $this->getSetting('wizard_start_label') ?: \Drupal::config('webform.settings')->get('settings.default_wizard_start_label'),
+          '#title' => $this->getSetting('wizard_start_label', TRUE),
         ];
       }
       $this->pages['preview'] = [
-        '#title' => $this->t('Preview'),
+        '#title' => $this->getSetting('preview_label', TRUE),
       ];
     }
 
     // Only add complete page, if there are some pages.
     if ($this->pages && $this->getSetting('wizard_complete')) {
       $this->pages['complete'] = [
-        '#title' => $this->getSetting('wizard_complete_label') ?: \Drupal::config('webform.settings')->get('settings.default_wizard_complete_label'),
+        '#title' => $this->getSetting('wizard_complete_label', TRUE),
       ];
     }
 
@@ -1313,13 +1399,18 @@ class Webform extends ConfigEntityBundleBase implements WebformInterface {
     /** @var \Drupal\webform\WebformInterface $duplicate */
     $duplicate = parent::createDuplicate();
 
-    // If template, clear the  description, remove template flag,
-    // and remove webform_templates.module dependency.
+    // If template, clear the  description and remove the template flag.
     if ($duplicate->isTemplate()) {
       $duplicate->set('description', '');
       $duplicate->set('template', FALSE);
+    }
 
-      if (isset($duplicate->dependencies['enforced']['module']) && $duplicate->dependencies['enforced']['module'] == ['webform_templates']) {
+    // Remove enforce module dependency when a sub-module's webform is
+    // duplicated.
+    if (isset($duplicate->dependencies['enforced']['module'])) {
+      $modules = WebformReflectionHelper::getSubModules();
+      $duplicate->dependencies['enforced']['module'] = array_diff($duplicate->dependencies['enforced']['module'], $modules);
+      if (empty($duplicate->dependencies['enforced']['module'])) {
         unset($duplicate->dependencies['enforced']['module']);
         if (empty($duplicate->dependencies['enforced'])) {
           unset($duplicate->dependencies['enforced']);
@@ -1337,8 +1428,8 @@ class Webform extends ConfigEntityBundleBase implements WebformInterface {
     $values += [
       'status' => WebformInterface::STATUS_OPEN,
       'uid' => \Drupal::currentUser()->id(),
-      'settings' => self::getDefaultSettings(),
-      'access' => self::getDefaultAccessRules(),
+      'settings' => static::getDefaultSettings(),
+      'access' => static::getDefaultAccessRules(),
     ];
 
     // Convert boolean status to STATUS constant.
@@ -1424,8 +1515,40 @@ class Webform extends ConfigEntityBundleBase implements WebformInterface {
     // Update paths.
     $this->updatePaths();
 
+    // Invoke handler element CRUD methods.
+    // Note: Comparing parsed YAML since the actual YAML formatting could be
+    // different.
+    $elements_original = $this->getElementsOriginalDecoded() ?: [];
+    $elements = $this->getElementsDecoded() ?: [];
+    if ($elements_original != $elements) {
+      $elements_original = WebformElementHelper::getFlattened($elements_original);
+      $elements = WebformElementHelper::getFlattened($elements);
+
+      // Handle create element.
+      if ($created_elements = array_diff_key($elements, $elements_original)) {
+        foreach ($created_elements as $element_key => $element) {
+          $this->invokeHandlers('createElement', $element_key, $element);
+        }
+      }
+
+      // Handle delete element.
+      if ($deleted_elements = array_diff_key($elements_original, $elements)) {
+        foreach ($deleted_elements as $element_key => $element) {
+          $this->invokeHandlers('deleteElement', $element_key, $element);
+        }
+      }
+
+      // Handle update element.
+      foreach ($elements as $element_key => $element) {
+        if (isset($elements_original[$element_key]) && $elements_original[$element_key] != $element) {
+          $this->invokeHandlers('updateElement', $element_key, $element, $elements_original[$element_key]);
+        }
+      }
+    }
+
     // Reset elements.
     $this->resetElements();
+    $this->elementsOriginal = $this->elements;
   }
 
   /**

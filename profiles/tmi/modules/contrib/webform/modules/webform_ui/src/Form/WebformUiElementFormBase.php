@@ -88,7 +88,7 @@ abstract class WebformUiElementFormBase extends FormBase implements WebformUiEle
    *
    * @var string
    */
-  protected $parent_key;
+  protected $parentKey;
 
   /**
    * The webform element's original element type.
@@ -148,7 +148,7 @@ abstract class WebformUiElementFormBase extends FormBase implements WebformUiEle
   public function buildForm(array $form, FormStateInterface $form_state, WebformInterface $webform = NULL, $key = NULL, $parent_key = '') {
     $this->webform = $webform;
     $this->key = $key;
-    $this->parent_key = $parent_key;
+    $this->parentKey = $parent_key;
 
     $webform_element = $this->getWebformElement();
 
@@ -229,7 +229,10 @@ abstract class WebformUiElementFormBase extends FormBase implements WebformUiEle
       '#required' => TRUE,
       '#parents' => ['key'],
       '#disabled' => ($key) ? TRUE : FALSE,
-      '#default_value' => $key,
+      // Allow key to populated using query string parameter.
+      // Use by 'Edit submit button(s)'.
+      // @see \Drupal\webform_ui\WebformUiEntityForm::editForm
+      '#default_value' => ($this->getRequest()->get('key')) ? $this->getRequest()->get('key') : $key,
       '#weight' => -98,
     ];
     // Remove the key's help text (aka description) once it has been set.
@@ -285,15 +288,24 @@ abstract class WebformUiElementFormBase extends FormBase implements WebformUiEle
       $form_state->setErrorByName(NULL, $element_error);
     }
 
-    // Stop validation is the element properties has any errors.
+    // Stop validation if the element properties has any errors.
     if ($form_state->hasAnyErrors()) {
       return;
     }
 
-    // Set element properties.
-    $properties = $webform_element->getConfigurationFormProperties($form, $element_form_state);
     $parent_key = $form_state->getValue('parent_key');
     $key = $form_state->getValue('key');
+
+    // Make sure element key is unique for new elements.
+    if ($this instanceof  WebformUiElementAddForm || $this instanceof WebformUiElementDuplicateForm) {
+      $element_flattened = $this->getWebform()->getElementsDecodedAndFlattened();
+      if (isset($element_flattened[$key])) {
+        $form_state->setErrorByName('key', $this->t('The element key is already in use. It must be unique.'));
+      }
+    }
+
+    // Set element properties.
+    $properties = $webform_element->getConfigurationFormProperties($form, $element_form_state);
     if ($key) {
       $this->key = $key;
       $this->webform->setElementProperties($key, $properties, $parent_key);
@@ -403,7 +415,7 @@ abstract class WebformUiElementFormBase extends FormBase implements WebformUiEle
    * {@inheritdoc}
    */
   public function getParentKey() {
-    return $this->parent_key;
+    return $this->parentKey;
   }
 
   /**

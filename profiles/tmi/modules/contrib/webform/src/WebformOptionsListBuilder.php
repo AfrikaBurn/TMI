@@ -5,6 +5,7 @@ namespace Drupal\webform;
 use Drupal\Core\Config\Entity\ConfigEntityListBuilder;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\OptGroup;
+use Drupal\Core\Url;
 use Drupal\webform\Entity\WebformOptions;
 
 /**
@@ -22,12 +23,8 @@ class WebformOptionsListBuilder extends ConfigEntityListBuilder {
 
     // Display info.
     if ($total = $this->getStorage()->getQuery()->count()->execute()) {
-      $t_args = [
-        '@total' => $total,
-        '@results' => $this->formatPlural($total, $this->t('option'), $this->t('options')),
-      ];
       $build['info'] = [
-        '#markup' => $this->t('@total @results', $t_args),
+        '#markup' => $this->formatPlural($total, '@total option', '@total options', ['@total' => $total]),
         '#prefix' => '<div>',
         '#suffix' => '</div>',
       ];
@@ -76,6 +73,21 @@ class WebformOptionsListBuilder extends ConfigEntityListBuilder {
 
     $row['alter'] = $entity->hasAlterHooks() ? $this->t('Yes') : $this->t('No');
     return $row + parent::buildRow($entity);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getDefaultOperations(EntityInterface $entity, $type = 'edit') {
+    $operations = parent::getDefaultOperations($entity);
+    if ($entity->access('duplicate')) {
+      $operations['duplicate'] = [
+        'title' => $this->t('Duplicate'),
+        'weight' => 23,
+        'url' => Url::fromRoute('entity.webform_options.duplicate_form', ['webform_options' => $entity->id()]),
+      ];
+    }
+    return $operations;
   }
 
 }

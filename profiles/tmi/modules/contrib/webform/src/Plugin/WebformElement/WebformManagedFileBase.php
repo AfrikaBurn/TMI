@@ -20,6 +20,18 @@ use Drupal\webform\WebformSubmissionInterface;
 abstract class WebformManagedFileBase extends WebformElementBase {
 
   /**
+   * List of blacklisted mime types that must be downloaded.
+   *
+   * @var array
+   */
+  static protected $blacklistedMimeTypes = [
+    'application/pdf',
+    'application/xml',
+    'image/svg+xml',
+    'text/html',
+  ];
+
+  /**
    * {@inheritdoc}
    */
   public function getDefaultProperties() {
@@ -70,7 +82,7 @@ abstract class WebformManagedFileBase extends WebformElementBase {
     }
 
     // Disable File element is there are no visible stream wrappers.
-    $scheme_options = self::getVisibleStreamWrappers();
+    $scheme_options = static::getVisibleStreamWrappers();
     return (empty($scheme_options)) ? FALSE : TRUE;
   }
 
@@ -84,7 +96,7 @@ abstract class WebformManagedFileBase extends WebformElementBase {
     }
     else {
       // Display 'managed_file' stream wrappers warning.
-      $scheme_options = self::getVisibleStreamWrappers();
+      $scheme_options = static::getVisibleStreamWrappers();
       $uri_scheme = $this->getUriScheme($element);
       if (!isset($scheme_options[$uri_scheme]) && $this->currentUser->hasPermission('administer webform')) {
         drupal_set_message($this->t('The \'File\' element is unavailable because a <a href="https://www.drupal.org/documentation/modules/file">private files directory</a> has not been configured and public file uploads have not been enabled. For more information see: <a href="https://www.drupal.org/psa-2016-003">DRUPAL-PSA-2016-003</a>'), 'warning');
@@ -113,7 +125,7 @@ abstract class WebformManagedFileBase extends WebformElementBase {
     parent::prepare($element, $webform_submission);
 
     // Check if the URI scheme exists and can be used the upload location.
-    $scheme_options = self::getVisibleStreamWrappers();
+    $scheme_options = static::getVisibleStreamWrappers();
     $uri_scheme = $this->getUriScheme($element);
     if (!isset($scheme_options[$uri_scheme])) {
       $element['#access'] = FALSE;
@@ -168,20 +180,8 @@ abstract class WebformManagedFileBase extends WebformElementBase {
   /**
    * {@inheritdoc}
    */
-  public function format($type, array &$element, $value, array $options = []) {
-    if ($this->hasMultipleValues($element)) {
-      $value = $this->getFiles($element, $value, $options);
-    }
-    else {
-      $value = $this->getFile($element, $value, $options);
-    }
-    return parent::format($type, $element, $value, $options);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  protected function formatHtmlItem(array $element, $value, array $options = []) {
+  protected function formatHtmlItem(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
+    $value = $this->getValue($element, $webform_submission, $options);
     $file = $this->getFile($element, $value, $options);
     $format = $this->getItemFormat($element);
     switch ($format) {
@@ -189,7 +189,7 @@ abstract class WebformManagedFileBase extends WebformElementBase {
       case 'url':
       case 'value':
       case 'raw':
-        return $this->formatTextItem($element, $value, $options);
+        return $this->formatTextItem($element, $webform_submission, $options);
 
       case 'link':
         return [
@@ -215,7 +215,8 @@ abstract class WebformManagedFileBase extends WebformElementBase {
   /**
    * {@inheritdoc}
    */
-  protected function formatTextItem(array $element, $value, array $options = []) {
+  protected function formatTextItem(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
+    $value = $this->getValue($element, $webform_submission, $options);
     $file = $this->getFile($element, $value, $options);
     $format = $this->getItemFormat($element);
     switch ($format) {
@@ -505,7 +506,7 @@ abstract class WebformManagedFileBase extends WebformElementBase {
     if (isset($element['#uri_scheme'])) {
       return $element['#uri_scheme'];
     }
-    $scheme_options = self::getVisibleStreamWrappers();
+    $scheme_options = static::getVisibleStreamWrappers();
     if (isset($scheme_options['private'])) {
       return 'private';
     }
@@ -557,7 +558,7 @@ abstract class WebformManagedFileBase extends WebformElementBase {
       '#type' => 'fieldset',
       '#title' => $this->t('File settings'),
     ];
-    $scheme_options = self::getVisibleStreamWrappers();
+    $scheme_options = static::getVisibleStreamWrappers();
 
     $form['file']['uri_scheme'] = [
       '#type' => 'radios',
@@ -670,7 +671,15 @@ abstract class WebformManagedFileBase extends WebformElementBase {
         }
 
         // Return file content headers.
-        return file_get_content_headers($file);
+
+        $headers = file_get_content_headers($file);
+
+        // Force blacklisted files to be downloaded.
+        if (in_array($headers['Content-Type'], static::$blacklistedMimeTypes)) {
+          $headers['Content-Disposition'] = 'attachment';
+        }
+
+        return $headers;
       }
     }
     return NULL;

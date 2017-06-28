@@ -1,0 +1,13 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.collective
+id: collective-member
+label: Member
+weight: -100
+internal: true
+audience: member
+group_type: collective
+permissions_ui: true
+permissions: {  }

@@ -34,9 +34,7 @@ settings:
   page: true
   page_submit_path: ''
   page_confirm_path: ''
-  form_submit_label: ''
   form_submit_once: false
-  form_submit_attributes: {  }
   form_exception_message: ''
   form_open_message: ''
   form_close_message: ''
@@ -56,23 +54,15 @@ settings:
   wizard_progress_bar: true
   wizard_progress_pages: false
   wizard_progress_percentage: false
-  wizard_next_button_label: ''
-  wizard_next_button_attributes: {  }
-  wizard_prev_button_label: ''
-  wizard_prev_button_attributes: {  }
   wizard_start_label: ''
   wizard_complete: true
   wizard_complete_label: ''
   preview: 0
-  preview_next_button_label: ''
-  preview_next_button_attributes: {  }
-  preview_prev_button_label: ''
-  preview_prev_button_attributes: {  }
+  preview_label: ''
+  preview_title: ''
   preview_message: ''
   draft: none
   draft_auto_save: false
-  draft_button_label: ''
-  draft_button_attributes: {  }
   draft_saved_message: ''
   draft_loaded_message: ''
   confirmation_type: page
@@ -133,7 +123,8 @@ handlers:
         - completed
       to_mail: '[webform_submission:values:select:raw]'
       to_options:
-        'Yes': yes@example.com
+        - value: 'Yes'
+          text: yes@example.com
       cc_mail: ''
       cc_options: {  }
       bcc_mail: ''
@@ -160,7 +151,8 @@ handlers:
         - completed
       to_mail: '[webform_submission:values:select:raw]'
       to_options:
-        _empty_: empty@example.com
+        - value: _empty_
+          text: empty@example.com
       cc_mail: ''
       cc_options: {  }
       bcc_mail: ''
@@ -187,7 +179,8 @@ handlers:
         - completed
       to_mail: '[webform_submission:values:select:raw]'
       to_options:
-        _default_: default@default.com
+        - value: _default_
+          text: default@default.com
       cc_mail: ''
       cc_options: {  }
       bcc_mail: ''
@@ -214,8 +207,10 @@ handlers:
         - completed
       to_mail: '[webform_submission:values:checkboxes:raw]'
       to_options:
-        Sunday: sunday@example.com
-        Saturday: saturday@example.com
+        - value: Sunday
+          text: sunday@example.com
+        - value: Saturday
+          text: saturday@example.com
       cc_mail: ''
       cc_options: {  }
       bcc_mail: ''
@@ -242,7 +237,8 @@ handlers:
         - completed
       to_mail: '[webform_submission:values:radios_other:raw]'
       to_options:
-        _other_: other@example.com
+        - value: _other_
+          text: other@example.com
       cc_mail: ''
       cc_options: {  }
       bcc_mail: ''

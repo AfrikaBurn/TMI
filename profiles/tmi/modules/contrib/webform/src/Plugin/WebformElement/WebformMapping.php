@@ -11,6 +11,7 @@ use Drupal\webform\Utility\WebformElementHelper;
 use Drupal\webform\Utility\WebformOptionsHelper;
 use Drupal\webform\WebformElementBase;
 use Drupal\webform\WebformInterface;
+use Drupal\webform\WebformSubmissionInterface;
 
 /**
  * Provides a 'mapping' element.
@@ -38,6 +39,7 @@ class WebformMapping extends WebformElementBase {
       // Form display.
       'title_display' => '',
       'description_display' => '',
+      'disabled' => FALSE,
       // Form validation.
       'required' => FALSE,
       'required_error' => '',
@@ -81,7 +83,9 @@ class WebformMapping extends WebformElementBase {
   /**
    * {@inheritdoc}
    */
-  public function formatHtmlItem(array $element, $value, array $options = []) {
+  public function formatHtmlItem(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
+    $value = $this->getValue($element, $webform_submission, $options);
+
     $element += [
       '#destination' => [],
       '#arrow' => '→',
@@ -152,7 +156,9 @@ class WebformMapping extends WebformElementBase {
   /**
    * {@inheritdoc}
    */
-  public function formatTextItem(array $element, $value, array $options = []) {
+  public function formatTextItem(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
+    $value = $this->getValue($element, $webform_submission, $options);
+
     // Return empty value.
     if ($value === '' || $value === NULL || (is_array($value) && empty($value))) {
       return '';
@@ -203,7 +209,9 @@ class WebformMapping extends WebformElementBase {
   /**
    * {@inheritdoc}
    */
-  public function buildExportRecord(array $element, $value, array $export_options) {
+  public function buildExportRecord(array $element, WebformSubmissionInterface $webform_submission, array $export_options) {
+    $value = $this->getValue($element, $webform_submission);
+
     $record = [];
     foreach ($element['#source'] as $source_key => $source_title) {
       $record[] = (isset($value[$source_key])) ? $value[$source_key] : NULL;
@@ -260,14 +268,15 @@ class WebformMapping extends WebformElementBase {
   /**
    * {@inheritdoc}
    */
-  public function formatTableColumn(array $element, $value, array $options = []) {
+  public function formatTableColumn(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
     if (isset($options['source_key'])) {
       $source_key = $options['source_key'];
+      $value = $this->getValue($element, $webform_submission);
       $question_value = (isset($value[$source_key])) ? $value[$source_key] : '';
-      return (isset($element['#destination'])) ? WebformOptionsHelper::getOptionText($question_value, $element['#destination']) : $value;
+      return (isset($element['#destination'])) ? WebformOptionsHelper::getOptionText($question_value, $element['#destination']) : NULL;
     }
     else {
-      return $this->formatHtml($element, $value);
+      return $this->formatHtml($element, $webform_submission);
     }
   }
 

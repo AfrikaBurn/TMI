@@ -11,6 +11,8 @@ use Drupal\Core\Serialization\Yaml;
 use Drupal\system\Entity\Action;
 use Drupal\webform\Entity\Webform;
 use Drupal\webform\Plugin\WebformElement\ManagedFile;
+use Drupal\webform\Utility\WebformOptionsHelper;
+use Drupal\webform\Utility\WebformReflectionHelper;
 use Drupal\webform\WebformInterface;
 
 include_once 'includes/webform.update.inc';
@@ -100,11 +102,15 @@ function webform_requirements($phase) {
 /**
  * Update admin settings to reflect changes in the default settings.
  *
- * This function is used to apply new admin settings (in webform.settings.yml).
+ * @param bool $reset
+ *  If set TRUE old admin settings will be completly deleted.
+ *
  * If you are moving or updating any admin settings this must be explicitly
  * done via an update hook.
+ *
+ * @see drush_webform_repair().
  */
-function _webform_update_admin_settings() {
+function _webform_update_admin_settings($reset = FALSE) {
   $admin_config = \Drupal::configFactory()->getEditable('webform.settings');
 
   $current_settings = $admin_config->getRawData();
@@ -123,16 +129,29 @@ function _webform_update_admin_settings() {
         $admin_settings[$group] = $current_settings[$group];
       }
     }
-    else {
-      // Loop through the group's settings and apply all existing settings to
-      // the default admin settings.
+    elseif ($reset) {
+      // Copy only group's settings that are defined in admin settings.
+      // This will cause old settings to be completely deleted.
       foreach ($settings as $name => $value) {
         if (isset($current_settings[$group][$name])) {
           $admin_settings[$group][$name] = $current_settings[$group][$name];
         }
       }
     }
+    else {
+      // Loop through the group's settings and apply all existing settings to
+      // the default admin settings.
+      foreach ($current_settings[$group] as $name => $value) {
+        $admin_settings[$group][$name] = $value;
+      }
+    }
   }
+
+  // If not reset, make sure all the current settings are preserved.
+  if (!$reset) {
+    $admin_settings += $current_settings;
+  }
+
   $admin_config->setData($admin_settings)->save();
 }
 
@@ -447,4 +466,257 @@ function webform_update_8041() {
   $data['libraries']['excluded_libraries'][] = 'jquery.chosen';
   $config->setData($data);
   $config->save();
+}
+
+
+/**
+ * Issue #2875371: Can't Add Email Handler w/Select "Send To".
+ */
+function webform_update_8042() {
+  $settings = ['to_options', 'cc_options', 'bcc_options', 'from_options'];
+
+  $config_factory = \Drupal::configFactory();
+  foreach ($config_factory->listAll('webform.webform.') as $webform_config_name) {
+    $webform_config = $config_factory->getEditable($webform_config_name);
+
+    $data = $webform_config->getRawData();
+    $has_email_handler = FALSE;
+    foreach ($data['handlers'] as &$handler) {
+      if (in_array($handler['id'], ['email', 'scheduled_email'])) {
+        foreach ($settings as $setting_name) {
+          if (!empty($handler['settings'][$setting_name])) {
+            $has_email_handler = TRUE;
+            $handler['settings'][$setting_name] = WebformOptionsHelper::encodeConfig($handler['settings'][$setting_name]);
+          }
+        }
+      }
+    }
+    if ($has_email_handler) {
+      $webform_config->setData($data);
+      $webform_config->save();
+    }
+  }
+}
+
+/**
+ * Issue #2874555: Add "How can we help you?" link to the Webform module admin pages.
+ */
+function webform_update_8043() {
+  _webform_update_admin_settings();
+}
+
+/**
+ * Issue #2872464: MultiStep Preview Page - change the Page Title and Progress Bar Title
+ */
+function webform_update_8044() {
+  _webform_update_admin_settings();
+  _webform_update_webform_settings();
+}
+
+/**
+ * Issue #2878307: webform example module disable causes a customised webform deleted.
+ */
+function webform_update_8045() {
+  // Remove sub module dependencies copied to new forms.
+  $webform_modules = WebformReflectionHelper::getSubModules();
+  $config_factory = \Drupal::configFactory();
+  foreach ($config_factory->listAll('webform.webform.') as $webform_config_name) {
+    // Don't remove dependencies for submodule config files.
+    if (_webform_update_8045_is_submodule_config($webform_config_name)) {
+      continue;
+    }
+
+    $webform_config = $config_factory->getEditable($webform_config_name);
+    $data = $webform_config->getRawData();
+
+    // Remove enforce module dependency when a sub-module's webform is
+    // duplicated.
+    if (isset($data['dependencies']['enforced']['module'])) {
+      $data['dependencies']['enforced']['module'] = array_diff($data['dependencies']['enforced']['module'], $webform_modules);
+      if (empty($data['dependencies']['enforced']['module'])) {
+        unset($data['dependencies']['enforced']['module']);
+        if (empty($data['dependencies']['enforced'])) {
+          unset($data['dependencies']['enforced']);
+        }
+      }
+      $webform_config->setData($data);
+      $webform_config->save();
+    }
+  }
+}
+
+/**
+ * Check if config is from a Webform submodule.
+ *
+ * @param string $webform_config_name
+ *   Webform config file name.
+ *
+ * @return bool
+ *   TRUE if config is from a Webform submodule.
+ */
+function _webform_update_8045_is_submodule_config($webform_config_name) {
+  $modules = WebformReflectionHelper::getSubModules();
+  foreach ($modules as $module) {
+    if (file_exists(drupal_get_path('module', $module) . "/config/install/$webform_config_name.yml")) {
+      return TRUE;
+    }
+  }
+  return FALSE;
+}
+
+/**
+ * Issue #2878193: Allow actions (aka submit buttons) to be placed anywhere on a webform.
+ */
+function webform_update_8046() {
+  // Change 'default_submit_button_label' to 'default_form_submit_label'.
+  $config = \Drupal::configFactory()->getEditable('webform.settings');
+  $data = $config->getRawData();
+  if (!isset($data['settings']['default_submit_button_label']) && isset($data['settings']['default_form_submit_label'])) {
+    $data['settings']['default_submit_button_label'] = $data['settings']['default_form_submit_label'];
+    unset($data['settings']['default_submit_button_label']);
+  }
+  $config->setData($data);
+  $config->save();
+  _webform_update_admin_settings();
+
+  // Update default (source) webform configuration.
+  $config_factory = \Drupal::configFactory();
+  foreach ($config_factory->listAll('webform.webform.') as $webform_config_name) {
+    $webform_config = $config_factory->getEditable($webform_config_name);
+    $data = $webform_config->getRawData();
+    $data = _webform_update_8046_convert_data($data);
+    $webform_config->setData($data)->save();
+  }
+
+  // Update translated webform configuration.
+  // ISSUE: Can't figure out the right way to update translated webform config.
+  // WORKAROUND: Directly update config data stored in the database.
+  $langcodes = array_keys(\Drupal::languageManager()->getLanguages());
+  $collections = [];
+  foreach ($langcodes as $langcode) {
+    $collections[] = "language.$langcode";
+  }
+  foreach (['config', 'config_snapshot'] as $table_name) {
+    if (!\Drupal::database()->schema()->tableExists($table_name)) {
+      continue;
+    }
+    $query = \Drupal::database()->select($table_name, 'c')
+      ->fields('c', ['name', 'collection', 'data'])
+      ->orderBy('name')
+      ->orderBy('collection')
+      ->condition('name', 'webform.webform.%', 'LIKE')
+      ->condition('collection', $collections, 'IN');
+    $result = $query->execute();
+    while ($record = $result->fetchAssoc()) {
+      $data = unserialize($record['data']);
+      $data = _webform_update_8046_convert_data($data);
+      \Drupal::database()->update($table_name)
+        ->fields(['data' => serialize($data)])
+        ->condition('collection', $record['collection'])
+        ->condition('name', $record['name'])
+        ->execute();
+    }
+  }
+}
+
+/**
+ * Convert webform config data from settings.buttons to use the 'webform_actions' element.
+ *
+ * @param array $data
+ *   Webform config data.
+ *
+ * @return array
+ *   Webform config data with 'webfor_actions' element.
+ */
+function _webform_update_8046_convert_data(array $data) {
+  $button_names = [
+    'submit',
+    'draft',
+    'wizard_prev',
+    'wizard_next',
+    'preview_prev',
+    'preview_next',
+  ];
+
+  // Build actions element from webform's settings.
+  $actions_element = [];
+  $settings = $data['settings'];
+  foreach ($button_names as $button_name) {
+    $settings_prefix = ($button_name == 'submit') ? 'form_' . $button_name : $button_name .'_button';
+    if (!empty($settings[$settings_prefix .'_label'])) {
+      $actions_element['#' . $button_name . '__label'] = $settings[$settings_prefix .'_label'];
+    }
+    if (!empty($settings[$settings_prefix .'_attributes'])) {
+      $actions_element['#' . $button_name . '__attributes'] = $settings[$settings_prefix .'_attributes'];
+    }
+    unset($settings[$settings_prefix .'_label']);
+    unset($settings[$settings_prefix .'_attributes']);
+  }
+  $data['settings'] = $settings;
+
+  // Append actions element to elements.
+  if ($actions_element) {
+    $elements = Yaml::decode($data['elements']);
+    $elements['actions'] = [
+        '#type' => 'webform_actions',
+        '#title' => (string) t('Submit button(s)'),
+      ] + $actions_element;
+    $data['elements'] = Yaml::encode($elements);
+  }
+
+  return $data;
+}
+
+/**
+ * Issue #2879217: Allow WebformHandlers and WebformExporters to be excluded.
+ */
+function webform_update_8047() {
+  _webform_update_admin_settings();
+}
+
+/**
+ * Issue #2879421: Cleanup webform.settings
+ */
+function webform_update_8048() {
+  _webform_update_admin_settings();
+
+  $config = \Drupal::configFactory()->getEditable('webform.settings');
+
+  // Change webform.settings.purge_settings to webform.settings.purge.
+  if ($config->get('purge_settings')) {
+    $config->set('purge', $config->get('purge_settings'));
+    $config->clear('purge_settings');
+  }
+
+  // Change webform.settings.elements to webform.settings.element.
+  if ($config->get('elements')) {
+    $config->set('element', $config->get('element'));
+    $config->clear('elements');
+  }
+
+  // Change webform.settings.element.exclude_types to
+  // webform.settings.element..exclude_elements.
+  if (($element = $config->get('element')) && isset($element['excluded_types'])) {
+    $element['excluded_elements'] = $element['excluded_types'];
+    unset($element['excluded_types']);
+    $config->set('element', $element);
+  }
+
+  $config->save();
+}
+
+/**
+ * Issue #2864843: Create a new computed_value element.
+ */
+function webform_update_8049() {
+  $config_factory = \Drupal::configFactory();
+  foreach ($config_factory->listAll('webform.webform.') as $webform_config_name) {
+    $webform_config = $config_factory->getEditable($webform_config_name);
+    $elements = $webform_config->get('elements');
+    if (strpos($elements, '#display_on') !== FALSE) {
+      $elements = str_replace('#display_on: display', '#display_on: view', $elements);
+      $webform_config->set('elements', $elements);
+      $webform_config->save(TRUE);
+    }
+  }
 }

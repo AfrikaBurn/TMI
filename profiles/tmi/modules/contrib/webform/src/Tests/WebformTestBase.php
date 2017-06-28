@@ -9,6 +9,7 @@ use Drupal\Core\Config\FileStorage;
 use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Serialization\Yaml;
 use Drupal\filter\Entity\FilterFormat;
+use Drupal\node\NodeInterface;
 use Drupal\simpletest\WebTestBase;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\taxonomy\Entity\Vocabulary;
@@ -263,7 +264,7 @@ abstract class WebformTestBase extends WebTestBase {
     if (empty($this->nodes)) {
       $this->drupalCreateContentType(['type' => 'page']);
       for ($i = 0; $i < 3; $i++) {
-        $this->nodes[$i] = $this->drupalCreateNode(['type' => 'page', 'title' => 'Node ' . $i, 'status' => NODE_PUBLISHED]);
+        $this->nodes[$i] = $this->drupalCreateNode(['type' => 'page', 'title' => 'Node ' . $i, 'status' => NodeInterface::PUBLISHED]);
         $this->drupalGet('node/' . $this->nodes[$i]->id());
       }
     }
@@ -509,7 +510,7 @@ abstract class WebformTestBase extends WebTestBase {
    *   The created submission's sid.
    */
   protected function postSubmission(WebformInterface $webform, array $edit = [], $submit = NULL) {
-    $submit = $submit ?: $webform->getSetting('form_submit_label') ?: t('Submit');
+    $submit = $this->getWebformSubmitButtonLabel($webform, $submit);
     $this->drupalPostForm('webform/' . $webform->id(), $edit, $submit);
     return $this->getLastSubmissionId($webform);
   }
@@ -528,9 +529,33 @@ abstract class WebformTestBase extends WebTestBase {
    *   The created test submission's sid.
    */
   protected function postSubmissionTest(WebformInterface $webform, array $edit = [], $submit = NULL) {
-    $submit = $submit ?: $webform->getSetting('form_submit_label') ?: t('Submit');
+    $submit = $this->getWebformSubmitButtonLabel($webform, $submit);
     $this->drupalPostForm('webform/' . $webform->id() . '/test', $edit, $submit);
     return $this->getLastSubmissionId($webform);
+  }
+
+  /**
+   * Get a webform's submit button label.
+   *
+   * @param \Drupal\webform\WebformInterface $webform
+   *   A webform.
+   * @param string $submit
+   *   Value of the submit button whose click is to be emulated.
+   *
+   * @return \Drupal\Core\StringTranslation\TranslatableMarkup|string
+   *   The webform's submit button label.
+   */
+  protected function getWebformSubmitButtonLabel(WebformInterface $webform, $submit = NULL) {
+    if ($submit) {
+      return $submit;
+    }
+
+    $actions_element = $webform->getElement('actions');
+    if ($actions_element && isset($actions_element['#submit__label'])) {
+      return $actions_element['#submit__label'];
+    }
+
+    return t('Submit');
   }
 
   /**

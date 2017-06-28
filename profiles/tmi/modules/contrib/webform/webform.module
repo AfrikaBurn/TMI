@@ -113,7 +113,7 @@ function webform_user_login($account) {
  */
 function webform_cron() {
   $config = \Drupal::config('webform.settings');
-  \Drupal::entityTypeManager()->getStorage('webform_submission')->purge($config->get('purge_settings.cron_size'));
+  \Drupal::entityTypeManager()->getStorage('webform_submission')->purge($config->get('purge.cron_size'));
 }
 
 /**
@@ -207,7 +207,7 @@ function webform_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   }
 
   // Don't include details toggle all for submission forms.
-  $form_object  = $form_state->getFormObject();
+  $form_object = $form_state->getFormObject();
   if ($form_object instanceof WebformSubmissionForm) {
     $is_submission_form = TRUE;
     /** @var \Drupal\webform\WebformSubmissionInterface $webform_submission */
@@ -226,7 +226,7 @@ function webform_form_alter(&$form, FormStateInterface $form_state, $form_id) {
     // Since webform's with sourec entities generate unique form IDs,
     // we need to still call hook_form_webform_submission_WEBFORM_ID_form_alter().
     if ($webform_submission->getSourceEntity()) {
-      $form_id = 'webform_submission_' . $webform_submission->getWebform()->id() .'_form';
+      $form_id = 'webform_submission_' . $webform_submission->getWebform()->id() . '_form';
       $hooks = ['form_' . $form_id];
       \Drupal::service('module_handler')->alter($hooks, $form, $form_state, $form_id);
       \Drupal::service('theme.manager')->alter($hooks, $form, $form_state, $form_id);
@@ -280,7 +280,7 @@ function webform_system_breadcrumb_alter(Breadcrumb &$breadcrumb, RouteMatchInte
   }
 
   // Fix 'Help' breadcrumb text.
-  if ($route_match->getRouteName() == 'webform.help') {
+  if ($route_match->getRouteName() == 'webform.help.video') {
     $links = $breadcrumb->getLinks();
     $link = end($links);
     $link->setText(t('Webforms'));
@@ -382,12 +382,18 @@ function webform_page_attachments(array &$attachments) {
   }
 
   // Attach codemirror and select2 library to block admin to ensure that the
-  // library is loaded by the webform block is placed using AJAX.
+  // library is loaded by the webform block is placed using Ajax.
   if (strpos($route_name, 'block.admin_display') === 0) {
     $attachments['#attached']['library'][] = 'webform/webform.block';
   }
 }
 
+/**
+ * Add webform libraries to page attachments.
+ *
+ * @param array $attachments
+ *   An array of page attachments.
+ */
 function _webform_page_attachments(array &$attachments) {
   $active_theme_names = WebformThemeHelper::getActiveThemeNames();
   foreach ($active_theme_names as $active_theme_name) {
@@ -486,7 +492,7 @@ function webform_theme() {
       'variables' => ['info' => []],
     ],
     'webform_help_video_youtube' => [
-      'variables' => ['youtube_id' => NULL],
+      'variables' => ['youtube_id' => NULL, 'autoplay' => TRUE],
     ],
 
     'webform' => [
@@ -527,37 +533,37 @@ function webform_theme() {
     ],
 
     'webform_element_base_html' => [
-      'variables' => ['element' => [], 'value' => NULL, 'options' => []],
+      'variables' => ['element' => [], 'value' => NULL, 'webform_submission' => NULL, 'options' => []],
     ],
     'webform_element_base_text' => [
-      'variables' => ['element' => [], 'value' => NULL, 'options' => []],
+      'variables' => ['element' => [], 'value' => NULL, 'webform_submission' => NULL, 'options' => []],
     ],
 
     'webform_container_base_html' => [
-      'variables' => ['element' => [], 'value' => NULL, 'options' => []],
+      'variables' => ['element' => [], 'value' => NULL, 'webform_submission' => NULL, 'options' => []],
     ],
     'webform_container_base_text' => [
-      'variables' => ['element' => [], 'value' => NULL, 'options' => []],
+      'variables' => ['element' => [], 'value' => NULL, 'webform_submission' => NULL, 'options' => []],
     ],
 
     'webform_element_color_value_swatch' => [
-      'variables' => ['element' => NULL, 'value' => NULL, 'options' => []],
+      'variables' => ['element' => [], 'value' => NULL, 'webform_submission' => NULL, 'options' => []],
     ],
 
     'webform_element_managed_file' => [
-      'variables' => ['element' => NULL, 'value' => NULL, 'options' => [], 'file' => NULL],
+      'variables' => ['element' => [], 'value' => NULL, 'webform_submission' => NULL, 'options' => [], 'file' => NULL],
     ],
     'webform_element_audio_file' => [
-      'variables' => ['element' => NULL, 'value' => NULL, 'options' => [], 'file' => NULL],
+      'variables' => ['element' => [], 'value' => NULL, 'webform_submission' => NULL, 'options' => [], 'file' => NULL],
     ],
     'webform_element_document_file' => [
-      'variables' => ['element' => NULL, 'value' => NULL, 'options' => [], 'file' => NULL],
+      'variables' => ['element' => [], 'value' => NULL, 'webform_submission' => NULL, 'options' => [], 'file' => NULL],
     ],
     'webform_element_image_file' => [
-      'variables' => ['element' => NULL, 'value' => NULL, 'options' => [], 'file' => NULL],
+      'variables' => ['element' => [], 'value' => NULL, 'webform_submission' => NULL, 'options' => [], 'file' => NULL],
     ],
     'webform_element_video_file' => [
-      'variables' => ['element' => NULL, 'value' => NULL, 'options' => [], 'file' => NULL],
+      'variables' => ['element' => [], 'value' => NULL, 'webform_submission' => NULL, 'options' => [], 'file' => NULL],
     ],
 
     'webform_message' => [

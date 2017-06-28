@@ -1,0 +1,16 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.collective
+  enforced:
+    config:
+      - user.role.theme_camp_admin
+id: collective-20d31ff1b
+label: 'Theme Camp Admin'
+weight: 3
+internal: true
+audience: outsider
+group_type: collective
+permissions_ui: false
+permissions: {  }

@@ -50,6 +50,7 @@ class WebformEntityListBuilder extends ConfigEntityListBuilder {
    */
   public function __construct(EntityTypeInterface $entity_type, EntityStorageInterface $storage) {
     parent::__construct($entity_type, $storage);
+
     $this->keys = \Drupal::request()->query->get('search');
     $this->category = \Drupal::request()->query->get('category');
     $this->state = \Drupal::request()->query->get('state');
@@ -101,12 +102,8 @@ class WebformEntityListBuilder extends ConfigEntityListBuilder {
 
     // Display info.
     if ($total = $this->getTotal($this->keys, $this->category, $this->state)) {
-      $t_args = [
-        '@total' => $total,
-        '@results' => $this->formatPlural($total, $this->t('webform'), $this->t('webforms')),
-      ];
       $build['info'] = [
-        '#markup' => $this->t('@total @results', $t_args),
+        '#markup' => $this->formatPlural($total, '@total webform', '@total webforms', ['@total' => $total]),
         '#prefix' => '<div>',
         '#suffix' => '</div>',
       ];
@@ -149,10 +146,11 @@ class WebformEntityListBuilder extends ConfigEntityListBuilder {
     ];
     $header['results_operations'] = [
       'data' => $this->t('Operations'),
-      'class' => [RESPONSIVE_PRIORITY_MEDIUM],
+      'class' => [RESPONSIVE_PRIORITY_MEDIUM, 'webform-entity-list-builder-results-operations'],
     ];
     $header['operations'] = [
       'data' => '',
+      'class' => ['webform-entity-list-builder-operations'],
     ];
     return $header;
   }

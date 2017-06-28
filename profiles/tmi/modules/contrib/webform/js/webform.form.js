@@ -1,6 +1,6 @@
 /**
  * @file
- * Javascript behaviors for webforms.
+ * JavaScript behaviors for webforms.
  */
 
 (function ($, Drupal) {
@@ -55,6 +55,36 @@
       $(context).find('input:submit.js-webform-novalidate').once('webform-novalidate').on('click', function () {
         $(this.form).attr('novalidate', 'novalidate');
       });
+    }
+  };
+
+  /**
+   * Custom required error message.
+   *
+   * @type {Drupal~behavior}
+   *
+   * @prop {Drupal~behaviorAttach} attach
+   *   Attaches the behavior for the webform custom required error message.
+   *
+   * @see http://stackoverflow.com/questions/5272433/html5-form-required-attribute-set-custom-validation-message
+   */
+  Drupal.behaviors.webformRequiredError = {
+    attach: function (context) {
+      $(context).find(':input[data-webform-required-error]').once('webform-required-error')
+        .on('invalid', function() {
+          this.setCustomValidity('');
+          if (!this.valid) {
+            this.setCustomValidity($(this).attr('data-webform-required-error'));
+          }
+        })
+        .on('input, change', function() {
+          // Find all related elements by name and reset custom validity.
+          // This specifically applies to required radios and checkboxes.
+          var name = $(this).attr('name');
+          $(this.form).find(':input[name="' + name + '"]').each(
+            function() {this.setCustomValidity('');
+          });
+        });
     }
   };
 

@@ -175,6 +175,14 @@ interface WebformElementInterface extends PluginInspectionInterface, PluginFormI
   public function isHidden();
 
   /**
+   * Checks if the element is excluded via webform.settings.
+   *
+   * @return bool
+   *   TRUE if the element is excluded.
+   */
+  public function isExcluded();
+
+  /**
    * Checks if the element is enabled.
    *
    * @return bool
@@ -351,60 +359,60 @@ interface WebformElementInterface extends PluginInspectionInterface, PluginFormI
    *
    * @param array $element
    *   An element.
-   * @param array|mixed $value
-   *   A value.
+   * @param \Drupal\webform\WebformSubmissionInterface $webform_submission
+   *   A webform submission.
    * @param array $options
    *   An array of options.
    *
    * @return array
    *   A render array representing an element as HTML.
    */
-  public function buildHtml(array $element, $value, array $options = []);
+  public function buildHtml(array $element, WebformSubmissionInterface $webform_submission, array $options = []);
 
   /**
    * Build an element as text element.
    *
    * @param array $element
    *   An element.
-   * @param array|mixed $value
-   *   A value.
+   * @param \Drupal\webform\WebformSubmissionInterface $webform_submission
+   *   A webform submission.
    * @param array $options
    *   An array of options.
    *
    * @return array
    *   A render array representing an element as text.
    */
-  public function buildText(array $element, $value, array $options = []);
+  public function buildText(array $element, WebformSubmissionInterface $webform_submission, array $options = []);
 
   /**
    * Format an element's value as HTML.
    *
    * @param array $element
    *   An element.
-   * @param array|mixed $value
-   *   A value.
+   * @param \Drupal\webform\WebformSubmissionInterface $webform_submission
+   *   A webform submission.
    * @param array $options
    *   An array of options.
    *
    * @return array|string
    *   The element's value formatted as an HTML string or a render array.
    */
-  public function formatHtml(array $element, $value, array $options = []);
+  public function formatHtml(array $element, WebformSubmissionInterface $webform_submission, array $options = []);
 
   /**
    * Format an element's value as plain text.
    *
    * @param array $element
    *   An element.
-   * @param array|mixed $value
-   *   A value.
+   * @param \Drupal\webform\WebformSubmissionInterface $webform_submission
+   *   A webform submission.
    * @param array $options
    *   An array of options.
    *
    * @return array|string
    *   The element's value formatted as plain text or a render array.
    */
-  public function formatText(array $element, $value, array $options = []);
+  public function formatText(array $element, WebformSubmissionInterface $webform_submission, array $options = []);
 
   /**
    * Get an element's available single value formats.
@@ -499,15 +507,15 @@ interface WebformElementInterface extends PluginInspectionInterface, PluginFormI
    *
    * @param array $element
    *   An element.
-   * @param array|mixed $value
-   *   A value.
+   * @param \Drupal\webform\WebformSubmissionInterface $webform_submission
+   *   A webform submission.
    * @param array $options
    *   An array of options returned from ::getTableColumns().
    *
    * @return array|string
    *   The element's value formatted as an HTML string or a render array.
    */
-  public function formatTableColumn(array $element, $value, array $options = []);
+  public function formatTableColumn(array $element, WebformSubmissionInterface $webform_submission, array $options = []);
 
   /****************************************************************************/
   // Export methods.
@@ -569,8 +577,8 @@ interface WebformElementInterface extends PluginInspectionInterface, PluginFormI
    *
    * @param array $element
    *   An element.
-   * @param string $value
-   *   Value to be exported.
+   * @param \Drupal\webform\WebformSubmissionInterface $webform_submission
+   *   A webform submission.
    * @param array $export_options
    *   An associative array of export options.
    *
@@ -579,7 +587,7 @@ interface WebformElementInterface extends PluginInspectionInterface, PluginFormI
    *
    * @see \Drupal\webform\WebformSubmissionExporterInterface::getDefaultExportOptions
    */
-  public function buildExportRecord(array $element, $value, array $export_options);
+  public function buildExportRecord(array $element, WebformSubmissionInterface $webform_submission, array $export_options);
 
   /****************************************************************************/
   // #states API methods.

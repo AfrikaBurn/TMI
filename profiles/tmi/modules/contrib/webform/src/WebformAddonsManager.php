@@ -93,6 +93,9 @@ class WebformAddonsManager implements WebformAddonsManagerInterface {
     $categories['utility'] = [
       'title' => $this->t('Utility'),
     ];
+    $categories['development'] = [
+      'title' => $this->t('Development'),
+    ];
     return $categories;
   }
 
@@ -127,6 +130,15 @@ class WebformAddonsManager implements WebformAddonsManagerInterface {
       'description' => $this->t('Adds Crafty Clicks UK postcode lookup to the Webform Address composite element.'),
       'url' => Url::fromUri('https://www.drupal.org/project/webform_craftyclicks'),
       'category' => 'element',
+    ];
+
+    // Spam: Antibot.
+    $projects['antibot'] = [
+      'title' => $this->t('Antibot'),
+      'description' => $this->t('Prevent forms from being submitted without JavaScript enabled.'),
+      'url' => Url::fromUri('https://www.drupal.org/project/antibot'),
+      'category' => 'spam',
+      'third_party_settings' => TRUE,
     ];
 
     // Spam: CAPTCHA.
@@ -199,6 +211,22 @@ class WebformAddonsManager implements WebformAddonsManagerInterface {
       'title' => $this->t('Webform Slack integration'),
       'description' => $this->t('Provides a Webform handler for posting a message to a slack channel when a submission is saved.'),
       'url' => Url::fromUri('https://www.drupal.org/sandbox/smaz/2833275'),
+      'category' => 'integration',
+    ];
+
+    // Integrations: OpenInbound for Drupal.
+    $projects['openinbound'] = [
+      'title' => $this->t('OpenInbound for Drupal'),
+      'description' => $this->t('OpenInbound tracks contacts and their interactions on websites.'),
+      'url' => Url::fromUri('https://www.drupal.org/project/openinbound'),
+      'category' => 'integration',
+    ];
+
+    // Integrations: Salesforce Web-to-Lead Webform Data Integration.
+    $projects['sfweb2lead_webform'] = [
+      'title' => $this->t('Salesforce Web-to-Lead Webform Data Integration'),
+      'description' => $this->t('Integrates Salesforce Web-to-Lead Form feature with various webforms.'),
+      'url' => Url::fromUri('https://www.drupal.org/project/sfweb2lead_webform'),
       'category' => 'integration',
     ];
 
@@ -276,7 +304,7 @@ class WebformAddonsManager implements WebformAddonsManagerInterface {
       'category' => 'config',
     ];
 
-    // Configuration Ignore.
+    // Config: Configuration Ignore.
     $projects['config_ignore'] = [
       'title' => $this->t('Config Ignore'),
       'description' => $this->t('Ignore certain configuration during import'),
@@ -284,12 +312,20 @@ class WebformAddonsManager implements WebformAddonsManagerInterface {
       'category' => 'config',
     ];
 
-    // Configuration Split.
+    // Config: Configuration Split.
     $projects['config_split'] = [
       'title' => $this->t('Configuration Split'),
       'description' => $this->t('Provides configuration filter for importing and exporting split config.'),
       'url' => Url::fromUri('https://www.drupal.org/project/config_split'),
       'category' => 'config',
+    ];
+
+    // Devel: Maillog / Mail Developer
+    $projects['maillog'] = [
+      'title' => $this->t('Maillog / Mail Developer'),
+      'description' => $this->t('Utility to log all Mails for debugging purposes. It is possible to suppress mail delivery for e.g. dev or staging systems.'),
+      'url' => Url::fromUri('https://www.drupal.org/project/maillog'),
+      'category' => 'development',
     ];
 
     return $projects;

@@ -9,6 +9,7 @@ webform.admin:
     js/webform.admin.js:  {}
   dependencies:
     - webform/webform.form
+    - webform/webform.admin.dropbutton
 
 # Used preload libraries required by (modal) dialogs.
 # @see js/webform.element.codemirror.js
@@ -25,11 +26,22 @@ webform.admin.dialog:
     - core/drupal.dialog.ajax
     - webform/webform.ajax
     - webform/webform.form
+    - webform/webform.admin.dropbutton
     - webform/webform.element.codemirror.yaml
     - webform/webform.element.html_editor
     - webform/webform.element.other
     - webform/webform.element.message
     - webform/webform.element.select2
+
+webform.admin.dropbutton:
+  version: VERSION
+  css:
+    theme:
+      css/webform.admin.dropbutton.css: {}
+  js:
+    js/webform.admin.dropbutton.js:  {}
+  dependencies:
+    - core/drupal.dropbutton
 
 webform.admin.translation:
   version: VERSION
@@ -250,6 +262,16 @@ webform.element.codemirror.javascript:
   dependencies:
     - webform/libraries.codemirror.javascript
 
+webform.element.codemirror.php:
+  version: VERSION
+  css:
+    theme:
+      css/webform.element.codemirror.css: {}
+  js:
+    js/webform.element.codemirror.js: {}
+  dependencies:
+    - webform/libraries.codemirror.php
+
 webform.element.color:
   version: VERSION
   css:
@@ -335,8 +357,7 @@ webform.element.html_editor:
     - core/drupalSettings
     - core/jquery
     - core/jquery.once
-    - webform/libraries.ckeditor
-    - webform/libraries.ckeditor_autogrow
+    - core/ckeditor
 
 webform.element.icheck:
   version: VERSION
@@ -517,6 +538,9 @@ webform.element.term_checkboxes:
 
 webform.element.text_format:
   version: VERSION
+  css:
+    component:
+      css/webform.element.text_format.css: {}
   js:
     js/webform.element.text_format.js: {}
 
@@ -569,40 +593,16 @@ imce.input:
 
 # External libraries.
 
-libraries.ckeditor:
-  remote: http://ckeditor.com/
-  version: '4.6.2'
-  license:
-    name: GNU-GPL-2.0-or-later
-    url: https://github.com/ckeditor/ckeditor-dev/blob/4.6.2/LICENSE.md
-    gpl-compatible: true
-  cdn:
-    /libraries/ckeditor/: 'https://cdn.ckeditor.com/4.6.2/standard/'
-  js:
-    /libraries/ckeditor/ckeditor.js: { preprocess: false, minified: true }
-
-libraries.ckeditor_autogrow:
-  remote: http://ckeditor.com/addon/autogrow
-  version: '4.6.2'
-  license:
-    name: GNU-GPL-2.0-or-later
-    url: https://github.com/ckeditor/ckeditor-dev/blob/4.6.2/LICENSE.md
-    gpl-compatible: true
-  cdn:
-    /libraries/ckeditor_autogrow/: 'https://cdn.rawgit.com/ckeditor/ckeditor-dev/4.6.2/plugins/autogrow/'
-  js:
-    /libraries/ckeditor_autogrow/plugin.js: { preprocess: false, minified: true }
-
 libraries.codemirror.text:
   remote: https://github.com/codemirror/codemirror
-  version: &webform_codemirror_version '5.24.0'
+  version: &webform_codemirror_version '5.25.2'
   license: &webform_codemirror_license
     name: MIT
     url: http://codemirror.net/LICENSE
     gpl-compatible: true
   cdn: &webform_codemirror_cdn
-    /libraries/codemirror/lib/: https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.24.0/
-    /libraries/codemirror/: https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.24.0/
+    /libraries/codemirror/lib/: https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.2/
+    /libraries/codemirror/: https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.2/
   css:
     theme:
       /libraries/codemirror/lib/codemirror.css: {}
@@ -644,6 +644,17 @@ libraries.codemirror.javascript:
   cdn: *webform_codemirror_cdn
   js:
     /libraries/codemirror/mode/javascript/javascript.js: {}
+  dependencies:
+    - webform/libraries.codemirror.text
+
+libraries.codemirror.php:
+  version: *webform_codemirror_version
+  license: *webform_codemirror_license
+  cdn: *webform_codemirror_cdn
+  js:
+    /libraries/codemirror/mode/php/php.js: {}
+    /libraries/codemirror/mode/clike/clike.js: {}
+
   dependencies:
     - webform/libraries.codemirror.text
 
@@ -738,13 +749,13 @@ libraries.jquery.image-picker:
 
 libraries.jquery.inputmask:
   remote: https://github.com/RobinHerbots/jquery.inputmask
-  version: '3.3.3'
+  version: '3.3.4 '
   license:
     name: MIT
     url: http://opensource.org/licenses/mit-license.php
     gpl-compatible: true
   cdn:
-    /libraries/jquery.inputmask/dist/min/: https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.3/
+    /libraries/jquery.inputmask/dist/min/: https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/
   js:
     /libraries/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js: {}
   dependencies:
@@ -752,14 +763,13 @@ libraries.jquery.inputmask:
 
 libraries.jquery.intl-tel-input:
   remote: https://github.com/jackocnr/intl-tel-input
-  version: 'v11.0.0'
+  version: 'v11.0.12'
   license:
     name: MIT
     url: https://github.com/jackocnr/intl-tel-input/blob/master/LICENSE
     gpl-compatible: true
   cdn:
-    /libraries/jquery.intl-tel-input/src/: https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/11.0.0/
-    /libraries/jquery.intl-tel-input/src/: https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/11.0.0/
+    /libraries/jquery.intl-tel-input/build/: https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/11.0.12/
   css:
     theme:
       /libraries/jquery.intl-tel-input/build/css/intlTelInput.css: {}

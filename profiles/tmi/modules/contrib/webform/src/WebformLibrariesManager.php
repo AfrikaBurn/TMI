@@ -2,7 +2,10 @@
 
 namespace Drupal\webform;
 
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Render\RendererInterface;
+use Drupal\Core\Serialization\Yaml;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
 use Drupal\webform\Utility\WebformArrayHelper;
@@ -20,6 +23,20 @@ class WebformLibrariesManager implements WebformLibrariesManagerInterface {
    * @var \Drupal\Core\Config\ConfigFactoryInterface
    */
   protected $configFactory;
+
+  /**
+   * The module handler.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  protected $moduleHandler;
+
+  /**
+   * The renderer.
+   *
+   * @var \Drupal\Core\Render\RendererInterface
+   */
+  protected $renderer;
 
   /**
    * Libraries that provides additional functionality to the Webform module.
@@ -40,9 +57,16 @@ class WebformLibrariesManager implements WebformLibrariesManagerInterface {
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The configuration object factory.
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   *   The module handler.
+   * @param \Drupal\Core\Render\RendererInterface $renderer
+   *   The renderer.
    */
-  public function __construct(ConfigFactoryInterface $config_factory) {
+  public function __construct(ConfigFactoryInterface $config_factory, ModuleHandlerInterface $module_handler, RendererInterface $renderer) {
     $this->configFactory = $config_factory;
+    $this->moduleHandler = $module_handler;
+    $this->renderer = $renderer;
+
     $this->libraries = $this->initLibraries();
     $this->excludedLibraries = $this->initExcludedLibraries();
   }
@@ -65,8 +89,8 @@ class WebformLibrariesManager implements WebformLibrariesManagerInterface {
         '@path' => $library_path,
         ':download_href' => $library['download_url']->toString(),
         ':homepage_href' => $library['homepage_url']->toString(),
-        ':install_href' => 'http://cgit.drupalcode.org/webform/tree/INSTALL.md?h=8.x-5.x',
         ':external_href' => 'https://www.drupal.org/docs/8/theming-drupal-8/adding-stylesheets-css-and-javascript-js-to-a-drupal-8-theme#external',
+        ':install_href' => ($this->moduleHandler->moduleExists('help')) ? Url::fromRoute('help.page', ['name' => 'webform'], ['fragment' => 'libraries'])->toString() : 'https://www.drupal.org/docs/8/modules/webform/webform-libraries',
         ':settings_libraries_href' => Url::fromRoute('webform.settings', [], ['fragment' => 'edit-libraries'])->toString(),
         ':settings_elements_href' => Url::fromRoute('webform.settings', [], ['fragment' => 'edit-elements'])->toString(),
       ];
@@ -99,7 +123,7 @@ class WebformLibrariesManager implements WebformLibrariesManagerInterface {
         if (!$cli) {
           $build['cdn'] = ['#prefix' => ' ', '#markup' => $this->t('(<a href=":settings_libraries_href">Disable CDN warning</a>)', $t_args)];
         }
-        $description = \Drupal::service('renderer')->renderPlain($build);
+        $description = $this->renderer->renderPlain($build);
         $severity = REQUIREMENT_WARNING;
       }
 
@@ -185,22 +209,44 @@ class WebformLibrariesManager implements WebformLibrariesManagerInterface {
    *   An associative array containing libraries.
    */
   protected function initLibraries() {
+    // Get Drupal core's CKEditor version number.
+    $core_libraries = Yaml::decode(file_get_contents('core/core.libraries.yml'));
+    $ckeditor_version = $core_libraries['ckeditor']['version'];
+
     $libraries = [];
-    $libraries['ckeditor'] = [
-      'title' => $this->t('CKEditor'),
-      'description' => $this->t('The standard version of the CKEditor.'),
-      'notes' => $this->t("Allows the Webform module to implement a basic and simpler CKEditor which included CKEditor's default image and link dialogs."),
-      'homepage_url' => Url::fromUri('http://ckeditor.com/'),
-      'download_url' => Url::fromUri('https://download.cksource.com/CKEditor/CKEditor/CKEditor%204.6.2/ckeditor_4.6.2_standard.zip'),
-      'version' => '4.6.2',
-      'optional' => TRUE,
-    ];
-    $libraries['ckeditor_autogrow'] = [
+    $libraries['ckeditor.autogrow'] = [
       'title' => $this->t('CKEditor: Autogrow'),
       'description' => $this->t('Allows CKEditor to expand and shrink depending on the amount and size of content.'),
-      'notes' => $this->t('Autogrown make it possible to reduce the size of empty HTML editor while still supporting HTML markup.'),
+      'notes' => $this->t('Autogrow makes it possible to reduce the size of empty HTML editor while still supporting HTML markup.'),
       'homepage_url' => Url::fromUri('http://ckeditor.com/addon/autogrow'),
-      'download_url' => Url::fromUri('https://cdn.rawgit.com/ckeditor/ckeditor-dev/4.6.2/plugins/autogrow/plugin.js'),
+      'download_url' => Url::fromUri("http://download.ckeditor.com/autogrow/releases/autogrow_$ckeditor_version.zip"),
+      'version' => $ckeditor_version,
+      'optional' => TRUE,
+    ];
+    $libraries['ckeditor.fakeobjects'] = [
+      'title' => $this->t('CKEditor: Fakeobjects'),
+      'description' => $this->t('Utility required by CKEditor link plugin.'),
+      'notes' => $this->t('Allows CKEditor to use basic image and link dialog'),
+      'homepage_url' => Url::fromUri('http://ckeditor.com/addon/fakeobjects'),
+      'download_url' => Url::fromUri("http://download.ckeditor.com/fakeobjects/releases/fakeobjects_$ckeditor_version.zip"),
+      'version' => $ckeditor_version,
+      'optional' => TRUE,
+    ];
+    $libraries['ckeditor.image'] = [
+      'title' => $this->t('CKEditor: Image'),
+      'description' => $this->t('Provides a basic image dialog for CKEditor.'),
+      'notes' => $this->t('Allows CKEditor to use basic image dialog, which is not included in Drupal core.'),
+      'homepage_url' => Url::fromUri('http://ckeditor.com/addon/image'),
+      'download_url' => Url::fromUri("http://download.ckeditor.com/image/releases/image_$ckeditor_version.zip"),
+      'version' => $ckeditor_version,
+      'optional' => TRUE,
+    ];
+    $libraries['ckeditor.link'] = [
+      'title' => $this->t('CKEditor: Link'),
+      'description' => $this->t('Provides a basic link dialog for CKEditor.'),
+      'notes' => $this->t('Allows CKEditor to use basic link dialog, which is not included in Drupal core.'),
+      'homepage_url' => Url::fromUri('http://ckeditor.com/addon/link'),
+      'download_url' => Url::fromUri('http://download.ckeditor.com/link/releases/link_4.6.2.zip'),
       'version' => '4.6.2',
       'optional' => TRUE,
     ];
@@ -209,8 +255,8 @@ class WebformLibrariesManager implements WebformLibrariesManagerInterface {
       'description' => $this->t('Code Mirror is a versatile text editor implemented in JavaScript for the browser.'),
       'notes' => $this->t('Code Mirror is used to provide a text editor for YAML, HTML, CSS, and JavaScript configuration settings and messages.'),
       'homepage_url' => Url::fromUri('http://codemirror.net/'),
-      'download_url' => Url::fromUri('https://github.com/components/codemirror/archive/5.21.0.zip'),
-      'version' => '5.24.0',
+      'download_url' => Url::fromUri('https://github.com/components/codemirror/archive/5.25.2.zip'),
+      'version' => '5.25.2',
       'optional' => TRUE,
     ];
     $libraries['jquery.geocomplete'] = [
@@ -244,9 +290,9 @@ class WebformLibrariesManager implements WebformLibrariesManagerInterface {
       'title' => $this->t('jQuery: Input Mask'),
       'description' => $this->t('Input masks ensures a predefined format is entered. This can be useful for dates, numerics, phone numbers, etc...'),
       'notes' => $this->t('Input masks are used to ensure predefined and custom formats for text fields.'),
-      'homepage_url' => Url::fromUri('http://robinherbots.github.io/jquery.inputmask/'),
-      'download_url' => Url::fromUri('https://github.com/RobinHerbots/jquery.inputmask/archive/3.3.3.zip'),
-      'version' => '3.3.3',
+      'homepage_url' => Url::fromUri('https://robinherbots.github.io/Inputmask/'),
+      'download_url' => Url::fromUri('https://github.com/RobinHerbots/jquery.inputmask/archive/3.3.4.zip'),
+      'version' => '3.3.4',
       'optional' => TRUE,
     ];
     $libraries['jquery.intl-tel-input'] = [
@@ -254,8 +300,8 @@ class WebformLibrariesManager implements WebformLibrariesManagerInterface {
       'description' => $this->t("A jQuery plugin for entering and validating international telephone numbers. It adds a flag dropdown to any input, detects the user's country, displays a relevant placeholder and provides formatting/validation methods."),
       'notes' => $this->t('International Telephone Input is used by the Telephone element.'),
       'homepage_url' => Url::fromUri('https://github.com/jackocnr/intl-tel-input'),
-      'download_url' => Url::fromUri('https://github.com/jackocnr/intl-tel-input/archive/v11.0.0.zip'),
-      'version' => 'v11.0.0',
+      'download_url' => Url::fromUri('https://github.com/jackocnr/intl-tel-input/archive/v11.0.12.zip'),
+      'version' => '11.0.12',
       'optional' => TRUE,
     ];
     $libraries['jquery.rateit'] = [
@@ -282,7 +328,7 @@ class WebformLibrariesManager implements WebformLibrariesManagerInterface {
       'notes' => $this->t('Chosen is used to improve the user experience for select menus. Chosen is an alternative to Select2.'),
       'homepage_url' => Url::fromUri('https://harvesthq.github.io/chosen/'),
       'download_url' => Url::fromUri('https://github.com/harvesthq/chosen/releases/download/v1.7.0/chosen_v1.7.0.zip'),
-      'version' => 'v1.7.0',
+      'version' => '1.7.0',
       'optional' => TRUE,
     ];
     $libraries['jquery.timepicker'] = [
@@ -300,7 +346,7 @@ class WebformLibrariesManager implements WebformLibrariesManagerInterface {
       'notes' => $this->t('Toggles is used to provide a toggle element.'),
       'homepage_url' => Url::fromUri('https://github.com/simontabor/jquery-toggles/'),
       'download_url' => Url::fromUri('https://github.com/simontabor/jquery-toggles/archive/v4.0.0.zip'),
-      'version' => 'v4.0.0',
+      'version' => '4.0.0',
       'elements' => ['webform_toggle', 'webform_toggles'],
     ];
     $libraries['jquery.word-and-character-counter'] = [
@@ -309,7 +355,7 @@ class WebformLibrariesManager implements WebformLibrariesManagerInterface {
       'notes' => $this->t('Word or character counting, with server-side validation, is available for text fields and text areas.'),
       'homepage_url' => Url::fromUri('https://github.com/qwertypants/jQuery-Word-and-Character-Counter-Plugin'),
       'download_url' => Url::fromUri('https://github.com/qwertypants/jQuery-Word-and-Character-Counter-Plugin/archive/2.3.5.zip'),
-      'version' => '1.6.0',
+      'version' => '2.3.5',
       'optional' => TRUE,
     ];
     $libraries['signature_pad'] = [
@@ -359,10 +405,10 @@ class WebformLibrariesManager implements WebformLibrariesManagerInterface {
    *   TRUE if a library's elements are excluded.
    */
   protected function areElementsExcluded(array $elements) {
-    $excluded_types = $this->configFactory->get('webform.settings')->get('elements.excluded_types');
-    if (!$excluded_types) {
+    $excluded_elements = $this->configFactory->get('webform.settings')->get('element.excluded_elements');
+    if (!$excluded_elements) {
       return FALSE;
     }
-    return WebformArrayHelper::keysExist($excluded_types, $elements);
+    return WebformArrayHelper::keysExist($excluded_elements, $elements);
   }
 }

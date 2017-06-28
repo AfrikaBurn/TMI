@@ -159,13 +159,17 @@ abstract class OptionsBase extends WebformElementBase {
   /**
    * {@inheritdoc}
    */
-  protected function formatTextItem(array $element, $value, array $options = []) {
+  protected function getValue(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
+    $value = parent::getValue($element, $webform_submission, $options);
+
     $format = $this->getItemFormat($element);
     if ($format == 'value' && isset($element['#options'])) {
       $flattened_options = OptGroup::flattenOptions($element['#options']);
-      $value = WebformOptionsHelper::getOptionText($value, $flattened_options);
+      return WebformOptionsHelper::getOptionText($value, $flattened_options);
     }
-    return parent::formatTextItem($element, $value, $options);
+    else {
+      return $value;
+    }
   }
 
   /**
@@ -252,9 +256,10 @@ abstract class OptionsBase extends WebformElementBase {
   /**
    * {@inheritdoc}
    */
-  public function buildExportRecord(array $element, $value, array $export_options) {
-    $element_options = $element['#options'];
+  public function buildExportRecord(array $element, WebformSubmissionInterface $webform_submission, array $export_options) {
+    $value = $this->getValue($element, $webform_submission);
 
+    $element_options = $element['#options'];
     if ($export_options['options_format'] == 'separate') {
       $record = [];
       // Combine the values so that isset can be used instead of in_array().
@@ -279,7 +284,7 @@ abstract class OptionsBase extends WebformElementBase {
       if ($export_options['options_item_format'] == 'key') {
         $element['#format'] = 'raw';
       }
-      return parent::buildExportRecord($element, $value, $export_options);
+      return parent::buildExportRecord($element, $webform_submission, $export_options);
     }
   }
 
@@ -288,7 +293,7 @@ abstract class OptionsBase extends WebformElementBase {
    */
   public static function validateMultipleOptions(array &$element, FormStateInterface $form_state, array &$completed_form) {
     $name = $element['#name'];
-    $values = $form_state->getValue($name);
+    $values = $form_state->getValue($name) ?: [];
     // Filter unchecked/unselected options whose value is 0.
     $values = array_filter($values, function ($value) {
       return $value !== 0;

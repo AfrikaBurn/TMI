@@ -1,0 +1,7 @@
+langcode: en
+status: true
+dependencies: {  }
+id: mutant_vehicle_admin
+label: 'Mutant Vehicle Admin'
+weight: -5
+is_admin: null

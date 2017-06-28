@@ -7,12 +7,14 @@ use Drupal\Core\Cache\Cache;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityManagerInterface;
 use Drupal\Core\Entity\ContentEntityForm;
+use Drupal\Core\Form\FormState;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Routing\TrustedRedirectResponse;
 use Drupal\Core\Url;
 use Drupal\webform\Controller\WebformController;
+use Drupal\webform\Entity\WebformSubmission;
 use Drupal\webform\Plugin\Field\FieldType\WebformEntityReferenceItem;
 use Drupal\webform\Utility\WebformArrayHelper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -25,11 +27,25 @@ class WebformSubmissionForm extends ContentEntityForm {
   use WebformDialogTrait;
 
   /**
-   * Flag when set to TRUE displays all wizard pages in one single form.
+   * Denote wizard page should be disabled.
    *
-   * @var bool
+   * @var string
    */
-  protected $disablePages = FALSE;
+  const DISABLE_PAGES = 'disable_pages';
+
+  /**
+   * Denote form is being submitted via API, which trigger validation.
+   *
+   * @var string
+   */
+  const API_SUBMISSION = 'api_submission';
+
+  /**
+   * Determines how a webform should displayed and or processed.
+   *
+   * @var string
+   */
+  protected $mode = NULL;
 
   /**
    * The renderer service.
@@ -206,8 +222,8 @@ class WebformSubmissionForm extends ContentEntityForm {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state, $disable_pages = FALSE) {
-    $this->disablePages = $disable_pages;
+  public function buildForm(array $form, FormStateInterface $form_state, $mode = NULL) {
+    $this->mode = $mode;
 
     /* @var $webform_submission \Drupal\webform\WebformSubmissionInterface */
     $webform_submission = $this->getEntity();
@@ -227,7 +243,7 @@ class WebformSubmissionForm extends ContentEntityForm {
     }
 
     // Add the webform as a cacheable dependency.
-    \Drupal::service('renderer')->addCacheableDependency($form, $webform);
+    $this->renderer->addCacheableDependency($form, $webform);
 
     // Display status messages.
     $this->displayMessages($form, $form_state);
@@ -305,6 +321,7 @@ class WebformSubmissionForm extends ContentEntityForm {
         '#theme' => 'webform_progress',
         '#webform' => $this->getWebform(),
         '#current_page' => $current_page,
+        '#weight' => -20,
       ];
     }
 
@@ -617,7 +634,6 @@ class WebformSubmissionForm extends ContentEntityForm {
   protected function actions(array $form, FormStateInterface $form_state) {
     /* @var $webform_submission \Drupal\webform\WebformSubmissionInterface */
     $webform_submission = $this->entity;
-    $webform = $this->getWebform();
 
     $element = parent::actions($form, $form_state);
 
@@ -629,13 +645,12 @@ class WebformSubmissionForm extends ContentEntityForm {
 
     // Mark the submit action as the primary action, when it appears.
     $element['submit']['#button_type'] = 'primary';
-    $element['submit']['#attributes'] = $this->getWebformSetting('form_submit_attributes');
     $element['submit']['#attributes']['class'][] = 'webform-button--submit';
     $element['submit']['#weight'] = 10;
 
     // Customize the submit button's label for new submissions only.
     if ($webform_submission->isNew() || $webform_submission->isDraft()) {
-      $element['submit']['#value'] = $this->getWebformSetting('form_submit_label');
+      $element['submit']['#value'] = $this->config('webform.settings')->get('settings.default_submit_button_label');
     }
 
     // Add validate and complete handler to submit.
@@ -666,57 +681,77 @@ class WebformSubmissionForm extends ContentEntityForm {
 
       if (!$is_first_page) {
         if ($is_preview_page) {
-          $previous_attributes = $this->getWebformSetting('preview_prev_button_attributes');
-          $previous_label = $this->getWebformSetting('preview_prev_button_label');
+          $element['preview_prev'] = [
+            '#type' => 'submit',
+            '#value' => $this->config('webform.settings')->get('settings.default_preview_prev_button_label'),
+            '#validate' => ['::noValidate'],
+            '#submit' => ['::previous'],
+            '#attributes' => ['class' => ['webform-button--previous', 'js-webform-novalidate']],
+            '#weight' => 0,
+          ];
         }
         else {
-          $previous_attributes = $this->getWebformSetting('wizard_prev_button_attributes');
-          $previous_label = (isset($current_page_element['#prev_button_label'])) ? $current_page_element['#prev_button_label'] : $this->getWebformSetting('wizard_prev_button_label');
+          if (isset($current_page_element['#prev_button_label'])) {
+            $previous_button_label = $current_page_element['#prev_button_label'];
+            $previous_button_custom = TRUE;
+          }
+          else {
+            $previous_button_label = $this->config('webform.settings')->get('settings.default_wizard_prev_button_label');
+            $previous_button_custom = FALSE;
+          }
+          $element['wizard_prev'] = [
+            '#type' => 'submit',
+            '#value' => $previous_button_label,
+            '#webform_actions_button_custom' => $previous_button_custom,
+            '#validate' => ['::validateForm'],
+            '#submit' => ['::previous'],
+            '#attributes' => ['class' => ['webform-button--previous', 'js-webform-novalidate']],
+            '#weight' => 0,
+          ];
         }
-        $previous_attributes['class'][] = 'js-webform-novalidate';
-        $previous_attributes['class'][] = 'webform-button--previous';
-        $element['previous'] = [
-          '#type' => 'submit',
-          '#value' => $previous_label,
-          '#validate' => ['::noValidate'],
-          '#submit' => ['::previous'],
-          '#attributes' => $previous_attributes,
-          '#weight' => 0,
-        ];
       }
 
       if (!$is_last_page && !$is_next_page_complete) {
         if ($is_next_page_preview) {
-          $next_attributes = $this->getWebformSetting('preview_next_button_attributes');
-          $next_label = $this->getWebformSetting('preview_next_button_label');
-          $next_attributes['class'][] = 'webform-button--preview';
+          $element['preview_next'] = [
+            '#type' => 'submit',
+            '#value' => $this->config('webform.settings')->get('settings.default_preview_next_button_label'),
+            '#validate' => ['::validateForm'],
+            '#submit' => ['::next'],
+            '#attributes' => ['class' => ['webform-button--preview']],
+            '#weight' => 1,
+          ];
         }
         else {
-          $next_attributes = $this->getWebformSetting('wizard_next_button_attributes');
-          $next_label = (isset($current_page_element['#next_button_label'])) ? $current_page_element['#next_button_label'] : $this->getWebformSetting('wizard_next_button_label');
-          $next_attributes['class'][] = 'webform-button--next';
+          if (isset($current_page_element['#next_button_label'])) {
+            $next_button_label = $current_page_element['#next_button_label'];
+            $next_button_custom = TRUE;
+          }
+          else {
+            $next_button_label = $this->config('webform.settings')->get('settings.default_wizard_next_button_label');
+            $next_button_custom = FALSE;
+          }
+          $element['wizard_next'] = [
+            '#type' => 'submit',
+            '#value' => $next_button_label,
+            '#webform_actions_button_custom' => $next_button_custom,
+            '#validate' => ['::validateForm'],
+            '#submit' => ['::next'],
+            '#attributes' => ['class' => ['webform-button--next']],
+            '#weight' => 1,
+          ];
         }
-        $element['next'] = [
-          '#type' => 'submit',
-          '#value' => $next_label,
-          '#validate' => ['::validateForm'],
-          '#submit' => ['::next'],
-          '#attributes' => $next_attributes,
-          '#weight' => 1,
-        ];
       }
     }
 
     // Draft.
     if ($this->draftEnabled()) {
-      $draft_attributes = $this->getWebformSetting('draft_button_attributes');
-      $draft_attributes['class'][] = 'webform-button--draft';
       $element['draft'] = [
         '#type' => 'submit',
-        '#value' => $this->getWebformSetting('draft_button_label'),
+        '#value' => $this->config('webform.settings')->get('settings.default_draft_button_label'),
         '#validate' => ['::draft'],
         '#submit' => ['::submitForm', '::save', '::rebuild'],
-        '#attributes' => $draft_attributes,
+        '#attributes' => ['class' => ['webform-button--draft']],
         '#weight' => -10,
       ];
     }
@@ -928,7 +963,7 @@ class WebformSubmissionForm extends ContentEntityForm {
     $webform_submission = $this->getEntity();
 
     // Make sure the uri and remote addr are set correctly because
-    // AJAX requests via 'managed_file' uploads can cause these values to be
+    // Ajax requests via 'managed_file' uploads can cause these values to be
     // reset.
     if ($webform_submission->isNew()) {
       $webform_submission->set('uri', preg_replace('#^' . base_path() . '#', '/', $this->getRequest()->getRequestUri()));
@@ -1000,7 +1035,7 @@ class WebformSubmissionForm extends ContentEntityForm {
    */
   protected function getPages(array &$form, FormStateInterface $form_state) {
     if ($form_state->get('pages') === NULL) {
-      $pages = $this->getWebform()->getPages($this->disablePages);
+      $pages = $this->getWebform()->getPages($this->mode ? TRUE : FALSE);
       foreach ($pages as &$page) {
         $page['#access'] = TRUE;
       }
@@ -1125,21 +1160,28 @@ class WebformSubmissionForm extends ContentEntityForm {
   protected function displayCurrentPage(array &$form, FormStateInterface $form_state) {
     $current_page = $this->getCurrentPage($form, $form_state);
     if ($current_page == 'preview') {
-      // Hide elements.
-      $form['elements']['#access'] = FALSE;
+      // Hide all elements except 'webform_actions'.
+      foreach ($form['elements'] as $element_key => $element) {
+        if (isset($element['#type']) && $element['#type'] == 'webform_actions') {
+          continue;
+        }
+        $form['elements'][$element_key]['#access'] = FALSE;
+      }
 
       // Display preview message.
       $this->messageManager->display(WebformMessageManagerInterface::FORM_PREVIEW_MESSAGE, 'warning');
 
       // Build preview.
+      $form['#title'] = $this->getWebformSetting('preview_title');
       $form['preview'] = [
         '#theme' => 'webform_submission_html',
         '#webform_submission' => $this->entity,
+        '#weight' => -10, // Progress bar is -20.
       ];
     }
     else {
       // Get all pages so that we can also hide skipped pages.
-      $pages = $this->getWebform()->getPages($this->disablePages);
+      $pages = $this->getWebform()->getPages($this->mode ? TRUE : FALSE);
       foreach ($pages as $page_key => $page) {
         if (isset($form['elements'][$page_key])) {
           if ($page_key != $current_page) {
@@ -1381,6 +1423,9 @@ class WebformSubmissionForm extends ContentEntityForm {
       // Populate element if value exists.
       if (isset($element['#type']) && isset($values[$key])) {
         $element['#default_value'] = $values[$key];
+        if ($this->mode == self::API_SUBMISSION) {
+          $element['#needs_validation'] = TRUE;
+        }
       }
 
       $this->populateElements($element, $values);
@@ -1616,6 +1661,111 @@ class WebformSubmissionForm extends ContentEntityForm {
     }
     else {
       return $default_value;
+    }
+  }
+
+  /****************************************************************************/
+  // API helper functions.
+  /****************************************************************************/
+
+  /**
+   * Programmatically check that a webform is open to new submissions.
+   *
+   * @param \Drupal\webform\WebformInterface $webform
+   *   A webform.
+   *
+   * @return array|boolean
+   *   Return TRUE if the webform is open to new submissions else returns
+   *   an error message.
+   *
+   * @see \Drupal\webform\WebformSubmissionForm::getCustomForm
+   */
+  public static function isOpen(WebformInterface $webform) {
+    $webform_submission = WebformSubmission::create(['webform_id' => $webform->id()]);
+
+    /** @var \Drupal\webform\WebformSubmissionForm $form_object */
+    $form_object = \Drupal::entityTypeManager()->getFormObject('webform_submission', 'default');
+    $form_object->setEntity($webform_submission);
+
+    /** @var \Drupal\webform\WebformMessageManagerInterface $message_manager */
+    $message_manager = \Drupal::service('webform.message_manager');
+    $message_manager->setWebformSubmission($webform_submission);
+
+    // Check form is open.
+    if ($webform->isClosed()) {
+      if ($webform->isOpening()) {
+        return $message_manager->get(WebformMessageManagerInterface::FORM_OPEN_MESSAGE);
+      }
+      else {
+        return $message_manager->get(WebformMessageManagerInterface::FORM_CLOSE_MESSAGE);
+      }
+    }
+
+    // Check total limit.
+    if ($form_object->checkTotalLimit()) {
+      return $message_manager->get(WebformMessageManagerInterface::LIMIT_TOTAL_MESSAGE);
+    }
+
+    // Check user limit.
+    if ($form_object->checkUserLimit()) {
+      return $message_manager->get(WebformMessageManagerInterface::LIMIT_USER_MESSAGE);
+    }
+
+    return TRUE;
+  }
+
+  /**
+   * Programmatically validate values and submit a webform submission.
+   *
+   * @param array $values
+   *   An array of submission values and data.
+   *
+   * @return array|\Drupal\Core\Entity\EntityInterface|null
+   *   An array of error messages if validation fails or
+   *   A webform submission is there are no validation errors.
+   */
+  public static function validateValues(array $values) {
+    return static::submitValues($values, TRUE);
+  }
+
+  /**
+   * Programmatically validate values and submit a webform submission.
+   *
+   * @param array $values
+   *   An array of submission values and data.
+   * @param bool $validate_only
+   *   Flag to trigger only webform validation.
+   *
+   * @return array|\Drupal\Core\Entity\EntityInterface|null
+   *   An array of error messages if validation fails or
+   *   A webform submission is there are no validation errors.
+   */
+  public static function submitValues(array $values, $validate_only = FALSE) {
+    $webform_submission = WebformSubmission::create($values);
+
+    /** @var \Drupal\webform\WebformSubmissionForm $form_object */
+    $form_object = \Drupal::entityTypeManager()->getFormObject('webform_submission', 'default');
+    $form_object->setEntity($webform_submission);
+
+    // Create an empty form state which will be populated when the submission
+    // form is submitted.
+    $form_state = new FormState();
+
+    // Submit the form.
+    \Drupal::formBuilder()->submitForm($form_object, $form_state, self::API_SUBMISSION);
+
+    // Get the errors.
+    $errors = $form_state->getErrors();
+
+    if ($errors) {
+      return $errors;
+    }
+    elseif ($validate_only) {
+      return NULL;
+    }
+    else {
+      $webform_submission->save();
+      return $webform_submission;
     }
   }
 

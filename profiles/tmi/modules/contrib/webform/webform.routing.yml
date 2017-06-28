@@ -6,21 +6,21 @@ webform.settings:
   requirements:
     _permission: 'administer webform'
 
-webform.help:
-  path: '/admin/help/webform/{id}'
+webform.help.video:
+  path: '/admin/help/webform/video/{id}'
   defaults:
-    _controller: '\Drupal\webform\Controller\WebformHelpController::index'
-    _title_callback: '\Drupal\webform\Controller\WebformHelpController::title'
+    _controller: '\Drupal\webform\Controller\WebformHelpController::video'
+    _title_callback: '\Drupal\webform\Controller\WebformHelpController::videoTitle'
   requirements:
     _permission: 'access administration pages'
 
-webform.admin_settings.third_party:
-  path: '/admin/structure/webform/settings/third-party'
+webform.help.about:
+  path: '/admin/help/webform/about'
   defaults:
-    _form: '\Drupal\webform\Form\WebformAdminThirdPartySettingsForm'
-    _title: 'Webforms: Third party settings'
+    _controller: '\Drupal\webform\Controller\WebformHelpController::about'
+    _title: 'How can we help you?'
   requirements:
-    _permission: 'administer webform'
+    _permission: 'access administration pages'
 
 webform.addons:
   path: '/admin/structure/webform/addons'
@@ -158,14 +158,6 @@ entity.webform.assets_form:
   requirements:
     _entity_access: 'webform.update'
     _permission: 'edit webform assets'
-
-entity.webform.third_party_settings_form:
-  path: '/admin/structure/webform/manage/{webform}/third-party-settings'
-  defaults:
-    _entity_form: 'webform.third_party_settings'
-    _title_callback: '\Drupal\webform\Controller\WebformController::title'
-  requirements:
-    _entity_access: 'webform.update'
 
 entity.webform.access_form:
   path: '/admin/structure/webform/manage/{webform}/access'
@@ -311,6 +303,14 @@ entity.webform_options.edit_form:
   requirements:
     _entity_access: 'webform_options.update'
 
+entity.webform_options.duplicate_form:
+  path: '/admin/structure/webform/settings/options/{webform_options}/duplicate'
+  defaults:
+    _entity_form: 'webform_options.duplicate'
+    _title: 'Duplicate webform options'
+  requirements:
+    _entity_access: 'webform_options.duplicate'
+
 entity.webform_options.delete_form:
   path: '/admin/structure/webform/settings/options/{webform_options}/delete'
   defaults:
@@ -409,7 +409,7 @@ entity.webform_submission.edit_form.all:
   defaults:
     _entity_form: 'webform_submission.default'
     _title_callback: 'Drupal\webform\Controller\WebformSubmissionController::title'
-    disable_pages: true
+    mode: disable_pages
   requirements:
     _entity_access: 'webform_submission.update'
     _custom_access: '\Drupal\webform\Access\WebformAccess::checkWebformWizardPagesAccess'

@@ -89,6 +89,39 @@ interface WebformInterface extends ConfigEntityInterface, EntityWithPluginCollec
   public function hasContainer();
 
   /**
+   * Determine if the webform has any custom actions (aka submit buttons).
+   *
+   * @return bool
+   *   TRUE if the webform has any custom actions (aka submit buttons).
+   */
+  public function hasActions();
+
+  /**
+   * Get the number of actions (aka submit buttons).
+   *
+   * @return int
+   *   The number of actions (aka submit buttons).
+   */
+  public function getNumberOfActions();
+
+  /**
+   * Determine if the webform has multistep form wizard pages.
+   *
+   * @return bool
+   *   TRUE if the webform has multistep form wizard pages.
+   */
+  public function hasWizardPages();
+
+  /**
+   * Get the number of wizard pages.
+   *
+   * @return int
+   *   The number of wizard pages.
+   */
+  public function getNumberOfWizardPages();
+
+
+  /**
    * Sets the status of the configuration entity.
    *
    * @param string|bool|null $status
@@ -258,11 +291,14 @@ interface WebformInterface extends ConfigEntityInterface, EntityWithPluginCollec
    *
    * @param string $key
    *   The key of the setting to retrieve.
+   * @param bool $default
+   *   Flag to lookup the default settings from 'webform.settings' config.
+   *   Only used when rendering webform.
    *
    * @return mixed
    *   The settings value, or NULL if no settings exists.
    */
-  public function getSetting($key);
+  public function getSetting($key, $default = FALSE);
 
   /**
    * Saves a webform setting for a given key.
@@ -341,14 +377,6 @@ interface WebformInterface extends ConfigEntityInterface, EntityWithPluginCollec
   public function getSubmissionForm(array $values = [], $operation = 'default');
 
   /**
-   * Get elements (YAML) value.
-   *
-   * @return string
-   *   The elements raw value.
-   */
-  public function getElementsRaw();
-
-  /**
    * Get original elements (YAML) value.
    *
    * @return string|null
@@ -356,6 +384,22 @@ interface WebformInterface extends ConfigEntityInterface, EntityWithPluginCollec
    *   webforms.
    */
   public function getElementsOriginalRaw();
+
+  /**
+   * Get original elements decoded as an associative array.
+   *
+   * @return array|bool
+   *   Elements as an associative array. Returns FALSE is elements YAML is invalid.
+   */
+  public function getElementsOriginalDecoded();
+
+  /**
+   * Get elements (YAML) value.
+   *
+   * @return string
+   *   The elements raw value.
+   */
+  public function getElementsRaw();
 
   /**
    * Get webform elements decoded as an associative array.

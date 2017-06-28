@@ -127,7 +127,7 @@ abstract class WebformCompositeBase extends FormElement {
         switch ($composite_element['#type']) {
           case 'tel':
             // Add international phone library.
-            // Add internation library and classes.
+            // Add international library and classes.
             if (!empty($composite_element['#international'])) {
               $composite_element['#attached']['library'][] = 'webform/webform.element.telephone';
               $composite_element['#attributes']['class'][] = 'js-webform-telephone-international';
@@ -172,6 +172,12 @@ abstract class WebformCompositeBase extends FormElement {
    */
   public static function validateWebformComposite(&$element, FormStateInterface $form_state, &$complete_form) {
     $value = $element['#value'];
+
+    // Only validate composite elements that are visible.
+    $has_access = (!isset($element['#access']) || $element['#access'] === TRUE);
+    if (!$has_access) {
+      return;
+    }
 
     // Validate required composite elements.
     $composite_elements = static::getCompositeElements();

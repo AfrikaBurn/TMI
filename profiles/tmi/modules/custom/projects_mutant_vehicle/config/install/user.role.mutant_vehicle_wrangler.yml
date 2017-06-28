@@ -1,0 +1,7 @@
+langcode: en
+status: true
+dependencies: {  }
+id: mutant_vehicle_wrangler
+label: 'Mutant Vehicle Wrangler'
+weight: -6
+is_admin: null

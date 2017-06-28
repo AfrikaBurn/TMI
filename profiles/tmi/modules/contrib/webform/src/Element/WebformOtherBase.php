@@ -64,7 +64,7 @@ abstract class WebformOtherBase extends FormElement {
     $type = str_replace('webform_', '', static::$type);
 
     if ($input === FALSE) {
-      $value = self::convertDefaultValueToElementValue($element);
+      $value = static::convertDefaultValueToElementValue($element);
       $element[$type]['#default_value'] = $value[$type];
       if ($value['other'] !== NULL) {
         $element['other']['#default_value'] = $value['other'];
@@ -122,6 +122,12 @@ abstract class WebformOtherBase extends FormElement {
       $element['other']['#prefix'] = '<div class="' . implode(' ', $element['other']['#wrapper_attributes']['class']) . '">';
       $element['other']['#suffix'] = '</div>';
       unset($element['other']['#wrapper_attributes']['class']);
+    }
+
+    // Apply #parents to $type and other element.
+    if (isset($element['#parents'])) {
+      $element[$type]['#parents'] = array_merge($element['#parents'], [$type]);
+      $element['other']['#parents'] = array_merge($element['#parents'], ['other']);
     }
 
     // Remove options.
