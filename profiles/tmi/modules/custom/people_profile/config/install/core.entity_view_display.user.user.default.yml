@@ -2,9 +2,9 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.user.user.field_gender
     - field.field.user.user.field_user_date_of_birth
     - field.field.user.user.field_user_first_name
+    - field.field.user.user.field_user_gender
     - field.field.user.user.field_user_id
     - field.field.user.user.field_user_last_name
     - field.field.user.user.field_user_mobile_number
@@ -96,13 +96,6 @@ targetEntityType: user
 bundle: user
 mode: default
 content:
-  field_gender:
-    weight: 3
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    type: list_default
-    region: content
   field_user_date_of_birth:
     weight: 5
     label: above
@@ -119,6 +112,13 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     type: string
+    region: content
+  field_user_gender:
+    weight: 25
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: list_default
     region: content
   field_user_id:
     type: string

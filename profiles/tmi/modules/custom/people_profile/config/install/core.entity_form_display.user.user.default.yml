@@ -2,9 +2,9 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.user.user.field_gender
     - field.field.user.user.field_user_date_of_birth
     - field.field.user.user.field_user_first_name
+    - field.field.user.user.field_user_gender
     - field.field.user.user.field_user_id
     - field.field.user.user.field_user_last_name
     - field.field.user.user.field_user_mobile_number
@@ -114,12 +114,6 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_gender:
-    weight: 2
-    settings: {  }
-    third_party_settings: {  }
-    type: options_select
-    region: content
   field_user_date_of_birth:
     weight: 4
     settings: {  }
@@ -133,6 +127,12 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textfield
+    region: content
+  field_user_gender:
+    weight: 25
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
     region: content
   field_user_id:
     weight: 3

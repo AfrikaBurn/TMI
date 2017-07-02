@@ -12,6 +12,5 @@ dependencies:
   - people_profile
   - text
   - user
-  - viewfield
   - views
   - webform

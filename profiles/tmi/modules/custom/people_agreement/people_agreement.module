@@ -12,6 +12,7 @@ use \Drupal\entity\Plugin\Core\Entity\EntityDisplay;
 
 /**
  * Implements hook_form_FORM_ID_alter().
+ * Hooked to display participant agreements on edit form.
  */
 function people_agreement_form_user_form_alter(&$form, \FormStateInterface $form_state, $form_id) {
   $storage = $form_state->getStorage();
@@ -22,7 +23,10 @@ function people_agreement_form_user_form_alter(&$form, \FormStateInterface $form
   }
 }
 
-
+/**
+ * Implements hook_user_view_alter().
+ * Hooked to display participant agreements on profile views.
+ */
 function people_agreement_user_view_alter(&$build, \UserInterface $account, \EntityDisplay $display) {
   $user = $build['#user'];
   $build['view_agreements'] = [
@@ -30,7 +34,3 @@ function people_agreement_user_view_alter(&$build, \UserInterface $account, \Ent
   ];
   $build['#group_children']['view_agreements'] = 'group_agreements';
 }
-
-// function people_agreement_node_view(\EntityInterface $node, \EntityDisplay $display, $view_mode, $langcode) {
-//   dpm($node);  
-// }

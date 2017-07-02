@@ -3,6 +3,7 @@ status: true
 dependencies:
   config:
     - field.field.node.mutant_vehicle.body
+    - field.field.node.mutant_vehicle.field_prj_crew
     - node.type.mutant_vehicle
   module:
     - path
@@ -27,6 +28,15 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_prj_crew:
+    weight: 32
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
   path:
     type: path
     weight: 30

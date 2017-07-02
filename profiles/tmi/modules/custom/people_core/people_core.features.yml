@@ -14,4 +14,8 @@ excluded:
   - core.entity_view_mode.webform_submission.token
   - group.role.collective-c559339f1
   - features.bundle.tmi
+  - core.entity_form_display.node.theme_camp.default
+  - core.entity_view_display.node.theme_camp.default
+  - field.field.node.theme_camp.field_prj_crew
+  - field.storage.node.field_prj_crew
 required: true

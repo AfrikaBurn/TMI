@@ -4,21 +4,21 @@ dependencies:
   module:
     - options
     - user
-id: user.field_gender
-field_name: field_gender
+id: user.field_user_gender
+field_name: field_user_gender
 entity_type: user
 type: list_string
 settings:
   allowed_values:
     -
-      value: Male
-      label: Male
-    -
-      value: Female
+      value: fem
       label: Female
     -
-      value: Other
-      label: Other
+      value: male
+      label: Male
+    -
+      value: nb
+      label: Non-binary
   allowed_values_function: ''
 module: options
 locked: false

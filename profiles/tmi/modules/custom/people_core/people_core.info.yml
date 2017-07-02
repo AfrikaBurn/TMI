@@ -8,14 +8,18 @@ dependencies:
   - comment
   - contact
   - features
+  - field
   - file
   - group
   - menu_link_content
   - node
+  - path
+  - projects_theme_camp
   - shortcut
   - taxonomy
-  - tour
+  - text
   - tmi_core
+  - tour
   - user
   - webform
 package: People

@@ -13,3 +13,4 @@ dependencies:
   - path
   - people_agreement
   - user
+  - views

@@ -1,14 +1,17 @@
 name: Artwork
-description: 'Artwork registration'
+description: 'Provides Artwork content type and related configuration. Management of Artworks to be featured at an Afrikaburn event.'
 type: module
 core: 8.x
 version: 8.x-0.0
 package: Projects
 dependencies:
   - field
+  - gnode
+  - group
   - menu_ui
   - node
   - path
+  - people_group
   - projects_core
   - text
   - user

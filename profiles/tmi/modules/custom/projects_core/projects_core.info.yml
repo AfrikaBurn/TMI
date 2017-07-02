@@ -4,4 +4,8 @@ core: 8.x
 version: 8.x-0.0
 package: Projects
 dependencies:
+  - field
+  - node
   - people_group
+  - user
+description: 'Core configuration for all Projects.'
