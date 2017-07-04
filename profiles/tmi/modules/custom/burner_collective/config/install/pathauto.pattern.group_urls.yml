@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - ctools
+    - group
+id: group_urls
+label: 'Group URLs'
+type: 'canonical_entities:group'
+pattern: 'people/groups/[group:title]'
+selection_criteria:
+  371c0f2e-42ba-4e7f-9ad7-ff315c9f0339:
+    id: 'entity_bundle:group'
+    bundles:
+      collective: collective
+    negate: false
+    context_mapping:
+      group: group
+    uuid: 371c0f2e-42ba-4e7f-9ad7-ff315c9f0339
+selection_logic: and
+weight: -5
+relationships: {  }

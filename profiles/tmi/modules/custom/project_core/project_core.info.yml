@@ -1,0 +1,11 @@
+name: Core
+description: 'Core configuration for all Projects.'
+type: module
+core: 8.x
+dependencies:
+  - burner_collective
+  - field
+  - node
+  - user
+version: 8.x-0.0
+package: Project

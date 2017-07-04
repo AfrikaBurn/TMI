@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_agreement_introduction
+    - node.type.agreement
+id: node.agreement.field_agreement_introduction
+field_name: field_agreement_introduction
+entity_type: node
+bundle: agreement
+label: Introduction
+description: 'Explain what this agreement is about.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

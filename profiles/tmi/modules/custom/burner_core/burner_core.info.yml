@@ -1,0 +1,9 @@
+name: Core
+description: 'Common People components.'
+type: module
+core: 8.x
+dependencies:
+  - user
+  - webform
+version: 8.x-0.0
+package: Burner

@@ -1,0 +1,17 @@
+name: Artwork
+description: 'Provides Artwork content type and related configuration. Management of Artworks to be featured at an Afrikaburn event.'
+type: module
+core: 8.x
+dependencies:
+  - burner_collective
+  - field
+  - gnode
+  - group
+  - menu_ui
+  - node
+  - path
+  - project_core
+  - text
+  - user
+version: 8.x-0.0
+package: Project

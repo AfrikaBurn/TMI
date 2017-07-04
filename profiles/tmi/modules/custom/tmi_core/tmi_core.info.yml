@@ -17,6 +17,7 @@ dependencies:
   - taxonomy
   - tour
   - user
+  - views
   - webform
 package: TMI
 version: 8.x-0.0

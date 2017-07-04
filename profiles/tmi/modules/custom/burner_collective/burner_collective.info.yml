@@ -1,0 +1,17 @@
+name: Collective
+description: 'Participant Groups and Communication.'
+type: module
+core: 8.x
+dependencies:
+  - burner_agreement
+  - ctools
+  - field
+  - gnode
+  - group
+  - node
+  - path
+  - pathauto
+  - user
+  - views
+version: 8.x-0.0
+package: Burner

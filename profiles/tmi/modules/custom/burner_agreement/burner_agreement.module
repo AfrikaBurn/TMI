@@ -1,0 +1,36 @@
+<?php
+
+/**
+ * @file
+ * Module hook implements.
+ */
+
+use \Drupal\user\UserInterface;
+use \Drupal\Core\Entity\EntityInterface;
+use \Drupal\Core\Form\FormStateInterface;
+use \Drupal\entity\Plugin\Core\Entity\EntityDisplay;
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ * Hooked to display participant agreements on edit form.
+ */
+function burner_agreement_form_user_form_alter(&$form, \FormStateInterface $form_state, $form_id) {
+  $storage = $form_state->getStorage();
+  if (isset($storage['user'])){
+    $user = $storage['user'];
+    $form['view_agreements'] = views_embed_view('agreements', 'per_user', $user->id());
+    $form['#group_children']['view_agreements'] = 'group_agreements';
+  }
+}
+
+/**
+ * Implements hook_user_view_alter().
+ * Hooked to display participant agreements on profile views.
+ */
+function burner_agreement_user_view_alter(&$build, \UserInterface $account, \EntityDisplay $display) {
+  $user = $build['#user'];
+  $build['view_agreements'] = [
+    '#markup' => render(views_embed_view('agreements', 'per_user', $user->id())),
+  ];
+  $build['#group_children']['view_agreements'] = 'group_agreements';
+}

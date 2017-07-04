@@ -6,7 +6,7 @@ dependencies:
 id: adminimal_theme_local_actions
 theme: adminimal_theme
 region: content
-weight: -10
+weight: -5
 provider: null
 plugin: local_actions_block
 settings:

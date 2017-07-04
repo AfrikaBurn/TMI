@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.agreement.field_agreement_conditions
+    - field.field.node.agreement.field_agreement_introduction
+    - node.type.agreement
+  module:
+    - user
+id: node.agreement.teaser
+targetEntityType: node
+bundle: agreement
+mode: teaser
+content:
+  links:
+    weight: 100
+    region: content
+hidden:
+  field_agreement_conditions: true
+  field_agreement_introduction: true

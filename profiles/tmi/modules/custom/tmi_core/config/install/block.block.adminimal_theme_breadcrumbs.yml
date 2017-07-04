@@ -8,7 +8,7 @@ dependencies:
 id: adminimal_theme_breadcrumbs
 theme: adminimal_theme
 region: breadcrumb
-weight: 0
+weight: -4
 provider: null
 plugin: system_breadcrumb_block
 settings:

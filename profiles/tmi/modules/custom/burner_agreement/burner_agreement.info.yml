@@ -1,0 +1,15 @@
+name: Agreement
+description: 'Participant agreement management.'
+type: module
+core: 8.x
+dependencies:
+  - burner_collective
+  - burner_core
+  - field
+  - menu_ui
+  - node
+  - user
+  - views
+  - webform
+version: 8.x-0.0
+package: Burner

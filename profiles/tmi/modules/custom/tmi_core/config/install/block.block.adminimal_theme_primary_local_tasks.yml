@@ -6,7 +6,7 @@ dependencies:
 id: adminimal_theme_primary_local_tasks
 theme: adminimal_theme
 region: header
-weight: 0
+weight: -4
 provider: null
 plugin: local_tasks_block
 settings:

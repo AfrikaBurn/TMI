@@ -1,0 +1,5 @@
+bundle: burner
+excluded:
+  - field.field.node.agreement.field_agreement_group
+  - field.storage.node.field_agreement_group
+required: true
