@@ -28,9 +28,12 @@ function burner_agreement_form_user_form_alter(&$form, \FormStateInterface $form
  * Hooked to display participant agreements on profile views.
  */
 function burner_agreement_user_view_alter(&$build, \UserInterface $account, \EntityDisplay $display) {
-  $user = $build['#user'];
-  $build['view_agreements'] = [
-    '#markup' => render(views_embed_view('agreements', 'per_user', $user->id())),
-  ];
-  $build['#group_children']['view_agreements'] = 'group_agreements';
+  if ($display->getMode() === 'default') {
+    $user = $build['#user'];
+    $build['view_agreements'] = [
+      '#markup' => render(views_embed_view('agreements', 'per_user', $user->id())),
+    ];
+    $build['#group_children']['view_agreements'] = 'group_agreements';    
+    $build['#pre_render'][][] = '_burner_agreement_user_after_build';
+  }
 }

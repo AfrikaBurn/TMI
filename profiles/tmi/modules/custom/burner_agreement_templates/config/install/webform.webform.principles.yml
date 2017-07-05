@@ -8,7 +8,7 @@ template: false
 id: principles
 title: 'The 11 Principles'
 description: ''
-category: ''
+category: Agreement
 elements: "radical_inclusion:\n  '#type': checkbox\n  '#title': 'RADICAL INCLUSION'\n  '#description': '<p>Anyone may be a part of AfrikaBurn. We welcome and respect the stranger. No prerequisites exist for participation in our community. This means that anyone can partake.</p>'\n  '#required': true\n  '#required_error': 'Please agree to this principle by checking the box.'\ngifting:\n  '#type': checkbox\n  '#title': GIFTING\n  '#description': '<p>We are devoted to acts of gift giving. The value of a gift is unconditional. Gifting does not contemplate a return or an exchange for something of equal value.</p>'\n  '#required': true\n  '#required_error': 'Please agree to this principle by checking the box.'\n"
 css: ''
 javascript: ''

@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.project_registration.field_project_registration_event
+    - field.field.node.project_registration.field_project_registration_forms
+    - field.field.node.project_registration.field_project_type
+    - node.type.project_registration
+  module:
+    - user
+id: node.project_registration.teaser
+targetEntityType: node
+bundle: project_registration
+mode: teaser
+content:
+  links:
+    weight: 100
+    region: content
+hidden:
+  field_project_registration_event: true
+  field_project_registration_forms: true
+  field_project_type: true

@@ -1,4 +1,4 @@
-name: Core
+name: 'TMI Core'
 description: 'TMI Common configuration'
 type: module
 core: 8.x

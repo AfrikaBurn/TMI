@@ -8,7 +8,7 @@ template: false
 id: preparation
 title: 'Burn Preparation'
 description: ''
-category: ''
+category: Checklist
 elements: "water:\n  '#type': checkbox\n  '#title': 'I''m bringing at least 5l of water per day'\n  '#required': true\nfood:\n  '#type': checkbox\n  '#title': 'I''m bringing enough food'\n  '#required': true\n"
 css: ''
 javascript: ''

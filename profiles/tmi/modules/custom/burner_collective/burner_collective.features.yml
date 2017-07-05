@@ -1,7 +1,7 @@
 bundle: burner
 excluded:
-  - features.bundle.people
-  - group.content_type.collective-group_node-artwork
-  - group.content_type.group_content_type_5db58a98bf5bb
-  - group.content_type.group_content_type_65f9a11c9a77b
+  - group.role.collective-e84703432
+  - group.role.collective-3f31ffb42
+  - group.role.collective-5d7f2251c
+  - group.role.collective-20d31ff1b
 required: true

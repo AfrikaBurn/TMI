@@ -1,0 +1,4 @@
+bundle: project
+excluded:
+  - taxonomy.vocabulary.event
+required: true

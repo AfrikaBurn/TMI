@@ -1,0 +1,101 @@
+langcode: en
+status: open
+dependencies: {  }
+open: null
+close: null
+uid: 1
+template: false
+id: project_outline
+title: 'Project outline'
+description: 'General project outlines.'
+category: 'Project Registration'
+elements: "about:\n  '#type': webform_wizard_page\n  '#title': 'Your project'\n  team_lead:\n    '#type': entity_autocomplete\n    '#title': 'Team lead'\n    '#target_type': user\n    '#selection_handler': 'default:user'\n    '#selection_settings':\n      include_anonymous: false\n  non_branding:\n    '#type': checkbox\n    '#title': 'Our Theme Camp is not an extension of the default world.'\n    '#description': 'Select this box to confirm that nobody is using your camp as a platform for marketing or branding exercise.'\n    '#required': true\n    '#required_error': 'Not going to happen. No commodified platforms. It damages out culture and is a no no. Please read up on the guiding principles.'\nabout_your_collective:\n  '#type': webform_wizard_page\n  '#title': 'Your Collective'\n  fundraising:\n    '#type': checkbox\n    '#title': Fundraising\n    '#description': 'Check this box if you are planning any fundraising'\n"
+css: ''
+javascript: ''
+settings:
+  page: true
+  page_submit_path: ''
+  page_confirm_path: ''
+  form_submit_once: true
+  form_exception_message: ''
+  form_open_message: 'This section has yet to be opened for submission, check back soon!'
+  form_close_message: 'This section is now closed and submissions are deemed to be finalised.'
+  form_previous_submissions: true
+  form_confidential: false
+  form_confidential_message: ''
+  form_convert_anonymous: false
+  form_prepopulate: false
+  form_prepopulate_source_entity: false
+  form_disable_autocomplete: false
+  form_novalidate: false
+  form_unsaved: true
+  form_disable_back: false
+  form_autofocus: true
+  form_details_toggle: false
+  submission_log: false
+  wizard_progress_bar: true
+  wizard_progress_pages: true
+  wizard_progress_percentage: true
+  wizard_start_label: ''
+  wizard_complete: true
+  wizard_complete_label: ''
+  preview: 0
+  preview_label: ''
+  preview_title: ''
+  preview_message: ''
+  draft: authenticated
+  draft_auto_save: true
+  draft_saved_message: 'A draft of your application has been saved.'
+  draft_loaded_message: 'Your previous draft has been retrieved.'
+  confirmation_type: inline
+  confirmation_title: ''
+  confirmation_message: ''
+  confirmation_url: ''
+  confirmation_attributes: {  }
+  confirmation_back: true
+  confirmation_back_label: 'Edit this application'
+  confirmation_back_attributes: {  }
+  limit_total: null
+  limit_total_message: ''
+  limit_user: null
+  limit_user_message: 'Thank you, your application has already been submitted for consideration.'
+  purge: none
+  purge_days: null
+  entity_limit_total: 1
+  entity_limit_user: null
+  results_disabled: false
+  results_disabled_ignore: false
+  token_update: false
+access:
+  create:
+    roles:
+      - authenticated
+    users: {  }
+  view_any:
+    roles:
+      - theme_camp_wrangler
+      - theme_camp_admin
+    users: {  }
+  update_any:
+    roles:
+      - theme_camp_admin
+    users: {  }
+  delete_any:
+    roles:
+      - theme_camp_admin
+    users: {  }
+  purge_any:
+    roles:
+      - theme_camp_admin
+    users: {  }
+  view_own:
+    roles:
+      - authenticated
+    users: {  }
+  update_own:
+    roles: {  }
+    users: {  }
+  delete_own:
+    roles: {  }
+    users: {  }
+handlers: {  }

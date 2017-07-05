@@ -1,11 +1,16 @@
-name: Core
+name: 'Project Core'
 description: 'Core configuration for all Projects.'
 type: module
 core: 8.x
 dependencies:
   - burner_collective
   - field
+  - group
+  - menu_ui
   - node
+  - options
+  - path
+  - text
   - user
 version: 8.x-0.0
 package: Project

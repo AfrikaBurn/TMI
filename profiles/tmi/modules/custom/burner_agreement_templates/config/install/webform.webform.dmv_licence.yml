@@ -8,7 +8,7 @@ template: false
 id: dmv_licence
 title: 'Mutant Vehicle Licence'
 description: ''
-category: ''
+category: Agreement
 elements: "drive_dry:\n  '#type': checkbox\n  '#title': 'Drive dry'\n  '#description': 'I endevour to operate any mutant vehicle in a sober state only.'\n  '#required': true\nsign_here:\n  '#type': webform_signature\n  '#title': 'Sign here'\n  '#required': true\n"
 css: ''
 javascript: ''
