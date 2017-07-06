@@ -1,0 +1,24 @@
+{#
+/**
+ * @file
+ * CSHS help information.
+ *
+ * @ingroup themeable
+ */
+#}
+<h3 role="heading">{{ 'About'|t }}</h3>
+<p>{{ 'A simple client-side hierarchical select widget for taxonomy terms.'|t }}</p>
+
+<h3 role="heading">{{ 'Settings'|t }}</h3>
+<ol role="list">
+  {% for item in [
+    'Force selection of deepest level (if checked the user will be forced to select terms from the deepest level).',
+    'Parent (allows to select a parent term to use only a subtree of a vocabulary for this field).',
+    'Labels per hierarchy-level.',
+  ] %}
+    <li role="listitem">{{ item|t }}</li>
+  {% endfor %}
+</ol>
+
+<h3 role="heading">{{ 'Multi-lingual'|t }}</h3>
+<p>{{ 'Supports multi-lingual terms localized with i18n_taxonomy module (Which is part of the i18n package).'|t }}</p>

@@ -1,0 +1,27 @@
+{#
+/**
+ * @file
+ * Theme for "Group by root" formatter.
+ *
+ * Available variables:
+ * - title: Title of a group.
+ * - terms: Children terms.
+ *
+ * @see cshs_theme()
+ *
+ * @ingroup themeable
+ */
+#}
+<div class="cshs-term-group">
+  <div class="cshs-term-group__title">
+     {{ title }}
+  </div>
+
+  {% if terms is not empty %}
+    <div class="cshs-term-group__terms">
+      {% for delta, term in terms %}
+        <div class="cshs-term-group__term"> {{ term | raw }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>

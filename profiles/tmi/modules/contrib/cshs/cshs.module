@@ -1,0 +1,102 @@
+<?php
+
+/**
+ * @file
+ * Client-side hierarchical select.
+ */
+
+define('CSHS_DEFAULT_NONE_VALUE', 'All');
+define('CSHS_DEFAULT_NONE_LABEL', '- Please select -');
+
+use Drupal\Core\Render\Element;
+use Drupal\Core\Render\Element\RenderElement;
+
+/**
+ * Implements hook_help().
+ */
+function cshs_help($route_name) {
+  switch ($route_name) {
+    case 'help.page.cshs':
+      return [
+        '#theme' => 'cshs_help',
+      ];
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function cshs_theme(array $existing, $type, $theme, $path) {
+  $info = [];
+
+  $info['cshs_help'] = [
+    'path' => "$path/templates",
+  ];
+
+  $info['cshs_select'] = [
+    'render element' => 'element',
+  ];
+
+  $info['cshs_term_group'] = [
+    'path' => "$path/templates",
+    'variables' => [
+      'title' => '',
+      'terms' => '',
+    ],
+  ];
+
+  return $info;
+}
+
+/**
+ * {@inheritdoc}
+ *
+ * @see template_preprocess_select()
+ */
+function template_preprocess_cshs_select(array &$variables) {
+  Element::setAttributes($variables['element'], ['id', 'name', 'size']);
+  RenderElement::setAttributes($variables['element'], ['simpler-select-root']);
+
+  $variables['attributes'] = $variables['element']['#attributes'];
+  $variables['options'] = cshs_form_select_options($variables['element']);
+}
+
+/**
+ * {@inheritdoc}
+ *
+ * @see form_select_options()
+ */
+function cshs_form_select_options(array $element) {
+  $options = [];
+
+  if (!empty($element['#options'])) {
+    $is_value_valid = array_key_exists('#value', $element);
+    $is_value_array = $is_value_valid && is_array($element['#value']);
+
+    foreach ($element['#options'] as $value => $data) {
+      $value = (string) $value;
+      $selected = FALSE;
+
+      if ($is_value_valid) {
+        if ($is_value_array) {
+          $selected = in_array($value, $element['#value']);
+        }
+        else {
+          $selected = $value === (string) $element['#value'];
+        }
+      }
+
+      $options[] = [
+        'value' => $value,
+        'label' => $data['name'],
+        // If widget is used as field widget, so lets see if there is a
+        // root configured. If the parent term is actually the configured
+        // root of this field, set parent to 0.
+        'parent' => isset($element['#parent']) && ((string) $data['parent_tid'] == (string) $element['#parent']) ? 0 : $data['parent_tid'],
+        'selected' => $selected,
+      ];
+    }
+  }
+
+  return $options;
+}
