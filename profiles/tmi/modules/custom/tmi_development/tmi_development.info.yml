@@ -7,7 +7,7 @@ package: TMI
 dependencies:
   - block
   - devel
-  - devel_kint
+  - kint
   - features_ui
   - field_ui
   - menu_ui
