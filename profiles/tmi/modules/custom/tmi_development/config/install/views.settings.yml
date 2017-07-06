@@ -1,5 +1,5 @@
 display_extenders: {  }
-skip_cache: false
+skip_cache: true
 sql_signature: false
 ui:
   show:

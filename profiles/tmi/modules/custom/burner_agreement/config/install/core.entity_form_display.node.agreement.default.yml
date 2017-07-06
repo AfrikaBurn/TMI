@@ -1,0 +1,52 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.agreement.field_agreement_collective
+    - field.field.node.agreement.field_agreement_conditions
+    - field.field.node.agreement.field_agreement_introduction
+    - node.type.agreement
+  module:
+    - webform
+id: node.agreement.default
+targetEntityType: node
+bundle: agreement
+mode: default
+content:
+  field_agreement_collective:
+    weight: 26
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_agreement_conditions:
+    weight: 2
+    settings: {  }
+    third_party_settings: {  }
+    type: webform_entity_reference_select
+    region: content
+  field_agreement_introduction:
+    weight: 1
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textarea
+    region: content
+  title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  path: true
+  promote: true
+  sticky: true
+  uid: true

@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_agreement_collective
+    - node.type.agreement
+id: node.agreement.field_agreement_collective
+field_name: field_agreement_collective
+entity_type: node
+bundle: agreement
+label: Collective
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:group'
+  handler_settings: {  }
+field_type: entity_reference

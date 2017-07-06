@@ -1,0 +1,16 @@
+name: 'Web core'
+description: 'Website configuration.'
+type: module
+core: 8.x
+dependencies:
+  - block
+  - book
+  - ctools
+  - field
+  - menu_ui
+  - node
+  - path
+  - text
+  - user
+version: 8.x-0.0
+package: Web

@@ -1,4 +1,4 @@
-name: Core
+name: 'TMI Core'
 description: 'TMI Common configuration'
 type: module
 core: 8.x
@@ -17,6 +17,7 @@ dependencies:
   - taxonomy
   - tour
   - user
+  - views
   - webform
 package: TMI
 version: 8.x-0.0
