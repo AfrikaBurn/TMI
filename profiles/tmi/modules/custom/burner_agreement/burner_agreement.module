@@ -34,6 +34,5 @@ function burner_agreement_user_view_alter(&$build, \UserInterface $account, \Ent
       '#markup' => render(views_embed_view('agreements', 'per_user', $user->id())),
     ];
     $build['#group_children']['view_agreements'] = 'group_agreements';    
-    $build['#pre_render'][][] = '_burner_agreement_user_after_build';
   }
 }

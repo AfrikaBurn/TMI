@@ -5,6 +5,7 @@ core: 8.x
 dependencies:
   - block
   - book
+  - contact
   - ctools
   - field
   - menu_ui
@@ -12,5 +13,6 @@ dependencies:
   - path
   - text
   - user
+  - webform
 version: 8.x-0.0
 package: Web

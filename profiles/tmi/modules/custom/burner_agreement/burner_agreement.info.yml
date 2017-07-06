@@ -1,9 +1,8 @@
-name: Agreement
+name: 'Burner Agreement'
 description: 'Participant agreement management.'
 type: module
 core: 8.x
 dependencies:
-  - burner_collective
   - burner_core
   - field
   - group

@@ -1,4 +1,4 @@
-name: Development
+name: 'TMI Development'
 description: 'Modules intended for the development environment.'
 type: module
 core: 8.x
@@ -7,7 +7,7 @@ package: TMI
 dependencies:
   - block
   - devel
-  - devel_kint
+  - kint
   - features_ui
   - field_ui
   - menu_ui
