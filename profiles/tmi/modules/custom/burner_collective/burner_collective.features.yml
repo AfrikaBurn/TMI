@@ -4,4 +4,6 @@ excluded:
   - group.role.collective-3f31ffb42
   - group.role.collective-5d7f2251c
   - group.role.collective-20d31ff1b
+  - field.field.node.agreement.field_agreement_collective
+  - field.storage.node.field_agreement_collective
 required: true

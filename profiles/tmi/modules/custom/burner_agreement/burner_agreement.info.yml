@@ -6,6 +6,7 @@ dependencies:
   - burner_collective
   - burner_core
   - field
+  - group
   - menu_ui
   - node
   - user
