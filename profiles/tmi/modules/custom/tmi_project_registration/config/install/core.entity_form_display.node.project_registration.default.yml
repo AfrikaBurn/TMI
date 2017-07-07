@@ -15,7 +15,7 @@ bundle: project_registration
 mode: default
 content:
   field_project_registration_event:
-    weight: 1
+    weight: 2
     settings:
       match_operator: CONTAINS
       size: 60
@@ -30,7 +30,7 @@ content:
     type: webform_entity_reference_select
     region: content
   field_project_registration_intro:
-    weight: 2
+    weight: 0
     settings:
       rows: 5
       placeholder: ''
@@ -38,10 +38,13 @@ content:
     type: string_textarea
     region: content
   field_project_type:
-    weight: 0
-    settings: {  }
+    weight: 1
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
-    type: options_select
+    type: entity_reference_autocomplete
     region: content
 hidden:
   created: true

@@ -8,6 +8,7 @@ dependencies:
   - node
   - options
   - taxonomy
+  - tmi_project
   - tmi_site
   - user
   - webform

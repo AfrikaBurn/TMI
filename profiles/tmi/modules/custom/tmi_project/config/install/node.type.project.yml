@@ -10,7 +10,7 @@ third_party_settings:
     parent: 'main:'
 name: Project
 type: project
-description: 'A project to attend an Afrikaburn event and may represent: An Artwork; Camp; Mutant Vehicle; Performance; or Theme Camp.'
+description: 'A project at an event that may include Artworks, Camps, Mutant Vehicles, Performances, Services, Technologies, or Theme Camps.'
 help: ''
 new_revision: false
 preview_mode: 0

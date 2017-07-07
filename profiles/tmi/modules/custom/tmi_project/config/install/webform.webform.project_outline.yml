@@ -13,11 +13,11 @@ elements: "team:\n  '#type': webform_wizard_page\n  '#title': 'The team'\n  crea
 css: ''
 javascript: ''
 settings:
-  ajax: false
+  ajax: true
   page: true
   page_submit_path: ''
   page_confirm_path: ''
-  form_submit_once: false
+  form_submit_once: true
   form_exception_message: ''
   form_open_message: ''
   form_close_message: ''
@@ -25,13 +25,13 @@ settings:
   form_confidential: false
   form_confidential_message: ''
   form_convert_anonymous: false
-  form_prepopulate: false
-  form_prepopulate_source_entity: false
+  form_prepopulate: true
+  form_prepopulate_source_entity: true
   form_prepopulate_source_entity_required: false
   form_prepopulate_source_entity_type: ''
   form_disable_autocomplete: false
   form_novalidate: false
-  form_unsaved: false
+  form_unsaved: true
   form_disable_back: false
   form_autofocus: false
   form_details_toggle: false
@@ -42,7 +42,7 @@ settings:
   wizard_progress_pages: false
   wizard_progress_percentage: false
   wizard_start_label: ''
-  wizard_complete: true
+  wizard_complete: false
   wizard_complete_label: ''
   preview: 0
   preview_label: ''
@@ -50,12 +50,12 @@ settings:
   preview_message: ''
   preview_attributes: {  }
   preview_excluded_elements: {  }
-  draft: none
+  draft: authenticated
   draft_multiple: false
-  draft_auto_save: false
+  draft_auto_save: true
   draft_saved_message: ''
   draft_loaded_message: ''
-  confirmation_type: page
+  confirmation_type: inline
   confirmation_title: ''
   confirmation_message: ''
   confirmation_url: ''

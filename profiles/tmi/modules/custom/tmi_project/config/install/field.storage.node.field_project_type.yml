@@ -3,36 +3,14 @@ status: true
 dependencies:
   module:
     - node
-    - options
+    - taxonomy
 id: node.field_project_type
 field_name: field_project_type
 entity_type: node
-type: list_string
+type: entity_reference
 settings:
-  allowed_values:
-    -
-      value: Artwork
-      label: Artwork
-    -
-      value: Camp
-      label: Camp
-    -
-      value: 'Mutant Vehicle'
-      label: 'Mutant Vehicle'
-    -
-      value: Performance
-      label: Performance
-    -
-      value: Service
-      label: Service
-    -
-      value: Technology
-      label: Technology
-    -
-      value: 'Theme Camp'
-      label: 'Theme Camp'
-  allowed_values_function: ''
-module: options
+  target_type: taxonomy_term
+module: core
 locked: false
 cardinality: 1
 translatable: true
