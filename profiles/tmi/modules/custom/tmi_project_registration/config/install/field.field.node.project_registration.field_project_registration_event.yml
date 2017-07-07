@@ -1,0 +1,25 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_project_registration_event
+    - node.type.project_registration
+id: node.project_registration.field_project_registration_event
+field_name: field_project_registration_event
+entity_type: node
+bundle: project_registration
+label: Event
+description: 'The event that [current-page:query:type] are to register attendance.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles: {  }
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
