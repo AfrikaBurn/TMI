@@ -3,14 +3,14 @@ status: true
 dependencies:
   module:
     - node
-    - taxonomy
-id: node.field_project_type
-field_name: field_project_type
+    - webform
+id: node.field_registration_placement
+field_name: field_registration_placement
 entity_type: node
-type: entity_reference
+type: webform
 settings:
-  target_type: taxonomy_term
-module: core
+  target_type: webform
+module: webform
 locked: false
 cardinality: 1
 translatable: true

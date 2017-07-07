@@ -2,10 +2,20 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.project_registration.field_project_registration_event
-    - field.field.node.project_registration.field_project_registration_forms
-    - field.field.node.project_registration.field_project_registration_intro
+    - field.field.node.project_registration.field_building_installation
     - field.field.node.project_registration.field_project_type
+    - field.field.node.project_registration.field_register_grant
+    - field.field.node.project_registration.field_registration_event
+    - field.field.node.project_registration.field_registration_fire
+    - field.field.node.project_registration.field_registration_introduction
+    - field.field.node.project_registration.field_registration_layout
+    - field.field.node.project_registration.field_registration_lighting
+    - field.field.node.project_registration.field_registration_moop
+    - field.field.node.project_registration.field_registration_outline
+    - field.field.node.project_registration.field_registration_placement
+    - field.field.node.project_registration.field_registration_specification
+    - field.field.node.project_registration.field_registration_structure
+    - field.field.node.project_registration.field_registration_wtf
     - node.type.project_registration
   module:
     - webform
@@ -14,8 +24,26 @@ targetEntityType: node
 bundle: project_registration
 mode: default
 content:
-  field_project_registration_event:
-    weight: 1
+  field_building_installation:
+    weight: 8
+    settings: {  }
+    third_party_settings: {  }
+    type: webform_entity_reference_select
+    region: content
+  field_project_type:
+    weight: 0
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
+  field_register_grant:
+    weight: 26
+    settings: {  }
+    third_party_settings: {  }
+    type: webform_entity_reference_select
+    region: content
+  field_registration_event:
+    weight: 2
     settings:
       match_operator: CONTAINS
       size: 60
@@ -23,25 +51,68 @@ content:
     third_party_settings: {  }
     type: entity_reference_autocomplete
     region: content
-  field_project_registration_forms:
-    weight: 3
+  field_registration_fire:
+    weight: 10
     settings: {  }
     third_party_settings: {  }
     type: webform_entity_reference_select
     region: content
-  field_project_registration_intro:
-    weight: 2
+  field_registration_introduction:
+    weight: 1
     settings:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
     type: string_textarea
     region: content
-  field_project_type:
-    weight: 0
+  field_registration_layout:
+    weight: 7
     settings: {  }
     third_party_settings: {  }
-    type: options_select
+    type: webform_entity_reference_select
+    region: content
+  field_registration_lighting:
+    weight: 9
+    settings: {  }
+    third_party_settings: {  }
+    type: webform_entity_reference_select
+    region: content
+  field_registration_moop:
+    weight: 11
+    settings: {  }
+    third_party_settings: {  }
+    type: webform_entity_reference_select
+    region: content
+  field_registration_outline:
+    weight: 3
+    settings: {  }
+    third_party_settings:
+      conditional_fields: {  }
+    type: webform_entity_reference_select
+    region: content
+  field_registration_placement:
+    weight: 6
+    settings: {  }
+    third_party_settings: {  }
+    type: webform_entity_reference_select
+    region: content
+  field_registration_specification:
+    weight: 4
+    settings: {  }
+    third_party_settings: {  }
+    type: webform_entity_reference_select
+    region: content
+  field_registration_structure:
+    weight: 5
+    settings: {  }
+    third_party_settings: {  }
+    type: webform_entity_reference_select
+    region: content
+  field_registration_wtf:
+    weight: 12
+    settings: {  }
+    third_party_settings: {  }
+    type: webform_entity_reference_select
     region: content
 hidden:
   created: true

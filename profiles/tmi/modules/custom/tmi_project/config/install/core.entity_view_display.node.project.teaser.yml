@@ -5,7 +5,6 @@ dependencies:
     - core.entity_view_mode.node.teaser
     - field.field.node.project.field_project_description
     - field.field.node.project.field_project_lead
-    - field.field.node.project.field_project_type
     - node.type.project
   module:
     - user
@@ -20,4 +19,3 @@ content:
 hidden:
   field_project_description: true
   field_project_lead: true
-  field_project_type: true

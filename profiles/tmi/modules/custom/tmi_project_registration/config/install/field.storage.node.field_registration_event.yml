@@ -4,8 +4,8 @@ dependencies:
   module:
     - node
     - taxonomy
-id: node.field_project_type
-field_name: field_project_type
+id: node.field_registration_event
+field_name: field_registration_event
 entity_type: node
 type: entity_reference
 settings:

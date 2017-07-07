@@ -1,0 +1,28 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_register_grant
+    - node.type.project_registration
+  module:
+    - webform
+id: node.project_registration.field_register_grant
+field_name: field_register_grant
+entity_type: node
+bundle: project_registration
+label: Grant
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:webform'
+  handler_settings:
+    target_bundles: null
+    auto_create: false
+  default_data: ''
+  status: open
+  open: ''
+  close: ''
+field_type: webform

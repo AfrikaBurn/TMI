@@ -2,14 +2,14 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_project_registration_intro
+    - field.storage.node.field_registration_introduction
     - node.type.project_registration
-id: node.project_registration.field_project_registration_intro
-field_name: field_project_registration_intro
+id: node.project_registration.field_registration_introduction
+field_name: field_registration_introduction
 entity_type: node
 bundle: project_registration
 label: Introduction
-description: 'Introductory text displayed at the top of each [current-page:query:type] registration.'
+description: 'Introductory text to be displayed on the project registration form.'
 required: false
 translatable: false
 default_value: {  }

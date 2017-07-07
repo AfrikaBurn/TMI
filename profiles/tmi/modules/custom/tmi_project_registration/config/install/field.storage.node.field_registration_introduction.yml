@@ -3,13 +3,12 @@ status: true
 dependencies:
   module:
     - node
-    - taxonomy
-id: node.field_project_type
-field_name: field_project_type
+id: node.field_registration_introduction
+field_name: field_registration_introduction
 entity_type: node
-type: entity_reference
+type: string_long
 settings:
-  target_type: taxonomy_term
+  case_sensitive: false
 module: core
 locked: false
 cardinality: 1

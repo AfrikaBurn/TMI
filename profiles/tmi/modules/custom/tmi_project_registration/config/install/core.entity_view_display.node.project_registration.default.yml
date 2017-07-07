@@ -2,13 +2,22 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.project_registration.field_project_registration_event
-    - field.field.node.project_registration.field_project_registration_forms
-    - field.field.node.project_registration.field_project_registration_intro
+    - field.field.node.project_registration.field_building_installation
     - field.field.node.project_registration.field_project_type
+    - field.field.node.project_registration.field_register_grant
+    - field.field.node.project_registration.field_registration_event
+    - field.field.node.project_registration.field_registration_fire
+    - field.field.node.project_registration.field_registration_introduction
+    - field.field.node.project_registration.field_registration_layout
+    - field.field.node.project_registration.field_registration_lighting
+    - field.field.node.project_registration.field_registration_moop
+    - field.field.node.project_registration.field_registration_outline
+    - field.field.node.project_registration.field_registration_placement
+    - field.field.node.project_registration.field_registration_specification
+    - field.field.node.project_registration.field_registration_structure
+    - field.field.node.project_registration.field_registration_wtf
     - node.type.project_registration
   module:
-    - options
     - user
     - webform
 id: node.project_registration.default
@@ -16,37 +25,109 @@ targetEntityType: node
 bundle: project_registration
 mode: default
 content:
-  field_project_registration_event:
-    weight: 103
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    type: entity_reference_label
-    region: content
-  field_project_registration_forms:
-    weight: 105
+  field_building_installation:
+    weight: 8
     label: above
     settings:
       source_entity: true
     third_party_settings: {  }
     type: webform_entity_reference_entity_view
     region: content
-  field_project_registration_intro:
-    weight: 104
+  field_register_grant:
+    weight: 13
+    label: above
+    settings:
+      source_entity: true
+    third_party_settings: {  }
+    type: webform_entity_reference_entity_view
+    region: content
+  field_registration_event:
+    weight: 2
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_registration_fire:
+    weight: 10
+    label: above
+    settings:
+      source_entity: true
+    third_party_settings: {  }
+    type: webform_entity_reference_entity_view
+    region: content
+  field_registration_introduction:
+    weight: 3
     label: above
     settings: {  }
     third_party_settings: {  }
     type: basic_string
     region: content
-  field_project_type:
-    weight: 102
+  field_registration_layout:
+    weight: 7
     label: above
-    settings: {  }
+    settings:
+      source_entity: true
     third_party_settings: {  }
-    type: list_default
+    type: webform_entity_reference_entity_view
     region: content
-  links:
-    weight: 100
+  field_registration_lighting:
+    weight: 9
+    label: above
+    settings:
+      source_entity: true
+    third_party_settings: {  }
+    type: webform_entity_reference_entity_view
     region: content
-hidden: {  }
+  field_registration_moop:
+    weight: 11
+    label: above
+    settings:
+      source_entity: true
+    third_party_settings: {  }
+    type: webform_entity_reference_entity_view
+    region: content
+  field_registration_outline:
+    weight: 1
+    label: above
+    settings:
+      source_entity: true
+    third_party_settings: {  }
+    type: webform_entity_reference_entity_view
+    region: content
+  field_registration_placement:
+    weight: 6
+    label: above
+    settings:
+      source_entity: true
+    third_party_settings: {  }
+    type: webform_entity_reference_entity_view
+    region: content
+  field_registration_specification:
+    weight: 4
+    label: above
+    settings:
+      source_entity: true
+    third_party_settings: {  }
+    type: webform_entity_reference_entity_view
+    region: content
+  field_registration_structure:
+    weight: 5
+    label: above
+    settings:
+      source_entity: true
+    third_party_settings: {  }
+    type: webform_entity_reference_entity_view
+    region: content
+  field_registration_wtf:
+    weight: 12
+    label: above
+    settings:
+      source_entity: true
+    third_party_settings: {  }
+    type: webform_entity_reference_entity_view
+    region: content
+hidden:
+  field_project_type: true
+  links: true

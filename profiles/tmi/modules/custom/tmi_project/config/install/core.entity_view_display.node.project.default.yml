@@ -7,7 +7,6 @@ dependencies:
     - field.field.node.project.field_project_type
     - node.type.project
   module:
-    - options
     - text
     - user
 id: node.project.default
@@ -31,11 +30,12 @@ content:
     type: entity_reference_label
     region: content
   field_project_type:
-    weight: 102
+    weight: 104
     label: above
-    settings: {  }
+    settings:
+      link: true
     third_party_settings: {  }
-    type: list_default
+    type: entity_reference_label
     region: content
   links:
     weight: 100

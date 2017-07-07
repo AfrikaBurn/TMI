@@ -10,7 +10,7 @@ third_party_settings:
     parent: 'main:'
 name: 'Project Registration'
 type: project_registration
-description: ''
+description: 'A collection of project registrations for an event.'
 help: ''
 new_revision: false
 preview_mode: 0
