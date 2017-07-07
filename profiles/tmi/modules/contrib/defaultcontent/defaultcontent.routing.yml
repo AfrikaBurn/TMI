@@ -1,0 +1,25 @@
+defaultcontent.admin:
+  path: '/admin/content/defaultcontent'
+  defaults:
+    _controller: '\Drupal\defaultcontent\ListImportables::render'
+    _title: Import default content
+  requirements:
+    _permission: 'access administration pages'
+
+#no use case for importing via the UI
+#defaultcontent.import:
+#  path: '/admin/content/defaultcontent/import/{id}'
+#  defaults:
+#    _controller: '\Drupal\defaultcontent\Import::import'
+#  requirements:
+#    _permission: 'access administration pages'
+          
+entity.node.convert:
+  path: 'node/{node}/convert'
+  defaults:
+    _entity_form: node.defaultcontent_export
+#    _title_callback: '\Drupal\defaultcontent\Export::title'
+  requirements: 
+    _permission: 'access site reports'
+  options:
+    _admin_route: true

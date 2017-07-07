@@ -1,6 +1,0 @@
-name: 'TMI Testing'
-description: 'Modules intended for the testing environment.'
-type: module
-core: 8.x
-version: 8.x-0.0
-package: TMI

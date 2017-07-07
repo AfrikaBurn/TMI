@@ -1,7 +1,0 @@
-langcode: en
-status: true
-dependencies: {  }
-id: authenticated
-label: Participant
-weight: -9
-is_admin: false

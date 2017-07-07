@@ -1,5 +1,5 @@
-name: 'TMI Core'
-description: 'TMI Common configuration'
+name: Core
+description: 'Provides core components required by other features.'
 type: module
 core: 8.x
 dependencies:
@@ -7,17 +7,18 @@ dependencies:
   - block_content
   - comment
   - contact
+  - datetime
+  - field
   - file
-  - help
-  - image
+  - group
   - menu_link_content
   - node
+  - path
   - shortcut
-  - system
   - taxonomy
+  - text
+  - tmi_site
   - tour
   - user
-  - views
   - webform
 package: TMI
-version: 8.x-0.0

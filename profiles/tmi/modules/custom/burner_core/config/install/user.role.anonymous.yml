@@ -1,7 +1,0 @@
-langcode: en
-status: true
-dependencies: {  }
-id: anonymous
-label: Visitor
-weight: -10
-is_admin: false

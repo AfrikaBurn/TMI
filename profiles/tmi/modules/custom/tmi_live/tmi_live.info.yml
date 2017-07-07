@@ -1,6 +1,0 @@
-name: 'TMI Live'
-description: 'Modules intended for the live environment.'
-type: module
-core: 8.x
-version: 8.x-0.0
-package: TMI

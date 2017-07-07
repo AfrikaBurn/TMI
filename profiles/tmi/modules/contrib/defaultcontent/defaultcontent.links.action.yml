@@ -1,0 +1,5 @@
+#entity.defaultnode.collection:
+#  route_name: 'defaultcontent.admin'
+#  appears_on: 
+#    - system.admin_content
+#  title: Import content

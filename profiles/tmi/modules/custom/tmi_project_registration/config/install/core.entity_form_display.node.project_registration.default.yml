@@ -1,0 +1,52 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.project_registration.field_project_registration_event
+    - field.field.node.project_registration.field_project_registration_forms
+    - field.field.node.project_registration.field_project_registration_intro
+    - field.field.node.project_registration.field_project_type
+    - node.type.project_registration
+  module:
+    - webform
+id: node.project_registration.default
+targetEntityType: node
+bundle: project_registration
+mode: default
+content:
+  field_project_registration_event:
+    weight: 1
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_project_registration_forms:
+    weight: 3
+    settings: {  }
+    third_party_settings: {  }
+    type: webform_entity_reference_select
+    region: content
+  field_project_registration_intro:
+    weight: 2
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textarea
+    region: content
+  field_project_type:
+    weight: 0
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
+hidden:
+  created: true
+  path: true
+  promote: true
+  sticky: true
+  title: true
+  uid: true

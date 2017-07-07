@@ -1,0 +1,17 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - node.type.project_registration
+  module:
+    - user
+id: node.project_registration.teaser
+targetEntityType: node
+bundle: project_registration
+mode: teaser
+content:
+  links:
+    weight: 100
+    region: content
+hidden: {  }

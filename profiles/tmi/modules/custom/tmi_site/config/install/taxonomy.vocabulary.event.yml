@@ -1,0 +1,8 @@
+langcode: en
+status: true
+dependencies: {  }
+name: Event
+vid: event
+description: ''
+hierarchy: 1
+weight: 0

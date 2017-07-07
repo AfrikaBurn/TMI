@@ -1,0 +1,4 @@
+services:
+  defaultcontent.manager:
+    class: Drupal\defaultcontent\DefaultContentManager
+    arguments: ['@serializer', '@plugin.manager.rest', '@entity_type.manager', '@rest.link_manager']

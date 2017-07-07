@@ -1,0 +1,40 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.event.field_event_date
+    - field.field.taxonomy_term.event.field_event_theme
+    - taxonomy.vocabulary.event
+  module:
+    - datetime
+    - text
+id: taxonomy_term.event.default
+targetEntityType: taxonomy_term
+bundle: event
+mode: default
+content:
+  description:
+    label: hidden
+    type: text_default
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_event_date:
+    weight: 2
+    label: above
+    settings:
+      format_type: medium
+      timezone_override: ''
+    third_party_settings: {  }
+    type: datetime_default
+    region: content
+  field_event_theme:
+    weight: 1
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+hidden: {  }

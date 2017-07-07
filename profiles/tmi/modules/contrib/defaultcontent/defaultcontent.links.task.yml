@@ -1,0 +1,6 @@
+entity.node.convert:
+  route_name: entity.node.convert
+  base_route: entity.node.canonical
+  title: Export
+  description: Download the main entity, but drush is needed to get the menu link
+  

@@ -1,0 +1,14 @@
+name: Agreement
+description: 'Provides Agreement content type and related configuration. An agreement made between burners.'
+type: module
+core: 8.x
+dependencies:
+  - field
+  - gnode
+  - group
+  - menu_ui
+  - node
+  - path
+  - user
+  - webform
+package: TMI

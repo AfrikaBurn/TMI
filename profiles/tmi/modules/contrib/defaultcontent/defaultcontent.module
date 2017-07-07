@@ -1,0 +1,71 @@
+<?php
+
+use Drupal\node\Entity\Node;
+use Drupal\menu_link_content\Entity\MenuLinkContent;
+
+/**
+ * Implements hook_help
+ *
+ */
+function defaultcontent_help($route_name, $route_match) {
+  if ($route_name == 'defaultcontent.admin' || $route_name == 'help.page.defaultcontent'){
+    return "For best results export content using drush. " .
+      "E.g. drush defaultcontent-export node 1 mymodule. " .
+      "This will export both the node entity and its menu link into mymodule/content. " .
+      "Using the export tab on each node will not give you the menu link file.";
+  }
+}
+
+/**
+ * Implements hook_entity_type_alter().
+ * creates another node form for exporting
+ */
+function defaultcontent_entity_type_alter(array &$entity_types) {
+  $entity_types['node']
+    ->setFormClass('defaultcontent_export', 'Drupal\defaultcontent\Export');
+}
+
+
+function __defaultcontent_import_multiple($configs) {
+  $langs = array_keys(\Drupal::languageManager()->getLanguages());
+  foreach($configs as $config) {
+    if (in_array($config->get('langcode'), $langs)) {
+      defaultcontent_import_one($config);
+    }
+  }
+}
+
+/**
+ * import any nodes found in this module's config
+ */
+function __defaultcontent_import_one($config) {
+  $node = Node::Create(['type' => $config->get('type')])
+    ->setCreatedTime($config->get('created'))
+    ->setOwnerId($config->get('created'))
+    ->setRevisionCreationTime($config->get('created'))
+    ->setPromoted($config->get('promote'))
+    ->setPublished($config->get('status'))
+    ->setSticky($config->get('sticky'))
+    ->set('title', $config->get('title'))
+    ->set('langcode', $config->get('langcode'))
+    ->set('path', $config->get('alias'));
+  foreach ($config->get('fields') as $field_name => $field_contents) {
+    $node->set($field_name, $field_contents);
+  }
+  $node->save();
+
+  if ($menu_link = $config->get('menu_link')) {
+    $props = $menu_link + ['link' => ['uri' => 'entity:node/' . $node->id()]];
+    MenuLinkContent::create($props)->save();
+  }
+  $config->delete();
+
+}
+
+/**
+ * make a unique machine for the node
+ * will use the path alias, otherwise node_1
+ */
+function defaultcontent_id($node) {
+  return preg_replace('/[^a-z0-9_]+/', '_', $node->language()->getId() .'-'.strtolower($node->url()));
+}

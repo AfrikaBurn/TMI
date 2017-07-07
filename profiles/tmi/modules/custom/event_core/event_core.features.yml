@@ -1,6 +1,0 @@
-bundle: event
-excluded:
-  - core.entity_form_display.node.project_registration.default
-  - core.entity_view_display.node.project_registration.default
-  - core.entity_view_display.node.project_registration.teaser
-required: true

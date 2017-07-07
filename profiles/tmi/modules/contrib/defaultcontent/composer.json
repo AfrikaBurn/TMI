@@ -1,0 +1,8 @@
+{
+  "name": "drupal/defaultcontent",
+  "description": "Imports default content when a module is enabled",
+  "type": "drupal-module",
+  "license": "GPL-2.0+",
+  "minimum-stability": "dev",
+  "require": { }
+}
