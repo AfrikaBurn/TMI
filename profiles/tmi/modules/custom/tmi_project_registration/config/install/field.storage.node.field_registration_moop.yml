@@ -3,13 +3,14 @@ status: true
 dependencies:
   module:
     - node
-id: node.field_project_registration_intro
-field_name: field_project_registration_intro
+    - webform
+id: node.field_registration_moop
+field_name: field_registration_moop
 entity_type: node
-type: string_long
+type: webform
 settings:
-  case_sensitive: false
-module: core
+  target_type: webform
+module: webform
 locked: false
 cardinality: 1
 translatable: true
