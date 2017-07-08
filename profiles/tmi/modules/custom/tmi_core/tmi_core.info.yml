@@ -15,6 +15,7 @@ dependencies:
   - node
   - path
   - shortcut
+  - system
   - taxonomy
   - text
   - tmi_site

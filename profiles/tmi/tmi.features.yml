@@ -1,7 +1,2 @@
 bundle: tmi
-excluded:
-  - system.theme
-  - block.block.pagetitle
-  - block.block.tabs
-  - block.block.mainnavigation
 required: true
