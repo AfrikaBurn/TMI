@@ -18,6 +18,7 @@ dependencies:
   - system
   - taxonomy
   - text
+  - tmi
   - tmi_site
   - tour
   - user
