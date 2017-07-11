@@ -1,0 +1,46 @@
+{
+    "_links": {
+        "type": {
+            "href": "http:\/\/drupal.org\/rest\/type\/taxonomy_term\/project_type"
+        }
+    },
+    "uuid": [
+        {
+            "value": "a11b6fb0-2cc5-41f2-9135-a6f2cfa413de"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en",
+            "lang": "en"
+        }
+    ],
+    "vid": [
+        {
+            "target_id": "project_type"
+        }
+    ],
+    "name": [
+        {
+            "value": "Performance",
+            "lang": "en"
+        }
+    ],
+    "weight": [
+        {
+            "value": 0
+        }
+    ],
+    "changed": [
+        {
+            "value": 1499788961,
+            "lang": "en"
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ]
+}

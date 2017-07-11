@@ -1,0 +1,46 @@
+{
+    "_links": {
+        "type": {
+            "href": "http:\/\/drupal.org\/rest\/type\/taxonomy_term\/project_type"
+        }
+    },
+    "uuid": [
+        {
+            "value": "9b5a0972-bb4c-4b4c-8ece-7d60df3683dc"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en",
+            "lang": "en"
+        }
+    ],
+    "vid": [
+        {
+            "target_id": "project_type"
+        }
+    ],
+    "name": [
+        {
+            "value": "Service",
+            "lang": "en"
+        }
+    ],
+    "weight": [
+        {
+            "value": 0
+        }
+    ],
+    "changed": [
+        {
+            "value": 1499788983,
+            "lang": "en"
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ]
+}
