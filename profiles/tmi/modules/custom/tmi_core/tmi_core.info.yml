@@ -15,11 +15,9 @@ dependencies:
   - node
   - path
   - shortcut
-  - system
   - taxonomy
   - text
-  - tmi
-  - tmi_site
+  - tmi_project_registration
   - tour
   - user
   - webform

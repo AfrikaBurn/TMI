@@ -1,12 +1,1 @@
 bundle: tmi
-excluded:
-  - webform.webform.project_fire
-  - webform.webform.project_grant
-  - webform.webform.project_layout
-  - webform.webform.project_lighting
-  - webform.webform.project_moop
-  - webform.webform.project_outline
-  - webform.webform.project_placement
-  - webform.webform.project_structure
-  - webform.webform.project_wtf
-required: true

@@ -1,15 +1,13 @@
 name: 'Project Registration'
-description: 'Provides Project Registration content type and related configuration. '
+description: 'Provides Project Registration content type and related configuration. A collection of project registrations for an event.'
 type: module
 core: 8.x
 dependencies:
   - field
   - menu_ui
   - node
-  - options
   - taxonomy
   - tmi_project
-  - tmi_site
   - user
   - webform
 package: TMI

@@ -1,16 +1,13 @@
 name: Project
-description: 'Provides Project content type and related configuration. A project to attend an Afrikaburn event and may represent: An Artwork; Camp; Mutant Vehicle; Performance; or Theme Camp.'
+description: 'Provides Project content type and related configuration. A project at an event that may include Artworks, Camps, Mutant Vehicles, Performances, Services, Technologies, or Theme Camps.'
 type: module
 core: 8.x
 dependencies:
   - field
   - menu_ui
   - node
-  - options
-  - path
   - taxonomy
   - text
   - user
   - webform
 package: TMI
-version: 8.x-0.0
