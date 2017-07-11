@@ -1,4 +1,4 @@
-name: Core
+name: 'TMI Core'
 description: 'Provides core components required by other features.'
 type: module
 core: 8.x
@@ -15,6 +15,7 @@ dependencies:
   - node
   - path
   - shortcut
+  - system
   - taxonomy
   - text
   - tmi_project_registration
@@ -22,3 +23,4 @@ dependencies:
   - user
   - webform
 package: TMI
+version: 8.x-0.0

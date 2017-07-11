@@ -1,0 +1,11 @@
+name: Collective
+type: module
+core: 8.x
+dependencies:
+  - field
+  - group
+  - path
+  - user
+version: 8.x-0.0
+package: TMI
+description: 'Provides the ability for burners to form collectives.'

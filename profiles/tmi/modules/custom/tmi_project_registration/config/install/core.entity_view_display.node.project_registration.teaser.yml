@@ -5,7 +5,12 @@ dependencies:
     - core.entity_view_mode.node.teaser
     - field.field.node.project_registration.field_project_type
     - field.field.node.project_registration.field_registration_event
+    - field.field.node.project_registration.field_registration_introduction
     - field.field.node.project_registration.field_registration_outline
+    - field.field.node.project_registration.field_registration_placement
+    - field.field.node.project_registration.field_registration_specification
+    - field.field.node.project_registration.field_registration_structure
+    - field.field.node.project_registration.field_registration_wtf
     - node.type.project_registration
   module:
     - user
@@ -20,4 +25,9 @@ content:
 hidden:
   field_project_type: true
   field_registration_event: true
+  field_registration_introduction: true
   field_registration_outline: true
+  field_registration_placement: true
+  field_registration_specification: true
+  field_registration_structure: true
+  field_registration_wtf: true
