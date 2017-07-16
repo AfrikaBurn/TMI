@@ -13,6 +13,13 @@ use \Drupal\webform\WebformSubmissionForm;
  * Implements hook_node_view().
  */
 function tmi_project_registration_node_view_alter(&$build) {
+
+  $pid = \Drupal::request()->query->get('project_id');
+  if (\Drupal::entityTypeManager()->getStorage('node')->load($pid) == NULL) {
+    drupal_set_message('No project could be found to create a registration for. Please contact your wrangler for the correct link.', 'error');
+    throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();    
+  }
+
   if ($build['#node']->getType() === 'project_registration') {
     foreach($build as $key=>$element){
       if ($key[0] != '#' && $element['#field_type'] === 'webform') {
