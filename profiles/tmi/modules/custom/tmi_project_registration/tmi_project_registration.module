@@ -87,12 +87,6 @@ function tmi_project_registration_webform_submission_form_alter(array &$form, Fo
     if ($sid) {
       $submission = WebformSubmission::load($sid);
       $data = $submission->getData();
-      // if (!$submission->isDraft()){
-      //   $matches = [];
-      //   preg_match('/[^\_]+$/', $matches, $wid);
-      //   $wid_key = $matches[0];
-      //   $form['#attached']['drupalSettings']['tmiProjectRegistration']['complete'][$wid_key] = $wid_key;
-      // }
       _tmi_project_registration_populate($form['elements'], $data, $sid);
       unset($form['actions']['submit']);
     }
@@ -100,7 +94,7 @@ function tmi_project_registration_webform_submission_form_alter(array &$form, Fo
 }
 
 /**
- * Saves a draft submission
+ * Saves a draft submission.
  */
 function tmi_project_registration_save_draft($form, &$form_state){
 
