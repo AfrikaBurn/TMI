@@ -1,0 +1,226 @@
+<?php
+
+/**
+ * @file
+ * Project registration custom code.
+ */
+
+use \Drupal\Core\Form\FormStateInterface;
+use \Drupal\webform\Entity\WebformSubmission;
+use \Drupal\webform\WebformSubmissionForm;
+
+/**
+ * Implements hook_node_view().
+ */
+function tmi_project_registration_node_view_alter(&$build) {
+  if ($build['#node']->getType() === 'project_registration') {
+    foreach($build as $key=>$element){
+      if ($key[0] != '#' && $element['#field_type'] === 'webform') {
+
+        $wid = $element[0]['#webform_id'];
+        $sid = _tmi_project_registration_existing_sid($wid);
+        $matches = [];
+        preg_match('/[^_]+$/', $wid, $matches);
+        $key = $matches[0];
+
+        if ($sid) {
+
+          $submission = WebformSubmission::load($sid);
+          $draft = $submission->isDraft();
+
+          $build["field_registration_{$key}"][0]['elements']['preamble']['submitted'] = [
+            '#type' => 'webform_message',
+            '#message_type' => ($draft ? 'warning' : 'status'),
+            '#message_message' => ($draft
+              ? "Your team has started the {$key} and it still needs to be completed."
+              : "Your team has already completed the {$key}, but you may still edit it."
+            ),
+            '#weight' => 10,
+            '#parents' => 'preamble',
+            '#array_parents' => ['elements', 'preamble'],
+          ];
+          $build['#attached']['drupalSettings']['tmiProjectRegistration']['state'][$key] = $draft ? 'started' : 'complete';
+
+        } else {
+
+          $build["field_registration_{$key}"][0]['elements']['preamble']['submitted'] = [
+            '#type' => 'webform_message',
+            '#message_type' => 'warning',
+            '#message_message' => "Your team has not started the working on the {$key} and it must be completed!",
+            '#weight' => 10,
+            '#parents' => 'preamble',
+            '#array_parents' => ['elements', 'preamble'],
+          ];
+          $build['#attached']['drupalSettings']['tmiProjectRegistration']['state'][$key] = 'started';
+
+        }
+      }
+    }
+    $build['#attached']['library'][] = 'tmi_project_registration/formBehaviour';
+  }
+}
+
+/**
+ * Implements hook_webform_submission_form_alter().
+ * Hooked to populate the subforms with existing submissions and save drafts.
+ */
+function tmi_project_registration_webform_submission_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
+
+  $node = \Drupal::routeMatch()->getParameter('node');
+  $nid = isset($node) ? $node->id() : FALSE;
+  $wid = $form['#webform_id'];
+  $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($wid);
+
+  if ($webform && $webform->get('category') === 'Project Registration' && $nid){
+
+    $form['#validate'][] = 'tmi_project_registration_save_draft';
+
+    $sid = _tmi_project_registration_existing_sid($wid);
+
+    if ($sid) {
+      $submission = WebformSubmission::load($sid);
+      $data = $submission->getData();
+      // if (!$submission->isDraft()){
+      //   $matches = [];
+      //   preg_match('/[^\_]+$/', $matches, $wid);
+      //   $wid_key = $matches[0];
+      //   $form['#attached']['drupalSettings']['tmiProjectRegistration']['complete'][$wid_key] = $wid_key;
+      // }
+      _tmi_project_registration_populate($form['elements'], $data, $sid);
+      unset($form['actions']['submit']);
+    }
+  }
+}
+
+/**
+ * Saves a draft submission
+ */
+function tmi_project_registration_save_draft($form, &$form_state){
+
+  $nid = \Drupal::routeMatch()->getParameter('node')->id();
+  $wid = $form['#webform_id'];
+  $sid = _tmi_project_registration_existing_sid($wid);
+  $values = $form_state->getValues();
+
+  // Not sure if this matters
+  foreach([
+    'wizard_next',
+    'wizard_prev',
+    'submit',
+    'form_build_id',
+    'form_token',
+    'form_id',
+    'op',
+  ] as $key) {
+    unset($values[$key]);
+  }
+
+  if ($sid) {
+
+    $pages = array_keys($form_state->getStorage()['pages']);
+    $current_index = array_search($form_state->getStorage()['current_page'], $pages);
+    $values = $form_state->getValues();
+    $page = [
+      $values['wizard_next'] => $pages[$current_index + 1],
+      $values['wizard_prev'] => $pages[$current_index - 1],
+    ][$values['op']];
+
+    $submission = WebformSubmission::load($sid);
+    $submission->setCurrentPage($page);
+    $submission->setData($values);
+    if ($page === 'complete') {
+      $submission->set('in_draft', 0);
+    }
+
+  } else {
+
+    $submission_data = [
+      'webform_id' => $wid,
+      'entity_type' => 'node',
+      'entity_id' => $nid,
+      'in_draft' => 1,
+      'langcode' => 'en',  
+      'token' => implode('-', [$wid, $sid]),
+      'uri' => "/webform/{$wid}/api",
+      'remote_addr' => '',
+      'data' => $values,
+    ];
+
+    $submission = WebformSubmission::create($submission_data);
+  }
+
+  $submission->save();
+}
+
+/**
+ * Checks for existing submission
+ * @param  [string] webform id
+ * @return [int]    submission id if existing, FALSE if not
+ */
+function _tmi_project_registration_existing_sid($wid){
+
+  $nid = \Drupal::routeMatch()->getParameter('node')->id();
+  $pid = \Drupal::request()->query->get('project_id');
+
+  $result = db_query(
+    "
+    SELECT 
+      {webform_submission}.sid
+    FROM
+      {webform_submission},
+      {webform_submission_data}
+    WHERE
+      {webform_submission}.sid = {webform_submission_data}.sid AND
+      {webform_submission_data}.name = 'project_id' AND
+      {webform_submission}.webform_id = :wid AND
+      {webform_submission}.entity_id = :eid AND
+      {webform_submission_data}.value = :pid
+    ",
+    [
+      ':wid' => $wid,
+      ':eid' => $nid,
+      ':pid' => $pid,
+    ]
+  )->fetch();
+  $sid = $result ? $result->sid : FALSE;
+
+  return $sid;
+}
+
+/**
+ * Populates a submission form.
+ * @param  [array] form elements
+ * @param  [string] webform id
+ * @param  [string] submission id
+ */
+function _tmi_project_registration_populate(&$elements, $data, $sid){
+  foreach($elements as $key=>&$element){
+
+    $value = $data[$key];
+    if (isset($data[$key])) {
+      switch ($element['#type']){
+        case 'entity_autocomplete': _tmi_project_registration_set_autocomplete_entity($element, $value); break;
+        default: $elements[$key]['#default_value'] = $value;
+      }
+      $elements[$key]['#webform_submission'] = $sid;
+    }
+
+    if ($key[0] !== '#' && is_array($elements[$key])) {
+      _tmi_project_registration_populate($elements[$key], $data, $sid);
+    }    
+
+  }
+}
+
+/**
+ * Populates an autocomplete entity element.
+ * @param  [array]  Form element to be populated
+ * @param  [string] Value to populate
+ */ 
+function _tmi_project_registration_set_autocomplete_entity(&$element, $value){
+  $entity = entity_load($element['#target_type'], $value);
+  if (isset($entity)) {
+    $label = array_shift(array_filter([$entity->label, $entity->getUsername()]));
+    $element['#default_value'] = "{$label} ({$value})";
+  }
+}

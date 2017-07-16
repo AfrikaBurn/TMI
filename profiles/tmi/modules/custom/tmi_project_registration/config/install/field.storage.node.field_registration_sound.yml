@@ -4,8 +4,8 @@ dependencies:
   module:
     - node
     - webform
-id: node.field_registration_introduction
-field_name: field_registration_introduction
+id: node.field_registration_sound
+field_name: field_registration_sound
 entity_type: node
 type: webform
 settings:

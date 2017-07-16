@@ -5,10 +5,16 @@ dependencies:
     - core.entity_view_mode.node.teaser
     - field.field.node.project_registration.field_project_type
     - field.field.node.project_registration.field_registration_event
+    - field.field.node.project_registration.field_registration_fire
     - field.field.node.project_registration.field_registration_introduction
-    - field.field.node.project_registration.field_registration_outline
+    - field.field.node.project_registration.field_registration_layout
+    - field.field.node.project_registration.field_registration_lighting
+    - field.field.node.project_registration.field_registration_logistics
+    - field.field.node.project_registration.field_registration_moop
+    - field.field.node.project_registration.field_registration_overview
     - field.field.node.project_registration.field_registration_placement
-    - field.field.node.project_registration.field_registration_specification
+    - field.field.node.project_registration.field_registration_safety
+    - field.field.node.project_registration.field_registration_sound
     - field.field.node.project_registration.field_registration_structure
     - field.field.node.project_registration.field_registration_wtf
     - node.type.project_registration
@@ -25,9 +31,15 @@ content:
 hidden:
   field_project_type: true
   field_registration_event: true
+  field_registration_fire: true
   field_registration_introduction: true
-  field_registration_outline: true
+  field_registration_layout: true
+  field_registration_lighting: true
+  field_registration_logistics: true
+  field_registration_moop: true
+  field_registration_overview: true
   field_registration_placement: true
-  field_registration_specification: true
+  field_registration_safety: true
+  field_registration_sound: true
   field_registration_structure: true
   field_registration_wtf: true

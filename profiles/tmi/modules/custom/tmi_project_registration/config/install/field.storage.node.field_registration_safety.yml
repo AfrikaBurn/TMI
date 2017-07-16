@@ -4,8 +4,8 @@ dependencies:
   module:
     - node
     - webform
-id: node.field_building_installation
-field_name: field_building_installation
+id: node.field_registration_safety
+field_name: field_registration_safety
 entity_type: node
 type: webform
 settings:

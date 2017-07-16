@@ -5,15 +5,15 @@ open: null
 close: null
 uid: 1
 template: false
-id: project_fire
-title: 'Project Fire'
+id: project_logistics
+title: 'Project Logistics'
 description: ''
 category: 'Project Registration'
 elements: '{  }'
 css: ''
 javascript: ''
 settings:
-  ajax: true
+  ajax: false
   page: true
   page_submit_path: ''
   page_confirm_path: ''
@@ -55,7 +55,7 @@ settings:
   draft_auto_save: false
   draft_saved_message: ''
   draft_loaded_message: ''
-  confirmation_type: inline
+  confirmation_type: page
   confirmation_title: ''
   confirmation_message: ''
   confirmation_url: ''

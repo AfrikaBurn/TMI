@@ -9,7 +9,7 @@ id: project_structure
 title: 'Project Structure'
 description: ''
 category: 'Project Registration'
-elements: null
+elements: "test:\n  '#type': textfield\n  '#title': Test\n"
 css: ''
 javascript: ''
 settings:

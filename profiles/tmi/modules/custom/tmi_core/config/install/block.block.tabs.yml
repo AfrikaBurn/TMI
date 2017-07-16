@@ -6,7 +6,7 @@ dependencies:
 id: tabs
 theme: bartik
 region: content
-weight: 0
+weight: -1
 provider: null
 plugin: local_tasks_block
 settings:

@@ -10,7 +10,7 @@ use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Entity\Sql\SqlEntityStorageInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\StringTranslation\TranslationInterface;
-use Drupal\webform\WebformElementManagerInterface;
+use Drupal\webform\Plugin\WebformElementManagerInterface;
 use Drupal\webform\WebformInterface;
 use Drupal\webform\WebformSubmissionViewsData as WebformSubmissionViewsDataBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;

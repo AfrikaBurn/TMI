@@ -1,0 +1,8 @@
+langcode: en
+status: true
+dependencies: {  }
+name: Skill
+vid: skill
+description: ''
+hierarchy: 0
+weight: 0

@@ -4,8 +4,8 @@ dependencies:
   module:
     - node
     - webform
-id: node.field_registration_specification
-field_name: field_registration_specification
+id: node.field_registration_logistics
+field_name: field_registration_logistics
 entity_type: node
 type: webform
 settings:

@@ -6,8 +6,8 @@ use Drupal\Component\Utility\Html;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\webform\WebformElementInterface;
-use Drupal\webform\WebformElementManagerInterface;
+use Drupal\webform\Plugin\WebformElementInterface;
+use Drupal\webform\Plugin\WebformElementManagerInterface;
 use Drupal\webform\WebformInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

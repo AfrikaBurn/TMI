@@ -2,55 +2,223 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.project_registration.field_building_installation
     - field.field.node.project_registration.field_project_type
-    - field.field.node.project_registration.field_register_grant
     - field.field.node.project_registration.field_registration_event
     - field.field.node.project_registration.field_registration_fire
+    - field.field.node.project_registration.field_registration_grant
     - field.field.node.project_registration.field_registration_introduction
     - field.field.node.project_registration.field_registration_layout
     - field.field.node.project_registration.field_registration_lighting
+    - field.field.node.project_registration.field_registration_logistics
     - field.field.node.project_registration.field_registration_moop
-    - field.field.node.project_registration.field_registration_outline
+    - field.field.node.project_registration.field_registration_overview
     - field.field.node.project_registration.field_registration_placement
-    - field.field.node.project_registration.field_registration_specification
+    - field.field.node.project_registration.field_registration_safety
+    - field.field.node.project_registration.field_registration_sound
     - field.field.node.project_registration.field_registration_structure
     - field.field.node.project_registration.field_registration_wtf
     - node.type.project_registration
   module:
+    - field_group
     - user
     - webform
+third_party_settings:
+  field_group:
+    group_root:
+      children:
+        - group_introduction
+        - group_overview
+        - group_safety
+        - group_structure
+        - group_placement
+        - group_layout
+        - group_lighting
+        - group_sound
+        - group_moop
+        - group_fire
+        - group_wtf
+        - group_grant
+      parent_name: ''
+      weight: 1
+      format_type: tabs
+      format_settings:
+        id: ''
+        classes: ''
+        direction: vertical
+      label: Root
+    group_grant:
+      children:
+        - field_registration_grant
+      parent_name: group_root
+      weight: 32
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+      label: Grant
+    group_layout:
+      children:
+        - field_registration_layout
+      parent_name: group_root
+      weight: 26
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+      label: Layout
+    group_lighting:
+      children:
+        - field_registration_lighting
+      parent_name: group_root
+      weight: 27
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+      label: Lighting
+    group_moop:
+      children:
+        - field_registration_moop
+      parent_name: group_root
+      weight: 29
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+      label: Moop
+    group_placement:
+      children:
+        - field_registration_placement
+      parent_name: group_root
+      weight: 25
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+      label: Placement
+    group_structure:
+      children:
+        - field_registration_structure
+      parent_name: group_root
+      weight: 24
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+      label: Structure
+    group_wtf:
+      children:
+        - field_registration_wtf
+      parent_name: group_root
+      weight: 31
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+      label: 'WTF guide'
+    group_overview:
+      children:
+        - field_registration_overview
+      parent_name: group_root
+      weight: 22
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+      label: Overview
+    group_safety:
+      children:
+        - field_registration_safety
+      parent_name: group_root
+      weight: 23
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+      label: Safety
+    group_sound:
+      children:
+        - field_registration_sound
+        - group_logistics
+      parent_name: group_root
+      weight: 28
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+      label: Sound
+    group_fire:
+      children:
+        - field_registration_fire
+      parent_name: group_root
+      weight: 30
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+      label: Fire
+    group_logistics:
+      children:
+        - field_registration_logistics
+      parent_name: group_sound
+      weight: 24
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+      label: Logistics
+    group_introduction:
+      children:
+        - field_registration_introduction
+      parent_name: group_root
+      weight: 20
+      format_type: tab
+      format_settings:
+        label: Introduction
+        formatter: closed
+        description: ''
+        id: ''
+        classes: ''
+      label: Introduction
 id: node.project_registration.default
 targetEntityType: node
 bundle: project_registration
 mode: default
 content:
-  field_building_installation:
-    weight: 8
-    label: above
-    settings:
-      source_entity: true
-    third_party_settings: {  }
-    type: webform_entity_reference_entity_view
-    region: content
-  field_register_grant:
-    weight: 13
-    label: above
-    settings:
-      source_entity: true
-    third_party_settings: {  }
-    type: webform_entity_reference_entity_view
-    region: content
-  field_registration_event:
-    weight: 2
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    type: entity_reference_label
-    region: content
   field_registration_fire:
     weight: 10
+    label: hidden
+    settings:
+      source_entity: true
+    third_party_settings: {  }
+    type: webform_entity_reference_entity_view
+    region: content
+  field_registration_grant:
+    weight: 35
     label: above
     settings:
       source_entity: true
@@ -58,15 +226,16 @@ content:
     type: webform_entity_reference_entity_view
     region: content
   field_registration_introduction:
-    weight: 3
-    label: above
-    settings: {  }
+    weight: 4
+    label: hidden
+    settings:
+      source_entity: true
     third_party_settings: {  }
-    type: basic_string
+    type: webform_entity_reference_entity_view
     region: content
   field_registration_layout:
-    weight: 7
-    label: above
+    weight: 27
+    label: hidden
     settings:
       source_entity: true
     third_party_settings: {  }
@@ -74,6 +243,14 @@ content:
     region: content
   field_registration_lighting:
     weight: 9
+    label: hidden
+    settings:
+      source_entity: true
+    third_party_settings: {  }
+    type: webform_entity_reference_entity_view
+    region: content
+  field_registration_logistics:
+    weight: 34
     label: above
     settings:
       source_entity: true
@@ -81,16 +258,16 @@ content:
     type: webform_entity_reference_entity_view
     region: content
   field_registration_moop:
-    weight: 11
-    label: above
+    weight: 21
+    label: hidden
     settings:
       source_entity: true
     third_party_settings: {  }
     type: webform_entity_reference_entity_view
     region: content
-  field_registration_outline:
-    weight: 1
-    label: above
+  field_registration_overview:
+    weight: 31
+    label: hidden
     settings:
       source_entity: true
     third_party_settings: {  }
@@ -98,15 +275,23 @@ content:
     region: content
   field_registration_placement:
     weight: 6
-    label: above
+    label: hidden
     settings:
       source_entity: true
     third_party_settings: {  }
     type: webform_entity_reference_entity_view
     region: content
-  field_registration_specification:
-    weight: 4
-    label: above
+  field_registration_safety:
+    weight: 32
+    label: hidden
+    settings:
+      source_entity: true
+    third_party_settings: {  }
+    type: webform_entity_reference_entity_view
+    region: content
+  field_registration_sound:
+    weight: 21
+    label: hidden
     settings:
       source_entity: true
     third_party_settings: {  }
@@ -114,7 +299,7 @@ content:
     region: content
   field_registration_structure:
     weight: 5
-    label: above
+    label: hidden
     settings:
       source_entity: true
     third_party_settings: {  }
@@ -122,12 +307,17 @@ content:
     region: content
   field_registration_wtf:
     weight: 12
-    label: above
+    label: hidden
     settings:
       source_entity: true
     third_party_settings: {  }
     type: webform_entity_reference_entity_view
     region: content
+  links:
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
 hidden:
   field_project_type: true
-  links: true
+  field_registration_event: true

@@ -6,7 +6,7 @@ dependencies:
 id: pagetitle
 theme: bartik
 region: content
-weight: 0
+weight: -2
 provider: null
 plugin: page_title_block
 settings:

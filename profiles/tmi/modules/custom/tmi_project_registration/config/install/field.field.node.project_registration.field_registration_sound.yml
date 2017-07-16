@@ -2,19 +2,26 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_register_grant
+    - field.storage.node.field_registration_sound
     - node.type.project_registration
+    - webform.webform.project_sound
   module:
     - webform
-id: node.project_registration.field_register_grant
-field_name: field_register_grant
+id: node.project_registration.field_registration_sound
+field_name: field_registration_sound
 entity_type: node
 bundle: project_registration
-label: Grant
+label: Sound
 description: ''
 required: false
 translatable: false
-default_value: {  }
+default_value:
+  -
+    default_data: ''
+    status: open
+    open: ''
+    close: ''
+    target_uuid: f2531fd8-629a-4c66-8858-5719072f0b2a
 default_value_callback: ''
 settings:
   handler: 'default:webform'

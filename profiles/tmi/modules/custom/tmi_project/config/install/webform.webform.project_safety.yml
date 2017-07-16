@@ -5,8 +5,8 @@ open: null
 close: null
 uid: 1
 template: false
-id: project_registration_fire
-title: 'Project Registration Fire'
+id: project_safety
+title: 'Project Safety'
 description: ''
 category: 'Project Registration'
 elements: null

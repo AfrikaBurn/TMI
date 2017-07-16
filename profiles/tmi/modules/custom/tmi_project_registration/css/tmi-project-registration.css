@@ -1,0 +1,15 @@
+@charset "UTF-8";
+
+.js-section-tab a{
+  padding-left: 40px;
+}
+
+.js-section-tab{
+  background-image: url(/core/misc/icons/e29700/warning.svg);
+  background-repeat: no-repeat;
+  background-position: 15px center;
+}
+
+.js-section-tab-state-complete{
+  background-image: url(/core/misc/icons/73b355/check.svg);
+}

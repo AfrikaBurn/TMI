@@ -4,8 +4,8 @@ dependencies:
   module:
     - node
     - webform
-id: node.field_registration_outline
-field_name: field_registration_outline
+id: node.field_registration_grant
+field_name: field_registration_grant
 entity_type: node
 type: webform
 settings:

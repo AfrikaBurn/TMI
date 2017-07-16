@@ -1,0 +1,104 @@
+langcode: en
+status: open
+dependencies: {  }
+open: null
+close: null
+uid: 1
+template: false
+id: project_overview
+title: 'Project Overview'
+description: ''
+category: 'Project Registration'
+elements: "preamble:\n  '#type': webform_wizard_page\n  '#title': '?'\n  preamble_message:\n    '#type': webform_message\n    '#message_type': info\n    '#message_message': 'An overview of your project and its life before, during and after the event.'\nabout:\n  '#type': webform_wizard_page\n  '#title': About\n  describe_your_artwork:\n    '#type': textarea\n    '#title': 'Describe your artwork'\n    '#description': 'Briefly describe your artwork. What is it? What&#39;s it made of? Is it interactive? Does it have moving parts? Does it have wheels? Please be clear we need to have a proper understanding of what the artwork is. (We&#39;re not looking for a two page essay, just enough for us to understand what the artwork is)'\n  backstory:\n    '#type': textarea\n    '#title': 'Is there a story behind your artwork?'\n    '#description': 'This isn&#39;t a required field but you&#39;re free to tell us if there&#39;s a story behind your artwork that might help us understand it better.'\n  afterlife:\n    '#type': checkbox\n    '#title': Afterlife\n    '#description': 'Select this option if you think your artwork could live in the default world after the event.'\n  afterlife_description:\n    '#type': textarea\n    '#title': 'Please give us an idea of what when and where'\n    '#states':\n      visible:\n        ':input[name=\"afterlife\"]':\n          checked: true\nattachments:\n  '#type': webform_wizard_page\n  '#title': Attachments\n  concept_images:\n    '#type': webform_image_file\n    '#title': 'Please submit concept images'\n    '#description': 'Please upload concept images or photos'\n    '#multiple': true\n  got_additional_docs_or_pdf_s_add_them_here:\n    '#type': webform_document_file\n    '#title': 'Got additional docs or PDF''s? Add them here'\n    '#description': 'Got additional documentation or PDF&#39;s? Add them here.'\n    '#multiple': true\nperformances:\n  '#type': webform_wizard_page\n  '#title': Performances\n  stage:\n    '#type': checkbox\n    '#title': 'Stage or Performance area'\n    '#description': 'Select this if you have a stage or performance area where you would welcome performers to'\n  performer_types:\n    '#type': webform_term_checkboxes\n    '#title': 'Performer Types'\n    '#vocabulary': event\n    '#breadcrumb_delimiter': ''\n  space_and_performers:\n    '#type': textarea\n    '#title': 'Space and performers'\n    '#description': 'Provide a description of the space and performers you are looking for'\ncomplete:\n  '#type': webform_wizard_page\n  '#title': ✓\n  complete_message:\n    '#type': webform_message\n    '#message_message': 'Intruduction complete! Remeber to complete all sections listed in the tabs to the left.'\nproject_id:\n  '#type': hidden\n  '#title': 'Project ID'\n"
+css: ''
+javascript: ''
+settings:
+  ajax: true
+  page: true
+  page_submit_path: ''
+  page_confirm_path: ''
+  form_submit_once: false
+  form_exception_message: ''
+  form_open_message: ''
+  form_close_message: ''
+  form_previous_submissions: false
+  form_confidential: false
+  form_confidential_message: ''
+  form_convert_anonymous: false
+  form_prepopulate: true
+  form_prepopulate_source_entity: false
+  form_prepopulate_source_entity_required: false
+  form_prepopulate_source_entity_type: ''
+  form_disable_autocomplete: false
+  form_novalidate: false
+  form_unsaved: false
+  form_disable_back: false
+  form_autofocus: false
+  form_details_toggle: false
+  submission_label: ''
+  submission_log: false
+  submission_user_columns: {  }
+  wizard_progress_bar: true
+  wizard_progress_pages: false
+  wizard_progress_percentage: false
+  wizard_start_label: ''
+  wizard_complete: false
+  wizard_complete_label: ''
+  preview: 0
+  preview_label: ''
+  preview_title: ''
+  preview_message: ''
+  preview_attributes: {  }
+  preview_excluded_elements: {  }
+  draft: none
+  draft_multiple: false
+  draft_auto_save: true
+  draft_saved_message: ''
+  draft_loaded_message: ''
+  confirmation_type: inline
+  confirmation_title: ''
+  confirmation_message: ''
+  confirmation_url: ''
+  confirmation_attributes: {  }
+  confirmation_back: true
+  confirmation_back_label: ''
+  confirmation_back_attributes: {  }
+  limit_total: null
+  limit_total_message: ''
+  limit_user: null
+  limit_user_message: ''
+  purge: none
+  purge_days: null
+  entity_limit_total: null
+  entity_limit_user: null
+  results_disabled: false
+  results_disabled_ignore: false
+  token_update: false
+access:
+  create:
+    roles:
+      - anonymous
+      - authenticated
+    users: {  }
+  view_any:
+    roles: {  }
+    users: {  }
+  update_any:
+    roles: {  }
+    users: {  }
+  delete_any:
+    roles: {  }
+    users: {  }
+  purge_any:
+    roles: {  }
+    users: {  }
+  view_own:
+    roles: {  }
+    users: {  }
+  update_own:
+    roles: {  }
+    users: {  }
+  delete_own:
+    roles: {  }
+    users: {  }
+handlers: {  }

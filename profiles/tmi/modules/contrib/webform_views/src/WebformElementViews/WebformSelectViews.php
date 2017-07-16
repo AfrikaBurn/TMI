@@ -2,7 +2,7 @@
 
 namespace Drupal\webform_views\WebformElementViews;
 
-use Drupal\webform\WebformElementInterface;
+use Drupal\webform\Plugin\WebformElementInterface;
 
 /**
  * Webform views handler for select webform elements.

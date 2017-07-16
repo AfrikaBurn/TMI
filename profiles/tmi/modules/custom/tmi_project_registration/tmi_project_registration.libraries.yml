@@ -1,0 +1,10 @@
+formBehaviour:
+  version: 1.x
+  js:
+    js/tmi-project-registration.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupalSettings
+  css:
+    theme:
+      css/tmi-project-registration.css: {}

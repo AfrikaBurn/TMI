@@ -2,7 +2,7 @@
 
 namespace Drupal\webform_views\WebformElementViews;
 
-use Drupal\webform\WebformElementInterface;
+use Drupal\webform\Plugin\WebformElementInterface;
 use Drupal\webform\WebformInterface;
 
 /**
@@ -26,7 +26,7 @@ interface WebformElementViewsInterface {
   /**
    * Generate views data definition that corresponds to given webform element.
    *
-   * @param \Drupal\webform\WebformElementInterface $element_plugin
+   * @param \Drupal\webform\Plugin\WebformElementInterface $element_plugin
    *   Webform element plugin whose views data definition is requested
    * @param array $element
    *   Webform element whose views data definition is requested
