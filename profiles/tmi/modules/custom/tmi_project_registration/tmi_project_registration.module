@@ -9,63 +9,114 @@ use \Drupal\Core\Form\FormStateInterface;
 use \Drupal\webform\Entity\WebformSubmission;
 use \Drupal\webform\WebformSubmissionForm;
 
+
+/* ------------------------------ Registration process view */
+
+
 /**
  * Implements hook_node_view().
  */
 function tmi_project_registration_node_view_alter(&$build) {
+  if ($build['#node']->getType() === 'project_registration' && $build['#view_mode'] === 'full') {
 
-  $pid = \Drupal::request()->query->get('project_id');
-  if (\Drupal::entityTypeManager()->getStorage('node')->load($pid) == NULL) {
-    drupal_set_message('No project could be found to create a registration for. Please contact your wrangler for the correct link.', 'error');
-    throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();    
-  }
+    $user = Drupal::currentUser();
+    $roles = $user->getRoles();
+    $project_type = strtolower($build['#node']->get('field_project_type')->referencedEntities()[0]->getName());
+    $is_wrangler = count(
+      array_intersect(
+        ['administrator', 'project_wrangler', "{$project_type}_wrangler"],
+        $roles
+      )
+    );
+    $pid = \Drupal::request()->query->get('project_id');
 
-  if ($build['#node']->getType() === 'project_registration') {
-    foreach($build as $key=>$element){
-      if ($key[0] != '#' && $element['#field_type'] === 'webform') {
+    if ($pid){
+      _tmi_project_registration_show_form($pid, $build);
+    } else {
+  
+      if ($is_wrangler) {
 
-        $wid = $element[0]['#webform_id'];
-        $sid = _tmi_project_registration_existing_sid($wid);
-        $matches = [];
-        preg_match('/[^_]+$/', $wid, $matches);
-        $key = $matches[0];
-
-        if ($sid) {
-
-          $submission = WebformSubmission::load($sid);
-          $draft = $submission->isDraft();
-
-          $build["field_registration_{$key}"][0]['elements']['preamble']['submitted'] = [
-            '#type' => 'webform_message',
-            '#message_type' => ($draft ? 'warning' : 'status'),
-            '#message_message' => ($draft
-              ? "Your team has started the {$key} and it still needs to be completed."
-              : "Your team has already completed the {$key}, but you may still edit it."
-            ),
-            '#weight' => 10,
-            '#parents' => 'preamble',
-            '#array_parents' => ['elements', 'preamble'],
-          ];
-          $build['#attached']['drupalSettings']['tmiProjectRegistration']['state'][$key] = $draft ? 'started' : 'complete';
-
-        } else {
-
-          $build["field_registration_{$key}"][0]['elements']['preamble']['submitted'] = [
-            '#type' => 'webform_message',
-            '#message_type' => 'warning',
-            '#message_message' => "Your team has not started the working on the {$key} and it must be completed!",
-            '#weight' => 10,
-            '#parents' => 'preamble',
-            '#array_parents' => ['elements', 'preamble'],
-          ];
-          $build['#attached']['drupalSettings']['tmiProjectRegistration']['state'][$key] = 'started';
-
+        $build['registrations'] = views_embed_view('project_registrations', 'per_process', \Drupal::routeMatch()->getParameter('node')->id());
+        foreach($build as $key=>$field){
+          if (preg_match('/^field_registration/', $key)) {
+            $build[$key]['#access'] = FALSE;
+          }
         }
-      }
+
+      } else {
+
+        if (\Drupal::entityTypeManager()->getStorage('node')->load($pid) == NULL) {
+          drupal_set_message('No project could be found to create a registration for. Please contact your wrangler for the correct link.', 'error');
+          throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();    
+        }
+
+      }      
     }
-    $build['#attached']['library'][] = 'tmi_project_registration/formBehaviour';
   }
 }
+
+
+/**
+ * Implements template_preprocess__views_view_field__webform_submission_value().
+ * Show project name in admin view
+ * @return [type]
+ */
+function tmi_project_registration_preprocess_views_view_field__webform_submission_value(&$variables) {
+
+  $view = $variables['view'];
+  $field = $variables['field'];
+  $row = $variables['row'];
+
+  if ($view->storage->id() === 'project_registrations' && $field->options['admin_label'] === 'pid'){
+    $submission = WebformSubmission::load($row->sid);
+    $variables['output'] = $submission->getData()['title'];
+  }
+}
+
+
+/* ------------------------------ Registration Form */
+
+
+/**
+ * Shows the registration form
+ * @param  [array]  Node build array
+ */
+function _tmi_project_registration_show_form($pid, &$build) {
+
+  foreach($build as $key=>$element){
+    if ($key[0] != '#' && $element['#field_type'] === 'webform') {
+
+      $wid = $element[0]['#webform_id'];
+      $matches = [];
+      preg_match('/[^_]+$/', $wid, $matches);
+      $key = $matches[0];
+      $closed = isset($element[0]['#markup']);
+      $nid = $build['#node']->id();
+      $submission = _tmi_project_registration_load($wid);
+
+      $draft = $submission->isDraft();
+
+      $build["field_registration_{$key}"][0]['elements']['preamble']['submitted'] = [
+        '#type' => 'webform_message',
+        '#message_type' => ($draft ? 'warning' : 'status'),
+        '#message_message' => ($draft
+          ? "The {$key} is still incomplete."
+          : "The {$key} is complete, but you may still edit it."
+        ),
+        '#weight' => 10,
+        '#parents' => 'preamble',
+        '#array_parents' => ['elements', 'preamble'],
+      ];
+      $build['#attached']['drupalSettings']['tmiProjectRegistration']['state'][$key] = $draft ? 'started' : 'complete';
+
+    }
+  }
+  $build['#attached']['library'][] = 'tmi_project_registration/formBehaviour';
+}
+
+
+/* ------------------------------ Registration Webforms */
+
 
 /**
  * Implements hook_webform_submission_form_alter().
@@ -76,31 +127,30 @@ function tmi_project_registration_webform_submission_form_alter(array &$form, Fo
   $node = \Drupal::routeMatch()->getParameter('node');
   $nid = isset($node) ? $node->id() : FALSE;
   $wid = $form['#webform_id'];
+  $pid = \Drupal::request()->query->get('project_id');
   $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($wid);
 
-  if ($webform && $webform->get('category') === 'Project Registration' && $nid){
-
-    $form['#validate'][] = 'tmi_project_registration_save_draft';
-
-    $sid = _tmi_project_registration_existing_sid($wid);
-
-    if ($sid) {
-      $submission = WebformSubmission::load($sid);
-      $data = $submission->getData();
-      _tmi_project_registration_populate($form['elements'], $data, $sid);
-      unset($form['actions']['submit']);
-    }
+  if ($webform && $webform->get('category') === 'Project Registration' && $nid && $pid){
+    $submission = _tmi_project_registration_load($wid);
+    $data = $submission->getData();
+    _tmi_project_registration_populate($form['elements'], $data, $submission->id());
+    unset($form['actions']['submit']);
+    $form['#validate'][] = 'tmi_project_registration_save';
   }
 }
+
+
+/* ------------------------------ Registration Form CRUD */
+
 
 /**
  * Saves a draft submission.
  */
-function tmi_project_registration_save_draft($form, &$form_state){
+function tmi_project_registration_save($form, &$form_state){
 
   $nid = \Drupal::routeMatch()->getParameter('node')->id();
   $wid = $form['#webform_id'];
-  $sid = _tmi_project_registration_existing_sid($wid);
+  $submission = _tmi_project_registration_load($wid);
   $values = $form_state->getValues();
 
   // Not sure if this matters
@@ -116,49 +166,55 @@ function tmi_project_registration_save_draft($form, &$form_state){
     unset($values[$key]);
   }
 
-  if ($sid) {
+  $pages = array_keys($form_state->getStorage()['pages']);
+  $current_index = array_search($form_state->getStorage()['current_page'], $pages);
+  $values = $form_state->getValues();
+  $page = [
+    $values['wizard_next'] => $pages[$current_index + 1],
+    $values['wizard_prev'] => $pages[$current_index - 1],
+  ][$values['op']];
 
-    $pages = array_keys($form_state->getStorage()['pages']);
-    $current_index = array_search($form_state->getStorage()['current_page'], $pages);
-    $values = $form_state->getValues();
-    $page = [
-      $values['wizard_next'] => $pages[$current_index + 1],
-      $values['wizard_prev'] => $pages[$current_index - 1],
-    ][$values['op']];
-
-    $submission = WebformSubmission::load($sid);
-    $submission->setCurrentPage($page);
-    $submission->setData($values);
-    if ($page === 'complete') {
-      $submission->set('in_draft', 0);
-    }
-
-  } else {
-
-    $submission_data = [
-      'webform_id' => $wid,
-      'entity_type' => 'node',
-      'entity_id' => $nid,
-      'in_draft' => 1,
-      'langcode' => 'en',  
-      'token' => implode('-', [$wid, $sid]),
-      'uri' => "/webform/{$wid}/api",
-      'remote_addr' => '',
-      'data' => $values,
-    ];
-
-    $submission = WebformSubmission::create($submission_data);
+  $submission->setCurrentPage($page);
+  $submission->setData($values);
+  if ($page === 'complete') {
+    $submission->set('in_draft', 0);
   }
-
   $submission->save();
 }
 
 /**
- * Checks for existing submission
+ * Creates an empty project registration
+ * @param  [int]  webform id
+ * @param  [int]  node id
+ * @param  [int]  project id
+ * @return [int]  submission id
+ */
+function _tmi_project_registration_create($wid, $nid, $pid) {
+
+  $submission_data = [
+    'webform_id' => $wid,
+    'entity_type' => 'node',
+    'entity_id' => $nid,
+    'in_draft' => 1,
+    'langcode' => 'en',  
+    'token' => implode('-', [$wid, $nid, $pid]),
+    'uri' => "/webform/{$wid}/api",
+    'remote_addr' => '',
+    'data' => ['project_id' => $pid],
+  ];
+
+  $submission = WebformSubmission::create($submission_data);
+  $submission->save();
+
+  return $submission;
+}
+
+/**
+ * Checks for existing submission and creates one if none found
  * @param  [string] webform id
  * @return [int]    submission id if existing, FALSE if not
  */
-function _tmi_project_registration_existing_sid($wid){
+function _tmi_project_registration_load($wid){
 
   $nid = \Drupal::routeMatch()->getParameter('node')->id();
   $pid = \Drupal::request()->query->get('project_id');
@@ -185,8 +241,12 @@ function _tmi_project_registration_existing_sid($wid){
   )->fetch();
   $sid = $result ? $result->sid : FALSE;
 
-  return $sid;
+  return $sid ? WebformSubmission::load($sid) : _tmi_project_registration_create($wid, $nid, $pid);
 }
+
+
+/* ------------------------------ Form prepopulation */
+
 
 /**
  * Populates a submission form.
