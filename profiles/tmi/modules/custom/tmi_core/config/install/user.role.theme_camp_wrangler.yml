@@ -1,7 +1,0 @@
-langcode: en
-status: true
-dependencies: {  }
-id: theme_camp_wrangler
-label: 'Theme Camp Wrangler'
-weight: -8
-is_admin: null

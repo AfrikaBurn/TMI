@@ -1,4 +1,0 @@
-bundle: tmi
-excluded:
-  - system.theme
-required: true

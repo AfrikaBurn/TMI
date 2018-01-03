@@ -1,5 +1,0 @@
-webform_devel:
-  version: 1.x
-  css:
-    theme:
-      css/webform_devel.module.css: {}

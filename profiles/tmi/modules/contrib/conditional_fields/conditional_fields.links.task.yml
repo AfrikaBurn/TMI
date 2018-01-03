@@ -1,5 +1,0 @@
-conditional_fields.conditional_fields:
-  title: Manage Dependencies
-  route_name: conditional_fields.tab
-  base_route: entity.node_type.edit_form
-  weight: 10

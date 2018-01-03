@@ -1,9 +1,0 @@
-langcode: en
-status: true
-dependencies:
-  module:
-    - webform
-id: webform_submission.token
-label: Token
-targetEntityType: webform_submission
-cache: true
