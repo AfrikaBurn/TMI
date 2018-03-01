@@ -1,0 +1,11 @@
+{
+	"name": "Tribe",
+	"port": 3000,
+
+	"minions": {
+
+		"User": {
+			"schema": "user"
+		}
+	}
+}

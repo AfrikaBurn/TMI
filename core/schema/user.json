@@ -1,0 +1,26 @@
+{
+  "type": "object",
+  "title": "User",
+  "properties": {
+    "userId":  {
+      "title": "User ID",
+      "type": "number",
+      "description": "Unique index of this user.",
+      "isUniqueKey": true
+    },
+    "handle":  {
+      "title": "Handle",
+      "type": "string",
+      "description": "The name you choose to go by on here.",
+      "isUniqueKey": true
+    },
+    "email":  {
+      "title": "Email",
+      "type": "string",
+      "pattern": "^\\S+@\\S+$",
+      "description": "The addres used for your login retrieval and notifications you may choose to receive.",
+      "isUniqueKey": true
+    }
+  },
+  "required": ["handle","email"]
+}
