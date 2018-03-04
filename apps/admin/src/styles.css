@@ -1,0 +1,30 @@
+body{
+	background: #b7b7b7;
+	color: #434343;
+}
+
+h1 {
+	font-family: syncopate;
+}
+
+.mat-tab-body{
+	background: #f3f3f3;
+	border-radius: 5px;
+	height: 70vh;
+	padding: 15px 30px;
+}
+
+.mat-tab-body-wrapper{
+	margin-top: -5px;
+}
+
+.mat-tab-label {
+	font-family: syncopate;
+	background: transparent;
+}
+
+.mat-tab-label-active {
+	background: #f3f3f3;	
+	border-radius: 5px 5px 0 0;
+	opacity: 1 !important;
+}

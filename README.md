@@ -26,10 +26,16 @@ sudo apt-get install -y nodejs
 npm install -g @angular/cli
 ```
 
+- Make sure angular can watch all of the files
+
+```
+echo 65536 | sudo tee -a /proc/sys/fs/inotify/max_user_watches
+```
+
 ## References
 
 [Installing npm](https://github.com/angular/angular-cli/blob/master/README.md)
 [Fixing npm permissions](https://docs.npmjs.com/getting-started/fixing-npm-permissions)
 [Install node using npm](https://nodejs.org/en/download/package-manager)
 [Install Angular CLI](https://github.com/angular/angular-cli/blob/master/README.md#installation)
-
+https://github.com/angular/angular-cli/issues/2389
