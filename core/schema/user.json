@@ -6,7 +6,8 @@
       "title": "User ID",
       "type": "number",
       "description": "Unique index of this user.",
-      "isUniqueKey": true
+      "isUniqueKey": true,
+      "widget": "output"
     },
     "handle":  {
       "title": "Handle",
@@ -18,7 +19,7 @@
       "title": "Email",
       "type": "string",
       "pattern": "^\\S+@\\S+$",
-      "description": "The addres used for your login retrieval and notifications you may choose to receive.",
+      "description": "The address used for your login retrieval and notifications you may choose to receive.",
       "isUniqueKey": true
     }
   },

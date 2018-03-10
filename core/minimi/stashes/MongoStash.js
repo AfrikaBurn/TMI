@@ -1,11 +1,11 @@
 /**
- * @file MongoService.js
+ * @file MongoStash.js
  * MongoDB minion minion
  *
  * Requires host and port attributes to be set schema section of config.json:
  *
  * "mongo-example": {
- *   "minion": "MongoService",
+ *   "minion": "MongoStash",
  *   "host": "localhost",
  *   "port": 27017
  * }
@@ -16,12 +16,13 @@
 
 
 const
-  Service = require('../Service'),
+
+  Stash = require('../Stash'),
   MongoClient = require('mongodb').MongoClient,
   assert = require('assert')
 
 
-module.exports = class MongoService extends Service{
+class MongoStash extends Stash{
 
   /**
    * @inherit
@@ -131,4 +132,5 @@ module.exports = class MongoService extends Service{
 
 }
 
-module.exports = MongoService
+
+module.exports = MongoStash

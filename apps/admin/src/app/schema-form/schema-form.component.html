@@ -1,0 +1,9 @@
+<fieldset *ngIf="schema" class="{{ key }}">
+
+	<app-schema-form-element *ngFor="let property of schema.properties | iterable" 
+		[key]="property.key"
+		[element]="property.value"
+		[formGroup]="formGroup"
+	></app-schema-form-element>
+
+</fieldset>

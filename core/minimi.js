@@ -13,7 +13,8 @@ const
   path = require('path'),
   parseError = require('express-body-parser-json-error')(),
   EventEmitter = require('events'),
-  Minion = require('./minimi/Minion')
+  Minion = require('./minimi/Minion'),
+  cors = require('cors')
 
 
 class Minimi extends EventEmitter {
@@ -44,9 +45,12 @@ class Minimi extends EventEmitter {
     this.router = express.Router()
     this.minions = {}
 
+    this.app.use(cors((request, callback) => this.bounce(request, callback) ))
+
     this.app.use(this.router)
     this.app.use(this.handleError)
     this.app.use(this.handleNotFound)
+
 
     process.chdir(path.normalize(__dirname))
     process.on(
@@ -109,6 +113,22 @@ class Minimi extends EventEmitter {
 
 
   // ----- Utility -----
+
+
+  /**
+   * Checks whether requests originate from allowed domains 
+   * @param  {object}   request  Express request object
+   * @param  {Function} callback Origin access callback
+   */
+  bounce(request, callback){
+    callback(
+      null,
+      {
+        origin: (this.config.origins || []).indexOf(request.header('Origin')) !== -1,
+        allowedHeaders: ['Content-Type', 'Authorization', 'Accept']
+      }
+    )
+  }
 
 
   /**

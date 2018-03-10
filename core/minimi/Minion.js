@@ -6,7 +6,7 @@
 "use strict"
 
 
-module.exports = class Minion {
+class Minion {
 
   /**
    * Creates a new minion
@@ -38,10 +38,11 @@ module.exports = class Minion {
 
     console.log(
       '  Spawning ' + name + ' minion\n' +
-      '    Stash:   ' + stash + '\n' +
+      '    Path:    ' + path + '\n' +
       '    Schema:  ' + config.schema + '\n' +
+      '    Stash:   ' + stash + '\n' +
       '    Service: ' + service + '\n' +
-      '    Path:    ' + path + '\n'
+      '    Methods: ' + Object.keys(this.service.methods()) + '\n'
     )
   }
 
@@ -97,3 +98,6 @@ module.exports = class Minion {
     this.stash.close()
   }
 }
+
+
+module.exports = Minion

@@ -1,0 +1,9 @@
+<mat-form-field *ngIf="element" [formGroup]="formGroup">
+
+  <input matInput placeholder="{{ title }}" 
+  	[type]="type" 
+  	[formControlName]="key" 
+  	[formControl]="control"
+	>
+
+</mat-form-field>

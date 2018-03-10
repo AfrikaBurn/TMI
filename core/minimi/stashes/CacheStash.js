@@ -7,10 +7,11 @@
 
 
 const
+
   Stash = require('../Stash')
 
 
-module.exports = class CacheStash extends Stash {
+class CacheStash extends Stash {
 
   /**
    * Creates a new memory based data stash
@@ -85,3 +86,6 @@ module.exports = class CacheStash extends Stash {
     return true
   }
 }
+
+
+module.exports = CacheStash

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from './user.service';
 
 @Component({
   selector: 'app-root',
@@ -9,9 +10,12 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent {
 
   title = 'TMI Administration'
+  config: {}
 
-  ngOnInit() {
-  	var config = require('../../../../core/config.json')
-  	this.title = config.name + ' administration'
-  } 
+  constructor(private userService: UserService) {
+  	this.userService = userService
+    this.config = require('../../../../core/config.json')
+  }
+
+  ngOnInit() {}
 }

@@ -1,14 +1,39 @@
-@charset "utf-8";
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
-
-.icon{
-  background-repeat: none;
-  background-size: cover;
-  display: inline-block;
-	height: 100%;
-	width: calc(height);
+/* Positioning */
+.material-icons{
+	margin-right: 0.5em;
 }
 
-.icon.people{
-	background-image: url("data:image/svg;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJ5ZXMiPz4KCjxzdmcgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwLjAgMC4wIDExOC44MTEwMjM2MjIwNDcyNCAxMjMuNjkyOTEzMzg1ODI2NzciIGZpbGw9Im5vbmUiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InNxdWFyZSIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj48Y2xpcFBhdGggaWQ9InAuMCI+PHBhdGggZD0ibTAgMGwxMTguODExMDIgMGwwIDEyMy42OTI5MmwtMTE4LjgxMTAyIDBsMCAtMTIzLjY5MjkyeiIgY2xpcC1ydWxlPSJub256ZXJvIj48L3BhdGg+PC9jbGlwUGF0aD48ZyBjbGlwLXBhdGg9InVybCgjcC4wKSI+PHBhdGggZmlsbD0iIzAwMDAwMCIgZmlsbC1vcGFjaXR5PSIwLjAiIGQ9Im0wIDBsMTE4LjgxMTAyIDBsMCAxMjMuNjkyOTJsLTExOC44MTEwMiAweiIgZmlsbC1ydWxlPSJldmVub2RkIj48L3BhdGg+PHBhdGggZmlsbD0iIzY2NjY2NiIgZD0ibTI5LjgxMDQxMyAzNi41MzQxMjJsMCAwYzAgLTE2LjE4NTg2IDEzLjI0OTc0MSAtMjkuMzA3MDg5IDI5LjU5NDEyNCAtMjkuMzA3MDg5bDAgMGM3Ljg0ODg1MDMgMCAxNS4zNzYyMzIgMy4wODc3MDIzIDIwLjkyNjIwNSA4LjU4Mzg0N2M1LjU0OTk3MjUgNS40OTYxNDUyIDguNjY3OTE1IDEyLjk1MDUxOCA4LjY2NzkxNSAyMC43MjMyNDJsMCAwYzAgMTYuMTg1ODU2IC0xMy4yNDk3NDEgMjkuMzA3MDg3IC0yOS41OTQxMiAyOS4zMDcwODdsMCAwYy0xNi4zNDQzODMgMCAtMjkuNTk0MTI0IC0xMy4xMjEyMzEgLTI5LjU5NDEyNCAtMjkuMzA3MDg3eiIgZmlsbC1ydWxlPSJldmVub2RkIj48L3BhdGg+PHBhdGggZmlsbD0iIzY2NjY2NiIgZD0ibTE5LjQwNDUwNSAxMTYuNDY1ODhsMCAtMjMuMzA3MDlsMCAwYzAgLTEyLjg3MjE0NyAxNy45MDg4MzQgLTIzLjMwNzA4MyA0MC4wMDA1MDQgLTIzLjMwNzA4M2MyMi4wOTE2NjcgMCA0MC4wMDA1MDQgMTAuNDM0OTM3IDQwLjAwMDUwNCAyMy4zMDcwODNsMCAyMy4zMDcwOXoiIGZpbGwtcnVsZT0iZXZlbm9kZCI+PC9wYXRoPjwvZz48L3N2Zz4KCg==");
+/* Rules for sizing the icon. */
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }
+
+/* Rules for using icons as black on a light background. */
+.material-icons.md-dark { color: rgba(0, 0, 0, 0.54); }
+.material-icons.md-dark.md-inactive { color: rgba(0, 0, 0, 0.26); }
+
+/* Rules for using icons as white on a dark background. */
+.material-icons.md-light { color: rgba(255, 255, 255, 1); }
+.material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }
+
+
+/* Custom icons */
+
+.icon{
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: inline-block;
+}
+
+.icon.small{
+	height: 30px;
+	width: 30px;
+	margin-right: 15px;
+}
+
+.icon.gears{
+	background-image: url("../images/gears.svg");
 }

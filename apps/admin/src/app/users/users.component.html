@@ -1,3 +1,57 @@
-<p>
-  users works!
-</p>
+<section class="panel">
+
+	<aside *ngIf="!(usersLoading && schemaLoading)" class="loading">
+		<span class="material-icons md-48 md-dark md-inactive">alarm</span>
+		Loading...
+	</aside>
+
+	<aside class="component-error" *ngIf="schemaError || usersError">
+		<span class="material-icons md-48 md-dark md-inactive">error</span>
+		User administration is currently unvailable
+	</aside>
+
+	<mat-accordion *ngIf="!(schemaError || usersError)">
+
+		<mat-expansion-panel>
+		  <mat-expansion-panel-header>
+		    <mat-panel-title>
+		      <span class="material-icons md-24">add_box</span>
+		      Add a user
+		    </mat-panel-title>
+		  </mat-expansion-panel-header>
+	  	<app-schema-form [schema]="schema" [model]="model" [key]="key">
+	  	</app-schema-form>
+		</mat-expansion-panel>
+
+		<mat-expansion-panel [expanded]="true">
+		  <mat-expansion-panel-header>
+		    <mat-panel-title>
+		      <span class="material-icons md-24">list</span>
+		      Existing users
+		    </mat-panel-title>
+		  </mat-expansion-panel-header>
+		</mat-expansion-panel>
+
+		<mat-expansion-panel>
+		  <mat-expansion-panel-header>
+		    <mat-panel-title>
+		      <span class="material-icons md-24">file_download</span>
+		      Export
+		    </mat-panel-title>
+		  </mat-expansion-panel-header>
+		  YAY table
+		</mat-expansion-panel>
+
+		<mat-expansion-panel>
+		  <mat-expansion-panel-header>
+		    <mat-panel-title>
+		      <span class="material-icons md-24">file_upload</span>
+		      Import
+		    </mat-panel-title>
+		  </mat-expansion-panel-header>
+		  YAY table
+		</mat-expansion-panel>
+
+	</mat-accordion>
+
+</section>

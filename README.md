@@ -39,3 +39,4 @@ echo 65536 | sudo tee -a /proc/sys/fs/inotify/max_user_watches
 [Install node using npm](https://nodejs.org/en/download/package-manager)
 [Install Angular CLI](https://github.com/angular/angular-cli/blob/master/README.md#installation)
 https://github.com/angular/angular-cli/issues/2389
+[Increase file watcher limit](https://github.com/guard/listen/wiki/Increasing-the-amount-of-inotify-watchers)

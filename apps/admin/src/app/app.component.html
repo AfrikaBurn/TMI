@@ -1,10 +1,10 @@
 <main>
 
-	<h1><div class="icon"></div>{{ title | titlecase }}</h1>
+	<h1><div class="icon small gears"></div>{{ config.name }} Administration</h1>
 
 	<mat-tab-group disableRipple>
 	  <mat-tab label="Users">
-	  	<app-users></app-users>
+	  	<app-users [config]="config"></app-users>
 	  </mat-tab>
 	  <mat-tab label="Collectives">
 	    <h1>Some more tab content</h1>

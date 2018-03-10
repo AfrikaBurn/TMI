@@ -6,7 +6,7 @@
 "use strict"
 
 
-module.exports = class Stash {
+class Stash {
 
   /**
    * Creates a new storage object.
@@ -177,3 +177,6 @@ module.exports = class Stash {
     return count ? processed : false
   }
 }
+
+
+module.exports = Stash

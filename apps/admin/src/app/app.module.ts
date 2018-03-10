@@ -1,23 +1,51 @@
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { BrowserModule } from '@angular/platform-browser';
-import { MatTabsModule } from '@angular/material/tabs';
-import { NgModule } from '@angular/core';
+import { NgModule } from '@angular/core'
+import { BrowserModule } from '@angular/platform-browser'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { HttpClientModule } from '@angular/common/http'
+import { ReactiveFormsModule } from '@angular/forms'
 
+import { MatTabsModule } from '@angular/material/tabs'
+import { MatExpansionModule } from '@angular/material/expansion'
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatInputModule } from '@angular/material/input'
 
-import { AppComponent } from './app.component';
-import { UsersComponent } from './users/users.component';
+import { UserService } from './user.service'
+
+import { AppComponent } from './app.component'
+import { UsersComponent } from './users/users.component'
+import { SchemaFormComponent } from './schema-form/schema-form.component'
+import { SchemaFormElementComponent } from './schema-form-element/schema-form-element.component'
+
+import { Iterable } from './iterable.pipe'
 
 @NgModule({
+
   declarations: [
+
     AppComponent,
-    UsersComponent
+    UsersComponent,
+
+    SchemaFormComponent,
+    SchemaFormElementComponent,
+
+    Iterable
+
   ],
+
   imports: [
-  	BrowserAnimationsModule,
+
     BrowserModule,
-    MatTabsModule
+    BrowserAnimationsModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+
+    MatTabsModule,
+    MatFormFieldModule,
+    MatExpansionModule,
+    MatInputModule
+
   ],
-  providers: [],
+  providers: [UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

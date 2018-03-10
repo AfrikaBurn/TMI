@@ -1,6 +1,9 @@
+@charset "utf-8";
+
 body{
 	background: #b7b7b7;
 	color: #434343;
+	font-family: comfortaa;
 }
 
 h1 {
@@ -8,23 +11,44 @@ h1 {
 }
 
 .mat-tab-body{
-	background: #f3f3f3;
-	border-radius: 5px;
-	height: 70vh;
-	padding: 15px 30px;
+	padding: 35px 40px;
 }
 
 .mat-tab-body-wrapper{
+	background-color: #efefef;
+	border-radius: 5px;
+	height: 70vh;
 	margin-top: -5px;
 }
 
 .mat-tab-label {
-	font-family: syncopate;
 	background: transparent;
+	font-family: syncopate !important;
+	opacity: 1 !important;
 }
 
 .mat-tab-label-active {
-	background: #f3f3f3;	
+	background-color: #efefef !important;
 	border-radius: 5px 5px 0 0;
-	opacity: 1 !important;
+}
+
+.mat-ink-bar{
+	visibility: hidden !important;
+}
+
+.mat-expansion-panel-header-title{
+	font-family: comfortaa;
+	font-size: 22px;
+}
+
+section.panel{
+	width: 100%;
+	height: 100%;
+}
+
+section.panel aside{
+	align-items: center;
+	display: flex;
+	height: 100%;
+	justify-content: center;
 }

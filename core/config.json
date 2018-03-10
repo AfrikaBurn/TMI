@@ -1,11 +1,17 @@
 {
-	"name": "Tribe",
+	"name": "Tribe Core",
 	"port": 3000,
 
 	"minions": {
 
 		"User": {
-			"schema": "user"
+			"schema": "user",
+			"service": "JSONService",
+			"stash": "CacheStash"
 		}
-	}
+	},
+
+	"origins": [
+		"http://localhost:4200"
+	]
 }

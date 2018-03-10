@@ -7,14 +7,11 @@
 
 
 const
-  jsonSchemaForm = require('json-schema-form-js'),
-  bodyParser = require('body-parser'),
-  parseBody = bodyParser.json(),
-  parseQuery = bodyParser.urlencoded({ extended: false }),
-  logRequest = (request, response) => { console.log('Processing: ' + request.url) }
+
+  bodyParser = require('body-parser')
 
 
-module.exports = class Service {
+class Service {
 
   /**
    * Creates a new Service
@@ -30,13 +27,7 @@ module.exports = class Service {
    * @return object middleware mapping keyed by method
    */
   methods(){
-    return {
-      'get': [parseQuery],
-      'post': [parseBody],
-      'put': [parseBody],
-      'delete': [parseQuery],
-      'patch': [parseQuery, parseBody]
-    }
+    return {}
   }
 
 
@@ -95,57 +86,19 @@ module.exports = class Service {
       }
     }
   }
-
-
-  // ----- Method responders
-
-
-  /**
-   * Process a GET request
-   * @param  object request  Express request object
-   * @param  object response Express response object
-   */
-  get(request, response) {
-    switch(request.header('Accept')){
-      case 'application/json;schema': return this.minion.schema
-      case 'application/json': return JSON.stringify(request.query)
-      default: return jsonSchemaForm.render(this.minion.schema)
-    }
-  }
-
-  /**
-   * Process a POST request
-   * @param  object request  Express request object
-   * @param  object response Express response object
-   */
-  post(request, response) {
-    return JSON.stringify(request.body)
-  }
-
-  /**
-   * Process a PUT request
-   * @param  object request  Express request object
-   * @param  object response Express response object
-   */
-  put(request, response) {
-    return JSON.stringify(request.body)
-  }
-
-  /**
-   * Process a DELETE request
-   * @param  object request  Express request object
-   * @param  object response Express response object
-   */
-  delete(request, response) {
-    return JSON.stringify(request.query)
-  }
-
-  /**
-   * Process a PATCH request
-   * @param  object request  Express request object
-   * @param  object response Express response object
-   */
-  patch(request, response) {
-    return JSON.stringify([request.query, request.body])
-  }
 }
+
+
+Service.PARSE_BODY  = bodyParser.json()
+Service.PARSE_QUERY = bodyParser.urlencoded({ extended: false })
+Service.CONSOLE_LOG = function consoleLog(request, response, next) { 
+  console.log('Processing: ' + request.url)
+  console.log('Accept: ' + request.header('Accept'))
+  console.log('Content-Type: ' + request.header('Content-Type'))
+  console.log('Query:', request.query) 
+  console.log('Body:', request.body ,'\n')
+  next() 
+}
+
+
+module.exports = Service
