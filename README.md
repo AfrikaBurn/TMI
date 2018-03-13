@@ -1,42 +1,77 @@
 # Tribe Mobilisation Infrastructure
 
 
-## Development Environment Ubuntu
+## System Requirements
+
+- Node 9.8
+- NPM 5.6.0
+- Angular CLI 1.7.2
 
 
-- Install NPM
+## Setup
+
+- [Install Node & NPM](https://nodejs.org/en/) 
+- [Install Angular CLI](https://github.com/angular/angular-cli/blob/master/README.md#installation)
+- [Clone or Download TMI source](https://github.com/scheepers/tmi.git)
 
 
+### TMI Core
+
+- Install dependencies
 ```
-sudo apt install npm
+cd tmi/core
+npm install
+```
+- [Configure core](./core/README.md)
+- Run core
+```
+cd tmi
+node core
+```
+
+
+### TMI Apps
+
+- Install dependencies:
+```
+cd tmi/apps/[app-name]
+npm install
+```
+- Run App:
+```
+cd tmi/apps/[app-name]
+ng serve
+```
+
+
+### Common Install Issues
+
+- [NPM WARN checkPermissions Missing write access](https://docs.npmjs.com/getting-started/fixing-npm-permissions)
+-- Linux/OSX
+```
 mkdir ~/.npm-global
 npm config set prefix '~/.npm-global'
 ```
 
-- Install Node
 
-```
-curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
-sudo apt-get install -y nodejs
-```
+## Development
 
-- Install Angular CLI
 
-```
-npm install -g @angular/cli
-```
+### Suggested reading
 
-- Make sure angular can watch all of the files
+- [NodeJS Guides](https://nodejs.org/en/docs/guides)
+- [Angular IO getting started](https://angular.io/guide/quickstart)
 
+
+### Editor: [Sublime Text 3](https://sublimetext.com)
+
+With packages installed:
+- DocBlockr (For JavaDoc)
+- Typescript (For syntax highlighting)
+
+
+### Common Development Issues
+- [Angular does not reload the page when I make changes](https://github.com/guard/listen/wiki/Increasing-the-amount-of-inotify-watchers)
 ```
 echo 65536 | sudo tee -a /proc/sys/fs/inotify/max_user_watches
 ```
-
-## References
-
-[Installing npm](https://github.com/angular/angular-cli/blob/master/README.md)
-[Fixing npm permissions](https://docs.npmjs.com/getting-started/fixing-npm-permissions)
-[Install node using npm](https://nodejs.org/en/download/package-manager)
-[Install Angular CLI](https://github.com/angular/angular-cli/blob/master/README.md#installation)
-https://github.com/angular/angular-cli/issues/2389
-[Increase file watcher limit](https://github.com/guard/listen/wiki/Increasing-the-amount-of-inotify-watchers)
