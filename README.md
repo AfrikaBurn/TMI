@@ -71,7 +71,7 @@ With packages installed:
 
 
 ### Common Development Issues
-- [Angular does not reload the page when I make changes](https://github.com/guard/listen/wiki/Increasing-the-amount-of-inotify-watchers)
+- [Angular does not reload the page when I make changes](https://github.com/guard/listen/wiki/Increasing-the-amount-of-inotify-watchers) - Linux/OSX
 ```
 echo 65536 | sudo tee -a /proc/sys/fs/inotify/max_user_watches
 ```
