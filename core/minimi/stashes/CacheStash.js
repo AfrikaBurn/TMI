@@ -1,6 +1,6 @@
 /**
  * @file CacheStash.js
- * Basic Memory Stash.
+ * Basic memory based Stash.
  */
 
 "use strict"
@@ -14,10 +14,8 @@ const
 class CacheStash extends Stash {
 
   /**
-   * Creates a new memory based data stash
-   * @param  {string} name   [description]
-   * @param  {object} config [description]
-   * @param  object minimi main boot strap
+   * Creates a new memory based data stash.
+   * @inheritDoc
    */
   constructor(name, config, minimi){
     super(name, config, minimi)
@@ -29,15 +27,15 @@ class CacheStash extends Stash {
 
 
   /**
-   * @inherit
+   * @inheritDoc
    */
   create(entity){
-    this.cache.push[entity]
+    this.cache.push(entity)
     return [entity]
   }
 
   /**
-   * @inherit
+   * @inheritDoc
    */
   read(criteria){
     return this.cache.filter(
@@ -48,7 +46,7 @@ class CacheStash extends Stash {
   }
 
   /**
-   * @inherit
+   * @inheritDoc
    */
   update(criteria, entity){
 
@@ -59,14 +57,34 @@ class CacheStash extends Stash {
       toUpdate[i] = Object.assign(toUpdate[i], entity)
     }
 
+    this.cache = Object.assign(
+      this.cache,
+      toUpdate
+    )
+
     return toUpdate
   }
 
   /**
-   * @inherit
+   * @inheritDoc
    */
   delete(criteria){
-    return []
+
+    var
+      toDelete = this.read(criteria),
+      deleted = []
+
+    while(toDelete.length){
+      var 
+        current = toDelete.pop(),
+        index = this.cache.indexOf(current)
+      if (index != -1) {
+        this.splice(index, 1)
+        deleted.push(current)
+      }
+    }
+
+    return deleted 
   }
 
 
@@ -74,10 +92,10 @@ class CacheStash extends Stash {
 
 
   /**
-   * [matches description]
-   * @param  {[type]} element  [description]
-   * @param  {[type]} criteria [description]
-   * @return {[type]}          [description]
+   * Does a shallow match of an element to criteria.
+   * @param  {object} element  [description]
+   * @param  {object} criteria [description]
+   * @return {boolean}         true if matching, false if not.
    */
   matches(element, criteria){
     for(let property in criteria){

@@ -1,5 +1,5 @@
 /**
- * @file JSONService.js
+ * @file JSONTestService.js
  * Basic configurable object.
  */
 
@@ -10,7 +10,7 @@ const
   Service = require('../Service')
 
 
-class JSONService extends Service {
+class JSONTestService extends Service {
 
   /**
    * Declare methods to respond to and middleware to apply to each
@@ -20,9 +20,9 @@ class JSONService extends Service {
     return {
       'get': [Service.PARSE_QUERY, Service.CONSOLE_LOG],
       'post': [Service.PARSE_BODY, Service.CONSOLE_LOG],
-      'put': [Service.PARSE_BODY],
-      'delete': [Service.PARSE_QUERY],
-      'patch': [Service.PARSE_QUERY, Service.PARSE_BODY]
+      'put': [Service.PARSE_BODY, Service.CONSOLE_LOG],
+      'delete': [Service.PARSE_QUERY, Service.CONSOLE_LOG],
+      'patch': [Service.PARSE_QUERY, Service.PARSE_BODY, Service.CONSOLE_LOG]
     }
   }
 
@@ -38,7 +38,7 @@ class JSONService extends Service {
   get(request, response) {
     return request.header('Content-Type') == 'application/json;schema'
       ? this.minion.schema
-      : this.minion.stash.read(request.body)
+      : JSON.stringify(request.query)
   }
 
   /**
@@ -47,7 +47,7 @@ class JSONService extends Service {
    * @param  object response Express response object
    */
   post(request, response) {
-    return this.minion.stash.create(request.body)
+    return JSON.stringify(request.body)
   }
 
   /**
@@ -56,7 +56,7 @@ class JSONService extends Service {
    * @param  object response Express response object
    */
   put(request, response) {
-    return this.minion.stash.update(request.body)
+    return JSON.stringify(request.body)
   }
 
   /**
@@ -65,7 +65,7 @@ class JSONService extends Service {
    * @param  object response Express response object
    */
   delete(request, response) {
-    return this.minion.stash.delete(request.body)
+    return JSON.stringify(request.query)
   }
 
   /**
@@ -74,9 +74,9 @@ class JSONService extends Service {
    * @param  object response Express response object
    */
   patch(request, response) {
-    return this.minion.stash.update(request.body)
+    return JSON.stringify([request.query, request.body])
   }
 }
 
 
-module.exports = JSONService
+module.exports = JSONTestService

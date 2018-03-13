@@ -124,7 +124,7 @@ class Minimi extends EventEmitter {
     callback(
       null,
       {
-        origin: (this.config.origins || []).indexOf(request.header('Origin')) !== -1,
+        origin: this.config.origins || [],
         allowedHeaders: ['Content-Type', 'Authorization', 'Accept']
       }
     )

@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, Input } from '@angular/core'
+import { FormControl, FormGroup, Validators } from '@angular/forms'
 
 const
 	DEFAULT_WIDGETS = {
@@ -16,32 +16,46 @@ export class SchemaFormElementComponent implements OnInit {
 
 	@Input() key: string
 	@Input() element
-	@Input() formGroup: FormGroup
+  @Input() schema
+  @Input() formGroup: FormGroup
 
 	control: FormControl
 
-	title: String
-	value: String
-	widget: String
-
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+  	this.formGroup.removeControl(this.key)
+    this.control = new FormControl('', this.getValidators())
+  	this.formGroup.addControl(this.key, this.control)  		
+  }
 
-  ngOnChanges(){
+  isVisible(){
+    return this.element.widget 
+      ? !this.element.widget.hidden 
+      : true 
+    }
 
-  	if (this.formGroup){
-	  	this.control = new FormControl('', []);
-	  	this.formGroup.removeControl(this.key)
-	  	this.formGroup.addControl(this.key, this.control)  		
-  	}
+  isValid(){
+    return this.control.errors == null
+  }
 
-  	Object.assign(this,
-			{
-  			title: this.element.title,
-  			value: '',
-  			widget: this.element.widget || DEFAULT_WIDGETS[this.element.type]
-			}
-  	)
+  getType(){
+    return (
+      this.element.widget 
+        ? this.element.widget.type 
+        : false
+      ) 
+      || DEFAULT_WIDGETS[this.element.type]
+  }
+
+  getValidators(){
+    var
+      validators = []
+
+    if (this.schema.required && this.schema.required.indexOf(this.key) != -1) validators.push(
+      Validators.required
+    )
+
+    return validators
   }
 }

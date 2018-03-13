@@ -1,26 +1,36 @@
 <section class="panel">
 
-	<aside *ngIf="!(usersLoading && schemaLoading)" class="loading">
-		<span class="material-icons md-48 md-dark md-inactive">alarm</span>
-		Loading...
+	<aside *ngIf="status!='ok'">
+		<span class="material-icons md-48 md-dark md-inactive">{{ states[status].icon }}</span>
+		{{ states[status].message }}
 	</aside>
 
-	<aside class="component-error" *ngIf="schemaError || usersError">
-		<span class="material-icons md-48 md-dark md-inactive">error</span>
-		User administration is currently unvailable
-	</aside>
-
-	<mat-accordion *ngIf="!(schemaError || usersError)">
+	<mat-accordion *ngIf="status=='ok'">
 
 		<mat-expansion-panel>
 		  <mat-expansion-panel-header>
 		    <mat-panel-title>
-		      <span class="material-icons md-24">add_box</span>
-		      Add a user
+		      <span class="material-icons md-24">add</span>
+		      Create a user
 		    </mat-panel-title>
 		  </mat-expansion-panel-header>
-	  	<app-schema-form [schema]="schema" [model]="model" [key]="key">
-	  	</app-schema-form>
+
+  		<app-schema-form 
+  			[schema]="schema" 
+  			[model]="model" 
+  			[class]="user-add-form"
+  			(action)="onAction($event)"
+			>
+				<app-schema-form-action verb="create" primary validate pristene>
+					<span class="material-icons md-24 md-light">check</span>
+					Create
+				</app-schema-form-action>
+				<app-schema-form-action verb="clear" clear secondary pristene>
+					<span class="material-icons md-24 md-dark">clear</span>
+					Clear
+				</app-schema-form-action>
+			</app-schema-form>
+
 		</mat-expansion-panel>
 
 		<mat-expansion-panel [expanded]="true">
@@ -30,6 +40,22 @@
 		      Existing users
 		    </mat-panel-title>
 		  </mat-expansion-panel-header>
+
+		  <table class="user-list">
+		  	<thead>	  		
+			  	<tr>
+			  		<th *ngFor="let property of tableData | iterable">
+			  			{{ property.value }}
+			  		</th>
+			  	</tr>
+		  	</thead>
+		  	<tr *ngFor="let user of users">
+		  		<td *ngFor="let property of tableData | iterable">
+		  			{{ user[property.key] }}
+		  		</td>
+		  	</tr>
+		  </table>
+
 		</mat-expansion-panel>
 
 		<mat-expansion-panel>

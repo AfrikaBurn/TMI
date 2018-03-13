@@ -7,21 +7,30 @@
       "type": "number",
       "description": "Unique index of this user.",
       "isUniqueKey": true,
-      "widget": "output"
+      "widget": {
+        "type": "output",
+        "hidden": true
+      }
     },
-    "handle":  {
-      "title": "Handle",
+    "username":  {
+      "title": "Username",
       "type": "string",
-      "description": "The name you choose to go by on here.",
+      "description": "Unique chosen name of the user",
       "isUniqueKey": true
     },
     "email":  {
       "title": "Email",
       "type": "string",
       "pattern": "^\\S+@\\S+$",
-      "description": "The address used for your login retrieval and notifications you may choose to receive.",
+      "description": "Email address used for login retrieval and notification",
       "isUniqueKey": true
+    },
+    "pass":  {
+      "title": "Password",
+      "type": "string",
+      "pattern": "^\\S+@\\S+$",
+      "description": "Password used to authenticate the account"
     }
   },
-  "required": ["handle","email"]
+  "required": ["username","email","pass"]
 }

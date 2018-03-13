@@ -8,17 +8,23 @@ body{
 
 h1 {
 	font-family: syncopate;
+
+	.icon{
+		margin: 0 10px 0 5px;
+	}
 }
 
 .mat-tab-body{
-	padding: 35px 40px;
+	padding: 45px 40px;
 }
 
 .mat-tab-body-wrapper{
 	background-color: #efefef;
 	border-radius: 5px;
-	height: 70vh;
+	min-height: 75vh;
 	margin-top: -5px;
+	position: relative;
+	z-index: 2;
 }
 
 .mat-tab-label {
@@ -41,6 +47,22 @@ h1 {
 	font-size: 22px;
 }
 
+.mat-input-wrapper{
+	margin: 0 0 20px;
+}
+
+.mat-input-container{
+	width: 100%;
+}
+
+.form-actions{
+	text-align: right;
+
+	button{
+		margin-left: 10px;
+	}
+}
+
 section.panel{
 	width: 100%;
 	height: 100%;
@@ -51,4 +73,10 @@ section.panel aside{
 	display: flex;
 	height: 100%;
 	justify-content: center;
+}
+
+fieldset{
+	border: none;
+	margin: 0 0 30px;
+	padding: 0 30px;
 }

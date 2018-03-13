@@ -1,0 +1,16 @@
+<fieldset *ngIf="schema" class="{{ key }}">
+
+	<div *ngFor="let property of schema.properties | iterable">
+
+		<app-schema-form-element 
+			*ngIf="!property.value.widget || 
+						 (property.value.widget && !property.value.widget.hidden)"
+			[key]="property.key"
+			[element]="property.value"
+			[schema]="schema"
+			[formGroup]="formGroup"
+		></app-schema-form-element>
+
+	</div>
+
+</fieldset>

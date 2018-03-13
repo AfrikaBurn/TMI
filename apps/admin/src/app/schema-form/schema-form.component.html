@@ -1,9 +1,12 @@
-<fieldset *ngIf="schema" class="{{ key }}">
+<form *ngIf="schema" [formGroup]="formGroup" class="{{ class }}">
 
-	<app-schema-form-element *ngFor="let property of schema.properties | iterable" 
-		[key]="property.key"
-		[element]="property.value"
-		[formGroup]="formGroup"
-	></app-schema-form-element>
+	<app-schema-form-group 
+		[schema]="schema" 
+		[model]="model" 
+		[key]="'data'"
+		[parentGroup]="formGroup"
+	></app-schema-form-group>	
 
-</fieldset>
+	<div class="form-actions"><ng-content></ng-content></div>
+
+</form>
