@@ -63,7 +63,7 @@ npm config set prefix '~/.npm-global'
 - [Angular IO getting started](https://angular.io/guide/quickstart)
 
 
-### Editor: [Sublime Text 3](https://sublimetext.com)
+### Suggested editor: [Sublime Text 3](https://sublimetext.com)
 
 With packages installed:
 - DocBlockr (For JavaDoc)
