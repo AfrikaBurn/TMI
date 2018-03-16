@@ -34,7 +34,7 @@ class Minion {
 
     this.service = this.find('services', service)
     this.stash = this.find('stashes', stash)
-    this.schema = require('../schema/' + config.schema)
+    this.schema = config.schema ? require('../schema/' + config.schema) : false;
 
     console.log(
       '  Spawning ' + name + ' minion\n' +
@@ -68,7 +68,7 @@ class Minion {
    */
   find(type, name){
 
-    var 
+    var
       locations = [
         '../custom/' + type + '/',
         './' + type + '/',

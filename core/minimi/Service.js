@@ -1,6 +1,7 @@
 /**
  * @file Service.js
- * Basic configurable object.
+ * A basic service for a single path with the means to map, attach and detach 
+ * HTTP method calls to handler functions by the same name.
  */
 
 "use strict"
@@ -74,7 +75,9 @@ class Service {
 
     var
       routes = this.minion.minimi.router.stack,
-      path = '/' + (this.minion.getConfig().path || this.minion.getConfig().schema),
+      path = '/' + (
+        this.minion.getConfig().path || this.minion.getConfig().schema
+      ),
       keys = Object.keys(routes).reverse()
 
     for(var i in keys){

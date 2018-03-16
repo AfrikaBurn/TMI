@@ -1,6 +1,6 @@
 /**
  * @file JSONService.js
- * Basic configurable object.
+ * Basic service that includes all HTTP methods.
  */
 
 "use strict"
@@ -18,8 +18,8 @@ class JSONService extends Service {
    */
   methods(){
     return {
-      'get': [Service.PARSE_QUERY, Service.CONSOLE_LOG],
-      'post': [Service.PARSE_BODY, Service.CONSOLE_LOG],
+      'get': [Service.PARSE_QUERY],
+      'post': [Service.PARSE_BODY],
       'put': [Service.PARSE_BODY],
       'delete': [Service.PARSE_QUERY],
       'patch': [Service.PARSE_QUERY, Service.PARSE_BODY]
@@ -56,7 +56,7 @@ class JSONService extends Service {
    * @param  object response Express response object
    */
   put(request, response) {
-    return this.minion.stash.update(request.body)
+    return this.minion.stash.update(request.query, request.body)
   }
 
   /**
@@ -65,7 +65,7 @@ class JSONService extends Service {
    * @param  object response Express response object
    */
   delete(request, response) {
-    return this.minion.stash.delete(request.body)
+    return this.minion.stash.delete(request.query)
   }
 
   /**
@@ -74,7 +74,7 @@ class JSONService extends Service {
    * @param  object response Express response object
    */
   patch(request, response) {
-    return this.minion.stash.update(request.body)
+    return this.minion.stash.update(request.query, request.body)
   }
 }
 

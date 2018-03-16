@@ -51,15 +51,10 @@ class Minimi extends EventEmitter {
     this.app.use(this.handleError)
     this.app.use(this.handleNotFound)
 
-
     process.chdir(path.normalize(__dirname))
-    process.on(
-      'SIGINT', 
-      () => {
-        this.stop()
-        process.exit()
-      }
-    )
+    process.on('SIGINT', () => { process.exit() })
+    process.on('SIGTERM', () => { process.exit() })
+    process.on('exit', () => { this.stop() })
 
     console.log(
       '\nSpawning minimi: ' + this.config.name + ' seizing http://127.0.0.1:' +
