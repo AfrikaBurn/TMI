@@ -33,12 +33,14 @@ class SessionService extends Service {
     )
 
     passport.use(
+      'login',
       new LocalStrategy(
         (username, password, done) => {
           this.authenticate(username, password, done)
         }
       )
     )
+
   }
 
 
@@ -50,30 +52,60 @@ class SessionService extends Service {
    */
   attach(){
 
-    var path = this.minion.getConfig().path
+    this.path = this.minion.getConfig().path || 'session'
+    this.minion.minimi.router.post('/' + this.path, Service.PARSE_BODY)
+    this.minion.minimi.router.post('/' + this.path, Service.PARSE_QUERY)
 
-    this.minion.minimi.router.post(path, Service.PARSE_BODY)
-    this.minion.minimi.router.post(path, Service.PARSE_QUERY)
-
-    this.minion.minimi.router.use(
-      session(
-        {
-          secret: this.minion.getConfig().salt
-        }
-      )
+    var sessionHandler = session(
+      {
+        secret: this.minion.getConfig().salt,
+        resave: true,
+        saveUninitialized: true
+      }
     )
+    sessionHandler.serviceOrigin = 'SessionService'
+    this.minion.minimi.router.use(sessionHandler)
 
-    this.minion.minimi.router.use(passport.initialize());
+    var init = passport.initialize()
+    init.serviceOrigin = 'SessionService'
+    this.minion.minimi.router.use(init);
+
+    var passportSession = passport.initialize()
+    passportSession.serviceOrigin = 'SessionService'
+    this.minion.minimi.router.use(passportSession);
+
+    this.minion.minimi.router.post('/' + this.path,
+      (request, response, next) => {
+        passport.authenticate('login', function(err, user, info) {
+          if (err || !user) { throw new Error('Invalid credentials') }
+          request.logIn(user, function(err) {
+            if (err) { throw new Error('Login error') }
+            return response.json({yay: "YAY"});
+          });
+        })(request, response, next);
+      }
+    )
   }
 
   /**
    * @inheritDoc
    */
   detach(){
+    super.detach()
 
-    var routes = this.minion.minimi.router.stack
-    // TODO
+    var
+      path = '/' + this.path,
+      routes = this.minion.minimi.router.stack,
+      keys = Object.keys(routes).reverse()
 
+    for(var i in keys){
+      if(routes[keys[i]].handle.serviceOrigin == 'SessionService'){
+        routes.splice(
+          keys[i],
+          1
+        )
+      }
+    }
   }
 
 
@@ -89,10 +121,11 @@ class SessionService extends Service {
   authenticate(username, password, done){
 
     var
-      user = this.minion.stash.read(
+      users = this.minion.minimi.minions[this.minion.getConfig().users].stash,
+      user = users.read(
         {
           username: username,
-          password: password
+          pass: password
         }
       )
 
@@ -112,7 +145,7 @@ class SessionService extends Service {
    * @param {Function} done   Callback function upon competion.
    */
   serializeUser(user, done){
-    done(null, user.userId);
+    done(null, user.username);
   }
 
   /**

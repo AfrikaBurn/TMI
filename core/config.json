@@ -12,7 +12,9 @@
 
 		"Session":{
 			"path": "session",
-			"service": "SessionService"
+			"service": "SessionService",
+			"salt": "default salt",
+			"users": "User"
 		}
 
 	},
