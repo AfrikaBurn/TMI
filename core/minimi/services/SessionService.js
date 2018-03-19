@@ -36,11 +36,10 @@ class SessionService extends Service {
       'login',
       new LocalStrategy(
         (username, password, done) => {
-          this.authenticate(username, password, done)
+          return this.authenticate(username, password, done)
         }
       )
     )
-
   }
 
 
@@ -52,35 +51,21 @@ class SessionService extends Service {
    */
   attach(){
 
-    this.path = this.minion.getConfig().path || 'session'
-    this.minion.minimi.router.post('/' + this.path, Service.PARSE_BODY)
-    this.minion.minimi.router.post('/' + this.path, Service.PARSE_QUERY)
+    var path = '/' + this.minion.getConfig().path || 'session'
 
-    var sessionHandler = session(
-      {
-        secret: this.minion.getConfig().salt,
-        resave: true,
-        saveUninitialized: true
-      }
-    )
-    sessionHandler.serviceOrigin = 'SessionService'
-    this.minion.minimi.router.use(sessionHandler)
+    this.minion.minimi.router.post(path, Service.PARSE_BODY)
+    this.minion.minimi.router.post(path, Service.PARSE_QUERY)
+    this.minion.minimi.router.use(this.session())
+    this.minion.minimi.router.use(this.passport());
+    this.minion.minimi.router.use(this.passportSession());
 
-    var init = passport.initialize()
-    init.serviceOrigin = 'SessionService'
-    this.minion.minimi.router.use(init);
-
-    var passportSession = passport.initialize()
-    passportSession.serviceOrigin = 'SessionService'
-    this.minion.minimi.router.use(passportSession);
-
-    this.minion.minimi.router.post('/' + this.path,
+    this.minion.minimi.router.post(path,
       (request, response, next) => {
-        passport.authenticate('login', function(err, user, info) {
-          if (err || !user) { throw new Error('Invalid credentials') }
-          request.logIn(user, function(err) {
-            if (err) { throw new Error('Login error') }
-            return response.json({yay: "YAY"});
+        passport.authenticate('login', function(error, user, info) {
+          if (error) throw error
+          request.logIn(user, function(error) {
+            if (error) throw error
+            return response.json(user);
           });
         })(request, response, next);
       }
@@ -94,7 +79,6 @@ class SessionService extends Service {
     super.detach()
 
     var
-      path = '/' + this.path,
       routes = this.minion.minimi.router.stack,
       keys = Object.keys(routes).reverse()
 
@@ -121,18 +105,23 @@ class SessionService extends Service {
   authenticate(username, password, done){
 
     var
-      users = this.minion.minimi.minions[this.minion.getConfig().users].stash,
-      user = users.read(
+      userStash = this.minion.minimi.minions[this.minion.getConfig().users].stash,
+      userExists = userStash.read( {username: username }).length,
+      user = userStash.read(
         {
           username: username,
-          pass: password
+          password: password
         }
       )
 
-    if (user.length == 0)
-      done(null, false, { message: 'Invalid credentials'})
-    else
-      done(null, user[0])
+    switch(true){
+      case !userExists:
+        return done({ message: 'Invalid account', expose: true }, false)
+      case userExists && user.length == 0:
+        return done({ message: 'Invalid credentials', expose: true }, false)
+      default:
+        return done(null, user[0])
+    }
   }
 
 
@@ -156,10 +145,48 @@ class SessionService extends Service {
   deserializeUser(userId, done){
     var user = this.minion.stash.read({userId: userId})[0]
     done(
-      user.length == 0 ? new Error('Not found'): null,
+      user.length == 0 ? { message: 'User not found', expose: true } : null,
       user[0]
     )
   }
+
+
+  // ----- Middleware -----
+
+
+  /**
+   * Session middleware
+   */
+  session(){
+    var sessionHandler = session(
+      {
+        secret: this.minion.getConfig().salt,
+        resave: true,
+        saveUninitialized: true
+      }
+    )
+    sessionHandler.serviceOrigin = 'SessionService'
+    return sessionHandler
+  }
+
+  /**
+   * Passport middleware
+   */
+  passport(){
+    var init = passport.initialize()
+    init.serviceOrigin = 'SessionService'
+    return init
+  }
+
+  /**
+   * Session Passport middleware
+   */
+  passportSession(){
+    var passportSession = passport.initialize()
+    passportSession.serviceOrigin = 'SessionService'
+    return passportSession
+  }
+
 }
 
 

@@ -25,12 +25,12 @@
       "description": "Email address used for login retrieval and notification",
       "isUniqueKey": true
     },
-    "pass":  {
+    "password":  {
       "title": "Password",
       "type": "string",
       "pattern": "^\\S+@\\S+$",
       "description": "Password used to authenticate the account"
     }
   },
-  "required": ["username","email","pass"]
+  "required": ["username","email","password"]
 }

@@ -111,7 +111,7 @@ class Minimi extends EventEmitter {
 
 
   /**
-   * Checks whether requests originate from allowed domains 
+   * Checks whether requests originate from allowed domains
    * @param  {object}   request  Express request object
    * @param  {Function} callback Origin access callback
    */
@@ -151,7 +151,7 @@ class Minimi extends EventEmitter {
    * @param  {Function} next     Next middleware
    */
   handleError(error, request, response, next){
-    console.log(error)
+    console.log(error.stack)
     if (error.expose) response.status(error.code || 500).json({"error": error})
   }
 
