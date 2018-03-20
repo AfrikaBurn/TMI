@@ -1,16 +1,16 @@
 /**
- * @file JSONTestService.js
- * Basic configurable object.
+ * @file RestfulService.js
+ * Basic RESTful service for basic HTTP methods.
  */
 
 "use strict"
 
 
 const
-  Service = require('../Service')
+  Service = require('./Service')
 
 
-class JSONTestService extends Service {
+class RestfulService extends Service {
 
   /**
    * Declare methods to respond to and middleware to apply to each
@@ -18,11 +18,11 @@ class JSONTestService extends Service {
    */
   methods(){
     return {
-      'get': [Service.PARSE_QUERY, Service.CONSOLE_LOG],
-      'post': [Service.PARSE_BODY, Service.CONSOLE_LOG],
-      'put': [Service.PARSE_BODY, Service.CONSOLE_LOG],
-      'delete': [Service.PARSE_QUERY, Service.CONSOLE_LOG],
-      'patch': [Service.PARSE_QUERY, Service.PARSE_BODY, Service.CONSOLE_LOG]
+      'get': [Service.PARSE_QUERY],
+      'post': [Service.PARSE_BODY],
+      'put': [Service.PARSE_BODY],
+      'delete': [Service.PARSE_QUERY],
+      'patch': [Service.PARSE_QUERY, Service.PARSE_BODY]
     }
   }
 
@@ -38,7 +38,7 @@ class JSONTestService extends Service {
   get(request, response) {
     return request.header('Content-Type') == 'application/json;schema'
       ? this.minion.schema
-      : JSON.stringify(request.query)
+      : this.minion.stash.read(request.body)
   }
 
   /**
@@ -47,7 +47,7 @@ class JSONTestService extends Service {
    * @param  object response Express response object
    */
   post(request, response) {
-    return JSON.stringify(request.body)
+    return this.minion.stash.create(request.body)
   }
 
   /**
@@ -56,7 +56,7 @@ class JSONTestService extends Service {
    * @param  object response Express response object
    */
   put(request, response) {
-    return JSON.stringify(request.body)
+    return this.minion.stash.update(request.query, request.body)
   }
 
   /**
@@ -65,7 +65,7 @@ class JSONTestService extends Service {
    * @param  object response Express response object
    */
   delete(request, response) {
-    return JSON.stringify(request.query)
+    return this.minion.stash.delete(request.query)
   }
 
   /**
@@ -74,9 +74,9 @@ class JSONTestService extends Service {
    * @param  object response Express response object
    */
   patch(request, response) {
-    return JSON.stringify([request.query, request.body])
+    return this.minion.stash.update(request.query, request.body)
   }
 }
 
 
-module.exports = JSONTestService
+module.exports = RestfulService

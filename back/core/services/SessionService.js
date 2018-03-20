@@ -11,9 +11,9 @@ const
   express = require('express'),
   session = require('express-session'),
   passport = require('passport'),
+  LocalStrategy = require('passport-local').Strategy,
 
-  Service = require('../Service'),
-  LocalStrategy = require('passport-local').Strategy
+  Service = require('./Service')
 
 
 class SessionService extends Service {
@@ -105,9 +105,8 @@ class SessionService extends Service {
   authenticate(username, password, done){
 
     var
-      userStash = this.minion.minimi.minions[this.minion.getConfig().users].stash,
-      userExists = userStash.read( {username: username }).length,
-      user = userStash.read(
+      userExists = this.getUserStash().read( {username: username }).length,
+      user = this.getUserStash().read(
         {
           username: username,
           password: password
@@ -124,17 +123,13 @@ class SessionService extends Service {
     }
   }
 
-
-  // ----- Utility -----
-
-
   /**
    * Serializes a user referenced in the session
    * @param {Obect} user      User to serialise.
    * @param {Function} done   Callback function upon competion.
    */
   serializeUser(user, done){
-    done(null, user.username);
+    done(null, user.id);
   }
 
   /**
@@ -142,12 +137,26 @@ class SessionService extends Service {
    * @param {integer} userId  User ID to deserialise.
    * @param {Function} done   Callback function upon competion.
    */
-  deserializeUser(userId, done){
-    var user = this.minion.stash.read({userId: userId})[0]
+  deserializeUser(id, done){
+    var users = this.getUserStash().read({id: id})
     done(
-      user.length == 0 ? { message: 'User not found', expose: true } : null,
-      user[0]
+      users.length == 0 ? { message: 'User not found', expose: true } : null,
+      users[0]
     )
+  }
+
+
+  // ----- Utility -----
+
+
+  /**
+   * Gets the configured user minions' stash
+   */
+  getUserStash(){
+    return this
+      .minion
+      .minimi
+      .minions[this.minion.getConfig().userMinion].stash
   }
 
 
@@ -182,7 +191,7 @@ class SessionService extends Service {
    * Session Passport middleware
    */
   passportSession(){
-    var passportSession = passport.initialize()
+    var passportSession = passport.session()
     passportSession.serviceOrigin = 'SessionService'
     return passportSession
   }

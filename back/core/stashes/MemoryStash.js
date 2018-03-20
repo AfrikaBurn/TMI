@@ -1,5 +1,5 @@
 /**
- * @file CacheStash.js
+ * @file MemoryStash.js
  * Basic memory based Stash.
  */
 
@@ -7,11 +7,10 @@
 
 
 const
+  Stash = require('./Stash')
 
-  Stash = require('../Stash')
 
-
-class CacheStash extends Stash {
+class MemoryStash extends Stash {
 
   /**
    * Creates a new memory based data stash.
@@ -30,6 +29,7 @@ class CacheStash extends Stash {
    * @inheritDoc
    */
   create(entity){
+    entity.id = this.cache.length
     this.cache.push(entity)
     return [entity]
   }
@@ -75,7 +75,7 @@ class CacheStash extends Stash {
       deleted = []
 
     while(toDelete.length){
-      var 
+      var
         current = toDelete.pop(),
         index = this.cache.indexOf(current)
       if (index != -1) {
@@ -84,7 +84,7 @@ class CacheStash extends Stash {
       }
     }
 
-    return deleted 
+    return deleted
   }
 
 
@@ -106,4 +106,4 @@ class CacheStash extends Stash {
 }
 
 
-module.exports = CacheStash
+module.exports = MemoryStash

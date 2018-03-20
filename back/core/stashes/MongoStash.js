@@ -17,7 +17,7 @@
 
 const
 
-  Stash = require('../Stash'),
+  Stash = require('./Stash'),
   MongoClient = require('mongodb').MongoClient,
   assert = require('assert')
 

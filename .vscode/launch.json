@@ -8,7 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "Core",
-            "program": "${workspaceFolder}/core/minimi.js"
+            "program": "${workspaceFolder}/back/bootstrap.js"
         }
     ]
 }

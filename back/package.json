@@ -2,8 +2,7 @@
   "name": "minimi",
   "description": "",
   "version": "0.0.0",
-  "main": "minimi.js",
-  "license": "GNU-3.0",
+  "main": "bootstrap.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/scheepers/minimi.git"

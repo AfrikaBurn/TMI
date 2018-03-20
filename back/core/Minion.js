@@ -6,6 +6,11 @@
 "use strict"
 
 
+const
+  fs = require('fs'),
+  path = require('path')
+
+
 class Minion {
 
   /**
@@ -36,13 +41,17 @@ class Minion {
     this.stash = this.find('stashes', stash)
     this.schema = config.schema ? require('../schema/' + config.schema) : false;
 
+    var methods = Object.keys(this.service.methods())
+
     console.log(
       '  Spawning ' + name + ' minion\n' +
       '    Path:    ' + path + '\n' +
       '    Schema:  ' + config.schema + '\n' +
       '    Stash:   ' + stash + '\n' +
       '    Service: ' + service + '\n' +
-      '    Methods: ' + Object.keys(this.service.methods()) + '\n'
+      (methods.length
+        ? '    Methods: ' + methods + '\n'
+        : '')
     )
   }
 
@@ -71,23 +80,22 @@ class Minion {
     var
       locations = [
         '../custom/' + type + '/',
-        './' + type + '/',
-        './'
-      ],
-      found = false,
-      error = false
+        './' + type + '/'
+      ]
 
     for (let i in locations){
-      try{
-        found = new (require(locations[i] + name + '.js'))(this)
-      } catch (e) {
-        if (e.code != 'MODULE_NOT_FOUND') error = e
-      }
+
+      var
+        localPath = locations[i] + name + '.js',
+        fullPath = path.resolve(__dirname + '/' + localPath),
+        exists = fs.existsSync(fullPath)
+
+      if (fs.existsSync(fullPath)) return new (
+        require(localPath)
+      )(this)
     }
 
-    if (error) throw error
-    if (found) return found
-    else throw new Error(name + ' not found in ' + type)
+    throw new Error(name + ' not found in ' + type)
   }
 
   /**

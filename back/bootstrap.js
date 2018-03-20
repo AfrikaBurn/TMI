@@ -13,11 +13,11 @@ const
   path = require('path'),
   parseError = require('express-body-parser-json-error')(),
   EventEmitter = require('events'),
-  Minion = require('./minimi/Minion'),
+  Minion = require('./core/Minion'),
   cors = require('cors')
 
 
-class Minimi extends EventEmitter {
+class Bootstrap extends EventEmitter {
 
   /**
    * Bootstraps a new minion instance.
@@ -51,7 +51,8 @@ class Minimi extends EventEmitter {
     this.app.use(this.handleError)
     this.app.use(this.handleNotFound)
 
-    process.chdir(path.normalize(__dirname))
+    this.path = path.normalize(__dirname)
+    process.chdir(this.path)
     process.on('SIGINT', () => { process.exit() })
     process.on('SIGTERM', () => { process.exit() })
     process.on('exit', () => { this.stop() })
@@ -151,7 +152,9 @@ class Minimi extends EventEmitter {
    * @param  {Function} next     Next middleware
    */
   handleError(error, request, response, next){
-    console.log(error.stack)
+    error.stack
+      ? console.log(error.stack)
+      : console.log(error)
     if (error.expose) response.status(error.code || 500).json({"error": error})
   }
 
@@ -165,4 +168,4 @@ class Minimi extends EventEmitter {
   }
 }
 
-module.exports = new Minimi()
+module.exports = new Bootstrap()

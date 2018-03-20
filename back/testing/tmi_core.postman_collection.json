@@ -1,0 +1,617 @@
+{
+	"info": {
+		"_postman_id": "9ac72324-54cb-4435-8218-daa4801ea075",
+		"name": "tmi core",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Setup",
+			"description": "Setup tasks required to run test requests.",
+			"item": [],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "b95d2658-82c5-451f-9f21-ffdcb9a2f514",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "5edc648f-693b-41dc-94be-444b4e7e6923",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Anonymous",
+			"description": "Requests bu unauthenticated users.",
+			"item": [
+				{
+					"name": "User",
+					"description": "Requests to the user service.",
+					"item": [
+						{
+							"name": "Schema",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "ba2ec2a9-1125-4579-83c2-710f4ee14367",
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Response has body\", function () {",
+											"    pm.response.to.be.withBody;",
+											"});",
+											"",
+											"pm.test(\"Response is JSON\", function () {",
+											"    pm.response.to.be.json;",
+											"});",
+											"",
+											"pm.test(\"No error\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.error).to.eql(undefined);",
+											"});",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json;schema"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "localhost:3000/user",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"user"
+									]
+								},
+								"description": "Retrieves the User schema"
+							},
+							"response": []
+						},
+						{
+							"name": "List",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "6ca09475-2bc5-4286-abfc-c3107dbfa7d9",
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Response has body\", function () {",
+											"    pm.response.to.be.withBody;",
+											"});",
+											"",
+											"pm.test(\"Response is JSON\", function () {",
+											"    pm.response.to.be.json;",
+											"});",
+											"",
+											"pm.test(\"Error\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.error.error).to.eql('Unauthorised');",
+											"    pm.expect(jsonData.error.code).to.eql(401);",
+											"    pm.expect(jsonData.error.expose).to.eql(true);",
+											"});",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "localhost:3000/user",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"user"
+									]
+								},
+								"description": "Retrieves a list of users"
+							},
+							"response": []
+						},
+						{
+							"name": "Find",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "dd9fbf17-b031-41e2-ac00-dac88bbd9d67",
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Response has body\", function () {",
+											"    pm.response.to.be.withBody;",
+											"});",
+											"",
+											"pm.test(\"Response is JSON\", function () {",
+											"    pm.response.to.be.json;",
+											"});",
+											"",
+											"pm.test(\"Error\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.error.error).to.eql('Unauthorised');",
+											"    pm.expect(jsonData.error.code).to.eql(401);",
+											"    pm.expect(jsonData.error.expose).to.eql(true);",
+											"});"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "localhost:3000/user?username=Test",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"user"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "Test"
+										}
+									]
+								},
+								"description": "Retrieves a list of users that satisfy a set of criteria"
+							},
+							"response": []
+						},
+						{
+							"name": "Create",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c8f6596d-743d-43ac-9df0-33e237e7eac0",
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Response has body\", function () {",
+											"    pm.response.to.be.withBody;",
+											"});",
+											"",
+											"pm.test(\"Response is JSON\", function () {",
+											"    pm.response.to.be.json;",
+											"});",
+											"",
+											"pm.test(\"No error\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.error).to.eql(undefined);",
+											"});",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"Test\", \n  \"email\": \"a@b.c\", \n  \"password\": \"test\"\n}"
+								},
+								"url": {
+									"raw": "localhost:3000/user",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"user"
+									]
+								},
+								"description": "Create a user"
+							},
+							"response": []
+						},
+						{
+							"name": "Update",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "f90a763c-dce9-4ec5-a787-52223bda375a",
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Response has body\", function () {",
+											"    pm.response.to.be.withBody;",
+											"});",
+											"",
+											"pm.test(\"Response is JSON\", function () {",
+											"    pm.response.to.be.json;",
+											"});",
+											"",
+											"pm.test(\"Error\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.error.error).to.eql('Unauthorised');",
+											"    pm.expect(jsonData.error.code).to.eql(401);",
+											"    pm.expect(jsonData.error.expose).to.eql(true);",
+											"});"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"Test\",\n  \"email\": \"a@b.c\", \n  \"password\": \"TEST\"\n}"
+								},
+								"url": {
+									"raw": "localhost:3000/user?username=Test",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"user"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "Test"
+										}
+									]
+								},
+								"description": "Create a user"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "f90a763c-dce9-4ec5-a787-52223bda375a",
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Response has body\", function () {",
+											"    pm.response.to.be.withBody;",
+											"});",
+											"",
+											"pm.test(\"Response is JSON\", function () {",
+											"    pm.response.to.be.json;",
+											"});",
+											"",
+											"pm.test(\"Error\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.error.error).to.eql('Unauthorised');",
+											"    pm.expect(jsonData.error.code).to.eql(401);",
+											"    pm.expect(jsonData.error.expose).to.eql(true);",
+											"});"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"Test\",\n  \"email\": \"a@b.c\", \n  \"password\": \"TEST\"\n}"
+								},
+								"url": {
+									"raw": "localhost:3000/user?username=Test",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"user"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "Test"
+										}
+									]
+								},
+								"description": "Delete a user"
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "36b4ccf2-8d08-4b88-94d4-b883651a1ec1",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "b1be6024-ccb7-4fb5-a6c9-f529e8e74f13",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "d698331c-b681-478e-bfbb-a2f25497b555",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "58c91c37-64db-49d8-bc01-c75250b3194a",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Authenticated",
+			"description": "",
+			"item": [
+				{
+					"name": "Owner",
+					"description": "",
+					"item": [
+						{
+							"name": "Create",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"Owner\", \n  \"email\": \"owner@test.com\", \n  \"password\": \"owner\"\n}"
+								},
+								"url": {
+									"raw": "localhost:3000/user",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"user"
+									]
+								},
+								"description": "Create a user"
+							},
+							"response": []
+						},
+						{
+							"name": "Authenticate",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"Owner\", \n  \"password\": \"owner\"\n}"
+								},
+								"url": {
+									"raw": "localhost:3000/session",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"session"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "7c2b2a0f-97c7-4003-859e-0a56843e56e8",
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Response has body\", function () {",
+											"    pm.response.to.be.withBody;",
+											"});",
+											"",
+											"pm.test(\"Response is JSON\", function () {",
+											"    pm.response.to.be.json;",
+											"});",
+											"",
+											"pm.test(\"No error\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.error).to.eql(undefined);",
+											"});",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "localhost:3000/user",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"user"
+									]
+								},
+								"description": "Retrieves a list of users"
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "b13a292c-beaa-47ed-acd2-3d9e241f7676",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "c728ef4c-21f7-4962-a7d7-cfd2dd78fbcf",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

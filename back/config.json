@@ -4,22 +4,20 @@
 
 	"minions": {
 
-		"User": {
-			"schema": "user",
-			"service": "JSONService",
-			"stash": "CacheStash"
-		},
-
 		"Session":{
 			"path": "session",
 			"service": "SessionService",
 			"salt": "default salt",
-			"users": "User"
+			"userMinion": "User"
+		},
+
+		"User": {
+			"schema": "user",
+			"service": "UserService",
+			"stash": "MemoryStash"
 		}
 
 	},
 
-	"origins": [
-		"http://localhost:4200"
-	]
+	"origins": ["http://localhost:4200"]
 }

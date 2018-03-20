@@ -79,34 +79,11 @@
           }
         },
 
-        "members":  {
-          "title": "Members",
+        "roles": {
           "type": "array",
-          "description": "Members of this collective.",
           "items": {
-            "type": "object",
-            "properties": {
-
-              "memberId":  {
-                "type": "number"
-              },
-
-              "memberType": {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "enum": ["collective", "user"]
-                }
-              },
-
-              "role": {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "enum": ["guest", "member", "retired", "moderator", "administrator"]
-                }
-              }
-            }
+            "type": "string",
+            "enum": ["guest", "member", "retired", "moderator", "administrator"]
           }
         }
       }

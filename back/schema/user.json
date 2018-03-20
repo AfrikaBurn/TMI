@@ -2,35 +2,45 @@
   "type": "object",
   "title": "User",
   "properties": {
-    "userId":  {
+
+    "id":  {
       "title": "User ID",
-      "type": "number",
       "description": "Unique index of this user.",
-      "isUniqueKey": true,
-      "widget": {
-        "type": "output",
-        "hidden": true
-      }
+      "type": "number",
+      "isUniqueKey": true
     },
+
     "username":  {
       "title": "Username",
-      "type": "string",
       "description": "Unique chosen name of the user",
+      "type": "string",
       "isUniqueKey": true
     },
+
     "email":  {
       "title": "Email",
-      "type": "string",
-      "pattern": "^\\S+@\\S+$",
       "description": "Email address used for login retrieval and notification",
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string",
+          "pattern": "^\\S+@\\S+$"
+        },
+        "privacy": {
+          "type": "string",
+          "enum": ["private", "administrators", "collectives", "everyone"]
+        }
+      },
       "isUniqueKey": true
     },
+
     "password":  {
       "title": "Password",
       "type": "string",
-      "pattern": "^\\S+@\\S+$",
+      "pattern": "^\\w+@\\w+\\.\\w$",
       "description": "Password used to authenticate the account"
     }
   },
-  "required": ["username","email","password"]
+
+  "required": ["username", "email", "password"]
 }
