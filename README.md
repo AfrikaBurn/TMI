@@ -10,7 +10,7 @@
 
 ## Setup
 
-- [Install Node & NPM](https://nodejs.org/en/) 
+- [Install Node & NPM](https://nodejs.org/en/)
 - [Install Angular CLI](https://github.com/angular/angular-cli/blob/master/README.md#installation)
 - [Clone or Download TMI source](https://github.com/scheepers/tmi.git)
 
@@ -63,14 +63,14 @@ npm config set prefix '~/.npm-global'
 - [Angular IO getting started](https://angular.io/guide/quickstart)
 
 
-### Suggested editor: [Sublime Text 3](https://sublimetext.com)
+### Suggested Software
 
-With packages installed:
-- DocBlockr (For JavaDoc)
-- Typescript (For syntax highlighting)
+- [Visual Studio Code](https://www.visualstudio.com/) - Editing / Debugging
+- [Postman](https://www.getpostman.com/) - API end point testing
 
 
 ### Common Development Issues
+
 - [Angular does not reload the page when I make changes](https://github.com/guard/listen/wiki/Increasing-the-amount-of-inotify-watchers) - Linux/OSX
 ```
 echo 65536 | sudo tee -a /proc/sys/fs/inotify/max_user_watches
