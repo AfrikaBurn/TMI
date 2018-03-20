@@ -15,31 +15,31 @@
 - [Clone or Download TMI source](https://github.com/scheepers/tmi.git)
 
 
-### TMI Core
+### TMI Backend
 
 - Install dependencies
 ```
-cd tmi/core
+cd tmi/back
 npm install
 ```
-- [Configure core](./core/README.md)
+- [Configure core](./back/README.md)
 - Run core
 ```
 cd tmi
-node core
+node back
 ```
 
 
-### TMI Apps
+### TMI Front end Apps
 
 - Install dependencies:
 ```
-cd tmi/apps/[app-name]
+cd tmi/front/[app-name]
 npm install
 ```
 - Run App:
 ```
-cd tmi/apps/[app-name]
+cd tmi/front/[app-name]
 ng serve
 ```
 
