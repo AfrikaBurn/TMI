@@ -22,7 +22,7 @@
 cd tmi/core
 npm install
 ```
-- [Check out core configration](./core/README.md)
+- [Check out core configration](./core/CONFIG.md)
 - Run core
 ```
 cd tmi
