@@ -1,6 +1,6 @@
 /**
  * @file UserService.js
- * User management and query service.
+ * Permission aware User management and query service.
  */
 
 "use strict"
@@ -12,6 +12,10 @@ const
 
 
 class UserService extends RestfulService {
+
+
+  // ----- Method responders
+
 
   /**
    * Get the User schema, find or list Users
@@ -62,6 +66,21 @@ class UserService extends RestfulService {
   }
 
   /**
+   * Update user
+   * @inheritDoc
+   */
+  patch(request, response){
+    switch(true){
+      case request.user && request.user.id === 0:
+      // TODO add user admin collective
+      case request.user && request.body && request.user.id == request.body.id:
+        return super.put(request, response)
+      default:
+        throw UNAUTHORISED
+    }
+  }
+
+  /**
    * Delete user
    * @inheritDoc
    */
@@ -77,7 +96,7 @@ class UserService extends RestfulService {
   }
 
 
-  // ----- Error handling -----
+  // ----- Utility -----
 
 
   /**

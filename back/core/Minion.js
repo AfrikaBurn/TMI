@@ -7,14 +7,18 @@
 
 
 const
-  fs = require('fs'),
-  path = require('path')
+fs = require('fs'),
+path = require('path')
 
 
 class Minion {
 
+
+  // ----- Process -----
+
+
   /**
-   * Creates a new minion
+   * Constructs a new minion
    * @param  {string} name   Minion name
    * @param  {object} minimi main boot strap
    */
@@ -24,47 +28,50 @@ class Minion {
     this.minimi = minimi
 
     var
-      config = this.getConfig(),
-      service = config.service
-        ? typeof config.service == 'string'
-          ? config.service
-          : config.service.name
-        : 'Service',
-      stash = config.stash
-        ? typeof config.stash == 'string'
-          ? config.stash
-          : config.stash.name
-        : 'Stash',
-      path = config.path || config.schema
+    config = this.getConfig(),
+    service = config.service
+    ? typeof config.service == 'string'
+    ? config.service
+    : config.service.name
+    : 'Service',
+    stash = config.stash
+    ? typeof config.stash == 'string'
+    ? config.stash
+    : config.stash.name
+    : 'Stash',
+    path = config.path || config.schema
 
     this.service = this.find('services', service)
     this.stash = this.find('stashes', stash)
     this.schema = config.schema ? require('../schema/' + config.schema) : false;
 
-    var methods = Object.keys(this.service.methods())
-
     console.log(
       '  Spawning ' + name + ' minion\n' +
       '    Path:    ' + path + '\n' +
-      '    Schema:  ' + config.schema + '\n' +
+      (config.schema ? '    Schema:  ' + config.schema + '\n' : '' ) +
       '    Stash:   ' + stash + '\n' +
-      '    Service: ' + service + '\n' +
-      (methods.length
-        ? '    Methods: ' + methods + '\n'
-        : '')
+      '    Service: ' + service + '\n'
     )
   }
 
+    /**
+     * Dispose of the minion.
+     */
+    dispose(){
+      this.service.detach()
+      this.stash.close()
+    }
 
-  // ----- Accessors -----
+
+    // ----- Accessors -----
 
 
-  /**
-   * Returns the config for this minion
-   */
-  getConfig(){
-    return this.minimi.config.minions[this.name]
-  }
+    /**
+     * Returns the config for this minion
+     */
+    getConfig(){
+      return this.minimi.config.minions[this.name]
+    }
 
 
   // ----- Utility -----
@@ -96,14 +103,6 @@ class Minion {
     }
 
     throw new Error(name + ' not found in ' + type)
-  }
-
-  /**
-   * Dispose of the minion.
-   */
-  dispose(){
-    this.service.detach()
-    this.stash.close()
   }
 }
 

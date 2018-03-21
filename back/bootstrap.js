@@ -19,58 +19,73 @@ const
 
 class Bootstrap extends EventEmitter {
 
+
+  // ----- Process -----
+
+
   /**
-   * Bootstraps a new minion instance.
+   * Constructs Bootstrap.
    */
   constructor(){
 
     super()
 
-    this.init()
-    this.load()
-    this.start()
-  }
-
-
-  // ----- Main -----
-
-
-  /**
-   * Initialises minimi.
-   */
-  init(){
-
-    this.config = require('./config.json')
     this.app = express()
-    this.router = express.Router()
+    this.config = require('./config.json')
     this.minions = {}
-
-    this.app.use(cors((request, callback) => this.bounce(request, callback) ))
-
-    this.app.use(this.router)
-    this.app.use(this.handleError)
-    this.app.use(this.handleNotFound)
-
     this.path = path.normalize(__dirname)
-    process.chdir(this.path)
-    process.on('SIGINT', () => { process.exit() })
-    process.on('SIGTERM', () => { process.exit() })
-    process.on('exit', () => { this.stop() })
+    this.router = express.Router()
 
     console.log(
       '\nSpawning minimi: ' + this.config.name + ' seizing http://127.0.0.1:' +
       this.config.port +
       '\n'
     )
+
+    this.initialise()
+    this.start()
   }
 
   /**
-   * Loads all minions defined in config.json
+   * Initialise minimi.
    */
-  load(){
+  initialise(){
+
+    process.chdir(this.path)
+    process.on('SIGINT', () => { process.exit() })
+    process.on('SIGTERM', () => { process.exit() })
+    process.on('exit', () => { this.stop() })
+
+    this.app.use(cors(
+      (request, callback) => callback(
+        null,
+        {
+          origin: this.config.origins || [],
+          allowedHeaders: ['Content-Type', 'Authorization', 'Accept']
+        }
+      )
+    ))
+
+    this.app.use(this.router)
+    this.app.use(this.handleError)
+    this.app.use(this.handleNotFound)
+
     for(let name in this.config.minions){
       this.delegate(name, this.config.minions[name])
     }
+  }
+
+  /**
+   * Delegate to a minion as per the provided configuration
+   * @param  {string} name   Minion name
+   * @param  {object} config Minion configuration
+   */
+  delegate(name, config){
+
+    if (this.minions[name]) this.minions[name].dispose()
+    if (config) this.config.minions[name] = config
+
+    this.minions[name] = new Minion(name, this)
   }
 
 
@@ -108,44 +123,11 @@ class Bootstrap extends EventEmitter {
   }
 
 
-  // ----- Utility -----
-
-
-  /**
-   * Checks whether requests originate from allowed domains
-   * @param  {object}   request  Express request object
-   * @param  {Function} callback Origin access callback
-   */
-  bounce(request, callback){
-    callback(
-      null,
-      {
-        origin: this.config.origins || [],
-        allowedHeaders: ['Content-Type', 'Authorization', 'Accept']
-      }
-    )
-  }
-
-
-  /**
-   * Delegate a minion as per the provided configuration
-   * @param  {string} name   Minion name
-   * @param  {object} config Minion configuration
-   */
-  delegate(name, config){
-
-    if (this.minions[name]) this.minions[name].dispose()
-    if (config) this.config.minions[name] = config
-
-    this.minions[name] = new Minion(name, this)
-  }
-
-
   // ----- Error handling -----
 
 
   /**
-   * Handle errors
+   * Handle errors.
    * @param  {object}   error    Error that has occured
    * @param  {object}   request  Express request object
    * @param  {object}   response Express response object
@@ -167,5 +149,6 @@ class Bootstrap extends EventEmitter {
     response.status(404).json({"error": 'Not found!'})
   }
 }
+
 
 module.exports = new Bootstrap()

@@ -12,17 +12,22 @@ const
 
 class RestfulService extends Service {
 
+
+  // ----- Declaration -----
+
+
   /**
-   * Declare methods to respond to and middleware to apply to each
-   * @return object middleware mapping keyed by method
+   * @inheritDoc
    */
-  methods(){
+  routing(){
     return {
-      'get': [Service.PARSE_QUERY],
-      'post': [Service.PARSE_BODY],
-      'put': [Service.PARSE_BODY],
-      'delete': [Service.PARSE_QUERY],
-      'patch': [Service.PARSE_QUERY, Service.PARSE_BODY]
+      [this.path]: {
+        'get': [Service.PARSE_QUERY],
+        'post': [Service.PARSE_BODY],
+        'put': [Service.PARSE_BODY],
+        'delete': [Service.PARSE_QUERY],
+        'patch': [Service.PARSE_QUERY, Service.PARSE_BODY]
+      }
     }
   }
 
@@ -60,21 +65,21 @@ class RestfulService extends Service {
   }
 
   /**
-   * Process a DELETE request
-   * @param  object request  Express request object
-   * @param  object response Express response object
-   */
-  delete(request, response) {
-    return this.minion.stash.delete(request.query)
-  }
-
-  /**
    * Process a PATCH request
    * @param  object request  Express request object
    * @param  object response Express response object
    */
   patch(request, response) {
     return this.minion.stash.update(request.query, request.body)
+  }
+
+  /**
+   * Process a DELETE request
+   * @param  object request  Express request object
+   * @param  object response Express response object
+   */
+  delete(request, response) {
+    return this.minion.stash.delete(request.query)
   }
 }
 

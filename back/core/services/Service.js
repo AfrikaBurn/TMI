@@ -14,6 +14,10 @@ const
 
 class Service {
 
+
+  // ----- Process -----
+
+
   /**
    * Creates a new Service
    * @param  {object} minion Minion that contains this service minion object.
@@ -24,11 +28,30 @@ class Service {
     this.attach()
   }
 
+
+  // ----- Declaration -----
+
+
   /**
-   * Declare methods to respond to and middleware to apply to each
-   * @return object middleware mapping keyed by method
+   * Declare middleware and responders.
+   * @return {object} middleware mapping keyed by method:
+   *
+   * {
+   *   '': {
+   *     'method': []
+   *   }
+   *   'path/to/bind/to': {
+   *     'method': [ middleWare, ...],
+   *     ...
+   *   }
+   * }
+   * Method may be any of [get|post|put|delete|...] or 'use' to bind to all
+   * methods.
+   * Service Object methods with the same name as a method (get(), post(), etc.)
+   * will automatically be bound to any path with a corresponding method
+   * declaration.
    */
-  methods(){
+  routing(){
     return {}
   }
 
@@ -42,21 +65,19 @@ class Service {
   attach(){
 
     var
-      methods = this.methods(),
-      router = this.minion.minimi.router
+      router = this.minion.minimi.router,
+      routing = this.routing(),
+      pathes = Object.keys(routing)
 
-    for (let method in methods){
-      if (this[method]){
+    for (let index in pathes){
+      var path = pathes[index]
+      for (let method in routing[pathes[index]]){
 
-        for (let middleware in methods[method]){
-          this.minion.minimi.router[method](
-            '/' + this.path,
-            methods[method][middleware]
-          )
+        for (let middleware in routing[path][method]){
+          this.bindMiddleware(path, method, routing[path][method][middleware])
         }
 
-        this.minion.minimi.router[method](
-          '/' + this.path,
+        this.bindResponder(path, method,
           (request, response) => {
             var result = this[method](request, response)
             if (result){
@@ -65,6 +86,30 @@ class Service {
           }
         )
       }
+    }
+  }
+
+  /**
+   * Binds a middleware handler to a path and method.
+   * @param {string} path         Path to bind middleware to.
+   * @param {method} method       Method on path to bind middleware to.
+   * @param {Function} middleware Middleware handler to bind to path and method.
+   */
+  bindMiddleware(path, method, middleware){
+    path === ""
+      ? this.minion.minimi.router[method](middleware)
+      : this.minion.minimi.router[method]('/' + this.path, middleware)
+  }
+
+  /**
+   * Binds a responder function to a path and method.
+   * @param {string} path         Path to bind middleware to.
+   * @param {method} method       Method on path to bind responder to.
+   * @param {Function} responder  Responder to bind to path and method.
+   */
+  bindResponder(path, method, responder){
+    if (this[method]){
+      this.bindMiddleware(path, method, responder)
     }
   }
 
@@ -87,7 +132,16 @@ class Service {
       }
     }
   }
+
+
+  // ----- Utilities -----
+
+
+
 }
+
+
+// ----- Middleware -----
 
 
 Service.PARSE_BODY  = bodyParser.json()

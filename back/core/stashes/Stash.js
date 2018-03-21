@@ -1,6 +1,7 @@
 /**
  * @file Stash.js
- * Basic Data Stash.
+ * Basic Data Storage Stash.
+ * TODO: Add validation
  */
 
 "use strict"
@@ -8,8 +9,12 @@
 
 class Stash {
 
+
+  // ----- Process -----
+
+
   /**
-   * Creates a new storage object.
+   * Creates a new data stash.
    * @param  {object} minion Parent minion object.
    */
   constructor(minion){
@@ -25,157 +30,61 @@ class Stash {
   }
 
 
-  // ----- CRUD -----
+  // ----- Storage -----
 
 
   /**
    * Create entities.
-   * @param  {array}  entities Data entities to create.
-   * @return {array}  Data entities that were created successfully.
+   * @param  {array} entities Array of data entities to create.
+   * @return {array} Data     Array of entities that were created successfully.
    */
   create(entities){
-    this.validate(entities)
+    return [];
+  }
+
+  /**
+   * Read entities matching the provided criteria.
+   * @param  {object} criteria Partial entity to match.
+   * @return {array}           Array of matching entities.
+   */
+  read(criteria){
+    return [];
+  }
+
+  /**
+   * Writes entities as they are.
+   * @param {array} entities Array of entities to commit.
+   * @return {array}         Array of updated entities
+   */
+  write(entities){
     return entities;
   }
 
   /**
-   * Read entities matching the provided partial.
-   * @param  {object} partial Partial entity to match.
-   * @return {array}  Array of matching entities.
-   */
-  read(partial){
-    return partial;
-  }
-
-  /**
-   * Update entities matching the provided partial entity.
-   * @param  {object} partial   Partial entity to match.
-   * @param  {object} entity    Entity to update (in the case of a
-   *                            full entity update) or Partial entity (in the
-   *                            case of a partial entity update).
-   * @param  {boolean} full     boolean indicating whether this is a full entity
-   *                            update. Defaults to true.
+   * Update entities matching the provided criteria with the properties from
+   * partial.
+   * @param  {object} criteria  Partial entity to match.
+   * @param  {object} partial   Partial entity to apply update from.
    * @return {array}            Array of updated entities
    */
-  update(partial, entity, full = true){
-    this.validate([entity], full)
-    return entity;
+  update(criteria, partial){
+    return [];
   }
 
   /**
-   * Delete all entities matching the provided partial entity.
-   * @param  {object} partial Partial entity to match.
-   * @return {array}  Array of deleted entities
+   * Delete all entities matching the provided criteria.
+   * @param  {object} criteria Partial entity to match.
+   * @return {array}           Array of deleted entities
    */
-  delete(partial){
-    return [partial];
+  delete(criteria){
+    return [criteria];
   }
 
 
   // ----- Validation -----
 
 
-  // /**
-  //  * Validates the entity represented by the request body to the schema
-  //  * @param  {array}    entities   array of entities to be validated
-  //  * @param  {boolean}  partial    true if a partial validation is to be
-  //  *                               performed, meaning only existing entity
-  //  *                               attributes are to be validated. Defaults to
-  //  *                               false meaning a full validation should be
-  //  *                               performed.
-  //  * @throws {object}   If validation fails on any of the entities.
-  //  */
-  // validate(entities, partial) {
-
-  //   partial = false || partial
-
-  //   var
-  //     errors = {},
-  //     error = false
-
-  //   for (var i in entities) {
-  //     errors[i] = partial
-  //       ? validatePartialEntity(entity)
-  //       : validateEntity(entity)
-  //     error |= errors[i] !== true
-  //   }
-
-  //   if (error) {
-  //     throw {
-  //       "error": "validation failed",
-  //       "code": 422,
-  //       "errors": errors,
-  //       "schema": validatorResponse.schema
-  //     }
-  //   }
-  // }
-
-  // /**
-  //  * Validate a full entity
-  //  * @param  {object} entity Entity to be validated
-  //  * @return {mixed}         True if valid, errors if not
-  //  */
-  // validateEntity(entity){
-  //   return this.propertyErrors(
-  //     validator.validate(
-  //       entity,
-  //       this.minion.schema
-  //     )
-  //   )
-  // }
-
-  // /**
-  //  * Validate a partial entity
-  //  * @param  {object} entity Entity to be validated
-  //  * @return {mixed}         True if valid, errors if not
-  //  */
-  // validatePartialEntity(entity) {
-
-  //   var
-  //     errors = [];
-
-  //   for (var property in entity){
-
-  //     var
-  //       validatorResponse = validator.validate(
-  //         entity[property],
-  //         this.minion.schema.properties[property]
-  //       )
-
-  //     if (validatorResponse.errors.length) errors[property] += error.errors
-  //   }
-
-  //   return this.propertyErrors(
-  //     {'errors': errors}
-  //   )
-  // }
-
-  // /**
-  //  * Format validator error response
-  //  * @param  {object} validatorResponse validator response to be formatted
-  //  * @return {mixed}  error object if errors, false if no errors
-  //  */
-  // propertyErrors(validatorResponse) {
-
-  //   var
-  //     errors = {},
-  //     count = 0
-
-  //   for (let errorIndex in validatorResponse.errors){
-
-  //     var
-  //       error = validatorResponse.errors[errorIndex]
-
-  //     errors[error.argument] = {
-  //       "name": error.name,
-  //       "message": error.message
-  //     }
-
-  //     count++
-  //   }
-
-  //   return count ? processed : false
-  // }
+  // TODO
 }
 
 

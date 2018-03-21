@@ -1,6 +1,6 @@
 /**
  * @file MemoryStash.js
- * Basic memory based Stash.
+ * Basic Memory Based Stash.
  */
 
 "use strict"
@@ -12,6 +12,10 @@ const
 
 class MemoryStash extends Stash {
 
+
+  // ----- Process -----
+
+
   /**
    * Creates a new memory based data stash.
    * @inheritDoc
@@ -22,7 +26,7 @@ class MemoryStash extends Stash {
   }
 
 
-  // ----- CRUD methods -----
+  // ----- Storage -----
 
 
   /**

@@ -62,30 +62,9 @@
     },
 
     "membership": {
-      "type": "object",
-      "properties": {
-
-        "type": {
-          "type": "string",
-          "enum": ["open", "closed"]
-        },
-
-        "allowedTypes": {
-          "type": "array",
-          "description": "Allowed entity types that may join this collective.",
-          "items": {
-            "type": "string",
-            "enum": ["collective", "user"]
-          }
-        },
-
-        "roles": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "enum": ["guest", "member", "retired", "moderator", "administrator"]
-          }
-        }
+      "type": {
+        "type": "string",
+        "enum": ["open", "closed"]
       }
     }
   }

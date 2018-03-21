@@ -13,10 +13,13 @@ CashStash = require('../../minimi/stashes/CacheStash')
 
 class UserStash extends CashStash {
 
+
+  // ----- Method responders
+
+
   get(request, response){
 
   }
-
 }
 
 

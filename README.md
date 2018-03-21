@@ -66,7 +66,9 @@ npm config set prefix '~/.npm-global'
 ### Suggested Software
 
 - [Visual Studio Code](https://www.visualstudio.com/) - Editing / Debugging
-- [Postman](https://www.getpostman.com/) - API end point testing
+- [Postman](https://www.getpostman.com/) for API end point testing. Use the core
+[API endpoint test configuration](./core/testing/tmi_core.postman_collection.json)
+to test against.
 
 
 ### Common Development Issues

@@ -18,6 +18,10 @@ const
 
 class SessionService extends Service {
 
+
+  // ----- Process -----
+
+
   /**
    * @inheritDoc
    */
@@ -43,34 +47,42 @@ class SessionService extends Service {
   }
 
 
-  // ----- Method utilities -----
+  // ----- Declaration -----
 
 
   /**
    * @inheritDoc
    */
-  attach(){
-
-    var path = '/' + this.minion.getConfig().path || 'session'
-
-    this.minion.minimi.router.post(path, Service.PARSE_BODY)
-    this.minion.minimi.router.post(path, Service.PARSE_QUERY)
-    this.minion.minimi.router.use(this.session())
-    this.minion.minimi.router.use(this.passport());
-    this.minion.minimi.router.use(this.passportSession());
-
-    this.minion.minimi.router.post(path,
-      (request, response, next) => {
-        passport.authenticate('login', function(error, user, info) {
-          if (error) throw error
-          request.logIn(user, function(error) {
-            if (error) throw error
-            return response.json(user);
-          });
-        })(request, response, next);
+  routing(){
+    return {
+      '': {
+        'use': [
+          this.session(),
+          this.passport(),
+          this.passportSession()
+        ],
+      },
+      'session': {
+        'post': [
+          Service.PARSE_BODY,
+          Service.PARSE_QUERY,
+          (request, response, next) => {
+            passport.authenticate('login', function(error, user, info) {
+              if (error) throw error
+              request.logIn(user, function(error) {
+                if (error) throw error
+                return response.json(user);
+              });
+            })(request, response, next);
+          }
+        ],
       }
-    )
+    }
   }
+
+
+  // ----- Method utilities -----
+
 
   /**
    * @inheritDoc
@@ -123,6 +135,10 @@ class SessionService extends Service {
     }
   }
 
+
+  // ----- Utility -----
+
+
   /**
    * Serializes a user referenced in the session
    * @param {Obect} user      User to serialise.
@@ -145,10 +161,6 @@ class SessionService extends Service {
     )
   }
 
-
-  // ----- Utility -----
-
-
   /**
    * Gets the configured user minions' stash
    */
@@ -164,7 +176,7 @@ class SessionService extends Service {
 
 
   /**
-   * Session middleware
+   * Session Middleware
    */
   session(){
     var sessionHandler = session(
@@ -179,7 +191,7 @@ class SessionService extends Service {
   }
 
   /**
-   * Passport middleware
+   * Passport Middleware
    */
   passport(){
     var init = passport.initialize()
@@ -188,7 +200,7 @@ class SessionService extends Service {
   }
 
   /**
-   * Session Passport middleware
+   * Passport Session Middleware
    */
   passportSession(){
     var passportSession = passport.session()

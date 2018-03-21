@@ -1,7 +1,6 @@
 /**
  * @file RestfulTestService.js
- * Restful service that simply logs and echoes back request parameters and
- * bodies.
+ * Restful service that logs and echoes request parameters and body.
  */
 
 "use strict"
@@ -13,17 +12,22 @@ const
 
 class RestfulTestService extends Service {
 
+
+  // ----- Declaration -----
+
+
   /**
-   * Declare methods to respond to and middleware to apply to each
-   * @return object middleware mapping keyed by method
+   * @inheritDoc
    */
-  methods(){
+  routing(){
     return {
-      'get': [Service.PARSE_QUERY, Service.CONSOLE_LOG],
-      'post': [Service.PARSE_BODY, Service.CONSOLE_LOG],
-      'put': [Service.PARSE_BODY, Service.CONSOLE_LOG],
-      'delete': [Service.PARSE_QUERY, Service.CONSOLE_LOG],
-      'patch': [Service.PARSE_QUERY, Service.PARSE_BODY, Service.CONSOLE_LOG]
+      [this.path]: {
+        'get': [Service.PARSE_QUERY, Service.CONSOLE_LOG],
+        'post': [Service.PARSE_BODY, Service.CONSOLE_LOG],
+        'put': [Service.PARSE_BODY, Service.CONSOLE_LOG],
+        'delete': [Service.PARSE_QUERY, Service.CONSOLE_LOG],
+        'patch': [Service.PARSE_QUERY, Service.PARSE_BODY, Service.CONSOLE_LOG]
+      }
     }
   }
 
@@ -61,21 +65,21 @@ class RestfulTestService extends Service {
   }
 
   /**
-   * Process a DELETE request
-   * @param  object request  Express request object
-   * @param  object response Express response object
-   */
-  delete(request, response) {
-    return JSON.stringify(request.query)
-  }
-
-  /**
    * Process a PATCH request
    * @param  object request  Express request object
    * @param  object response Express response object
    */
   patch(request, response) {
     return JSON.stringify([request.query, request.body])
+  }
+
+  /**
+   * Process a DELETE request
+   * @param  object request  Express request object
+   * @param  object response Express response object
+   */
+  delete(request, response) {
+    return JSON.stringify(request.query)
   }
 }
 
