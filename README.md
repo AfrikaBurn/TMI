@@ -19,14 +19,14 @@
 
 - Install dependencies
 ```
-cd tmi/back
+cd tmi/core
 npm install
 ```
-- [Configure core](./back/README.md)
+- [Check out core configration](./core/README.md)
 - Run core
 ```
 cd tmi
-node back
+node core
 ```
 
 
@@ -34,12 +34,12 @@ node back
 
 - Install dependencies:
 ```
-cd tmi/front/[app-name]
+cd tmi/apps/[app-name]
 npm install
 ```
 - Run App:
 ```
-cd tmi/front/[app-name]
+cd tmi/apps/[app-name]
 ng serve
 ```
 
