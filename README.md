@@ -22,12 +22,12 @@
 cd tmi/core
 npm install
 ```
-- [Check out core configration](./core/CONFIG.md)
 - Run core
 ```
 cd tmi
 node core
 ```
+- [Check out the core configration](./core/CONFIG.md)
 
 
 ### TMI Front end Apps

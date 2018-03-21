@@ -8,19 +8,10 @@
 
 const
 
-CashStash = require('../../minimi/stashes/CacheStash')
+  MemoryStash = require('../../core/stashes/MemoryStash')
 
 
-class UserStash extends CashStash {
-
-
-  // ----- Method responders
-
-
-  get(request, response){
-
-  }
-}
+class UserStash extends MemoryStash {}
 
 
 module.exports = UserStash

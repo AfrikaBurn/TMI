@@ -13,13 +13,13 @@ const
 class RestfulService extends Service {
 
 
-  // ----- Declaration -----
+  // ----- Request Routing -----
 
 
   /**
    * @inheritDoc
    */
-  routing(){
+  routes(){
     return {
       [this.path]: {
         'get': [Service.PARSE_QUERY],

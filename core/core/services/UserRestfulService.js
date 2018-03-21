@@ -1,5 +1,5 @@
 /**
- * @file SessionService.js
+ * @file UserRestfulService.js
  * Basic session authentication and permission verification service.
  */
 
@@ -13,10 +13,11 @@ const
   passport = require('passport'),
   LocalStrategy = require('passport-local').Strategy,
 
-  Service = require('./Service')
+  Service = require('./Service'),
+  RestfulService = require('./RestfulService')
 
 
-class SessionService extends Service {
+class UserRestfulService extends RestfulService {
 
 
   // ----- Process -----
@@ -47,13 +48,13 @@ class SessionService extends Service {
   }
 
 
-  // ----- Declaration -----
+  // ----- Request Routing -----
 
 
   /**
    * @inheritDoc
    */
-  routing(){
+  routes(){
     return {
       '': {
         'use': [
@@ -62,7 +63,14 @@ class SessionService extends Service {
           this.passportSession()
         ],
       },
-      'session': {
+      [this.path]: {
+        'get': [Service.PARSE_QUERY],
+        'post': [Service.PARSE_BODY],
+        'put': [Service.PARSE_BODY],
+        'delete': [Service.PARSE_QUERY],
+        'patch': [Service.PARSE_QUERY, Service.PARSE_BODY]
+      },
+      [this.path + '/login']: {
         'post': [
           Service.PARSE_BODY,
           Service.PARSE_QUERY,
@@ -71,9 +79,17 @@ class SessionService extends Service {
               if (error) throw error
               request.logIn(user, function(error) {
                 if (error) throw error
-                return response.json(user);
+                response.json(user)
               });
-            })(request, response, next);
+            })(request, response, next)
+          }
+        ],
+      },
+      [this.path + '/logout']: {
+        'get': [
+          (request, response, next) => {
+            request.logout()
+            response.json({ status: "success" })
           }
         ],
       }
@@ -95,7 +111,7 @@ class SessionService extends Service {
       keys = Object.keys(routes).reverse()
 
     for(var i in keys){
-      if(routes[keys[i]].handle.serviceOrigin == 'SessionService'){
+      if(routes[keys[i]].handle.serviceOrigin == 'UserRestfulService'){
         routes.splice(
           keys[i],
           1
@@ -117,8 +133,8 @@ class SessionService extends Service {
   authenticate(username, password, done){
 
     var
-      userExists = this.getUserStash().read( {username: username }).length,
-      user = this.getUserStash().read(
+      userExists = this.minion.stash.read( {username: username }).length,
+      user = this.minion.stash.read(
         {
           username: username,
           password: password
@@ -145,7 +161,7 @@ class SessionService extends Service {
    * @param {Function} done   Callback function upon competion.
    */
   serializeUser(user, done){
-    done(null, user.id);
+    done(null, user.id)
   }
 
   /**
@@ -154,21 +170,11 @@ class SessionService extends Service {
    * @param {Function} done   Callback function upon competion.
    */
   deserializeUser(id, done){
-    var users = this.getUserStash().read({id: id})
+    var users = this.minion.stash.read({id: id})
     done(
       users.length == 0 ? { message: 'User not found', expose: true } : null,
       users[0]
     )
-  }
-
-  /**
-   * Gets the configured user minions' stash
-   */
-  getUserStash(){
-    return this
-      .minion
-      .minimi
-      .minions[this.minion.getConfig().userMinion].stash
   }
 
 
@@ -183,10 +189,11 @@ class SessionService extends Service {
       {
         secret: this.minion.getConfig().salt,
         resave: true,
-        saveUninitialized: true
+        saveUninitialized: true,
+        store: this.minion.stash.toSessionStore()
       }
     )
-    sessionHandler.serviceOrigin = 'SessionService'
+    sessionHandler.serviceOrigin = 'UserRestfulService'
     return sessionHandler
   }
 
@@ -195,7 +202,7 @@ class SessionService extends Service {
    */
   passport(){
     var init = passport.initialize()
-    init.serviceOrigin = 'SessionService'
+    init.serviceOrigin = 'UserRestfulService'
     return init
   }
 
@@ -204,11 +211,11 @@ class SessionService extends Service {
    */
   passportSession(){
     var passportSession = passport.session()
-    passportSession.serviceOrigin = 'SessionService'
+    passportSession.serviceOrigin = 'UserRestfulService'
     return passportSession
   }
 
 }
 
 
-module.exports = SessionService
+module.exports = UserRestfulService

@@ -29,7 +29,7 @@ class Service {
   }
 
 
-  // ----- Declaration -----
+  // ----- Request Routing -----
 
 
   /**
@@ -39,6 +39,10 @@ class Service {
    * {
    *   '': {
    *     'method': []
+   *   },
+   *   [this.path]: {
+   *     'method': [ middleWare, ...],
+   *     ...
    *   }
    *   'path/to/bind/to': {
    *     'method': [ middleWare, ...],
@@ -47,11 +51,11 @@ class Service {
    * }
    * Method may be any of [get|post|put|delete|...] or 'use' to bind to all
    * methods.
-   * Service Object methods with the same name as a method (get(), post(), etc.)
-   * will automatically be bound to any path with a corresponding method
+   * Service object methods with the same name as a method (get(), post(), etc.)
+   * will automatically be bound to [this.path] with a corresponding method
    * declaration.
    */
-  routing(){
+  routes(){
     return {}
   }
 
@@ -66,7 +70,7 @@ class Service {
 
     var
       router = this.minion.minimi.router,
-      routing = this.routing(),
+      routing = this.routes(),
       pathes = Object.keys(routing)
 
     for (let index in pathes){
@@ -77,14 +81,16 @@ class Service {
           this.bindMiddleware(path, method, routing[path][method][middleware])
         }
 
-        this.bindResponder(path, method,
-          (request, response) => {
-            var result = this[method](request, response)
-            if (result){
-              response.send(result)
+        if (path == this.path){
+          this.bindResponder(path, method,
+            (request, response) => {
+              var result = this[method](request, response)
+              if (result){
+                response.send(result)
+              }
             }
-          }
-        )
+          )
+        }
       }
     }
   }
@@ -98,7 +104,7 @@ class Service {
   bindMiddleware(path, method, middleware){
     path === ""
       ? this.minion.minimi.router[method](middleware)
-      : this.minion.minimi.router[method]('/' + this.path, middleware)
+      : this.minion.minimi.router[method]('/' + path, middleware)
   }
 
   /**

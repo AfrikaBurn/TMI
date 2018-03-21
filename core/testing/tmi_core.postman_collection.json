@@ -8,7 +8,91 @@
 		{
 			"name": "Setup",
 			"description": "Setup tasks required to run test requests.",
-			"item": [],
+			"item": [
+				{
+					"name": "Logout",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"disabled": true
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "localhost:3000/user/logout",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"logout"
+							]
+						},
+						"description": "Log the user out of the current session."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Administrator",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"Administrator\", \n  \"email\": \"admin@test.com\", \n  \"password\": \"admin\"\n}"
+						},
+						"url": {
+							"raw": "localhost:3000/user",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user"
+							]
+						},
+						"description": "Create a user"
+					},
+					"response": []
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"User\", \n  \"email\": \"user@test.com\", \n  \"password\": \"user\"\n}"
+						},
+						"url": {
+							"raw": "localhost:3000/user",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user"
+							]
+						},
+						"description": "Create a user"
+					},
+					"response": []
+				}
+			],
 			"event": [
 				{
 					"listen": "prerequest",
@@ -33,7 +117,7 @@
 			]
 		},
 		{
-			"name": "Anonymous",
+			"name": "As anonymous",
 			"description": "Requests bu unauthenticated users.",
 			"item": [
 				{
@@ -46,7 +130,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "ba2ec2a9-1125-4579-83c2-710f4ee14367",
+										"id": "2853fc25-9ceb-45c4-847c-5e57771b0c3b",
 										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
@@ -65,7 +149,7 @@
 											"    pm.response.to.be.json;",
 											"});",
 											"",
-											"pm.test(\"No error\", function () {",
+											"pm.test(\"Error object is undefined\", function () {",
 											"    var jsonData = pm.response.json();",
 											"    pm.expect(jsonData.error).to.eql(undefined);",
 											"});",
@@ -103,7 +187,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "6ca09475-2bc5-4286-abfc-c3107dbfa7d9",
+										"id": "6bbf2d4a-3166-400c-a222-3b44e206821d",
 										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status code is 401\", function () {",
@@ -122,7 +206,7 @@
 											"    pm.response.to.be.json;",
 											"});",
 											"",
-											"pm.test(\"Error\", function () {",
+											"pm.test(\"Correct error object\", function () {",
 											"    var jsonData = pm.response.json();",
 											"    pm.expect(jsonData.error.error).to.eql('Unauthorised');",
 											"    pm.expect(jsonData.error.code).to.eql(401);",
@@ -162,7 +246,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "dd9fbf17-b031-41e2-ac00-dac88bbd9d67",
+										"id": "3e0635b1-fc81-4bd8-8a77-4247c6128148",
 										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status code is 401\", function () {",
@@ -181,7 +265,7 @@
 											"    pm.response.to.be.json;",
 											"});",
 											"",
-											"pm.test(\"Error\", function () {",
+											"pm.test(\"Correct error object\", function () {",
 											"    var jsonData = pm.response.json();",
 											"    pm.expect(jsonData.error.error).to.eql('Unauthorised');",
 											"    pm.expect(jsonData.error.code).to.eql(401);",
@@ -226,7 +310,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "c8f6596d-743d-43ac-9df0-33e237e7eac0",
+										"id": "6f6158c6-a377-40a7-bb02-a3fc4b6be355",
 										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
@@ -245,10 +329,36 @@
 											"    pm.response.to.be.json;",
 											"});",
 											"",
-											"pm.test(\"No error\", function () {",
-											"    var jsonData = pm.response.json();",
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Error object is undefined\", function () {",
 											"    pm.expect(jsonData.error).to.eql(undefined);",
 											"});",
+											"",
+											"pm.test(\"Response is array of 1\", function () {",
+											"    pm.expect(jsonData.length).to.eql(1);",
+											"});",
+											"",
+											"pm.test(\"Id property set\", function () {",
+											"    pm.expect(jsonData[0].id).to.not.eql(undefined);",
+											"});",
+											"",
+											"pm.test(\"Username property set\", function () {",
+											"    pm.expect(jsonData[0].username).to.eql(\"Test\");",
+											"});",
+											"",
+											"pm.test(\"Email property set\", function () {",
+											"    pm.expect(jsonData[0].email).to.eql(\"a@b.c\");",
+											"});",
+											"",
+											"pm.test(\"Password property set\", function () {",
+											"    pm.expect(jsonData[0].password).to.not.eql(undefined);",
+											"});",
+											"",
+											"pm.test(\"Password property not plain\", function () {",
+											"    pm.expect(jsonData[0].password).to.not.eql(\"test\");",
+											"});",
+											"",
 											""
 										]
 									}
@@ -286,7 +396,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "f90a763c-dce9-4ec5-a787-52223bda375a",
+										"id": "f5cb5a27-371e-4fc5-a1ea-fcfc2dd699c1",
 										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status code is 401\", function () {",
@@ -305,7 +415,7 @@
 											"    pm.response.to.be.json;",
 											"});",
 											"",
-											"pm.test(\"Error\", function () {",
+											"pm.test(\"Correct error object\", function () {",
 											"    var jsonData = pm.response.json();",
 											"    pm.expect(jsonData.error.error).to.eql('Unauthorised');",
 											"    pm.expect(jsonData.error.code).to.eql(401);",
@@ -353,7 +463,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "f90a763c-dce9-4ec5-a787-52223bda375a",
+										"id": "75d6bfef-20c7-4deb-b45c-4722235041dd",
 										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status code is 401\", function () {",
@@ -372,7 +482,7 @@
 											"    pm.response.to.be.json;",
 											"});",
 											"",
-											"pm.test(\"Error\", function () {",
+											"pm.test(\"Correct error object\", function () {",
 											"    var jsonData = pm.response.json();",
 											"    pm.expect(jsonData.error.error).to.eql('Unauthorised');",
 											"    pm.expect(jsonData.error.code).to.eql(401);",
@@ -464,41 +574,13 @@
 			]
 		},
 		{
-			"name": "Authenticated",
+			"name": "As administrator",
 			"description": "",
 			"item": [
 				{
-					"name": "Owner",
+					"name": "User",
 					"description": "",
 					"item": [
-						{
-							"name": "Create",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n  \"username\": \"Owner\", \n  \"email\": \"owner@test.com\", \n  \"password\": \"owner\"\n}"
-								},
-								"url": {
-									"raw": "localhost:3000/user",
-									"host": [
-										"localhost"
-									],
-									"port": "3000",
-									"path": [
-										"user"
-									]
-								},
-								"description": "Create a user"
-							},
-							"response": []
-						},
 						{
 							"name": "Authenticate",
 							"request": {
@@ -511,28 +593,29 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"username\": \"Owner\", \n  \"password\": \"owner\"\n}"
+									"raw": "{\n  \"username\": \"Administrator\", \n  \"password\": \"admin\"\n}"
 								},
 								"url": {
-									"raw": "localhost:3000/session",
+									"raw": "localhost:3000/user/login",
 									"host": [
 										"localhost"
 									],
 									"port": "3000",
 									"path": [
-										"session"
+										"user",
+										"login"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "List Copy",
+							"name": "Schema",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
-										"id": "7c2b2a0f-97c7-4003-859e-0a56843e56e8",
+										"id": "2853fc25-9ceb-45c4-847c-5e57771b0c3b",
 										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
@@ -551,7 +634,64 @@
 											"    pm.response.to.be.json;",
 											"});",
 											"",
-											"pm.test(\"No error\", function () {",
+											"pm.test(\"Error object is undefined\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.error).to.eql(undefined);",
+											"});",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json;schema"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "localhost:3000/user",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"user"
+									]
+								},
+								"description": "Retrieves the User schema"
+							},
+							"response": []
+						},
+						{
+							"name": "List",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c99bd865-7e37-48b4-8e08-ed193d224878",
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Response has body\", function () {",
+											"    pm.response.to.be.withBody;",
+											"});",
+											"",
+											"pm.test(\"Response is JSON\", function () {",
+											"    pm.response.to.be.json;",
+											"});",
+											"",
+											"pm.test(\"Error object is undefined\", function () {",
 											"    var jsonData = pm.response.json();",
 											"    pm.expect(jsonData.error).to.eql(undefined);",
 											"});",
@@ -583,6 +723,33 @@
 									]
 								},
 								"description": "Retrieves a list of users"
+							},
+							"response": []
+						},
+						{
+							"name": "Logout",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"disabled": true
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "localhost:3000/user/logout",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"user",
+										"logout"
+									]
+								},
+								"description": "Log the user out of the current session."
 							},
 							"response": []
 						}

@@ -7,11 +7,11 @@
 
 
 const
-  RestfulService = require('../../core/services/RestfulService'),
+  UserRestfulService = require('../../core/services/UserRestfulService'),
   UNAUTHORISED = { error: "Unauthorised", code: 401, expose: true }
 
 
-class UserService extends RestfulService {
+class UserService extends UserRestfulService {
 
 
   // ----- Method responders
@@ -30,7 +30,7 @@ class UserService extends RestfulService {
         throw UNAUTHORISED
       default:
         return super.get(request, response).map(
-          (subject) => { this.privacyFilter(request.user, subject) }
+          (subject) => this.privacyFilter(request.user, subject)
         )
     }
   }

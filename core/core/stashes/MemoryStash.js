@@ -83,7 +83,7 @@ class MemoryStash extends Stash {
         current = toDelete.pop(),
         index = this.cache.indexOf(current)
       if (index != -1) {
-        this.splice(index, 1)
+        this.cache.splice(index, 1)
         deleted.push(current)
       }
     }

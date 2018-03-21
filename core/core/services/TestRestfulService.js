@@ -1,5 +1,5 @@
 /**
- * @file RestfulTestService.js
+ * @file TestRestfulService.js
  * Restful service that logs and echoes request parameters and body.
  */
 
@@ -10,16 +10,16 @@ const
   Service = require('./Service')
 
 
-class RestfulTestService extends Service {
+class TestRestfulService extends Service {
 
 
-  // ----- Declaration -----
+  // ----- Request Routing -----
 
 
   /**
    * @inheritDoc
    */
-  routing(){
+  routes(){
     return {
       [this.path]: {
         'get': [Service.PARSE_QUERY, Service.CONSOLE_LOG],
@@ -84,4 +84,4 @@ class RestfulTestService extends Service {
 }
 
 
-module.exports = RestfulTestService
+module.exports = TestRestfulService

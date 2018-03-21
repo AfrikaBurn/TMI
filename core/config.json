@@ -4,17 +4,12 @@
 
 	"minions": {
 
-		"Session":{
-			"path": "session",
-			"service": "SessionService",
-			"salt": "default salt",
-			"userMinion": "User"
-		},
-
-		"User": {
+		"User":{
+			"path": "user",
 			"schema": "user",
+			"salt": "default salt",
 			"service": "UserService",
-			"stash": "MemoryStash"
+			"stash": "UserStash"
 		}
 
 	},

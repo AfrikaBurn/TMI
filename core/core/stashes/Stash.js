@@ -6,6 +6,9 @@
 
 "use strict"
 
+const
+  Ajv = require('ajv')
+
 
 class Stash {
 
@@ -19,6 +22,8 @@ class Stash {
    */
   constructor(minion){
     this.minion = minion
+    this.partialValidator = new Ajv({allErrors: true})
+    this.fullValidator = this.partialValidator.compile(this.minion.schema)
   }
 
   /**
@@ -27,6 +32,25 @@ class Stash {
    */
   close(){
     return true;
+  }
+
+
+  /**
+   * Returns a passport compatible session store version of this stash.
+   * @return {object}
+   */
+  toSessionStore(){
+    console.log(
+      '\x1b[31m%s\x1b[0m', 'WARNING: ' + this.minion.name +
+      ' minion is using a memory based stash for session storage!',
+    );
+    console.log(
+      '\x1b[31m%s\x1b[0m', 'This is only intended for development and testing.'
+    );
+    console.log(
+      '\x1b[31m%s\x1b[0m', 'Please use another stash for production use.'
+    );
+    return undefined;
   }
 
 
@@ -84,7 +108,11 @@ class Stash {
   // ----- Validation -----
 
 
-  // TODO
+  validate(entity){
+    if (!this.fullValidator.validate(entity)){
+      console.log(this.fullValidator.errors)
+    }
+  }
 }
 
 

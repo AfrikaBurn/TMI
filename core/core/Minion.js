@@ -41,9 +41,9 @@ class Minion {
     : 'Stash',
     path = config.path || config.schema
 
-    this.service = this.find('services', service)
-    this.stash = this.find('stashes', stash)
     this.schema = config.schema ? require('../schema/' + config.schema) : false;
+    this.stash = this.find('stashes', stash)
+    this.service = this.find('services', service)
 
     console.log(
       '  Spawning ' + name + ' minion\n' +
@@ -54,24 +54,24 @@ class Minion {
     )
   }
 
-    /**
-     * Dispose of the minion.
-     */
-    dispose(){
-      this.service.detach()
-      this.stash.close()
-    }
+  /**
+   * Dispose of the minion.
+   */
+  dispose(){
+    this.service.detach()
+    this.stash.close()
+  }
 
 
-    // ----- Accessors -----
+  // ----- Accessors -----
 
 
-    /**
-     * Returns the config for this minion
-     */
-    getConfig(){
-      return this.minimi.config.minions[this.name]
-    }
+  /**
+   * Returns the config for this minion
+   */
+  getConfig(){
+    return this.minimi.config.minions[this.name]
+  }
 
 
   // ----- Utility -----
@@ -97,9 +97,7 @@ class Minion {
         fullPath = path.resolve(__dirname + '/' + localPath),
         exists = fs.existsSync(fullPath)
 
-      if (fs.existsSync(fullPath)) return new (
-        require(localPath)
-      )(this)
+      if (fs.existsSync(fullPath)) return new (require(localPath))(this)
     }
 
     throw new Error(name + ' not found in ' + type)
