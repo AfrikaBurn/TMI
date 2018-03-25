@@ -1,5 +1,5 @@
 /**
- * @file UserService.js
+ * @file TmiUserService.js
  * Permission aware User management and query service.
  */
 
@@ -8,10 +8,10 @@
 
 const
   Service = require('../../core/services/Service'),
-  UserRestfulService = require('../../core/services/UserRestfulService')
+  UserService = require('../../core/services/UserService')
 
 
-class UserService extends UserRestfulService {
+class TmiUserService extends UserService {
 
 
   // ----- Method responders
@@ -116,4 +116,4 @@ class UserService extends UserRestfulService {
 // ----- Response types -----
 
 
-module.exports = UserService
+module.exports = TmiUserService

@@ -8,8 +8,8 @@
 			"path": "user",
 			"schema": "user",
 			"salt": "default salt",
-			"service": "UserService",
-			"stash": "UserStash"
+			"service": "TmiUserService",
+			"stash": "TmiUserStash"
 		}
 
 	},

@@ -7,7 +7,8 @@
 
 
 const
-  Ajv = require('ajv')
+  Ajv = require('ajv'),
+  passwordHash = require('password-hash')
 
 
 class Stash {
@@ -34,7 +35,7 @@ class Stash {
   }
 
 
-  /**
+    /**
    * Returns a passport compatible session store version of this stash.
    * @return {object}
    */
@@ -53,7 +54,7 @@ class Stash {
   }
 
 
-  // ----- Storage -----
+// ----- Storage -----
 
 
   /**
@@ -62,7 +63,10 @@ class Stash {
    * @return {array} Data     Array of entities that were created successfully.
    */
   create(entities){
-    return [];
+    this.validate(entities)
+    // Make changes
+    this.sanitise(entities)
+    return [entities];
   }
 
   /**
@@ -71,16 +75,7 @@ class Stash {
    * @return {array}           Array of matching entities.
    */
   read(criteria){
-    return [];
-  }
-
-  /**
-   * Writes entities as they are.
-   * @param {array} entities Array of entities to commit.
-   * @return {array}         Array of updated entities
-   */
-  write(entities){
-    return [];
+    return [criteria];
   }
 
   /**
@@ -91,7 +86,11 @@ class Stash {
    * @return {array}            Array of updated entities
    */
   update(criteria, partial){
-    return [];
+    //TODO partially validate
+    this.validate(entities)
+    // Make changes
+    this.sanitise(entities)
+    return [entities];
   }
 
   /**
@@ -100,8 +99,12 @@ class Stash {
    * @return {array}           Array of deleted entities
    */
   delete(criteria){
-    return [];
+    return [criteria];
   }
+
+
+// ----- Validation -----
+
 
   /**
    * Validate an array of entities against the stash schema.
@@ -111,6 +114,8 @@ class Stash {
 
     var errors = []
 
+    this.process(entities, 'raw')
+
     for (var i in entities){
 
       var valid = Stash.VALIDATOR.validate(
@@ -119,50 +124,137 @@ class Stash {
       )
 
       if (!valid) {
-        var entityErrors = [{}].concat(Stash.VALIDATOR.errors).reduce(
-
-          (cache, next) => {
-
-            var
-              field = next.dataPath.length
-                ? next.dataPath.replace(/^\./, '')
-                : next.params.missingProperty,
-              error = {
-                violation: next.keyword,
-                message: next.message
-              }
-
-            cache[field] !== undefined
-              ? cache[field].push(error)
-              : cache[field] = [error]
-
-            return cache
-          }
-        )
-
-        errors[i] = entityErrors
+        errors[i] = this.normaliseErrors(Stash.VALIDATOR.errors)
       }
     }
 
-    if (errors.length) throw Object.assign(
-      Stash.STATUS_INVALID,
-      {errors: errors}
+    if (errors.length) {
+      throw Object.assign(
+        Stash.STATUS_INVALID,
+        {errors: errors}
+      )
+    } else {
+      this.process(entities, 'validated')
+    }
+  }
+
+  /**
+   * Normalise error messages returned by the validator.
+   * @param {array} errors
+   */
+  normaliseErrors(errors){
+    return [{}].concat(errors).reduce(
+
+      (cache, next) => {
+
+        var
+          field = next.dataPath.length
+            ? next.dataPath.replace(/^\./, '')
+            : next.params.missingProperty,
+          error = {
+            violation: next.keyword,
+            message: next.message
+          }
+
+        cache[field] !== undefined
+          ? cache[field].push(error)
+          : cache[field] = [error]
+
+        return cache
+      }
     )
+  }
+
+
+// ----- Sanitisation -----
+
+
+  /**
+   * Sanitise created entities after being committed.
+   * @param {array} entities
+   */
+  sanitise(entities){
+    this.process(entities, 'committed')
+  }
+
+
+// ----- Processing -----
+
+
+  /**
+   * Processes entities at a particular stage during request processing.
+   * @param {array} entities
+   */
+  process(entities, stage = true){
+
+    var processEntity = (entity, schema, stage) => {
+      if (schema.processors){
+
+        var processors = schema.processors[stage]
+
+        for (let property in schema.properties){
+          processEntity(entity[property], schema.properties[property], stage)
+        }
+
+        if (processors && Object.keys(processors).length){
+          for (let property in processors){
+
+            var processor = Stash.PROCESSORS[processors[property]]
+
+            if (processor){
+              entity[property] = processor(entity[property])
+            } else {
+              throw Object.assign(
+                Stash.PROCESSOR_NOT_FOUND,
+                {processorName: processors[property]}
+              )
+            }
+          }
+        }
+      }
+
+      return entity
+    }
+
+    for (let i in entities){
+      entities[i] = processEntity(entities[i], this.minion.schema, stage)
+    }
   }
 }
 
 
 // ----- Shared Validator -----
-Stash.VALIDATOR = new Ajv(
-  { allErrors: true }
-);
-// ----- Shared Schemas -----
+
+
+Stash.VALIDATOR = new Ajv({ allErrors: true });
 Stash.VALIDATOR.addSchema(require('../schemas/fields.json'))
+Stash.HASHER = passwordHash
+
+
+// ----- Shared Processors -----
+
+
+Stash.PROCESSORS = {}
+Stash.PROCESSORS.PASSWORD_HASH = (value) => {
+  return passwordHash.generate(
+    value,
+    {
+      algorithm: 'sha512',
+      saltLength: 16
+    }
+  )
+}
+Stash.PROCESSORS.PASSWORD_BLANK = (value) => {
+  return '*'
+}
 
 
 // ----- Statuses -----
+
+
 Stash.STATUS_CREATED = {status: 'Entities created', code: 201, expose: true}
 Stash.STATUS_INVALID = {error: 'Failed validation', code: 422, expose: true}
+Stash.PROCESSOR_NOT_FOUND = {error: 'Schema field processor not found!', code: 500}
 
 
 module.exports = Stash

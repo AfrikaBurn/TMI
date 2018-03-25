@@ -33,12 +33,16 @@ class MemoryStash extends Stash {
    * @inheritDoc
    */
   create(entities){
+
     this.validate(entities)
 
     for (let entity of entities){
       entity.id = this.cache.length
       this.cache.push(entity)
     }
+
+    entities = JSON.parse(JSON.stringify(entities))
+    this.sanitise(entities)
 
     return Object.assign(
       Stash.STATUS_CREATED,
@@ -50,10 +54,14 @@ class MemoryStash extends Stash {
    * @inheritDoc
    */
   read(criteria){
-    return this.cache.filter(
-      (element) => {
-        return MemoryStash.matches(element, criteria)
-      }
+    return JSON.parse(
+      JSON.stringify(
+        this.cache.filter(
+          (element) => {
+            return MemoryStash.matches(element, criteria)
+          }
+        )
+      )
     )
   }
 
@@ -63,7 +71,10 @@ class MemoryStash extends Stash {
   update(criteria, entity){
 
     var
-      toUpdate = this.read(criteria)
+      toUpdate = this.read(criteria),
+      updated = []
+
+    // TODO: partially validate "entity"
 
     for(let i in toUpdate){
       toUpdate[i] = Object.assign(toUpdate[i], entity)
@@ -73,6 +84,9 @@ class MemoryStash extends Stash {
       this.cache,
       toUpdate
     )
+
+    entites = JSON.parse(JSON.stringify(entities))
+    this.sanitise(toUpdate)
 
     return toUpdate
   }

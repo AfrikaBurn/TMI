@@ -17,24 +17,10 @@
     },
 
     "password":{
-      "type": "object",
+      "type": "string",
       "title": "Password",
       "description": "Password used to authenticate the account",
-      "properties":{
-
-        "value": {
-          "allOf": [
-            {"type": "string", "minLength": 6},
-            {"type": "string", "pattern": "[0-9]+"},
-            {"type": "string", "pattern": "[A-Z]+"},
-            {"type": "string", "pattern": "[a-z]+"}
-          ]
-        },
-        "salt": {
-          "type": "string"
-        }
-      },
-      "required": ["value"]
+      "minlength": 6
     }
 
   }

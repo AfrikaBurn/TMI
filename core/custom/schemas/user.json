@@ -50,5 +50,10 @@
     "password":  {"$ref": "#/definitions/password"}
   },
 
-  "required": ["username", "email", "password"]
+  "required": ["username", "email", "password"],
+
+  "processors": {
+    "validated": {"password": "PASSWORD_HASH"},
+    "committed": {"password": "PASSWORD_BLANK"}
+  }
 }

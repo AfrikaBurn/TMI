@@ -139,7 +139,10 @@ class Bootstrap extends EventEmitter {
     error.stack
       ? console.log(error.stack)
       : console.log(error)
-    if (error.expose) response.status(error.code || 500).json(error)
+    if (error.expose)
+      response.status(error.code || 500).json(error)
+    else
+      response.status(500).end('Internal Server Error')
   }
 
   /**
