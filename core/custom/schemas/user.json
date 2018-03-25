@@ -1,0 +1,54 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://tmi-platform.org/schemas/user.json",
+
+  "definitions": {
+
+    "uei": {"$ref": "http://minimi.org/schemas/fields.json#/definitions/uei"},
+    "email": {"$ref": "http://minimi.org/schemas/fields.json#/definitions/email"},
+    "password": {"$ref": "http://minimi.org/schemas/fields.json#/definitions/password"},
+
+    "privacy": {"$ref": "http://tmi-platform.org/schemas/fields.json#/definitions/privacy"}
+  },
+
+  "type": "object",
+  "title": "User",
+
+  "properties": {
+
+    "id":  {
+      "allOf": [
+        {"$ref": "#/definitions/uei"},
+        {
+          "title": "User ID",
+          "description": "Unique user identifier"
+        }
+      ]
+    },
+
+    "username":  {
+      "title": "Username",
+      "description": "Unique chosen name of the user",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100,
+      "isUniqueKey": true
+    },
+
+    "email":  {
+      "title": "Email",
+      "description": "Email address used for login retrieval and notification",
+      "type": "object",
+      "properties": {
+        "email": {"$ref": "#/definitions/email"},
+        "privacy": {"$ref": "#/definitions/privacy"}
+      },
+      "required": ["value", "privacy"],
+      "isUniqueKey": true
+    },
+
+    "password":  {"$ref": "#/definitions/password"}
+  },
+
+  "required": ["username", "email", "password"]
+}

@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://minimi.org/schemas/fields.json",
+
+  "definitions": {
+
+    "uei": {
+      "title": "Unique Entity Identifier",
+      "type": "number",
+      "minimum": 0,
+      "isUniqueKey": true
+    },
+
+    "email": {
+      "type": "string",
+      "pattern": "[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,8}"
+    },
+
+    "password":{
+      "type": "object",
+      "title": "Password",
+      "description": "Password used to authenticate the account",
+      "properties":{
+
+        "value": {
+          "allOf": [
+            {"type": "string", "minLength": 6},
+            {"type": "string", "pattern": "[0-9]+"},
+            {"type": "string", "pattern": "[A-Z]+"},
+            {"type": "string", "pattern": "[a-z]+"}
+          ]
+        },
+        "salt": {
+          "type": "string"
+        }
+      },
+      "required": ["value"]
+    }
+
+  }
+}

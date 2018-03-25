@@ -162,4 +162,12 @@ Service.CONSOLE_LOG = function consoleLog(request, response, next) {
 }
 
 
+// ----- Response types -----
+
+
+Service.INVALID_REQUEST = { error: "Invalid request", code: 400, expose: true }
+Service.FORBIDDEN = { error: "Forbidden to unauthorised users", code: 403, expose: true }
+Service.SUCCESS = { status: "Success", code: 200 }
+
+
 module.exports = Service

@@ -1,10 +1,10 @@
 /**
  * @file Stash.js
  * Basic Data Storage Stash.
- * TODO: Add validation
  */
 
 "use strict"
+
 
 const
   Ajv = require('ajv')
@@ -22,8 +22,7 @@ class Stash {
    */
   constructor(minion){
     this.minion = minion
-    this.partialValidator = new Ajv({allErrors: true})
-    this.fullValidator = this.partialValidator.compile(this.minion.schema)
+    Stash.VALIDATOR.addSchema(minion.schema, minion.getConfig().schema)
   }
 
   /**
@@ -81,7 +80,7 @@ class Stash {
    * @return {array}         Array of updated entities
    */
   write(entities){
-    return entities;
+    return [];
   }
 
   /**
@@ -101,19 +100,69 @@ class Stash {
    * @return {array}           Array of deleted entities
    */
   delete(criteria){
-    return [criteria];
+    return [];
   }
 
+  /**
+   * Validate an array of entities against the stash schema.
+   * @param {array} entities
+   */
+  validate(entities){
 
-  // ----- Validation -----
+    var errors = []
 
+    for (var i in entities){
 
-  validate(entity){
-    if (!this.fullValidator.validate(entity)){
-      console.log(this.fullValidator.errors)
+      var valid = Stash.VALIDATOR.validate(
+        this.minion.getConfig().schema,
+        entities[i]
+      )
+
+      if (!valid) {
+        var entityErrors = [{}].concat(Stash.VALIDATOR.errors).reduce(
+
+          (cache, next) => {
+
+            var
+              field = next.dataPath.length
+                ? next.dataPath.replace(/^\./, '')
+                : next.params.missingProperty,
+              error = {
+                violation: next.keyword,
+                message: next.message
+              }
+
+            cache[field] !== undefined
+              ? cache[field].push(error)
+              : cache[field] = [error]
+
+            return cache
+          }
+        )
+
+        errors[i] = entityErrors
+      }
     }
+
+    if (errors.length) throw Object.assign(
+      Stash.STATUS_INVALID,
+      {errors: errors}
+    )
   }
 }
+
+
+// ----- Shared Validator -----
+Stash.VALIDATOR = new Ajv(
+  { allErrors: true }
+);
+// ----- Shared Schemas -----
+Stash.VALIDATOR.addSchema(require('../schemas/fields.json'))
+
+
+// ----- Statuses -----
+Stash.STATUS_CREATED = {status: 'Entities created', code: 201, expose: true}
+Stash.STATUS_INVALID = {error: 'Failed validation', code: 422, expose: true}
 
 
 module.exports = Stash

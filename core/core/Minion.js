@@ -28,20 +28,20 @@ class Minion {
     this.minimi = minimi
 
     var
-    config = this.getConfig(),
-    service = config.service
-    ? typeof config.service == 'string'
-    ? config.service
-    : config.service.name
-    : 'Service',
-    stash = config.stash
-    ? typeof config.stash == 'string'
-    ? config.stash
-    : config.stash.name
-    : 'Stash',
-    path = config.path || config.schema
+      config = this.getConfig(),
+      service = config.service
+        ? typeof config.service == 'string'
+          ? config.service
+          : config.service.name
+        : 'Service',
+      stash = config.stash
+        ? typeof config.stash == 'string'
+          ? config.stash
+          : config.stash.name
+        : 'Stash',
+      path = config.path || config.schema
 
-    this.schema = config.schema ? require('../schema/' + config.schema) : false;
+    this.schema = config.schema ? this.find('schemas', config.schema) : false;
     this.stash = this.find('stashes', stash)
     this.service = this.find('services', service)
 
@@ -93,11 +93,13 @@ class Minion {
     for (let i in locations){
 
       var
-        localPath = locations[i] + name + '.js',
+        localPath = locations[i] + name + (type == 'schemas' ? '.json' : '.js'),
         fullPath = path.resolve(__dirname + '/' + localPath),
         exists = fs.existsSync(fullPath)
 
-      if (fs.existsSync(fullPath)) return new (require(localPath))(this)
+      if (fs.existsSync(fullPath)) return type == 'schemas'
+        ? require(localPath)
+        : new (require(localPath))(this)
     }
 
     throw new Error(name + ' not found in ' + type)

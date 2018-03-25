@@ -37,7 +37,9 @@ class Bootstrap extends EventEmitter {
     this.router = express.Router()
 
     console.log(
-      '\nSpawning minimi: ' + this.config.name + ' seizing http://127.0.0.1:' +
+      '\nSpawning minimimal microservice:\n' +
+      this.config.name +
+      ' occupying http://127.0.0.1:' +
       this.config.port +
       '\n'
     )
@@ -137,7 +139,7 @@ class Bootstrap extends EventEmitter {
     error.stack
       ? console.log(error.stack)
       : console.log(error)
-    if (error.expose) response.status(error.code || 500).json({"error": error})
+    if (error.expose) response.status(error.code || 500).json(error)
   }
 
   /**

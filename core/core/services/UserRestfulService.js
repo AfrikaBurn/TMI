@@ -9,7 +9,7 @@
 const
 
   express = require('express'),
-  session = require('express-session'),
+  expressSession = require('express-session'),
   passport = require('passport'),
   LocalStrategy = require('passport-local').Strategy,
 
@@ -56,13 +56,16 @@ class UserRestfulService extends RestfulService {
    */
   routes(){
     return {
+
       '': {
         'use': [
-          this.session(),
+          this.expressSession(),
           this.passport(),
-          this.passportSession()
+          this.passportSession(),
+          this.setRole
         ],
       },
+
       [this.path]: {
         'get': [Service.PARSE_QUERY],
         'post': [Service.PARSE_BODY],
@@ -70,6 +73,7 @@ class UserRestfulService extends RestfulService {
         'delete': [Service.PARSE_QUERY],
         'patch': [Service.PARSE_QUERY, Service.PARSE_BODY]
       },
+
       [this.path + '/login']: {
         'post': [
           Service.PARSE_BODY,
@@ -85,13 +89,17 @@ class UserRestfulService extends RestfulService {
           }
         ],
       },
+
       [this.path + '/logout']: {
         'get': [
-          (request, response, next) => {
-            request.logout()
-            response.json({ status: "success" })
-          }
-        ],
+          (request, response, next) => request.session.destroy(
+            () => {
+              request.logout()
+              response.clearCookie('connect.sid', {path: "/"})
+              response.json(Service.SUCCESS)
+            }
+          )
+        ]
       }
     }
   }
@@ -99,6 +107,20 @@ class UserRestfulService extends RestfulService {
 
   // ----- Method utilities -----
 
+
+  /**
+   * @inheritDoc
+   */
+  attach(){
+
+    this.cookieName =
+      (this.minion.minimi.name || 'minimi')
+      .toLowerCase()
+      .replace(/[^a-z0-9_\-]+/g, '')
+      + '-session'
+
+    super.attach()
+  }
 
   /**
    * @inheritDoc
@@ -137,15 +159,15 @@ class UserRestfulService extends RestfulService {
       user = this.minion.stash.read(
         {
           username: username,
-          password: password
+          password: {value: password}
         }
       )
 
     switch(true){
       case !userExists:
-        return done({ message: 'Invalid account', expose: true }, false)
+        return done(UserRestfulService.INVALID_ACCOUNT, false)
       case userExists && user.length == 0:
-        return done({ message: 'Invalid credentials', expose: true }, false)
+        return done(UserRestfulService.INVALID_CREDENTIALS, false)
       default:
         return done(null, user[0])
     }
@@ -170,9 +192,11 @@ class UserRestfulService extends RestfulService {
    * @param {Function} done   Callback function upon competion.
    */
   deserializeUser(id, done){
+
     var users = this.minion.stash.read({id: id})
+
     done(
-      users.length == 0 ? { message: 'User not found', expose: true } : null,
+      users.length == 0 ? UserRestfulService.ACCOUNT_GONE : null,
       users[0]
     )
   }
@@ -184,15 +208,25 @@ class UserRestfulService extends RestfulService {
   /**
    * Session Middleware
    */
-  session(){
-    var sessionHandler = session(
+  expressSession(){
+
+    var sessionHandler = expressSession(
       {
         secret: this.minion.getConfig().salt,
         resave: true,
         saveUninitialized: true,
-        store: this.minion.stash.toSessionStore()
+        store: this.minion.stash.toSessionStore(),
+
+        cookie: {
+          path: '/',
+          httpOnly: true,
+          secure: false,
+          maxAge: null,
+          name: this.cookieName
+        }
       }
     )
+
     sessionHandler.serviceOrigin = 'UserRestfulService'
     return sessionHandler
   }
@@ -215,7 +249,21 @@ class UserRestfulService extends RestfulService {
     return passportSession
   }
 
+  /**
+   * Sets the User role
+   */
+  setRole(request, response, next){
+    if (!request.user) request.user = {id: 0, isAnonymous: true};
+    request.user.isAdministrator = request.user.id === 1
+    request.user.isAuthenticated = request.user.id > 1
+    next()
+  }
 }
+
+
+UserRestfulService.INVALID_ACCOUNT = { error: "Invalid account", code: 401, expose: true }
+UserRestfulService.INVALID_CREDENTIALS = { error: "Invalid credentials", code: 401, expose: true }
+UserRestfulService.ACCOUNT_GONE = { error: "Account removed", code: 410, expose: true }
 
 
 module.exports = UserRestfulService

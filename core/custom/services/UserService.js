@@ -7,8 +7,8 @@
 
 
 const
-  UserRestfulService = require('../../core/services/UserRestfulService'),
-  UNAUTHORISED = { error: "Unauthorised", code: 401, expose: true }
+  Service = require('../../core/services/Service'),
+  UserRestfulService = require('../../core/services/UserRestfulService')
 
 
 class UserService extends UserRestfulService {
@@ -24,14 +24,13 @@ class UserService extends UserRestfulService {
   get(request, response){
     switch(true){
       case request.header('Content-Type') == 'application/json;schema':
-      case request.user && request.user.id === 0:
-        return super.get(request,response)
-      case !request.user:
-        throw UNAUTHORISED
-      default:
+      case request.user.isAdministrator: return super.get(request,response)
+      case request.user.isAuthenticated:
         return super.get(request, response).map(
           (subject) => this.privacyFilter(request.user, subject)
         )
+      case request.user.isAnonymous: throw Service.FORBIDDEN
+      default: throw Service.INVALID
     }
   }
 
@@ -41,12 +40,10 @@ class UserService extends UserRestfulService {
    */
   post(request, response){
     switch(true){
-      case request.user && request.user.id === 0:
-      // TODO add user admin collective
-      case !request.user:
-        return super.post(request, response)
-      default:
-        throw UNAUTHORISED
+      case request.user.isAdministrator:
+      case request.user.isAnonymous: return super.post(request, response)
+      case request.user.isAnonymous: throw Service.FORBIDDEN
+      default: throw Service.INVALID
     }
   }
 
@@ -56,12 +53,11 @@ class UserService extends UserRestfulService {
    */
   put(request, response){
     switch(true){
-      case request.user && request.user.id === 0:
-      // TODO add user admin collective
-      case request.user && request.body && request.user.id == request.body.id:
+      case request.user.isAdministrator:
+      case request.user.isAuthenticated && this.isOwnUser(request):
         return super.put(request, response)
-      default:
-        throw UNAUTHORISED
+      case request.user.isAnonymous: throw Service.FORBIDDEN
+      default: throw Service.INVALID
     }
   }
 
@@ -71,13 +67,12 @@ class UserService extends UserRestfulService {
    */
   patch(request, response){
     switch(true){
-      case request.user && request.user.id === 0:
-      // TODO add user admin collective
-      case request.user && request.body && request.user.id == request.body.id:
+      case request.user.isAdministrator:
+      case request.user.isAuthenticated && this.isOwnUser(request):
         return super.put(request, response)
-      default:
-        throw UNAUTHORISED
-    }
+      case request.user.isAnonymous: throw Service.FORBIDDEN
+      default: throw INVALID
+      }
   }
 
   /**
@@ -86,13 +81,12 @@ class UserService extends UserRestfulService {
    */
   delete(request, response){
     switch(true){
-      case request.user && request.user.id === 0:
-      // TODO add user admin collective
-      case request.user && request.body && request.user.id == request.body.id:
+      case request.user.isAdministrator:
+      case request.user.isAuthenticated && this.isOwnUser(request):
         return super.delete(request, response)
-      default:
-        throw UNAUTHORISED
-    }
+      case request.user.isAnonymous: throw Service.FORBIDDEN
+      default: throw Service.INVALID
+      }
   }
 
 
@@ -100,14 +94,26 @@ class UserService extends UserRestfulService {
 
 
   /**
+   * Tests whether the operation is being performed on the current user
+   * @param {HttpRequest} request
+   */
+  isOwnUser(request){
+    return request.body && request.user.id == request.body.id
+  }
+
+  /**
    * Apply privacy
    */
   privacyFilter(user, subject){
-    // TODO: apply propper privacy
-    return { username: subject.username }
+    return {
+      username: subject.username,
+      email: user['is' + subject.email.privacy] ? subject.email.value : false
+    }
   }
-
 }
+
+
+// ----- Response types -----
 
 
 module.exports = UserService

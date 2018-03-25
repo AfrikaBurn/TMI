@@ -32,10 +32,18 @@ class MemoryStash extends Stash {
   /**
    * @inheritDoc
    */
-  create(entity){
-    entity.id = this.cache.length
-    this.cache.push(entity)
-    return [entity]
+  create(entities){
+    this.validate(entities)
+
+    for (let entity of entities){
+      entity.id = this.cache.length
+      this.cache.push(entity)
+    }
+
+    return Object.assign(
+      Stash.STATUS_CREATED,
+      {entities: entities}
+    )
   }
 
   /**
@@ -44,7 +52,7 @@ class MemoryStash extends Stash {
   read(criteria){
     return this.cache.filter(
       (element) => {
-        return this.matches(element, criteria)
+        return MemoryStash.matches(element, criteria)
       }
     )
   }
@@ -90,23 +98,28 @@ class MemoryStash extends Stash {
 
     return deleted
   }
+}
 
 
-  // ----- Utility methods -----
+// ----- Utility methods -----
 
 
-  /**
-   * Does a shallow match of an element to criteria.
-   * @param  {object} element  [description]
-   * @param  {object} criteria [description]
-   * @return {boolean}         true if matching, false if not.
-   */
-  matches(element, criteria){
-    for(let property in criteria){
+/**
+ * Does a match of an element to criteria.
+ * @param  {object} element  [description]
+ * @param  {object} criteria [description]
+ * @return {boolean}         true if matching, false if not.
+ */
+MemoryStash.matches = (element, criteria) => {
+  for(var property in criteria){
+    if (typeof criteria[property] == 'object'){
+      if (!MemoryStash.matches(element[property], criteria[property]))
+        return false
+    } else {
       if (element[property] != criteria[property]) return false
     }
-    return true
   }
+  return true
 }
 
 
