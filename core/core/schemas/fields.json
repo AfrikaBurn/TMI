@@ -7,13 +7,12 @@
     "uei": {
       "title": "Unique Entity Identifier",
       "type": "number",
-      "minimum": 0,
-      "isUniqueKey": true
+      "minimum": 0
     },
 
     "email": {
       "type": "string",
-      "pattern": "[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,8}"
+      "pattern": "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,8}"
     },
 
     "password":{

@@ -48,7 +48,7 @@ class TmiUserService extends UserService {
   }
 
   /**
-   * Update user
+   * Write complete user
    * @inheritDoc
    */
   put(request, response){
@@ -62,7 +62,7 @@ class TmiUserService extends UserService {
   }
 
   /**
-   * Update user
+   * Write partial user
    * @inheritDoc
    */
   patch(request, response){

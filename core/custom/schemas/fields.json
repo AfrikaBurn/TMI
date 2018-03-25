@@ -7,7 +7,7 @@
     "privacy": {
       "title": "Privacy",
       "type": "string",
-      "enum": ["private", "administrators", "moderators", "everyone"]
+      "enum": ["private", "administrator", "moderator", "members", "everyone"]
     }
   }
 }

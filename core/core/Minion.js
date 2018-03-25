@@ -85,24 +85,26 @@ class Minion {
   find(type, name){
 
     var
-      locations = [
-        '../custom/' + type + '/',
-        './' + type + '/'
-      ]
+      found = false,
+      locations = ['../custom/' + type + '/', './' + type + '/']
 
-    for (let i in locations){
+    locations.forEach(
+      (location) => {
 
-      var
-        localPath = locations[i] + name + (type == 'schemas' ? '.json' : '.js'),
-        fullPath = path.resolve(__dirname + '/' + localPath),
-        exists = fs.existsSync(fullPath)
+        var
+          localPath = location + name + (type == 'schemas' ? '.json' : '.js'),
+          fullPath = path.resolve(__dirname + '/' + localPath),
+          exists = fs.existsSync(fullPath)
 
-      if (fs.existsSync(fullPath)) return type == 'schemas'
-        ? require(localPath)
-        : new (require(localPath))(this)
-    }
+        if (fs.existsSync(fullPath))
+          found = type == 'schemas'
+            ? require(localPath)
+            : new (require(localPath))(this)
+      }
+    )
 
-    throw new Error(name + ' not found in ' + type)
+    if (found) return found
+    else throw new Error(name + ' not found in ' + type)
   }
 }
 

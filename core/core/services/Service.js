@@ -73,26 +73,27 @@ class Service {
       routing = this.routes(),
       pathes = Object.keys(routing)
 
-    for (let index in pathes){
-      var path = pathes[index]
-      for (let method in routing[pathes[index]]){
+    pathes.forEach(
+      (path) => {
+        for (let method in routing[path]){
 
-        for (let middleware in routing[path][method]){
-          this.bindMiddleware(path, method, routing[path][method][middleware])
-        }
-
-        if (path == this.path){
-          this.bindResponder(path, method,
-            (request, response) => {
-              var result = this[method](request, response)
-              if (result){
-                response.send(result)
-              }
-            }
+          routing[path][method].forEach(
+            (middleware) => this.bindMiddleware(path, method, middleware)
           )
+
+          if (path == this.path){
+            this.bindResponder(path, method,
+              (request, response) => {
+                var result = this[method](request, response)
+                if (result){
+                  response.send(result)
+                }
+              }
+            )
+          }
         }
       }
-    }
+    )
   }
 
   /**
@@ -129,21 +130,14 @@ class Service {
       routes = this.minion.minimi.router.stack,
       keys = Object.keys(routes).reverse()
 
-    for(var i in keys){
-      if(routes[keys[i]].route && routes[keys[i]].route.path == path){
-        routes.splice(
-          keys[i],
-          1
-        )
+    keys.forEach(
+      (key) => {
+        if(routes[key].route && routes[key].route.path == path){
+          routes.splice(key, 1)
+        }
       }
-    }
+    )
   }
-
-
-  // ----- Utilities -----
-
-
-
 }
 
 

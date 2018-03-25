@@ -34,7 +34,7 @@
     },
 
     "agreements": {
-      "title": "Members",
+      "title": "Agreements",
       "type": "array",
       "description": "Agreements available between members of this collective.",
       "items": {

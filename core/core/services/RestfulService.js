@@ -43,7 +43,7 @@ class RestfulService extends Service {
   get(request, response) {
     return request.header('Content-Type') == 'application/json;schema'
       ? this.minion.schema
-      : this.minion.stash.read(request.body)
+      : this.minion.stash.read(request.query)
   }
 
   /**

@@ -72,7 +72,7 @@ class Bootstrap extends EventEmitter {
     this.app.use(this.handleError)
     this.app.use(this.handleNotFound)
 
-    for(let name in this.config.minions){
+    for(var name in this.config.minions){
       this.delegate(name, this.config.minions[name])
     }
   }
@@ -113,7 +113,7 @@ class Bootstrap extends EventEmitter {
 
     console.log(' kill command received!\n');
 
-    for (let name in this.minions){
+    for (var name in this.minions){
       process.stdout.write('Retiring ' + name + ' minion... ');
       this.minions[name].dispose()
       console.log('done.');

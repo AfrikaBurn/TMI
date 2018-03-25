@@ -10,7 +10,7 @@
 			"description": "Setup tasks required to run test requests.",
 			"item": [
 				{
-					"name": "Logout",
+					"name": "Logout - add tests",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -37,7 +37,7 @@
 					"response": []
 				},
 				{
-					"name": "Create System Users",
+					"name": "Create System Users - add tests",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -48,35 +48,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "[\n\t{\n\t\t\"username\": \"Anonymous\",\n        \"email\": {\n        \t\"value\": \"test@test.com\",\n        \t\"privacy\": \"private\"\n        },\n        \"password\": \"Anonymous0\"\n\t},\n\n    {\n        \"username\": \"Administrator\",\n        \"email\": {\n        \t\"value\": \"test@test.com\",\n        \t\"privacy\": \"private\"\n        },\n        \"password\": \"Administrator0\"\n    }\n]"
-						},
-						"url": {
-							"raw": "localhost:3000/user",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"user"
-							]
-						},
-						"description": "Create a user"
-					},
-					"response": []
-				},
-				{
-					"name": "Create Test User",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "[\n\t{\n\t\t\"username\": \"Tester\",\n        \"email\": {\n        \t\"value\": \"test@test.com\",\n        \t\"privacy\": \"private\"\n        },\n        \"password\": \"Tester0\"\n\t}\n]"
+							"raw": "[\n\t{\n\t\t\"username\": \"Anonymous\",\n        \"email\": {\n        \t\"value\": \"Anonymous@Anonymous.com\",\n        \t\"privacy\": \"private\"\n        },\n        \"password\": \"Anonymous0\"\n\t},\n    {\n        \"username\": \"Administrator\",\n        \"email\": {\n        \t\"value\": \"Administrator@Administrator.com\",\n        \t\"privacy\": \"private\"\n        },\n        \"password\": \"Administrator0\"\n    },\n    {\n        \"username\": \"Authenticated\",\n        \"email\": {\n        \t\"value\": \"Authenticated@Authenticated.com\",\n        \t\"privacy\": \"private\"\n        },\n        \"password\": \"Authenticated0\"\n    }\n]"
 						},
 						"url": {
 							"raw": "localhost:3000/user",
@@ -182,7 +154,7 @@
 							"response": []
 						},
 						{
-							"name": "List",
+							"name": "List - add more tests",
 							"event": [
 								{
 									"listen": "test",
@@ -233,7 +205,7 @@
 							"response": []
 						},
 						{
-							"name": "Find",
+							"name": "Find - add more tests",
 							"event": [
 								{
 									"listen": "test",
@@ -296,7 +268,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "ab7e9fdf-a882-4e3b-be66-c22b75865723",
+										"id": "ebbfd914-5662-408b-bb90-a64c2c593398",
 										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
@@ -321,7 +293,7 @@
 											"    pm.expect(jsonData.error).to.eql(undefined);",
 											"});",
 											"",
-											"pm.test(\"Response is array of 1\", function () {",
+											"pm.test(\"Response is an array of 1\", function () {",
 											"    pm.expect(jsonData.entities.length).to.eql(1);",
 											"});",
 											"",
@@ -334,7 +306,11 @@
 											"});",
 											"",
 											"pm.test(\"Email property set\", function () {",
-											"    pm.expect(jsonData.entities[0].email.value).to.eql(\"test@test.com\");",
+											"    pm.expect(jsonData.entities[0].email.value).to.not.eql(undefined);",
+											"});",
+											"",
+											"pm.test(\"Email property lowercased\", function () {",
+											"    pm.expect(jsonData.entities[0].email.value).to.eql(\"tester@tester.com\");",
 											"});",
 											"",
 											"pm.test(\"Email privacy set\", function () {",
@@ -345,8 +321,8 @@
 											"    pm.expect(jsonData.entities[0].password).to.not.eql(undefined);",
 											"});",
 											"",
-											"pm.test(\"Password property not plain\", function () {",
-											"    pm.expect(jsonData.entities[0].password.value).to.not.eql(\"Tester0\");",
+											"pm.test(\"Password property blanked\", function () {",
+											"    pm.expect(jsonData.entities[0].password).to.eql(\"*\");",
 											"});",
 											"",
 											""
@@ -364,7 +340,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "[\n\t{\n\t\t\"username\": \"Tester\",\n        \"email\": {\n        \t\"value\": \"test@test.com\",\n        \t\"privacy\": \"private\"\n        },\n        \"password\": \"Tester0\"\n\t}\n]"
+									"raw": "[\n\t{\n\t\t\"username\": \"Tester\",\n        \"email\": {\n        \t\"value\": \"Tester@Tester.com\",\n        \t\"privacy\": \"private\"\n        },\n        \"password\": \"Tester0\"\n\t}\n]"
 								},
 								"url": {
 									"raw": "localhost:3000/user",
@@ -386,10 +362,10 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "ba402b0c-ea1e-47a4-913d-42882211acdc",
+										"id": "faab2a9b-2fb4-4026-9d2b-ef4ccee8b3ef",
 										"type": "text/javascript",
 										"exec": [
-											"pm.test(\"Status code is 401\", function () {",
+											"pm.test(\"Status code is 403\", function () {",
 											"    pm.response.to.have.status(403);",
 											"});",
 											"",
@@ -422,7 +398,7 @@
 									"raw": "{\n  \"username\": \"Test\",\n  \"email\": \"a@b.c\", \n  \"password\": \"TEST\"\n}"
 								},
 								"url": {
-									"raw": "localhost:3000/user?username=Test",
+									"raw": "localhost:3000/user?username=Tester",
 									"host": [
 										"localhost"
 									],
@@ -433,11 +409,11 @@
 									"query": [
 										{
 											"key": "username",
-											"value": "Test"
+											"value": "Tester"
 										}
 									]
 								},
-								"description": "Create a user"
+								"description": "Update a user"
 							},
 							"response": []
 						},
@@ -560,7 +536,7 @@
 					"description": "",
 					"item": [
 						{
-							"name": "Authenticate",
+							"name": "Authenticate - create tests",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -588,7 +564,7 @@
 							"response": []
 						},
 						{
-							"name": "List",
+							"name": "List - add more tests",
 							"event": [
 								{
 									"listen": "test",
@@ -648,7 +624,7 @@
 							"response": []
 						},
 						{
-							"name": "Schema",
+							"name": "Schema - add more tests",
 							"event": [
 								{
 									"listen": "test",
@@ -705,7 +681,266 @@
 							"response": []
 						},
 						{
-							"name": "Logout",
+							"name": "Find - add tests",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "76593636-dcde-4cde-b092-d676219c50c2",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "localhost:3000/user?username=Authenticated",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"user"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "Authenticated"
+										}
+									]
+								},
+								"description": "Retrieves a list of users that satisfy a set of criteria"
+							},
+							"response": []
+						},
+						{
+							"name": "Create - review tests",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "4366b191-6ef6-4a8a-a90e-c01bd2eb6ae7",
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Response has body\", function () {",
+											"    pm.response.to.be.withBody;",
+											"});",
+											"",
+											"pm.test(\"Response is JSON\", function () {",
+											"    pm.response.to.be.json;",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Error object is undefined\", function () {",
+											"    pm.expect(jsonData.error).to.eql(undefined);",
+											"});",
+											"",
+											"pm.test(\"Response is an array of 1\", function () {",
+											"    pm.expect(jsonData.entities.length).to.eql(1);",
+											"});",
+											"",
+											"pm.test(\"Id property set\", function () {",
+											"    pm.expect(jsonData.entities[0].id).to.not.eql(undefined);",
+											"});",
+											"",
+											"pm.test(\"Username property set\", function () {",
+											"    pm.expect(jsonData.entities[0].username).to.eql(\"Tester\");",
+											"});",
+											"",
+											"pm.test(\"Email property set\", function () {",
+											"    pm.expect(jsonData.entities[0].email.value).to.not.eql(undefined);",
+											"});",
+											"",
+											"pm.test(\"Email property lowercased\", function () {",
+											"    pm.expect(jsonData.entities[0].email.value).to.eql(\"tester@tester.com\");",
+											"});",
+											"",
+											"pm.test(\"Email privacy set\", function () {",
+											"    pm.expect(jsonData.entities[0].email.privacy).to.eql(\"private\");",
+											"});",
+											"",
+											"pm.test(\"Password property set\", function () {",
+											"    pm.expect(jsonData.entities[0].password).to.not.eql(undefined);",
+											"});",
+											"",
+											"pm.test(\"Password property blanked\", function () {",
+											"    pm.expect(jsonData.entities[0].password).to.eql(\"*\");",
+											"});",
+											"",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n\t{\n\t\t\"username\": \"Tester\",\n        \"email\": {\n        \t\"value\": \"Tester@Tester.com\",\n        \t\"privacy\": \"private\"\n        },\n        \"password\": \"Tester0\"\n\t}\n]"
+								},
+								"url": {
+									"raw": "localhost:3000/user",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"user"
+									]
+								},
+								"description": "Create a user"
+							},
+							"response": []
+						},
+						{
+							"name": "Update - add more tests",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "a4ffa31a-92f4-4f61-8fe8-b3765a251264",
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Response has body\", function () {",
+											"    pm.response.to.be.withBody;",
+											"});",
+											"",
+											"pm.test(\"Response is JSON\", function () {",
+											"    pm.response.to.be.json;",
+											"});",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"Tester\",\n  \"email\": {\n  \t\"value\": \"a@b.c\",\n  \t\"privacy\": \"members\"\n  },\n  \"password\": \"TEST\"\n}"
+								},
+								"url": {
+									"raw": "localhost:3000/user?username=Tester",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"user"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "Tester"
+										}
+									]
+								},
+								"description": "Update a user"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete - review tests",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "df394a87-e030-45bb-8287-8d0dd0a4b7bd",
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Response has body\", function () {",
+											"    pm.response.to.be.withBody;",
+											"});",
+											"",
+											"pm.test(\"Response is JSON\", function () {",
+											"    pm.response.to.be.json;",
+											"});",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "localhost:3000/user?username=Tester",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"user"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "Tester"
+										}
+									]
+								},
+								"description": "Delete a user"
+							},
+							"response": []
+						},
+						{
+							"name": "Logout - add tests",
 							"request": {
 								"method": "GET",
 								"header": [
@@ -739,6 +974,11 @@
 					"_postman_isSubFolder": true
 				}
 			]
+		},
+		{
+			"name": "As user",
+			"description": "",
+			"item": []
 		}
 	],
 	"event": [

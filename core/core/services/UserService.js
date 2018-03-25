@@ -133,14 +133,13 @@ class UserService extends RestfulService {
       routes = this.minion.minimi.router.stack,
       keys = Object.keys(routes).reverse()
 
-    for(var i in keys){
-      if(routes[keys[i]].handle.serviceOrigin == 'UserService'){
-        routes.splice(
-          keys[i],
-          1
-        )
+    keys.forEach(
+      (key) => {
+        if(routes[key].handle.serviceOrigin == 'UserService'){
+          routes.splice(key, 1)
+        }
       }
-    }
+    )
   }
 
 
@@ -156,13 +155,12 @@ class UserService extends RestfulService {
   authenticate(username, password, done){
 
     var
-      credentials = {password: password},
-      user = this.minion.stash.read({username: username }).pop()
+      user = this.minion.stash.read({username: username }, false).pop()
 
     switch(true){
       case !user:
         return done(UserService.INVALID_ACCOUNT, false)
-      case Stash.HASHER.verify(credentials.password, user.password):
+      case Stash.HASHER.verify(password, user.password):
         this.minion.stash.process([user], 'committed')
         return done(null, user)
       default:

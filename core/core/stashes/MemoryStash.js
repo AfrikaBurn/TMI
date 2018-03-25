@@ -36,16 +36,18 @@ class MemoryStash extends Stash {
 
     this.validate(entities)
 
-    for (let entity of entities){
-      entity.id = this.cache.length
-      this.cache.push(entity)
-    }
+    entities.forEach(
+      (entity) => {
+        entity.id = this.cache.length
+        this.cache.push(entity)
+      }
+    )
 
-    entities = JSON.parse(JSON.stringify(entities))
+    entities = MemoryStash.clone(entities)
     this.sanitise(entities)
 
     return Object.assign(
-      Stash.STATUS_CREATED,
+      Stash.CREATED,
       {entities: entities}
     )
   }
@@ -53,16 +55,18 @@ class MemoryStash extends Stash {
   /**
    * @inheritDoc
    */
-  read(criteria){
-    return JSON.parse(
-      JSON.stringify(
-        this.cache.filter(
-          (element) => {
-            return MemoryStash.matches(element, criteria)
-          }
-        )
-      )
+  read(criteria, sanitise = true){
+
+    var matches = this.cache.filter(
+      (element) => {
+        return MemoryStash.matches(element, criteria)
+      }
     )
+
+    var entities = MemoryStash.clone(matches)
+    if (sanitise) this.sanitise(entities)
+
+    return entities
   }
 
   /**
@@ -71,24 +75,22 @@ class MemoryStash extends Stash {
   update(criteria, entity){
 
     var
-      toUpdate = this.read(criteria),
+      toUpdate = this.cache.filter(
+        (element) => {
+          return MemoryStash.matches(element, criteria)
+        }
+      ),
       updated = []
 
+    if (toUpdate.length == 0) throw Stash.NOT_FOUND
     // TODO: partially validate "entity"
+    this.validate([entity])
+    toUpdate.forEach((element) => Object.assign(element, entity))
 
-    for(let i in toUpdate){
-      toUpdate[i] = Object.assign(toUpdate[i], entity)
-    }
+    var entities = MemoryStash.clone(toUpdate)
+    this.sanitise(entities)
 
-    this.cache = Object.assign(
-      this.cache,
-      toUpdate
-    )
-
-    entites = JSON.parse(JSON.stringify(entities))
-    this.sanitise(toUpdate)
-
-    return toUpdate
+    return entities
   }
 
   /**
@@ -110,6 +112,8 @@ class MemoryStash extends Stash {
       }
     }
 
+    this.sanitise(deleted)
+
     return deleted
   }
 }
@@ -125,7 +129,7 @@ class MemoryStash extends Stash {
  * @return {boolean}         true if matching, false if not.
  */
 MemoryStash.matches = (element, criteria) => {
-  for(var property in criteria){
+  for(let property in criteria){
     if (typeof criteria[property] == 'object'){
       if (!MemoryStash.matches(element[property], criteria[property]))
         return false
@@ -134,6 +138,14 @@ MemoryStash.matches = (element, criteria) => {
     }
   }
   return true
+}
+
+/**
+ * Clones an entity.
+ * @param {object}  Entity to clone.
+ */
+MemoryStash.clone = (entity) => {
+  return JSON.parse(JSON.stringify(entity))
 }
 
 

@@ -23,7 +23,8 @@
           "title": "User ID",
           "description": "Unique user identifier"
         }
-      ]
+      ],
+      "isUniqueKey": true
     },
 
     "username":  {
@@ -40,11 +41,14 @@
       "description": "Email address used for login retrieval and notification",
       "type": "object",
       "properties": {
-        "email": {"$ref": "#/definitions/email"},
+        "value": {"$ref": "#/definitions/email"},
         "privacy": {"$ref": "#/definitions/privacy"}
       },
       "required": ["value", "privacy"],
-      "isUniqueKey": true
+      "isUniqueKey": true,
+      "processors": {
+        "raw": {"value": "LOWERCASE"}
+      }
     },
 
     "password":  {"$ref": "#/definitions/password"}
