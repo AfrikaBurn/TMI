@@ -193,14 +193,23 @@ class Stash {
 }
 
 
+Stash.HASHER = passwordHash
+
+
 // ----- Shared Validation -----
 
 
-Stash.VALIDATOR = new Ajv({ allErrors: true });
+Stash.VALIDATOR = new Ajv({ allErrors: true, jsonPointers: true })
 Stash.VALIDATOR.addSchema(require('../schemas/fields.json'))
-Stash.HASHER = passwordHash
+
+
+// ----- Validation error messages -----
+
+
+require('ajv-errors')(Stash.VALIDATOR);
+
 /**
- * Normalise error messages returned by the validator.
+* Normalise error messages returned by the validator.
  * @param {array} errors
  */
 Stash.normaliseErrors = (errors) => {

@@ -4,10 +4,24 @@
 
   "definitions": {
 
-    "privacy": {
-      "title": "Privacy",
+    "exposure": {
+      "title": "Exposure",
       "type": "string",
-      "enum": ["private", "administrator", "moderator", "members", "everyone"]
+      "enum": ["private", "administrators", "moderators", "members", "anyone"],
+      "default": "private"
+    },
+
+    "status": {
+      "title": "Status",
+      "type": "string",
+      "enum": ["draft", "active", "retired", "banned"],
+      "default": "draft"
+    },
+
+    "inclusivity": {
+      "title": "Inclusivity",
+      "type": "string",
+      "enum": ["anyone", "request", "invitation"]
     }
   }
 }

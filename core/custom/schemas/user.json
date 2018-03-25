@@ -3,12 +3,10 @@
   "$id": "http://tmi-platform.org/schemas/user.json",
 
   "definitions": {
-
     "uei": {"$ref": "http://minimi.org/schemas/fields.json#/definitions/uei"},
     "email": {"$ref": "http://minimi.org/schemas/fields.json#/definitions/email"},
     "password": {"$ref": "http://minimi.org/schemas/fields.json#/definitions/password"},
-
-    "privacy": {"$ref": "http://tmi-platform.org/schemas/fields.json#/definitions/privacy"}
+    "exposure": {"$ref": "http://tmi-platform.org/schemas/fields.json#/definitions/exposure"}
   },
 
   "type": "object",
@@ -31,8 +29,10 @@
       "title": "Username",
       "description": "Unique chosen name of the user",
       "type": "string",
-      "minLength": 1,
-      "maxLength": 100,
+      "allOf":[
+        {"minLength": 1, "errorMessage": "should be more than 1 character"},
+        {"maxLength": 100, "errorMessage": "should be less than 100 characters"}
+      ],
       "isUniqueKey": true
     },
 
@@ -42,9 +42,19 @@
       "type": "object",
       "properties": {
         "value": {"$ref": "#/definitions/email"},
-        "privacy": {"$ref": "#/definitions/privacy"}
+        "exposure": {
+          "allOf": [
+            {"$ref": "#/definitions/exposure"},
+            {
+              "not": {
+                "enum": ["anyone"]
+              },
+              "errorMessage": "Unacceptible level of exposure."
+            }
+          ]
+        }
       },
-      "required": ["value", "privacy"],
+      "required": ["value", "exposure"],
       "isUniqueKey": true,
       "processors": {
         "raw": {"value": "LOWERCASE"}

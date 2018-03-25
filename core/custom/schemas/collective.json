@@ -1,7 +1,28 @@
 {
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://tmi-platform.org/schemas/collective.json",
+
+  "definitions": {
+    "uei": {"$ref": "http://minimi.org/schemas/fields.json#/definitions/uei"},
+    "privacy": {"$ref": "http://tmi-platform.org/schemas/fields.json#/definitions/privacy"},
+    "status": {"$ref": "http://tmi-platform.org/schemas/fields.json#/definitions/status"},
+    "inclusivity": {"$ref": "http://tmi-platform.org/schemas/fields.json#/definitions/inclusivity"}
+  },
+
   "type": "object",
   "title": "Collective",
   "properties": {
+
+    "id":  {
+      "allOf": [
+        {"$ref": "#/definitions/uei"},
+        {
+          "title": "Collective ID",
+          "description": "Unique collective identifier"
+        }
+      ],
+      "isUniqueKey": true
+    },
 
     "name": {
       "title": "Name",
@@ -13,21 +34,12 @@
       "type": "string"
     },
 
-    "status": {
-      "title": "string",
-      "enum": ["draft", "active", "retired"]
-    },
-
-    "revision": {
-      "type": "number"
-    },
-
-    "created": "",
+    "status": {"$ref": "#/definitions/status"},
 
     "profiles": {
       "title": "Collective profiles",
       "type": "array",
-      "description": "Profiles of this collective.",
+      "description": "Profiles this collective possesses.",
       "items": {
         "type": "number"
       }
@@ -53,19 +65,8 @@
       }
     },
 
-    "visibility": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "enum": ["public", "tribe", "private"]
-      }
-    },
+    "privacy": {"$ref": "#/definitions/privacy"},
 
-    "membership": {
-      "type": {
-        "type": "string",
-        "enum": ["open", "closed"]
-      }
-    }
+    "membership": {"$ref": "#/definitions/privacy"}
   }
 }
