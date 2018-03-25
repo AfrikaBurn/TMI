@@ -37,7 +37,7 @@
 					"response": []
 				},
 				{
-					"name": "Create Administrator",
+					"name": "Create System Users",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -48,7 +48,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"username\": \"Administrator\", \n  \"email\": \"admin@test.com\", \n  \"password\": \"admin\"\n}"
+							"raw": "[\n\t{\n\t\t\"username\": \"Anonymous\",\n        \"email\": {\n        \t\"value\": \"test@test.com\",\n        \t\"privacy\": \"private\"\n        },\n        \"password\": \"Anonymous0\"\n\t},\n\n    {\n        \"username\": \"Administrator\",\n        \"email\": {\n        \t\"value\": \"test@test.com\",\n        \t\"privacy\": \"private\"\n        },\n        \"password\": \"Administrator0\"\n    }\n]"
 						},
 						"url": {
 							"raw": "localhost:3000/user",
@@ -65,7 +65,7 @@
 					"response": []
 				},
 				{
-					"name": "Create User",
+					"name": "Create Test User",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -76,7 +76,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"username\": \"User\", \n  \"email\": \"user@test.com\", \n  \"password\": \"user\"\n}"
+							"raw": "[\n\t{\n\t\t\"username\": \"Tester\",\n        \"email\": {\n        \t\"value\": \"test@test.com\",\n        \t\"privacy\": \"private\"\n        },\n        \"password\": \"Tester0\"\n\t}\n]"
 						},
 						"url": {
 							"raw": "localhost:3000/user",
@@ -187,11 +187,11 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "6bbf2d4a-3166-400c-a222-3b44e206821d",
+										"id": "7d71ebff-3411-41c2-acce-bf557bdecd3f",
 										"type": "text/javascript",
 										"exec": [
-											"pm.test(\"Status code is 401\", function () {",
-											"    pm.response.to.have.status(401);",
+											"pm.test(\"Status code is 403\", function () {",
+											"    pm.response.to.have.status(403);",
 											"});",
 											"",
 											"pm.test(\"Content-Type is present\", function () {",
@@ -204,15 +204,7 @@
 											"",
 											"pm.test(\"Response is JSON\", function () {",
 											"    pm.response.to.be.json;",
-											"});",
-											"",
-											"pm.test(\"Correct error object\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.error.error).to.eql('Unauthorised');",
-											"    pm.expect(jsonData.error.code).to.eql(401);",
-											"    pm.expect(jsonData.error.expose).to.eql(true);",
-											"});",
-											""
+											"});"
 										]
 									}
 								}
@@ -246,11 +238,11 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "3e0635b1-fc81-4bd8-8a77-4247c6128148",
+										"id": "635dab22-d2a5-4147-ae04-41bd49a0cd93",
 										"type": "text/javascript",
 										"exec": [
-											"pm.test(\"Status code is 401\", function () {",
-											"    pm.response.to.have.status(401);",
+											"pm.test(\"Status code is 403\", function () {",
+											"    pm.response.to.have.status(403);",
 											"});",
 											"",
 											"pm.test(\"Content-Type is present\", function () {",
@@ -264,13 +256,7 @@
 											"pm.test(\"Response is JSON\", function () {",
 											"    pm.response.to.be.json;",
 											"});",
-											"",
-											"pm.test(\"Correct error object\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.error.error).to.eql('Unauthorised');",
-											"    pm.expect(jsonData.error.code).to.eql(401);",
-											"    pm.expect(jsonData.error.expose).to.eql(true);",
-											"});"
+											""
 										]
 									}
 								}
@@ -310,7 +296,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "6f6158c6-a377-40a7-bb02-a3fc4b6be355",
+										"id": "ab7e9fdf-a882-4e3b-be66-c22b75865723",
 										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
@@ -336,27 +322,31 @@
 											"});",
 											"",
 											"pm.test(\"Response is array of 1\", function () {",
-											"    pm.expect(jsonData.length).to.eql(1);",
+											"    pm.expect(jsonData.entities.length).to.eql(1);",
 											"});",
 											"",
 											"pm.test(\"Id property set\", function () {",
-											"    pm.expect(jsonData[0].id).to.not.eql(undefined);",
+											"    pm.expect(jsonData.entities[0].id).to.not.eql(undefined);",
 											"});",
 											"",
 											"pm.test(\"Username property set\", function () {",
-											"    pm.expect(jsonData[0].username).to.eql(\"Test\");",
+											"    pm.expect(jsonData.entities[0].username).to.eql(\"Tester\");",
 											"});",
 											"",
 											"pm.test(\"Email property set\", function () {",
-											"    pm.expect(jsonData[0].email).to.eql(\"a@b.c\");",
+											"    pm.expect(jsonData.entities[0].email.value).to.eql(\"test@test.com\");",
+											"});",
+											"",
+											"pm.test(\"Email privacy set\", function () {",
+											"    pm.expect(jsonData.entities[0].email.privacy).to.eql(\"private\");",
 											"});",
 											"",
 											"pm.test(\"Password property set\", function () {",
-											"    pm.expect(jsonData[0].password).to.not.eql(undefined);",
+											"    pm.expect(jsonData.entities[0].password).to.not.eql(undefined);",
 											"});",
 											"",
 											"pm.test(\"Password property not plain\", function () {",
-											"    pm.expect(jsonData[0].password).to.not.eql(\"test\");",
+											"    pm.expect(jsonData.entities[0].password.value).to.not.eql(\"Tester0\");",
 											"});",
 											"",
 											""
@@ -374,7 +364,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"username\": \"Test\", \n  \"email\": \"a@b.c\", \n  \"password\": \"test\"\n}"
+									"raw": "[\n\t{\n\t\t\"username\": \"Tester\",\n        \"email\": {\n        \t\"value\": \"test@test.com\",\n        \t\"privacy\": \"private\"\n        },\n        \"password\": \"Tester0\"\n\t}\n]"
 								},
 								"url": {
 									"raw": "localhost:3000/user",
@@ -396,11 +386,11 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "f5cb5a27-371e-4fc5-a1ea-fcfc2dd699c1",
+										"id": "ba402b0c-ea1e-47a4-913d-42882211acdc",
 										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status code is 401\", function () {",
-											"    pm.response.to.have.status(401);",
+											"    pm.response.to.have.status(403);",
 											"});",
 											"",
 											"pm.test(\"Content-Type is present\", function () {",
@@ -414,13 +404,7 @@
 											"pm.test(\"Response is JSON\", function () {",
 											"    pm.response.to.be.json;",
 											"});",
-											"",
-											"pm.test(\"Correct error object\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.error.error).to.eql('Unauthorised');",
-											"    pm.expect(jsonData.error.code).to.eql(401);",
-											"    pm.expect(jsonData.error.expose).to.eql(true);",
-											"});"
+											""
 										]
 									}
 								}
@@ -463,11 +447,11 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "75d6bfef-20c7-4deb-b45c-4722235041dd",
+										"id": "3f1f4baa-2c12-414c-afae-ab2e07f76dfa",
 										"type": "text/javascript",
 										"exec": [
-											"pm.test(\"Status code is 401\", function () {",
-											"    pm.response.to.have.status(401);",
+											"pm.test(\"Status code is 403\", function () {",
+											"    pm.response.to.have.status(403);",
 											"});",
 											"",
 											"pm.test(\"Content-Type is present\", function () {",
@@ -481,13 +465,7 @@
 											"pm.test(\"Response is JSON\", function () {",
 											"    pm.response.to.be.json;",
 											"});",
-											"",
-											"pm.test(\"Correct error object\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.error.error).to.eql('Unauthorised');",
-											"    pm.expect(jsonData.error.code).to.eql(401);",
-											"    pm.expect(jsonData.error.expose).to.eql(true);",
-											"});"
+											""
 										]
 									}
 								}
@@ -593,7 +571,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"username\": \"Administrator\", \n  \"password\": \"admin\"\n}"
+									"raw": "{\n  \"username\": \"Administrator\", \n  \"password\": \"Administrator0\"\n}"
 								},
 								"url": {
 									"raw": "localhost:3000/user/login",
@@ -606,63 +584,6 @@
 										"login"
 									]
 								}
-							},
-							"response": []
-						},
-						{
-							"name": "Schema",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "2853fc25-9ceb-45c4-847c-5e57771b0c3b",
-										"type": "text/javascript",
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"Content-Type is present\", function () {",
-											"    pm.response.to.have.header(\"Content-Type\");",
-											"});",
-											"",
-											"pm.test(\"Response has body\", function () {",
-											"    pm.response.to.be.withBody;",
-											"});",
-											"",
-											"pm.test(\"Response is JSON\", function () {",
-											"    pm.response.to.be.json;",
-											"});",
-											"",
-											"pm.test(\"Error object is undefined\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.error).to.eql(undefined);",
-											"});",
-											""
-										]
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json;schema"
-									}
-								],
-								"body": {},
-								"url": {
-									"raw": "localhost:3000/user",
-									"host": [
-										"localhost"
-									],
-									"port": "3000",
-									"path": [
-										"user"
-									]
-								},
-								"description": "Retrieves the User schema"
 							},
 							"response": []
 						},
@@ -727,13 +648,74 @@
 							"response": []
 						},
 						{
+							"name": "Schema",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "2853fc25-9ceb-45c4-847c-5e57771b0c3b",
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Response has body\", function () {",
+											"    pm.response.to.be.withBody;",
+											"});",
+											"",
+											"pm.test(\"Response is JSON\", function () {",
+											"    pm.response.to.be.json;",
+											"});",
+											"",
+											"pm.test(\"Error object is undefined\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.error).to.eql(undefined);",
+											"});",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json;schema"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "localhost:3000/user",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"user"
+									]
+								},
+								"description": "Retrieves the User schema"
+							},
+							"response": []
+						},
+						{
 							"name": "Logout",
 							"request": {
 								"method": "GET",
 								"header": [
 									{
 										"key": "Content-Type",
-										"value": "application/json",
+										"value": "application/json"
+									},
+									{
+										"key": "",
+										"value": "",
 										"disabled": true
 									}
 								],
