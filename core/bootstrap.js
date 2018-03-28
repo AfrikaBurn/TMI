@@ -34,7 +34,11 @@ class Bootstrap extends EventEmitter {
     this.config = require('./config.json')
     this.minions = {}
     this.path = path.normalize(__dirname)
-    this.router = express.Router()
+    this.routers = {
+      load: express.Router(),
+      modify: express.Router(),
+      route: express.Router()
+    }
 
     console.log(
       '\nSpawning minimimal microservice:\n' +
@@ -44,37 +48,28 @@ class Bootstrap extends EventEmitter {
       '\n'
     )
 
-    this.initialise()
-    this.start()
-  }
-
-  /**
-   * Initialise minimi.
-   */
-  initialise(){
-
     process.chdir(this.path)
     process.on('SIGINT', () => { process.exit() })
     process.on('SIGTERM', () => { process.exit() })
     process.on('exit', () => { this.stop() })
 
-    this.app.use(cors(
-      (request, callback) => callback(
-        null,
-        {
-          origin: this.config.origins || [],
-          allowedHeaders: ['Content-Type', 'Authorization', 'Accept']
-        }
-      )
-    ))
-
-    this.app.use(this.router)
+    this.app.use(cors((request, callback) => callback(null,
+      {
+        origin: this.config.origins || [],
+        allowedHeaders: ['Content-Type', 'Authorization', 'Accept']
+      }
+    )))
+    this.app.use(this.routers.load)
+    this.app.use(this.routers.modify)
+    this.app.use(this.routers.route)
     this.app.use(this.handleError)
     this.app.use(this.handleNotFound)
 
     for(var name in this.config.minions){
       this.delegate(name, this.config.minions[name])
     }
+
+    this.start()
   }
 
   /**

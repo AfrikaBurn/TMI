@@ -9,7 +9,8 @@
 
 const
 
-  bodyParser = require('body-parser')
+  bodyParser = require('body-parser'),
+  Stash = require('../stashes/Stash')
 
 
 class Service {
@@ -24,8 +25,78 @@ class Service {
    */
   constructor(minion){
     this.minion = minion
-    this.path = this.minion.getConfig().path || this.minion.getConfig().schema
     this.attach()
+  }
+
+  /**
+   * Attaches phase routers to load, modify and route functions
+   */
+  attach(){
+    this.attachRouter('Load', this.loaders())
+    this.attachRouter('Modify', this.modifiers())
+    this.attachRouter('Route', this.routes())
+  }
+
+
+  // ----- Request Loading -----
+
+
+  /**
+   * Maps preloading middleware and handlers to routes.
+   * @return {object} middleware mapping keyed by method:
+   *
+   * {
+   *   '': {
+   *     'method': []
+   *   },
+   *   [this.path]: {
+   *     'method': [ middleWare, ...],
+   *     ...
+   *   }
+   *   'path/to/bind/to': {
+   *     'method': [ middleWare, ...],
+   *     ...
+   *   }
+   * }
+   * Method may be any of [get|post|put|delete|...] or 'use' to bind to all
+   * methods.
+   * Service object methods with the same name as a method (get(), post(), etc.)
+   * will automatically be bound to [this.path] with a corresponding method
+   * declaration.
+   */
+  loaders(){
+    return {}
+  }
+
+
+  // ----- Request Modifying -----
+
+
+  /**
+   * Maps modifying middleware and handlers to routes.
+   * @return {object} middleware mapping keyed by method:
+   *
+   * {
+   *   '': {
+   *     'method': []
+   *   },
+   *   [this.path]: {
+   *     'method': [ middleWare, ...],
+   *     ...
+   *   }
+   *   'path/to/bind/to': {
+   *     'method': [ middleWare, ...],
+   *     ...
+   *   }
+   * }
+   * Method may be any of [get|post|put|delete|...] or 'use' to bind to all
+   * methods.
+   * Service object methods with the same name as a method (get(), post(), etc.)
+   * will automatically be bound to [this.path] with a corresponding method
+   * declaration.
+   */
+  modifiers(){
+    return {}
   }
 
 
@@ -33,7 +104,7 @@ class Service {
 
 
   /**
-   * Declare middleware and responders.
+   * Maps route middleware and handlers to routes.
    * @return {object} middleware mapping keyed by method:
    *
    * {
@@ -64,76 +135,38 @@ class Service {
 
 
   /**
-   * Attach request method responders
+   * Attach handlers to routers according to the map.
+   * @param  {string} name Name of the router.
    */
-  attach(){
+  attachRouter(name, map){
 
     var
-      router = this.minion.minimi.router,
-      routing = this.routes(),
-      pathes = Object.keys(routing)
+      pathes = Object.keys(map),
+      router = this.minion.minimi.routers[name.toLowerCase()]
 
     pathes.forEach(
       (path) => {
-        for (let method in routing[path]){
+        for (let method in map[path]){
 
-          routing[path][method].forEach(
-            (middleware) => this.bindMiddleware(path, method, middleware)
+          map[path][method].forEach(
+            (middleware) => router[method]('/' + path, middleware)
           )
 
-          if (path == this.path){
-            this.bindResponder(path, method,
-              (request, response) => {
-                var result = this[method](request, response)
-                if (result){
-                  response.send(result)
-                }
+          if (path == this.minion.path && this[method + name]){
+            router[method]('/' + path,
+              (request, response, next) => {
+                var result = this[method + name](request, response)
+                if (result) {
+                  response.send(
+                    Object.assign(
+                      Stash.clone(result[0]),
+                      {entities: result[1] || []}
+                    )
+                  )
+                } else next()
               }
             )
           }
-        }
-      }
-    )
-  }
-
-  /**
-   * Binds a middleware handler to a path and method.
-   * @param {string} path         Path to bind middleware to.
-   * @param {method} method       Method on path to bind middleware to.
-   * @param {Function} middleware Middleware handler to bind to path and method.
-   */
-  bindMiddleware(path, method, middleware){
-    path === ""
-      ? this.minion.minimi.router[method](middleware)
-      : this.minion.minimi.router[method]('/' + path, middleware)
-  }
-
-  /**
-   * Binds a responder function to a path and method.
-   * @param {string} path         Path to bind middleware to.
-   * @param {method} method       Method on path to bind responder to.
-   * @param {Function} responder  Responder to bind to path and method.
-   */
-  bindResponder(path, method, responder){
-    if (this[method]){
-      this.bindMiddleware(path, method, responder)
-    }
-  }
-
-  /**
-   * Releases all path handlers.
-   */
-  detach(){
-
-    var
-      path = '/' + this.path,
-      routes = this.minion.minimi.router.stack,
-      keys = Object.keys(routes).reverse()
-
-    keys.forEach(
-      (key) => {
-        if(routes[key].route && routes[key].route.path == path){
-          routes.splice(key, 1)
         }
       }
     )

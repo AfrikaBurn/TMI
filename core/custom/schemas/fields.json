@@ -7,7 +7,14 @@
     "exposure": {
       "title": "Exposure",
       "type": "string",
-      "enum": ["private", "administrators", "moderators", "members", "anyone"],
+      "enum": [
+        "owner",
+        "administrator",
+        "moderator",
+        "member",
+        "authenticated",
+        "anonymous"
+      ],
       "default": "private"
     },
 

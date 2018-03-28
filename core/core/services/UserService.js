@@ -49,6 +49,29 @@ class UserService extends RestfulService {
   }
 
 
+  // ----- Request Loading -----
+
+
+  /**
+   * @inheritDoc
+   */
+  loaders(){
+    return Object.assign(
+      super.loaders(),
+      {
+        '': {
+          'use': [
+            this.expressSession(),
+            this.passport(),
+            this.passportSession(),
+            UserService.USER_ROLE
+          ],
+        },
+      }
+    )
+  }
+
+
   // ----- Request Routing -----
 
 
@@ -58,16 +81,7 @@ class UserService extends RestfulService {
   routes(){
     return {
 
-      '': {
-        'use': [
-          this.expressSession(),
-          this.passport(),
-          this.passportSession(),
-          UserService.USER_ROLE
-        ],
-      },
-
-      [this.path]: {
+      [this.minion.path]: {
         'get': [Service.PARSE_QUERY],
         'post': [Service.PARSE_BODY],
         'put': [Service.PARSE_BODY],
@@ -75,31 +89,26 @@ class UserService extends RestfulService {
         'patch': [Service.PARSE_QUERY, Service.PARSE_BODY]
       },
 
-      [this.path + '/login']: {
+      [this.minion.path + '/login']: {
         'post': [
           Service.PARSE_BODY,
           Service.PARSE_QUERY,
-          (request, response, next) => {
-            passport.authenticate('login', function(error, user, info) {
-              if (error) throw error
-              request.logIn(user, function(error) {
-                if (error) throw error
-                response.json(user)
-              });
-            })(request, response, next)
-          }
+          UserService.LOGIN
         ],
       },
 
-      [this.path + '/logout']: {
+      [this.minion.path + '/logout']: {
         'get': [
-          (request, response, next) => request.session.destroy(
-            () => {
-              request.logout()
-              response.clearCookie('connect.sid', {path: "/"})
-              response.json(Service.SUCCESS)
-            }
-          )
+          (request, response, next) => {
+              if (request.session)
+                request.session.destroy(
+                  () => {
+                    request.logout()
+                    response.clearCookie('connect.sid', {path: "/"})
+                    response.json(Service.SUCCESS)
+                  }
+                )
+          }
         ]
       }
     }
@@ -108,20 +117,6 @@ class UserService extends RestfulService {
 
   // ----- Method utilities -----
 
-
-  /**
-   * @inheritDoc
-   */
-  attach(){
-
-    this.cookieName =
-      (this.minion.minimi.name || 'minimi')
-      .toLowerCase()
-      .replace(/[^a-z0-9_\-]+/g, '')
-      + '-session'
-
-    super.attach()
-  }
 
   /**
    * @inheritDoc
@@ -155,7 +150,7 @@ class UserService extends RestfulService {
   authenticate(username, password, done){
 
     var
-      user = this.minion.stash.read({username: username }, false).pop()
+      user = this.minion.stash.read({}, {username: username }, false, false)[1].pop()
 
     switch(true){
       case !user:
@@ -188,10 +183,10 @@ class UserService extends RestfulService {
    */
   deserializeUser(id, done){
 
-    var users = this.minion.stash.read({id: id})
+    var users = this.minion.stash.read({id: 0}, {id: id}, false)[1]
 
     done(
-      users.length == 0 ? UserService.ACCOUNT_GONE : null,
+      users && users.length == 0 ? UserService.ACCOUNT_GONE : null,
       users[0]
     )
   }
@@ -243,21 +238,50 @@ class UserService extends RestfulService {
     passportSession.serviceOrigin = 'UserService'
     return passportSession
   }
-
-
 }
 
 
 // ----- Middleware -----
 
 
+UserService.LOGIN = (request, response, next) => {
+  passport.authenticate(
+    'login',
+    function(error, user, info) {
+      if (error) throw error
+      request.logIn(
+        user,
+        function(error) {
+          if (error) throw error
+          response.json(
+            Object.assign(
+              Stash.clone(Service.SUCCESS),
+              { user: user }
+            )
+          )
+        }
+      )
+    }
+  )(request, response, next)
+}
+
 /**
  * User role
  */
 UserService.USER_ROLE = function setRole(request, response, next){
-  if (!request.user) request.user = {id: 0, isAnonymous: true};
-  request.user.isAdministrator = request.user.id === 1
-  request.user.isAuthenticated = request.user.id > 1
+
+  request.user = request.user
+    ? Object.assign(request.user, {is: {}})
+    : {id: 0, is: { anonymous: true }}
+
+  Object.assign(
+    request.user.is,
+    {
+      super: request.user.id === 1,
+      authenticated: request.user.id > 1
+    }
+  )
+
   next()
 }
 

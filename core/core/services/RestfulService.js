@@ -13,6 +13,44 @@ const
 class RestfulService extends Service {
 
 
+  // ----- Request Loading -----
+
+
+  /**
+   * @inheritDoc
+   */
+  loaders(){
+    return {
+      [this.minion.path]: {
+        'get': [Service.PARSE_QUERY],
+        'post': [Service.PARSE_BODY],
+        'put': [Service.PARSE_BODY],
+        'delete': [Service.PARSE_QUERY],
+        'patch': [Service.PARSE_QUERY, Service.PARSE_BODY]
+      }
+    }
+  }
+
+
+  // ----- Request Modifying -----
+
+
+  /**
+   * @inheritDoc
+   */
+  modifiers(){
+    return {
+      [this.minion.path]: {
+        'get': [],
+        'post': [],
+        'put': [],
+        'delete': [],
+        'patch': []
+      }
+    }
+  }
+
+
   // ----- Request Routing -----
 
 
@@ -21,12 +59,12 @@ class RestfulService extends Service {
    */
   routes(){
     return {
-      [this.path]: {
-        'get': [Service.PARSE_QUERY],
-        'post': [Service.PARSE_BODY],
-        'put': [Service.PARSE_BODY],
-        'delete': [Service.PARSE_QUERY],
-        'patch': [Service.PARSE_QUERY, Service.PARSE_BODY]
+      [this.minion.path]: {
+        'get': [],
+        'post': [],
+        'put': [],
+        'delete': [],
+        'patch': []
       }
     }
   }
@@ -40,10 +78,10 @@ class RestfulService extends Service {
    * @param  object request  Express request object
    * @param  object response Express response object
    */
-  get(request, response) {
+  getRoute(request, response) {
     return request.header('Content-Type') == 'application/json;schema'
-      ? this.minion.schema
-      : this.minion.stash.read(request.query)
+      ? [Service.SUCCESS, this.minion.schema]
+      : this.minion.stash.read(request.user, request.query)
   }
 
   /**
@@ -51,8 +89,8 @@ class RestfulService extends Service {
    * @param  object request  Express request object
    * @param  object response Express response object
    */
-  post(request, response) {
-    return this.minion.stash.create(request.body)
+  postRoute(request, response) {
+    return this.minion.stash.create(request.user, request.body)
   }
 
   /**
@@ -60,8 +98,8 @@ class RestfulService extends Service {
    * @param  object request  Express request object
    * @param  object response Express response object
    */
-  put(request, response) {
-    return this.minion.stash.update(request.query, request.body)
+  putRoute(request, response) {
+    return this.minion.stash.update(request.user, request.query, request.body)
   }
 
   /**
@@ -69,8 +107,8 @@ class RestfulService extends Service {
    * @param  object request  Express request object
    * @param  object response Express response object
    */
-  patch(request, response) {
-    return this.minion.stash.update(request.query, request.body)
+  patchRoute(request, response) {
+    return this.minion.stash.update(request.user, request.query, request.body)
   }
 
   /**
@@ -78,8 +116,8 @@ class RestfulService extends Service {
    * @param  object request  Express request object
    * @param  object response Express response object
    */
-  delete(request, response) {
-    return this.minion.stash.delete(request.query)
+  deleteRoute(request, response) {
+    return this.minion.stash.delete(request.user, request.query)
   }
 }
 

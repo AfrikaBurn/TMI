@@ -59,51 +59,82 @@ class Stash {
 
   /**
    * Create entities.
+   * @param  {object} user User creating the entities.
    * @param  {array} entities Array of data entities to create.
    * @return {array} Data     Array of entities that were created successfully.
    */
-  create(entities){
+  create(user, entities){
 
     this.validate(entities)
-    // Make changes
-    this.sanitise(entities)
 
-    return [entities]
+    // Commit entities here
+
+    return [
+      Stash.SUCCESS,
+      this.process(entities, 'committed')
+    ]
   }
 
   /**
    * Read entities matching the provided criteria.
+   * @param  {object} user User reading the entities.
    * @param  {object} criteria Partial entity to match.
+   * @param  {object} fields Fields to return, defaults to none.
+   * @param  {boolean} process set to false to bypass retrieval processing,
+   *                           defaults to false.
    * @return {array}           Array of matching entities.
    */
-  read(criteria){
-    return [criteria];
+  read(user, criteria, fields = undefined, process = true){
+
+    // Read entities here
+    var entities = criteria
+
+    return [
+      Stash.SUCCESS,
+      process
+        ? criteria
+        : this.process('retrieved')
+    ]
   }
 
   /**
    * Update entities matching the provided criteria with the properties from
    * partial.
+   * @param  {object} user User updating the entities.
    * @param  {object} criteria  Partial entity to match.
    * @param  {object} partial   Partial entity to apply update from.
    * @return {array}            Array of updated entities
    */
-  update(criteria, partial){
+  update(user, criteria){
 
-    //TODO partially validate
+    //TODO: partially validate
     this.validate(entities)
-    // Make changes
-    this.sanitise(entities)
 
-    return [entities];
+    // Make changes here
+
+    return [
+      Stash.SUCCESS,
+      process
+        ? entities
+        : this.process(entities, 'committed')
+    ]
   }
 
   /**
    * Delete all entities matching the provided criteria.
+   * @param  {object} user User deleting the entities.
    * @param  {object} criteria Partial entity to match.
    * @return {array}           Array of deleted entities
    */
-  delete(criteria){
-    return [criteria]
+  delete(user, criteria){
+
+    // Delete here
+    var entities = criteria
+
+    return [
+      Stash.SUCCESS,
+      this.process(criteria, 'deleted')
+    ]
   }
 
 
@@ -128,23 +159,12 @@ class Stash {
             entity
           )
         ) errors[index] = Stash.normaliseErrors(Stash.VALIDATOR.errors)
+
       }
     )
 
     if (errors.length) throw Object.assign(Stash.INVALID, {errors: errors})
     else this.process(entities, 'validated')
-  }
-
-
-// ----- Sanitisation -----
-
-
-  /**
-   * Sanitise created entities after being committed.
-   * @param {array} entities
-   */
-  sanitise(entities){
-    this.process(entities, 'committed')
   }
 
 
@@ -155,17 +175,16 @@ class Stash {
    * Processes entities at a particular stage during request processing.
    * @param {array} entities
    */
-  process(entities, stage = true){
+  process(entities, stage){
 
     var processEntity = (entity, schema, stage) => {
       if (schema.processors){
-
-        var processors = schema.processors[stage]
 
         for (let property in schema.properties){
           processEntity(entity[property], schema.properties[property], stage)
         }
 
+        var processors = schema.processors[stage]
         if (processors && Object.keys(processors).length){
           for (let property in processors){
 
@@ -193,7 +212,17 @@ class Stash {
 }
 
 
-Stash.HASHER = passwordHash
+// ----- Utility ----
+
+
+/**
+ * Clones an entity.
+ * @param {object}  Entity to clone.
+ */
+Stash.clone = (entity) => {
+  return JSON.parse(JSON.stringify(entity))
+}
+
 
 
 // ----- Shared Validation -----
@@ -239,9 +268,11 @@ Stash.normaliseErrors = (errors) => {
 // ----- Shared Processors -----
 
 
+Stash.HASHER = passwordHash
+
 Stash.PROCESSORS = {}
-Stash.PROCESSORS.PASSWORD_HASH = (value) => {
-  return passwordHash.generate(
+Stash.PROCESSORS.HASH = (value) => {
+  return Stash.HASHER.generate(
     value,
     {
       algorithm: 'sha512',
@@ -249,7 +280,7 @@ Stash.PROCESSORS.PASSWORD_HASH = (value) => {
     }
   )
 }
-Stash.PROCESSORS.PASSWORD_BLANK = (value) => { return '*' }
+Stash.PROCESSORS.BLANK = (value) => { return '*' }
 Stash.PROCESSORS.LOWERCASE = (value) => { return value.toLowerCase() }
 
 

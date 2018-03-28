@@ -14,23 +14,44 @@ const
 class TmiUserService extends UserService {
 
 
-  // ----- Method responders
+  // ----- Request Loading -----
+
+
+  /**
+   * Prepare to process a get request
+   * @inheritDoc
+   */
+  getLoad(request, response){
+    request.affected = this.minion.stash.read(
+      request.user,
+      request.query,
+      false,
+      ['id']
+    )
+  }
+
+
+  // ----- Request Routing -----
 
 
   /**
    * Get the User schema, find or list Users
    * @inheritDoc
    */
-  get(request, response){
+  getRoute(request, response){
+
+    var user = request.user
+
     switch(true){
       case request.header('Content-Type') == 'application/json;schema':
-      case request.user.isAdministrator: return super.get(request,response)
-      case request.user.isAuthenticated:
-        return super.get(request, response).map(
-          (subject) => this.privacyFilter(request.user, subject)
-        )
-      case request.user.isAnonymous: throw Service.FORBIDDEN
-      default: throw Service.INVALID
+      case user.is.super:
+      case user.is.authenticated && user.isOwner:
+        return super.getRoute(request, response)
+      case user.is.authenticated:
+        console.log(user.positionality)
+        return super.getRoute(request, response)
+      case user.is.anonymous: throw Service.FORBIDDEN
+      default: throw Service.INVALID_REQUEST
     }
   }
 
@@ -38,12 +59,17 @@ class TmiUserService extends UserService {
    * Create user
    * @inheritDoc
    */
-  post(request, response){
+  postRoute(request, response){
+
+    var user = request.user
+
     switch(true){
-      case request.user.isAdministrator:
-      case request.user.isAnonymous: return super.post(request, response)
-      case request.user.isAnonymous: throw Service.FORBIDDEN
-      default: throw Service.INVALID
+      case user.is.super:
+      case user.is.anonymous /*&& request.body.length == 1*/:
+        return super.postRoute(request, response)
+      case user.is.anonymous:
+        throw Service.FORBIDDEN
+      default: throw Service.INVALID_REQUEST
     }
   }
 
@@ -51,13 +77,16 @@ class TmiUserService extends UserService {
    * Write complete user
    * @inheritDoc
    */
-  put(request, response){
+  putRoute(request, response){
+
+    var user = request.user
+
     switch(true){
-      case request.user.isAdministrator:
-      case request.user.isAuthenticated && this.isOwnUser(request):
-        return super.put(request, response)
-      case request.user.isAnonymous: throw Service.FORBIDDEN
-      default: throw Service.INVALID
+      case user.is.super:
+      case user.is.authenticated && this.isOwnUser(request):
+        return super.putRoute(request, response)
+      case user.is.anonymous: throw Service.FORBIDDEN
+      default: throw Service.INVALID_REQUEST
     }
   }
 
@@ -65,13 +94,16 @@ class TmiUserService extends UserService {
    * Write partial user
    * @inheritDoc
    */
-  patch(request, response){
+  patchRoute(request, response){
+
+    var user = request.user
+
     switch(true){
-      case request.user.isAdministrator:
-      case request.user.isAuthenticated && this.isOwnUser(request):
-        return super.put(request, response)
-      case request.user.isAnonymous: throw Service.FORBIDDEN
-      default: throw INVALID
+      case user.is.super:
+      case user.is.authenticated:
+        return super.patchRoute(request, response)
+      case user.is.anonymous: throw Service.FORBIDDEN
+      default: throw INVALID_REQUEST
       }
   }
 
@@ -79,13 +111,16 @@ class TmiUserService extends UserService {
    * Delete user
    * @inheritDoc
    */
-  delete(request, response){
+  deleteRoute(request, response){
+
+    var user = request.user
+
     switch(true){
-      case request.user.isAdministrator:
-      case request.user.isAuthenticated && this.isOwnUser(request):
-        return super.delete(request, response)
-      case request.user.isAnonymous: throw Service.FORBIDDEN
-      default: throw Service.INVALID
+      case user.is.super:
+      case user.is.authenticated && this.isOwnUser(request):
+        return super.deleteRoute(request, response)
+      case user.is.anonymous: throw Service.FORBIDDEN
+      default: throw Service.INVALID_REQUEST
       }
   }
 
@@ -94,21 +129,36 @@ class TmiUserService extends UserService {
 
 
   /**
-   * Tests whether the operation is being performed on the current user
+   * Sets the ownership positionality of the user accross entities. Ownership is
+   * recognised only if all entities are owned by the requesting user.
    * @param {HttpRequest} request
    */
-  isOwnUser(request){
-    return request.body && request.user.id == request.body.id
+  position(request){
+
+    var
+      entities = this.minion.stash.read(request).entities,
+      user = request.user
+
+    user.isOwner = true;
+    entities.forEach(
+      (entity, index) => {
+        user.isOwner &= user.positionality[index].isOwner =
+          user.id == entity.id
+      }
+    )
   }
 
   /**
    * Apply privacy
    */
-  privacyFilter(user, subject){
-    return {
-      username: subject.username,
-      email: user['is' + subject.email.privacy] ? subject.email.value : false
-    }
+  privatise(positionality, response){
+    // response[1].forEach(
+    //   (entity, index) => {
+    //     entity.email = positionality[index]['is' + entity.email.privacy]
+    //       ? entity.email
+    //       : '*'
+    //   }
+    // )
   }
 }
 

@@ -12,7 +12,13 @@ const
   MemoryStash = require('../../core/stashes/MemoryStash')
 
 
-class TmiUserStash extends MemoryStash {}
+class TmiUserStash extends MemoryStash {
+
+  readIds(){
+
+  }
+
+}
 
 
 // ----- Shared Schemas -----

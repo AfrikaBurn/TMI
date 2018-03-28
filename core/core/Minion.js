@@ -22,32 +22,26 @@ class Minion {
    * @param  {string} name   Minion name
    * @param  {object} minimi main boot strap
    */
-  constructor(name, minimi){
+  constructor(path, minimi){
 
-    this.name = name
     this.minimi = minimi
+    this.path = path
 
     var
       config = this.getConfig(),
       service = config.service
-        ? typeof config.service == 'string'
-          ? config.service
-          : config.service.name
+        ? config.service
         : 'Service',
       stash = config.stash
-        ? typeof config.stash == 'string'
-          ? config.stash
-          : config.stash.name
-        : 'Stash',
-      path = config.path || config.schema
+        ? config.stash
+        : false
 
     this.schema = config.schema ? this.find('schemas', config.schema) : false;
-    this.stash = this.find('stashes', stash)
+    this.stash = stash ? this.find('stashes', stash) : false
     this.service = this.find('services', service)
 
     console.log(
-      '  Spawning ' + name + ' minion\n' +
-      '    Path:    ' + path + '\n' +
+      '  Spawning nanoservice minion at ' + path + ':\n' +
       (config.schema ? '    Schema:  ' + config.schema + '\n' : '' ) +
       '    Stash:   ' + stash + '\n' +
       '    Service: ' + service + '\n'
@@ -70,7 +64,7 @@ class Minion {
    * Returns the config for this minion
    */
   getConfig(){
-    return this.minimi.config.minions[this.name]
+    return this.minimi.config.minions[this.path]
   }
 
 

@@ -42,7 +42,7 @@
       "type": "object",
       "properties": {
         "value": {"$ref": "#/definitions/email"},
-        "exposure": {
+        "privacy": {
           "allOf": [
             {"$ref": "#/definitions/exposure"},
             {
@@ -54,7 +54,7 @@
           ]
         }
       },
-      "required": ["value", "exposure"],
+      "required": ["value", "privacy"],
       "isUniqueKey": true,
       "processors": {
         "raw": {"value": "LOWERCASE"}
@@ -67,7 +67,8 @@
   "required": ["username", "email", "password"],
 
   "processors": {
-    "validated": {"password": "PASSWORD_HASH"},
-    "committed": {"password": "PASSWORD_BLANK"}
+    "validated": {"password": "HASH"},
+    "committed": {"password": "BLANK"},
+    "retrieved": {"password": "BLANK"}
   }
 }

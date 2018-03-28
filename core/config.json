@@ -4,12 +4,17 @@
 
 	"minions": {
 
-		"User":{
-			"path": "user",
+		"user":{
 			"schema": "user",
 			"salt": "default salt",
 			"service": "TmiUserService",
 			"stash": "TmiUserStash"
+		},
+
+		"collective":{
+			"schema": "collective",
+			"service": "TmiCollectiveService",
+			"stash": "MemoryStash"
 		}
 
 	},
