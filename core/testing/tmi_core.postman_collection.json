@@ -570,15 +570,11 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "a835358c-85d2-4a0e-b816-7718805d3ef8",
+										"id": "c6487877-4fd2-4717-8c9e-b3fc707c8b4a",
 										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status OK\", () => pm.response.to.have.status(200))",
-											"pm.test(\"Logged in\", () => {",
-											"        console.log(postman.getResponseCookie('connect.sid').value)",
-											"        pm.expect(postman.getResponseCookie('connect.sid')).to.not.eql(undefined)",
-											"    }",
-											")"
+											"pm.test(\"Logged in\", () => pm.expect(postman.getResponseCookie('connect.sid')).to.not.eql(undefined))"
 										]
 									}
 								}
@@ -1217,28 +1213,28 @@
 	],
 	"variable": [
 		{
-			"id": "853574c5-da50-45c4-aa00-c3a065a9b178",
+			"id": "62d65c36-b483-4970-9f4a-97f1fab77e05",
 			"key": "NO_ERROR",
 			"value": "function () {\n    var jsonData = pm.response.json();\n    pm.expect(jsonData.error).to.eql(undefined);\n}",
 			"type": "string",
 			"description": ""
 		},
 		{
-			"id": "4918f2f8-85cc-4da2-9af5-e792836c1bb4",
+			"id": "6bd0eafd-cb05-43a3-a336-ff04354ea1a7",
 			"key": "BODY_IS_ARRAY",
 			"value": "function () {\n    pm.expect(jsonData.entities.length).to.not.eql(undefined);\n}",
 			"type": "string",
 			"description": ""
 		},
 		{
-			"id": "045cbca6-bb08-4513-9aa1-aa35bbe8460c",
+			"id": "c2a79872-97f1-444b-8345-060cae8de1fb",
 			"key": "NO_SESSION_COOKIE",
 			"value": "function () {\n postman.getResponseCookie('connect.sid').to.eql(undefined);\n}",
 			"type": "string",
 			"description": ""
 		},
 		{
-			"id": "60935f23-9be5-4846-95c0-aa0b1efc91a4",
+			"id": "acf86814-7bb8-431b-a3dd-1075cfe8ee5f",
 			"key": "USER_ARRAY",
 			"value": "function () {\n  pm.test(\"Response is an array of \" + EXPECTED, function () {\n    pm.expect(jsonData.entities.length).to.eql(EXPECTED)\n  });\n  for (let i=0; i<EXPECTED; i++){        \n    pm.test(i + \": Id property set\", function () {\n      pm.expect(jsonData.entities[i].id).to.not.eql(undefined);\n    });\n    pm.test(i + \": Username property set\", function () {\n      pm.expect(jsonData.entities[i].username).to.not.eql(undefined);\n    });\n    pm.test(i + \": Email property set\", function () {\n      pm.expect(jsonData.entities[i].email.value).to.not.eql(undefined);\n    });\n    pm.test(i + \": Email property lowercased\", function () {\n      pm.expect(jsonData.entities[i].email.value).to.eql(\"tester@tester.com\");\n    });\n    pm.test(i + \": Email privacy set\", function () {\n      pm.expect(jsonData.entities[i].email.privacy).to.eql(\"private\");\n    });\n    pm.test(i + \": Password property set\", function () {\n      pm.expect(jsonData.entities[i].password).to.not.eql(undefined);\n    });\n    pm.test(i + \": Password property blanked\", function () {\n      pm.expect(jsonData.entities[i].password).to.eql(\"*\");\n    });\n  }\n}",
 			"type": "string",
