@@ -1,6 +1,6 @@
 /**
- * @file minimi.js
- * Contains minion bootstrapping code.
+ * @file bootstrap.js
+ * Contains nano bootstrapping code.
  */
 
 "use strict"
@@ -13,7 +13,7 @@ const
   path = require('path'),
   parseError = require('express-body-parser-json-error')(),
   EventEmitter = require('events'),
-  Minion = require('./core/Minion'),
+  NanoService = require('./core/NanoService'),
   cors = require('cors')
 
 
@@ -32,7 +32,7 @@ class Bootstrap extends EventEmitter {
 
     this.app = express()
     this.config = require('./config.json')
-    this.minions = {}
+    this.nanos = {}
     this.path = path.normalize(__dirname)
     this.routers = {
       load: express.Router(),
@@ -41,7 +41,7 @@ class Bootstrap extends EventEmitter {
     }
 
     console.log(
-      '\nSpawning minimimal microservice:\n' +
+      '\nSpawning MINImimal MIcroservice:\n' +
       this.config.name +
       ' occupying http://127.0.0.1:' +
       this.config.port +
@@ -65,24 +65,24 @@ class Bootstrap extends EventEmitter {
     this.app.use(this.handleError)
     this.app.use(this.handleNotFound)
 
-    for(var name in this.config.minions){
-      this.delegate(name, this.config.minions[name])
+    for(var name in this.config.services){
+      this.delegate(name, this.config.services[name])
     }
 
     this.start()
   }
 
   /**
-   * Delegate to a minion as per the provided configuration
-   * @param  {string} name   Minion name
-   * @param  {object} config Minion configuration
+   * Delegate to a nano as per the provided configuration
+   * @param  {string} name   NanoService name
+   * @param  {object} config NanoService configuration
    */
   delegate(name, config){
 
-    if (this.minions[name]) this.minions[name].dispose()
-    if (config) this.config.minions[name] = config
+    if (this.nanos[name]) this.nanos[name].dispose()
+    if (config) this.config.services[name] = config
 
-    this.minions[name] = new Minion(name, this)
+    this.nanos[name] = new NanoService(name, this)
   }
 
 

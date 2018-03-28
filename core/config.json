@@ -2,18 +2,18 @@
 	"name": "Tribe Core",
 	"port": 3000,
 
-	"minions": {
+	"services": {
 
 		"user":{
 			"schema": "user",
 			"salt": "default salt",
-			"service": "TmiUserService",
+			"controller": "TmiUserController",
 			"stash": "TmiUserStash"
 		},
 
 		"collective":{
 			"schema": "collective",
-			"service": "TmiCollectiveService",
+			"controller": "TmiCollectiveController",
 			"stash": "MemoryStash"
 		}
 

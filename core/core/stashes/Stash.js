@@ -19,11 +19,11 @@ class Stash {
 
   /**
    * Creates a new data stash.
-   * @param  {object} minion Parent minion object.
+   * @param  {object} nano Parent nano object.
    */
-  constructor(minion){
-    this.minion = minion
-    Stash.VALIDATOR.addSchema(minion.schema, minion.getConfig().schema)
+  constructor(nano){
+    this.nano = nano
+    Stash.VALIDATOR.addSchema(nano.schema, nano.getConfig().schema)
   }
 
   /**
@@ -41,8 +41,8 @@ class Stash {
    */
   toSessionStore(){
     console.log(
-      '\x1b[31m%s\x1b[0m', 'WARNING: ' + this.minion.name +
-      ' minion is using a memory based stash for session storage!',
+      '\x1b[31m%s\x1b[0m', 'WARNING: ' + this.nano.name +
+      ' nano is using a memory based stash for session storage!',
     );
     console.log(
       '\x1b[31m%s\x1b[0m', 'This is only intended for development and testing.'
@@ -155,7 +155,7 @@ class Stash {
       (entity, index) => {
         if (
           !Stash.VALIDATOR.validate(
-            this.minion.getConfig().schema,
+            this.nano.getConfig().schema,
             entity
           )
         ) errors[index] = Stash.normaliseErrors(Stash.VALIDATOR.errors)
@@ -206,7 +206,7 @@ class Stash {
     }
 
     for (let i in entities){
-      entities[i] = processEntity(entities[i], this.minion.schema, stage)
+      entities[i] = processEntity(entities[i], this.nano.schema, stage)
     }
   }
 }

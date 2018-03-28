@@ -1,6 +1,6 @@
 /**
- * @file Minion.js
- * Basic configurable object.
+ * @file NanoService.js
+ * Basic configurable NanoService that contains a controller and a stash.
  */
 
 "use strict"
@@ -11,48 +11,47 @@ fs = require('fs'),
 path = require('path')
 
 
-class Minion {
+class NanoService {
 
 
   // ----- Process -----
 
 
   /**
-   * Constructs a new minion
-   * @param  {string} name   Minion name
-   * @param  {object} minimi main boot strap
+   * Constructs a new nano
+   * @param  {string} name   NanoService name
+   * @param  {object} bootstrap main boot strap
    */
-  constructor(path, minimi){
+  constructor(path, bootstrap){
 
-    this.minimi = minimi
+    this.bootstrap = bootstrap
     this.path = path
 
     var
       config = this.getConfig(),
-      service = config.service
-        ? config.service
-        : 'Service',
+      controller = config.controller
+        ? config.controller
+        : 'Controller',
       stash = config.stash
         ? config.stash
         : false
 
     this.schema = config.schema ? this.find('schemas', config.schema) : false;
     this.stash = stash ? this.find('stashes', stash) : false
-    this.service = this.find('services', service)
+    this.controller = this.find('controllers', controller)
 
     console.log(
-      '  Spawning nanoservice minion at ' + path + ':\n' +
+      '  Spawning nano service at ' + path + ':\n' +
       (config.schema ? '    Schema:  ' + config.schema + '\n' : '' ) +
       '    Stash:   ' + stash + '\n' +
-      '    Service: ' + service + '\n'
+      '    Controller: ' + controller + '\n'
     )
   }
 
   /**
-   * Dispose of the minion.
+   * Dispose of the nano.
    */
   dispose(){
-    this.service.detach()
     this.stash.close()
   }
 
@@ -61,10 +60,10 @@ class Minion {
 
 
   /**
-   * Returns the config for this minion
+   * Returns the config for this nano
    */
   getConfig(){
-    return this.minimi.config.minions[this.path]
+    return this.bootstrap.config.services[this.path]
   }
 
 
@@ -72,8 +71,8 @@ class Minion {
 
 
   /**
-   * Locates and instantiates a Service or Stash
-   * @param  {string} type   services|stashes
+   * Locates and instantiates a Controller or Stash
+   * @param  {string} type   controllers|stashes
    * @param  {string} name   object classname
    */
   find(type, name){
@@ -103,4 +102,4 @@ class Minion {
 }
 
 
-module.exports = Minion
+module.exports = NanoService

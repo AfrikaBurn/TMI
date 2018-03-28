@@ -1,16 +1,16 @@
 /**
- * @file TmiCollectiveService.js
- * Permission aware Collective management and query service.
+ * @file TmiCollectiveController.js
+ * Permission aware Collective management and query controller.
  */
 
 "use strict"
 
 
 const
-  RestfulService = require('../../core/services/RestfulService')
+  RestfulController = require('../../core/controllers/RestfulController')
 
 
-class TmiCollectiveService extends RestfulService {
+class TmiCollectiveController extends RestfulController {
 
 
   // ----- Method responders
@@ -30,7 +30,7 @@ class TmiCollectiveService extends RestfulService {
       case user.isAuthenticated:
       case user.isAnonymous:
         return super.getRoute(request, response)
-      default: throw Service.INVALID_REQUEST
+      default: throw Controller.INVALID_REQUEST
     }
   }
 
@@ -47,8 +47,8 @@ class TmiCollectiveService extends RestfulService {
       case user.isAuthenticated:
         return super.postRoute(request, response)
       case user.isAnonymous:
-        throw Service.FORBIDDEN
-      default: throw Service.INVALID_REQUEST
+        throw Controller.FORBIDDEN
+      default: throw Controller.INVALID_REQUEST
     }
   }
 
@@ -65,8 +65,8 @@ class TmiCollectiveService extends RestfulService {
       case user.isAuthenticated && (user.isOwner || user.isAdministrator):
         return super.putRoute(request, response)
       case user.isAnonymous:
-        throw Service.FORBIDDEN
-      default: throw Service.INVALID_REQUEST
+        throw Controller.FORBIDDEN
+      default: throw Controller.INVALID_REQUEST
     }
   }
 
@@ -83,8 +83,8 @@ class TmiCollectiveService extends RestfulService {
       case user.isAuthenticated && (user.isOwner || user.isAdministrator):
         return super.patchRoute(request, response)
       case user.isAnonymous:
-        throw Service.FORBIDDEN
-      default: throw Service.INVALID_REQUEST
+        throw Controller.FORBIDDEN
+      default: throw Controller.INVALID_REQUEST
     }
   }
 
@@ -101,8 +101,8 @@ class TmiCollectiveService extends RestfulService {
       case user.isAuthenticated && (user.isOwner || user.isAdministrator):
         return super.deleteRoute(request, response)
       case user.isAnonymous:
-        throw Service.FORBIDDEN
-      default: throw Service.INVALID_REQUEST
+        throw Controller.FORBIDDEN
+      default: throw Controller.INVALID_REQUEST
     }
   }
 }
@@ -111,4 +111,4 @@ class TmiCollectiveService extends RestfulService {
 // ----- Response types -----
 
 
-module.exports = TmiCollectiveService
+module.exports = TmiCollectiveController

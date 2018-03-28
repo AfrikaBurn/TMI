@@ -20,8 +20,8 @@ class MemoryStash extends Stash {
    * Creates a new memory based data stash.
    * @inheritDoc
    */
-  constructor(name, config, minimi){
-    super(name, config, minimi)
+  constructor(name, config, bootstrap){
+    super(name, config, bootstrap)
     this.cache = []
   }
 
