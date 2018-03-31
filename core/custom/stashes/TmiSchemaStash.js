@@ -1,5 +1,5 @@
 /**
- * @file TmiUserStash.js
+ * @file TmiSchemaStash.js
  * TMI User Stash.
  */
 
@@ -12,7 +12,7 @@ const
   TmiStash = require('./TmiStash')
 
 
-class TmiUserStash extends TmiStash {}
+class TmiSchemaStash extends TmiStash {}
 
 
-module.exports = TmiUserStash
+module.exports = TmiSchemaStash

@@ -3,10 +3,14 @@
   "$id": "http://tmi-platform.org/schemas/user.json",
 
   "definitions": {
+
     "uei": {"$ref": "http://minimi.org/schemas/fields.json#/definitions/uei"},
     "email": {"$ref": "http://minimi.org/schemas/fields.json#/definitions/email"},
     "password": {"$ref": "http://minimi.org/schemas/fields.json#/definitions/password"},
-    "exposure": {"$ref": "http://tmi-platform.org/schemas/fields.json#/definitions/exposure"}
+
+    "exposure": {"$ref": "http://tmi-platform.org/schemas/core/shared.json#/definitions/exposure"},
+    "status": {"$ref": "http://tmi-platform.org/schemas/core/shared.json#/definitions/status"}
+
   },
 
   "type": "object",
@@ -47,7 +51,7 @@
             {"$ref": "#/definitions/exposure"},
             {
               "not": {
-                "enum": ["anyone"]
+                "enum": ["anonymous"]
               },
               "errorMessage": "Unacceptible level of exposure."
             }
@@ -61,7 +65,8 @@
       }
     },
 
-    "password":  {"$ref": "#/definitions/password"}
+    "password":  {"$ref": "#/definitions/password"},
+    "status": {"$ref": "#/definitions/status"}
   },
 
   "required": ["username", "email", "password"],
@@ -69,6 +74,7 @@
   "processors": {
     "validated": {"password": "HASH"},
     "committed": {"password": "BLANK"},
+    "deleted": {"password": "BLANK"},
     "retrieved": {"password": "BLANK"}
   }
 }

@@ -1,6 +1,6 @@
 /**
- * @file NanoService.js
- * Basic configurable NanoService that contains a controller and a stash.
+ * @file Service.js
+ * Basic configurable Service that contains a controller and a stash.
  */
 
 "use strict"
@@ -11,15 +11,15 @@ fs = require('fs'),
 path = require('path')
 
 
-class NanoService {
+class Service {
 
 
   // ----- Process -----
 
 
   /**
-   * Constructs a new nano
-   * @param  {string} name   NanoService name
+   * Constructs a new service
+   * @param  {string} name      Service name
    * @param  {object} bootstrap main boot strap
    */
   constructor(path, bootstrap){
@@ -36,20 +36,31 @@ class NanoService {
         ? config.stash
         : false
 
+    console.log(
+      '\n  Spawning nanoservice at \x1b[1m/' + path + ':'
+    );
+
     this.schema = config.schema ? this.find('schemas', config.schema) : false;
     this.stash = stash ? this.find('stashes', stash) : false
     this.controller = this.find('controllers', controller)
-
     console.log(
-      '  Spawning nano service at ' + path + ':\n' +
-      (config.schema ? '    Schema:  ' + config.schema + '\n' : '' ) +
-      '    Stash:   ' + stash + '\n' +
-      '    Controller: ' + controller + '\n'
+        (config.schema ? '\x1b[37m    Schema:     ' + config.schema + '\n' : '' ) +
+      '\x1b[37m    Stash:      ' + stash + '\n' +
+      '\x1b[37m    Controller: ' + controller + '\n' +
+      '\x1b[32m  Done.'
     )
   }
 
   /**
-   * Dispose of the nano.
+   * Install the service.
+   */
+  install(){
+    this.stash.install()
+    this.controller.install()
+  }
+
+  /**
+   * Dispose of the service.
    */
   dispose(){
     this.stash.close()
@@ -60,7 +71,7 @@ class NanoService {
 
 
   /**
-   * Returns the config for this nano
+   * Returns the config for this service
    */
   getConfig(){
     return this.bootstrap.config.services[this.path]
@@ -102,4 +113,4 @@ class NanoService {
 }
 
 
-module.exports = NanoService
+module.exports = Service

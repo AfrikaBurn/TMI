@@ -7,108 +7,53 @@
 
 
 const
-  RestfulController = require('../../core/controllers/RestfulController')
+  Controller = require('../../core/controllers/Controller'),
+  TmiController = require('./TmiController')
 
 
-class TmiCollectiveController extends RestfulController {
-
-
-  // ----- Method responders
+class TmiCollectiveController extends TmiController {
 
 
   /**
-   * Get the Collective schema, find or list Collectives
-   * @inheritDoc
+   * Create system users.
    */
-  getRoute(request, response){
-
-    var user = request.user
-
-    switch(true){
-      case request.header('Content-Type') == 'application/json;schema':
-      case user.isSuper:
-      case user.isAuthenticated:
-      case user.isAnonymous:
-        return super.getRoute(request, response)
-      default: throw Controller.INVALID_REQUEST
-    }
-  }
-
-  /**
-   * Create user
-   * @inheritDoc
-   */
-  postRoute(request, response){
-
-    var user = request.user
-
-    switch(true){
-      case user.isSuper:
-      case user.isAuthenticated:
-        return super.postRoute(request, response)
-      case user.isAnonymous:
-        throw Controller.FORBIDDEN
-      default: throw Controller.INVALID_REQUEST
-    }
-  }
-
-  /**
-   * Write complete user
-   * @inheritDoc
-   */
-  putRoute(request, response){
-
-    var user = request.user
-
-    switch(true){
-      case user.isSuper:
-      case user.isAuthenticated && (user.isOwner || user.isAdministrator):
-        return super.putRoute(request, response)
-      case user.isAnonymous:
-        throw Controller.FORBIDDEN
-      default: throw Controller.INVALID_REQUEST
-    }
-  }
-
-  /**
-   * Write partial user
-   * @inheritDoc
-   */
-  patchRoute(request, response){
-
-    var user = request.user
-
-    switch(true){
-      case user.isSuper:
-      case user.isAuthenticated && (user.isOwner || user.isAdministrator):
-        return super.patchRoute(request, response)
-      case user.isAnonymous:
-        throw Controller.FORBIDDEN
-      default: throw Controller.INVALID_REQUEST
-    }
-  }
-
-  /**
-   * Delete user
-   * @inheritDoc
-   */
-  deleteRoute(request, response){
-
-    var user = request.user
-
-    switch(true){
-      case user.isSuper:
-      case user.isAuthenticated && (user.isOwner || user.isAdministrator):
-        return super.deleteRoute(request, response)
-      case user.isAnonymous:
-        throw Controller.FORBIDDEN
-      default: throw Controller.INVALID_REQUEST
-    }
+  install(){
+    ['Administrator', 'Moderator'].forEach(
+      (label, index) => {
+        if (this.service.stash.read({}, {id: index}).pop().length == 0){
+          console.log(TmiCollectiveController.CREATING, label)
+          this.service.stash.create(
+            {id: 1},
+            [TmiCollectiveController.SYSTEM_COLLECTIVES[index]]
+          )
+        }
+      }
+    )
   }
 }
 
 
-// ----- Response types -----
+// ----- Log Messages -----
+
+
+TmiCollectiveController.CREATING = '    Created \x1b[1m%s\x1b[0m collective.'
+
+
+// ----- System Collectives -----
+
+
+TmiCollectiveController.SYSTEM_COLLECTIVES = [
+  {
+    'name': 'Administrators',
+    'description': 'System administrators of this community.',
+    'status': 'draft'
+  },
+  {
+    'name': 'Administrators',
+    'description': 'System moderators of this community.',
+    'status': 'draft'
+  }
+]
 
 
 module.exports = TmiCollectiveController

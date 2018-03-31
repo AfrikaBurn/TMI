@@ -52,15 +52,18 @@ class MemoryStash extends Stash {
   /**
    * @inheritDoc
    */
-  read(user, criteria, process = true, fields = false){
+  read(user, criteria, options = {}){
 
-    var matches = Stash.clone(
-      this.cache.filter(
-        (element) => {
-          return MemoryStash.matches(element, criteria)
-        }
+    var
+      fields = options.fields || false,
+      process = options.process != undefined ? options.process : true,
+      matches = Stash.clone(
+        this.cache.filter(
+          (element) => {
+            return MemoryStash.matches(element, criteria)
+          }
+        )
       )
-    )
 
     if (fields) matches.forEach(
       (element, index) =>
@@ -124,7 +127,7 @@ class MemoryStash extends Stash {
       }
     }
 
-    this.process(deleted, 'committed')
+    this.process(deleted, 'deleted')
 
     return [Stash.SUCCESS, deleted]
   }

@@ -13,7 +13,7 @@ const
   path = require('path'),
   parseError = require('express-body-parser-json-error')(),
   EventEmitter = require('events'),
-  NanoService = require('./core/NanoService'),
+  Service = require('./core/Service'),
   cors = require('cors')
 
 
@@ -32,7 +32,7 @@ class Bootstrap extends EventEmitter {
 
     this.app = express()
     this.config = require('./config.json')
-    this.nanos = {}
+    this.services = {}
     this.path = path.normalize(__dirname)
     this.routers = {
       load: express.Router(),
@@ -41,11 +41,8 @@ class Bootstrap extends EventEmitter {
     }
 
     console.log(
-      '\nSpawning MINImimal MIcroservice:\n' +
-      this.config.name +
-      ' occupying http://127.0.0.1:' +
-      this.config.port +
-      '\n'
+      '\nSpawning \x1b[1mMINI\x1b[0mmal \x1b[1mMI\x1b[0mcroservice:\n\n' +
+      '\x1b[34m' + this.config.name + '\n'
     )
 
     process.chdir(this.path)
@@ -65,24 +62,29 @@ class Bootstrap extends EventEmitter {
     this.app.use(this.handleError)
     this.app.use(this.handleNotFound)
 
-    for(var name in this.config.services){
-      this.delegate(name, this.config.services[name])
-    }
-
+    this.delegate()
+    this.install()
     this.start()
   }
 
   /**
-   * Delegate to a nano as per the provided configuration
-   * @param  {string} name   NanoService name
-   * @param  {object} config NanoService configuration
+   * Delegate to a services as per the provided configuration
    */
-  delegate(name, config){
+  delegate(){
+    for(var name in this.config.services){
+      this.services[name] = new Service(name, this)
+    }
+  }
 
-    if (this.nanos[name]) this.nanos[name].dispose()
-    if (config) this.config.services[name] = config
-
-    this.nanos[name] = new NanoService(name, this)
+  /**
+   * Delegate to a services as per the provided configuration
+   */
+  install(){
+    for(var name in this.services){
+      console.log('\n  Installing: \x1b[1m' + name)
+      this.services[name].install()
+      console.log('\x1b[32m  Done.')
+    }
   }
 
 
@@ -96,7 +98,10 @@ class Bootstrap extends EventEmitter {
     this.app.listen(
       this.config.port,
       () => {
-        console.log(this.config.name + ' is ready.\n')
+        console.log(
+          '\n\nOccupying \x1b[1mhttp://127.0.0.1:' + this.config.port + '\n' +
+          '\x1b[34m' + this.config.name + ' is ready.\n'
+        )
       }
     )
   }

@@ -21,7 +21,7 @@ class RestfulController extends Controller {
    */
   loaders(){
     return {
-      [this.nano.path]: {
+      [this.service.path]: {
         'get': [Controller.PARSE_QUERY],
         'post': [Controller.PARSE_BODY],
         'put': [Controller.PARSE_BODY],
@@ -40,7 +40,7 @@ class RestfulController extends Controller {
    */
   modifiers(){
     return {
-      [this.nano.path]: {
+      [this.service.path]: {
         'get': [],
         'post': [],
         'put': [],
@@ -59,7 +59,7 @@ class RestfulController extends Controller {
    */
   routes(){
     return {
-      [this.nano.path]: {
+      [this.service.path]: {
         'get': [],
         'post': [],
         'put': [],
@@ -80,8 +80,8 @@ class RestfulController extends Controller {
    */
   getRoute(request, response) {
     return request.header('Content-Type') == 'application/json;schema'
-      ? [Controller.SUCCESS, this.nano.schema]
-      : this.nano.stash.read(request.user, request.query)
+      ? [Controller.SUCCESS, this.service.schema]
+      : this.service.stash.read(request.user, request.query)
   }
 
   /**
@@ -90,7 +90,7 @@ class RestfulController extends Controller {
    * @param  object response Express response object
    */
   postRoute(request, response) {
-    return this.nano.stash.create(request.user, request.body)
+    return this.service.stash.create(request.user, request.body)
   }
 
   /**
@@ -99,7 +99,7 @@ class RestfulController extends Controller {
    * @param  object response Express response object
    */
   putRoute(request, response) {
-    return this.nano.stash.update(request.user, request.query, request.body)
+    return this.service.stash.update(request.user, request.query, request.body)
   }
 
   /**
@@ -108,7 +108,7 @@ class RestfulController extends Controller {
    * @param  object response Express response object
    */
   patchRoute(request, response) {
-    return this.nano.stash.update(request.user, request.query, request.body)
+    return this.service.stash.update(request.user, request.query, request.body)
   }
 
   /**
@@ -117,7 +117,7 @@ class RestfulController extends Controller {
    * @param  object response Express response object
    */
   deleteRoute(request, response) {
-    return this.nano.stash.delete(request.user, request.query)
+    return this.service.stash.delete(request.user, request.query)
   }
 }
 

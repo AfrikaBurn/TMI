@@ -1,0 +1,72 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://tmi-platform.org/schemas/core/shared.json",
+
+  "definitions": {
+
+    "uei": {"$ref": "http://minimi.org/schemas/fields.json#/definitions/uei"},
+
+    "entityType": {
+      "type": "string",
+      "enum": [
+        "agreement",
+        "collective",
+        "profile",
+        "schema",
+        "post",
+        "user"
+      ]
+    },
+
+    "exposure": {
+      "title": "Exposure",
+      "type": "string",
+      "enum": [
+        "owner",
+        "administrator",
+        "moderator",
+        "member",
+        "visitor",
+        "authenticated",
+        "anonymous"
+      ],
+      "default": "owner"
+    },
+
+    "status": {
+      "title": "Status",
+      "type": "string",
+      "enum": [
+        "draft",
+        "active",
+        "retired",
+        "suspended",
+        "deleted"
+      ],
+      "default": "draft"
+    },
+
+    "reference": {
+      "type": "object",
+      "description": "External reference",
+      "properties": {
+        "entityType": {"$ref": "#/definitions/entityType"},
+        "id": {"$ref": "#/definitions/uei"}
+      }
+    },
+
+    "schemaReference": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/reference",
+          "errorMessage": "Invalid reference type."
+        },
+        {
+          "enum": ["schema"],
+          "errorMessage": "Inappropriate reference type. Must be 'schema'."
+        }
+      ]
+    }
+
+  }
+}

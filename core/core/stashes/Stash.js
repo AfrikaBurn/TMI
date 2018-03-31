@@ -19,12 +19,17 @@ class Stash {
 
   /**
    * Creates a new data stash.
-   * @param  {object} nano Parent nano object.
+   * @param  {object} NanoService Parent NanoService object.
    */
-  constructor(nano){
-    this.nano = nano
-    Stash.VALIDATOR.addSchema(nano.schema, nano.getConfig().schema)
+  constructor(nanoService){
+    this.service = nanoService
+    Stash.VALIDATOR.addSchema(nanoService.schema, nanoService.getConfig().schema)
   }
+
+  /**
+   * Performs installation tasks.
+   */
+  install(){}
 
   /**
    * Closes the data stash.
@@ -34,21 +39,15 @@ class Stash {
     return true;
   }
 
-
-    /**
+  /**
    * Returns a passport compatible session store version of this stash.
    * @return {object}
    */
   toSessionStore(){
     console.log(
-      '\x1b[31m%s\x1b[0m', 'WARNING: ' + this.nano.name +
-      ' nano is using a memory based stash for session storage!',
-    );
-    console.log(
-      '\x1b[31m%s\x1b[0m', 'This is only intended for development and testing.'
-    );
-    console.log(
-      '\x1b[31m%s\x1b[0m', 'Please use another stash for production use.'
+      '    \x1b[33mWARNING: Using default memory based stash for session storage.\n' +
+      '             \x1b[33mIt will fail with multiple connections!\n' +
+      '             \x1b[33mUse another stash for production.'
     );
     return undefined;
   }
@@ -69,9 +68,11 @@ class Stash {
 
     // Commit entities here
 
+    this.process(entities, 'comitted')
+
     return [
       Stash.SUCCESS,
-      this.process(entities, 'committed')
+      entities
     ]
   }
 
@@ -79,21 +80,26 @@ class Stash {
    * Read entities matching the provided criteria.
    * @param  {object} user User reading the entities.
    * @param  {object} criteria Partial entity to match.
-   * @param  {object} fields Fields to return, defaults to none.
-   * @param  {boolean} process set to false to bypass retrieval processing,
-   *                           defaults to false.
-   * @return {array}           Array of matching entities.
+   * @param  {object} options Options to apply:
+   *                  fields: an optional array of field names to fetch.
+   *                  process: boolean whether to apply schema processing.
+   *                  schemas: optional
+   * @return {array} Array of matching entities.
    */
-  read(user, criteria, fields = undefined, process = true){
+  read(user, criteria, options = {}){
+
+    var
+      fields = options.fields || false,
+      process = options.process != undefined ? options.process : true
 
     // Read entities here
     var entities = criteria
 
+    if (process) this.process(entities, 'retrieved')
+
     return [
       Stash.SUCCESS,
-      process
-        ? criteria
-        : this.process('retrieved')
+      entities
     ]
   }
 
@@ -112,11 +118,11 @@ class Stash {
 
     // Make changes here
 
+    this.process(entities, 'retrieved')
+
     return [
       Stash.SUCCESS,
-      process
-        ? entities
-        : this.process(entities, 'committed')
+      entities
     ]
   }
 
@@ -131,9 +137,11 @@ class Stash {
     // Delete here
     var entities = criteria
 
+    this.process(entities, 'deleted')
+
     return [
       Stash.SUCCESS,
-      this.process(criteria, 'deleted')
+      entities
     ]
   }
 
@@ -155,7 +163,7 @@ class Stash {
       (entity, index) => {
         if (
           !Stash.VALIDATOR.validate(
-            this.nano.getConfig().schema,
+            this.service.getConfig().schema,
             entity
           )
         ) errors[index] = Stash.normaliseErrors(Stash.VALIDATOR.errors)
@@ -191,7 +199,8 @@ class Stash {
             var processor = Stash.PROCESSORS[processors[property]]
 
             if (processor){
-              entity[property] = processor(entity[property])
+              if (entity[property])
+                entity[property] = processor(entity[property])
             } else {
               throw Object.assign(
                 Stash.PROCESSOR_NOT_FOUND,
@@ -206,7 +215,7 @@ class Stash {
     }
 
     for (let i in entities){
-      entities[i] = processEntity(entities[i], this.nano.schema, stage)
+      entities[i] = processEntity(entities[i], this.service.schema, stage)
     }
   }
 }

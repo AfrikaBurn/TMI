@@ -142,7 +142,7 @@ class Controller {
 
     var
       pathes = Object.keys(map),
-      router = this.nano.bootstrap.routers[name.toLowerCase()]
+      router = this.service.bootstrap.routers[name.toLowerCase()]
 
     pathes.forEach(
       (path) => {
@@ -152,7 +152,7 @@ class Controller {
             (middleware) => router[method]('/' + path, middleware)
           )
 
-          if (path == this.nano.path && this[method + name]){
+          if (path == this.service.path && this[method + name]){
             router[method]('/' + path,
               (request, response, next) => {
                 var result = this[method + name](request, response)

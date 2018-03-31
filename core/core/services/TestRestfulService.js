@@ -42,7 +42,7 @@ class TestRestfulController extends Controller {
    */
   get(request, response) {
     return request.header('Content-Type') == 'application/json;schema'
-      ? this.nano.schema
+      ? this.service.schema
       : JSON.stringify(request.query)
   }
 

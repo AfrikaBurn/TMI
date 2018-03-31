@@ -57,7 +57,6 @@ class UserController extends RestfulController {
    */
   loaders(){
     return Object.assign(
-      super.loaders(),
       {
         '': {
           'use': [
@@ -67,7 +66,8 @@ class UserController extends RestfulController {
             UserController.USER_ROLE
           ],
         },
-      }
+      },
+      super.loaders()
     )
   }
 
@@ -81,7 +81,7 @@ class UserController extends RestfulController {
   routes(){
     return {
 
-      [this.nano.path]: {
+      [this.service.path]: {
         'get': [Controller.PARSE_QUERY],
         'post': [Controller.PARSE_BODY],
         'put': [Controller.PARSE_BODY],
@@ -89,7 +89,7 @@ class UserController extends RestfulController {
         'patch': [Controller.PARSE_QUERY, Controller.PARSE_BODY]
       },
 
-      [this.nano.path + '/login']: {
+      [this.service.path + '/login']: {
         'post': [
           Controller.PARSE_BODY,
           Controller.PARSE_QUERY,
@@ -97,7 +97,7 @@ class UserController extends RestfulController {
         ],
       },
 
-      [this.nano.path + '/logout']: {
+      [this.service.path + '/logout']: {
         'get': [
           (request, response, next) => {
               if (request.session)
@@ -125,7 +125,7 @@ class UserController extends RestfulController {
     super.detach()
 
     var
-      routes = this.nano.bootstrap.router.stack,
+      routes = this.service.bootstrap.router.stack,
       keys = Object.keys(routes).reverse()
 
     keys.forEach(
@@ -150,13 +150,17 @@ class UserController extends RestfulController {
   authenticate(username, password, done){
 
     var
-      user = this.nano.stash.read({}, {username: username }, false, false)[1].pop()
+      user = this.service.stash.read(
+        {},
+        {username: username },
+        {process: false}
+      )[1].shift()
 
     switch(true){
       case !user:
         return done(UserController.INVALID_ACCOUNT, false)
       case Stash.HASHER.verify(password, user.password):
-        this.nano.stash.process([user], 'committed')
+        this.service.stash.process([user], 'committed')
         return done(null, user)
       default:
       return done(UserController.INVALID_CREDENTIALS, false)
@@ -183,7 +187,11 @@ class UserController extends RestfulController {
    */
   deserializeUser(id, done){
 
-    var users = this.nano.stash.read({id: 0}, {id: id}, false)[1]
+    var users = this.service.stash.read(
+      {id: 0},
+      {id: id},
+      {processing: false}
+    )[1]
 
     done(
       users && users.length == 0 ? UserController.ACCOUNT_GONE : null,
@@ -202,10 +210,10 @@ class UserController extends RestfulController {
 
     var sessionHandler = expressSession(
       {
-        secret: this.nano.getConfig().salt,
+        secret: this.service.getConfig().salt,
         resave: true,
         saveUninitialized: true,
-        store: this.nano.stash.toSessionStore(),
+        store: this.service.stash.toSessionStore(),
 
         cookie: {
           path: '/',
@@ -277,7 +285,7 @@ UserController.USER_ROLE = function setRole(request, response, next){
   Object.assign(
     request.user.is,
     {
-      super: request.user.id === 1,
+      administrator: request.user.id === 1,
       authenticated: request.user.id > 1
     }
   )

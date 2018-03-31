@@ -1,0 +1,7 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://tmi-platform.org/schemas/core/member.json?version=0.0",
+
+  "type": "object",
+  "title": "Membership Agreement"
+}

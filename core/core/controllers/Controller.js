@@ -21,15 +21,23 @@ class Controller {
 
   /**
    * Creates a new Controller
-   * @param  {object} nano NanoService that contains this controller nano object.
+   * @param  {object} nanoService NanoService that contains this controller.
    */
-  constructor(nano){
-    this.nano = nano
+  constructor(nanoService){
+    this.service = nanoService
     this.attach()
   }
 
   /**
-   * Attaches phase routers to load, modify and route functions
+   * Performs installation tasks.
+   */
+  install(){
+    console.log('    \x1b[37mNothing to do.')
+  }
+
+  /**
+   * Attaches load, modify and route routers to
+   * load, modify and route middleware and handler functions.
    */
   attach(){
     this.attachRouter('Load', this.loaders())
@@ -59,10 +67,18 @@ class Controller {
    *   }
    * }
    * Method may be any of [get|post|put|delete|...] or 'use' to bind to all
-   * methods.
-   * Controller object methods with the same name as a method (get(), post(), etc.)
-   * will automatically be bound to [this.path] with a corresponding method
-   * declaration.
+   * methods. Controller object methods named [method]Modify will automatically
+   * be bound to [this.path] with a corresponding method declaration, after any
+   * middleware. Eg:
+   * {
+   *   [this.path]: {
+   *     get: [...],
+   *     post: [...]
+   *   }
+   * }
+   * Will map requests to:
+   * getModify(request, response, next){ ... }
+   * postModify(request, response, next){ ... }
    */
   loaders(){
     return {}
@@ -90,10 +106,18 @@ class Controller {
    *   }
    * }
    * Method may be any of [get|post|put|delete|...] or 'use' to bind to all
-   * methods.
-   * Controller object methods with the same name as a method (get(), post(), etc.)
-   * will automatically be bound to [this.path] with a corresponding method
-   * declaration.
+   * methods. Controller object methods named [method]Modify will automatically
+   * be bound to [this.path] with a corresponding method declaration, after any
+   * middleware. Eg:
+   * {
+   *   [this.path]: {
+   *     get: [...],
+   *     post: [...]
+   *   }
+   * }
+   * Will map requests to:
+   * getModify(request, response, next){ ... }
+   * postModify(request, response, next){ ... }
    */
   modifiers(){
     return {}
@@ -121,10 +145,18 @@ class Controller {
    *   }
    * }
    * Method may be any of [get|post|put|delete|...] or 'use' to bind to all
-   * methods.
-   * Controller object methods with the same name as a method (get(), post(), etc.)
-   * will automatically be bound to [this.path] with a corresponding method
-   * declaration.
+   * methods. Controller object methods named [method]Route will automatically
+   * be bound to [this.path] with a corresponding method declaration, after any
+   * middleware. Eg:
+   * {
+   *   [this.path]: {
+   *     get: [...],
+   *     post: [...]
+   *   }
+   * }
+   * Will map requests to:
+   * getRoute(request, response, next){ ... }
+   * postRoute(request, response, next){ ... }
    */
   routes(){
     return {}
@@ -142,7 +174,7 @@ class Controller {
 
     var
       pathes = Object.keys(map),
-      router = this.nano.bootstrap.routers[name.toLowerCase()]
+      router = this.service.bootstrap.routers[name.toLowerCase()]
 
     pathes.forEach(
       (path) => {
@@ -152,7 +184,7 @@ class Controller {
             (middleware) => router[method]('/' + path, middleware)
           )
 
-          if (path == this.nano.path && this[method + name]){
+          if (path == this.service.path && this[method + name]){
             router[method]('/' + path,
               (request, response, next) => {
                 var result = this[method + name](request, response)
@@ -192,9 +224,14 @@ Controller.CONSOLE_LOG = function consoleLog(request, response, next) {
 // ----- Response types -----
 
 
-Controller.INVALID_REQUEST = { error: "Invalid request", code: 400, expose: true }
-Controller.FORBIDDEN = { error: "Forbidden to unauthorised users", code: 403, expose: true }
+Controller.INVALID_REQUEST = {
+  error: "Invalid request", code: 400, expose: true
+}
+Controller.FORBIDDEN = {
+  error: "Forbidden to unauthorised users", code: 403, expose: true
+}
 Controller.SUCCESS = { status: "Success", code: 200 }
+
 
 
 module.exports = Controller

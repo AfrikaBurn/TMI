@@ -4,17 +4,41 @@
 
 	"services": {
 
-		"user":{
-			"schema": "user",
-			"salt": "default salt",
-			"controller": "TmiUserController",
-			"stash": "TmiUserStash"
+		"agreement":{
+			"schema": "agreement",
+			"controller": "TmiAgreementController",
+			"stash": "MemoryStash"
 		},
 
 		"collective":{
 			"schema": "collective",
 			"controller": "TmiCollectiveController",
-			"stash": "MemoryStash"
+			"stash": "TmiCollectiveStash"
+		},
+
+		"post":{
+			"schema": "post",
+			"controller": "TmiPostController",
+			"stash": "TmiPostStash"
+		},
+
+		"profile":{
+			"schema": "profile",
+			"controller": "TmiProfileController",
+			"stash": "TmiProfileStash"
+		},
+
+		"schema":{
+			"schema": "schema",
+			"controller": "TmiSchemaController",
+			"stash": "TmiSchemaStash"
+		},
+
+		"user":{
+			"schema": "user",
+			"salt": "default salt",
+			"controller": "TmiUserController",
+			"stash": "TmiUserStash"
 		}
 
 	},

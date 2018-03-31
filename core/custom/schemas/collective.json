@@ -4,9 +4,14 @@
 
   "definitions": {
     "uei": {"$ref": "http://minimi.org/schemas/fields.json#/definitions/uei"},
-    "privacy": {"$ref": "http://tmi-platform.org/schemas/fields.json#/definitions/privacy"},
-    "status": {"$ref": "http://tmi-platform.org/schemas/fields.json#/definitions/status"},
-    "inclusivity": {"$ref": "http://tmi-platform.org/schemas/fields.json#/definitions/inclusivity"}
+    "exposure": {"$ref": "http://tmi-platform.org/schemas/core/shared.json#/definitions/exposure"},
+    "status": {"$ref": "http://tmi-platform.org/schemas/core/shared.json#/definitions/status"},
+
+    "membership": {
+      "type": "string",
+      "enum": ["public", "private"],
+      "default": "private"
+    }
   },
 
   "type": "object",
@@ -65,8 +70,11 @@
       }
     },
 
-    "privacy": {"$ref": "#/definitions/privacy"},
+    "exposure": {"$ref": "#/definitions/exposure"},
 
-    "membership": {"$ref": "#/definitions/privacy"}
-  }
+    "membership": {"$ref": "#/definitions/membership"}
+
+  },
+
+  "required": ["name", "description", "status"]
 }

@@ -1,6 +1,6 @@
 /**
  * @file TmiUserController.js
- * Permission aware User management and query controller.
+ * User Controller.
  */
 
 "use strict"
@@ -14,19 +14,81 @@ const
 class TmiUserController extends UserController {
 
 
+  // ----- Process -----
+
+
+  /**
+   * Create system users.
+   */
+  install(){
+    ['Anonymous', 'Administrator'].forEach(
+      (label, index) => {
+        if (this.service.stash.read({}, {id: index}).pop().length == 0){
+          console.log(TmiUserController.CREATING, label)
+          this.service.stash.create(
+            {id: 1},
+            [TmiUserController.SYSTEM_ACCOUNTS[index]]
+          )
+        }
+      }
+    )
+  }
+
+
   // ----- Request Loading -----
 
 
   /**
-   * Load affected user IDs
+   * Load affected user IDs.
    * @inheritDoc
    */
   getLoad(request, response){
-    request.affected = this.nano.stash.read(
+
+    var user = request.user
+
+    request.targets = this.service.stash.read(
       request.user,
       request.query,
-      false,
-      ['id']
+      {
+        process: false,
+        fields: ['id']
+      }
+    ).pop()
+
+  }
+
+
+  // ----- Request Modification -----
+
+
+  /**
+   * @inheritDoc
+   */
+  modifiers(){
+    return {
+      [this.service.path]: {'get': []}
+    }
+  }
+
+  /**
+   * Establish owner positionality.
+   * @inheritDoc
+   */
+  getModify(request, response){
+
+    var
+      user = request.user,
+      owner = true
+
+    user.position = user.position || []
+
+    Object.keys(request.targets).forEach(
+      (target, index) => {
+        user.position[index] = {
+          owner: user.id === target.id || user.is.administrator
+        }
+        owner &= user.position[index]
+      }
     )
   }
 
@@ -44,12 +106,11 @@ class TmiUserController extends UserController {
 
     switch(true){
       case request.header('Content-Type') == 'application/json;schema':
-      case user.is.super:
-      case user.is.authenticated && user.isOwner:
-        return super.getRoute(request, response)
+      case user.is.administrator:
       case user.is.authenticated:
         return super.getRoute(request, response)
-      case user.is.anonymous: throw Controller.FORBIDDEN
+      case user.is.anonymous:
+        throw Controller.FORBIDDEN
       default: throw Controller.INVALID_REQUEST
     }
   }
@@ -63,8 +124,8 @@ class TmiUserController extends UserController {
     var user = request.user
 
     switch(true){
-      case user.is.super:
-      case user.is.anonymous /*&& request.body.length == 1*/:
+      case user.is.administrator:
+      case user.is.anonymous && request.body.length == 1:
         return super.postRoute(request, response)
       case user.is.anonymous:
         throw Controller.FORBIDDEN
@@ -81,8 +142,8 @@ class TmiUserController extends UserController {
     var user = request.user
 
     switch(true){
-      case user.is.super:
-      case user.is.authenticated && this.isOwnUser(request):
+      case user.is.administrator:
+      case user.is.authenticated && user.postion.owner:
         return super.putRoute(request, response)
       case user.is.anonymous: throw Controller.FORBIDDEN
       default: throw Controller.INVALID_REQUEST
@@ -98,8 +159,8 @@ class TmiUserController extends UserController {
     var user = request.user
 
     switch(true){
-      case user.is.super:
-      case user.is.authenticated:
+      case user.is.administrator:
+      case user.is.authenticated && user.postion.owner:
         return super.patchRoute(request, response)
       case user.is.anonymous: throw Controller.FORBIDDEN
       default: throw INVALID_REQUEST
@@ -115,54 +176,36 @@ class TmiUserController extends UserController {
     var user = request.user
 
     switch(true){
-      case user.is.super:
-      case user.is.authenticated && this.isOwnUser(request):
+      case user.is.administrator:
+      case user.is.authenticated && user.postion.owner:
         return super.deleteRoute(request, response)
       case user.is.anonymous: throw Controller.FORBIDDEN
       default: throw Controller.INVALID_REQUEST
-      }
-  }
-
-
-  // ----- Utility -----
-
-
-  /**
-   * Sets the ownership positionality of the user accross entities. Ownership is
-   * recognised only if all entities are owned by the requesting user.
-   * @param {HttpRequest} request
-   */
-  position(request){
-
-    var
-      entities = this.nano.stash.read(request).entities,
-      user = request.user
-
-    user.isOwner = true;
-    entities.forEach(
-      (entity, index) => {
-        user.isOwner &= user.positionality[index].isOwner =
-          user.id == entity.id
-      }
-    )
-  }
-
-  /**
-   * Apply privacy
-   */
-  privatise(positionality, response){
-    // response[1].forEach(
-    //   (entity, index) => {
-    //     entity.email = positionality[index]['is' + entity.email.privacy]
-    //       ? entity.email
-    //       : '*'
-    //   }
-    // )
+    }
   }
 }
 
 
-// ----- Response types -----
+// ----- Log Messages -----
+
+
+TmiUserController.CREATING = '    Created \x1b[1m%s\x1b[0m user.'
+
+
+// ----- System Accounts -----
+
+
+TmiUserController.SYSTEM_ACCOUNTS = [
+  {
+    'username': 'Anonymous', 'password': 'none',
+    'email': { 'value': 'no-reply@system.com', 'privacy': 'owner'}
+  },
+  {
+    'username': 'Administrator', 'password': 'Administrator',
+    'email': { 'value': 'no-reply@system.com', 'privacy': 'owner'}
+  }
+]
+
 
 
 module.exports = TmiUserController
