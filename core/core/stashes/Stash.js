@@ -19,11 +19,11 @@ class Stash {
 
   /**
    * Creates a new data stash.
-   * @param  {object} NanoService Parent NanoService object.
+   * @param  {object} Service Parent Service object.
    */
-  constructor(nanoService){
-    this.service = nanoService
-    Stash.VALIDATOR.addSchema(nanoService.schema, nanoService.getConfig().schema)
+  constructor(service){
+    this.service = service
+    Stash.VALIDATOR.addSchema(service.schema, service.config.schema)
   }
 
   /**
@@ -45,7 +45,7 @@ class Stash {
    */
   toSessionStore(){
     console.log(
-      '    \x1b[33mWARNING: Using default memory based stash for session storage.\n' +
+      '    \x1b[33mWARNING: Using memory based stash for session storage.\n' +
       '             \x1b[33mIt will fail with multiple connections!\n' +
       '             \x1b[33mUse another stash for production.'
     );
@@ -163,7 +163,7 @@ class Stash {
       (entity, index) => {
         if (
           !Stash.VALIDATOR.validate(
-            this.service.getConfig().schema,
+            this.service.config.schema,
             entity
           )
         ) errors[index] = Stash.normaliseErrors(Stash.VALIDATOR.errors)
@@ -180,7 +180,7 @@ class Stash {
 
 
   /**
-   * Processes entities at a particular stage during request processing.
+   * Processes entities at a particular stage during req processing.
    * @param {array} entities
    */
   process(entities, stage){

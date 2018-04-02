@@ -75,49 +75,49 @@ class RestfulController extends Controller {
 
   /**
    * Process a GET request
-   * @param  object request  Express request object
-   * @param  object response Express response object
+   * @param  object req  Express request object
+   * @param  object res Express response object
    */
-  getRoute(request, response) {
-    return request.header('Content-Type') == 'application/json;schema'
+  getRoute(req, res) {
+    return req.header('Content-Type') == 'application/json;schema'
       ? [Controller.SUCCESS, this.service.schema]
-      : this.service.stash.read(request.user, request.query)
+      : this.service.stash.read(req.user, req.query)
   }
 
   /**
    * Process a POST request
-   * @param  object request  Express request object
-   * @param  object response Express response object
+   * @param  object req  Express request object
+   * @param  object res Express response object
    */
-  postRoute(request, response) {
-    return this.service.stash.create(request.user, request.body)
+  postRoute(req, res) {
+    return this.service.stash.create(req.user, req.body)
   }
 
   /**
    * Process a PUT request
-   * @param  object request  Express request object
-   * @param  object response Express response object
+   * @param  object req  Express request object
+   * @param  object res Express response object
    */
-  putRoute(request, response) {
-    return this.service.stash.update(request.user, request.query, request.body)
+  putRoute(req, res) {
+    return this.service.stash.update(req.user, req.query, req.body)
   }
 
   /**
    * Process a PATCH request
-   * @param  object request  Express request object
-   * @param  object response Express response object
+   * @param  object req  Express request object
+   * @param  object res Express response object
    */
-  patchRoute(request, response) {
-    return this.service.stash.update(request.user, request.query, request.body)
+  patchRoute(req, res) {
+    return this.service.stash.update(req.user, req.query, req.body)
   }
 
   /**
    * Process a DELETE request
-   * @param  object request  Express request object
-   * @param  object response Express response object
+   * @param  object req  Express request object
+   * @param  object res Express response object
    */
-  deleteRoute(request, response) {
-    return this.service.stash.delete(request.user, request.query)
+  deleteRoute(req, res) {
+    return this.service.stash.delete(req.user, req.query)
   }
 }
 

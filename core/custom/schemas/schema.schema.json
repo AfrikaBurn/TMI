@@ -2,9 +2,19 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "http://tmi-platform.org/schemas/schema.json",
 
+  "title": "Schema",
+  "type": "object",
+
   "definitions": {
     "uei": {"$ref": "http://minimi.org/schemas/fields.json#/definitions/uei"},
     "entityType": {"$ref": "http://tmi-platform.org/schemas/shared.json#/definitions/entityType"},
+    "name": {"$ref": "http://tmi-platform.org/schemas/shared.json#/definitions/name"}
+  },
+
+  "properties":{
+    "id": {"$ref": "#/definitions/uei"},
+    "name": {"$ref": "#/definitions/name"},
+    "description": {"$ref": "#/definitions/description"},
     "schemaType": {
       "allOf": [
         {
@@ -12,20 +22,13 @@
           "errorMessage": "Invalid schema type."
         },
         {
-          "not": {"enum": ["user", "collective"]},
+          "enum": ["agreement", "post", "profile"],
           "errorMessage": "Inappropriate schema type."
         }
       ]
-    }
+    },
+    "schema": {"type": "object"}
   },
 
-  "type": "object",
-  "title": "Schema",
-  "Description": "",
-
-  "properties":{
-    "id": {"$ref": "#/definitions/uei"},
-    "schemaType": {"$ref": "#/definitions/schemaType"},
-    "schema": {"type": "string"}
-  }
+  "required": ["id", "name", "schemaType", "schema"]
 }

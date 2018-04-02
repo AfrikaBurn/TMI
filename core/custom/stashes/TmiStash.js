@@ -16,7 +16,7 @@ class TmiStash extends MemoryStash {}
 
 
 // ----- Shared Schemas -----
-Stash.VALIDATOR.addSchema(require('../schemas/shared.json'))
+Stash.VALIDATOR.addSchema(require('../schemas/shared.schema.json'))
 
 
 module.exports = TmiStash

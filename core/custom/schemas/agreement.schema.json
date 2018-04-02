@@ -1,18 +1,21 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "http://tmi-platform.org/schemas/post.json",
+  "$id": "http://tmi-platform.org/schemas/agreement.json",
 
   "definitions": {
     "uei": {"$ref": "http://minimi.org/schemas/fields.json#/definitions/uei"},
     "reference": {"$ref": "http://tmi-platform.org/schemas/shared.json#/definitions/reference"},
-    "schemaReference": {"$ref": "http://tmi-platform.org/schemas/shared.json#/definitions/schemaReference"}
+    "participant": {"$ref": "http://tmi-platform.org/schemas/shared.json#/definitions/participant"}
   },
 
   "type": "object",
-  "title": "Post",
+  "title": "Agreement",
 
   "properties": {
     "id": {"$ref": "#/definitions/uei"},
-    "fields": {"$ref": "#/definitions/schemaReference"}
-  }
+    "owner": {"$ref": "#/definitions/participant"},
+    "schema": {"type": "object"}
+  },
+
+  "required": ["owner", "schema"]
 }

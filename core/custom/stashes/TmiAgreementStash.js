@@ -14,5 +14,7 @@ const
 
 class TmiAgreementStash extends TmiStash {}
 
+// ----- Shared Schemas -----
+Stash.VALIDATOR.addSchema(require('../schemas/agreements/base.agreement.schema.json'))
 
 module.exports = TmiAgreementStash

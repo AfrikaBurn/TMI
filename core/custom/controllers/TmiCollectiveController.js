@@ -36,7 +36,8 @@ class TmiCollectiveController extends TmiController {
 // ----- Log Messages -----
 
 
-TmiCollectiveController.CREATING = '    Created \x1b[1m%s\x1b[0m collective.'
+TmiCollectiveController.CREATING =
+  '\x1b[37m    Creating \x1b[0m%s\x1b[37m collective.\x1b[0m'
 
 
 // ----- System Collectives -----
@@ -44,14 +45,14 @@ TmiCollectiveController.CREATING = '    Created \x1b[1m%s\x1b[0m collective.'
 
 TmiCollectiveController.SYSTEM_COLLECTIVES = [
   {
-    'name': 'Administrators',
-    'description': 'System administrators of this community.',
-    'status': 'draft'
+    name: 'Administrators',
+    description: 'System administrators of this community.',
+    status: 'active'
   },
   {
-    'name': 'Administrators',
-    'description': 'System moderators of this community.',
-    'status': 'draft'
+    name: 'Moderators',
+    description: 'System moderators of this community.',
+    status: 'active'
   }
 ]
 

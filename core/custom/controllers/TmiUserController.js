@@ -42,13 +42,13 @@ class TmiUserController extends UserController {
    * Load affected user IDs.
    * @inheritDoc
    */
-  getLoad(request, response){
+  getLoad(req, res){
 
-    var user = request.user
+    var user = req.user
 
-    request.targets = this.service.stash.read(
-      request.user,
-      request.query,
+    req.targets = this.service.stash.read(
+      req.user,
+      req.query,
       {
         process: false,
         fields: ['id']
@@ -62,33 +62,52 @@ class TmiUserController extends UserController {
 
 
   /**
+   * Establish ownership and positionality.
    * @inheritDoc
    */
-  modifiers(){
-    return {
-      [this.service.path]: {'get': []}
-    }
-  }
-
-  /**
-   * Establish owner positionality.
-   * @inheritDoc
-   */
-  getModify(request, response){
+  getModify(req, res){
 
     var
-      user = request.user,
-      owner = true
+      user = req.user,
+      position = {
+        owner: true,
+        moderator: true,
+        administrator: true
+      }
 
     user.position = user.position || []
 
-    Object.keys(request.targets).forEach(
+    req.targets.forEach(
+
       (target, index) => {
+
         user.position[index] = {
-          owner: user.id === target.id || user.is.administrator
+          owner: user.id === target.id,
+          member: user.positions.member.filter(
+            (collection) => target.memberships.indexOf(collection) != -1
+          ).length > 0,
+          moderator: user.positions.moderator.filter(
+            (collection) => target.memberships.indexOf(collection) != -1
+          ).length > 0,
+          administrator: user.positions.administrator.filter(
+            (collection) => target.memberships.indexOf(collection) != -1
+          ).length > 0
         }
-        owner &= user.position[index]
+
+        position = {
+          owner: position.owner &&
+            user.position[index].owner,
+          moderator: position.moderator &&
+            user.position[index].moderator,
+          administrator: position.administrator &&
+            user.position[index].administrator,
+        }
       }
+    )
+
+    Object.assign(
+      user.position,
+      position
     )
   }
 
@@ -100,15 +119,15 @@ class TmiUserController extends UserController {
    * Get the User schema, find or list Users
    * @inheritDoc
    */
-  getRoute(request, response){
+  getRoute(req, res){
 
-    var user = request.user
+    var user = req.user
 
     switch(true){
-      case request.header('Content-Type') == 'application/json;schema':
+      case req.header('Content-Type') == 'application/json;schema':
       case user.is.administrator:
       case user.is.authenticated:
-        return super.getRoute(request, response)
+        return super.getRoute(req, res)
       case user.is.anonymous:
         throw Controller.FORBIDDEN
       default: throw Controller.INVALID_REQUEST
@@ -119,14 +138,14 @@ class TmiUserController extends UserController {
    * Create user
    * @inheritDoc
    */
-  postRoute(request, response){
+  postRoute(req, res){
 
-    var user = request.user
+    var user = req.user
 
     switch(true){
       case user.is.administrator:
-      case user.is.anonymous && request.body.length == 1:
-        return super.postRoute(request, response)
+      case user.is.anonymous && req.body.length == 1:
+        return super.postRoute(req, res)
       case user.is.anonymous:
         throw Controller.FORBIDDEN
       default: throw Controller.INVALID_REQUEST
@@ -137,14 +156,14 @@ class TmiUserController extends UserController {
    * Write complete user
    * @inheritDoc
    */
-  putRoute(request, response){
+  putRoute(req, res){
 
-    var user = request.user
+    var user = req.user
 
     switch(true){
       case user.is.administrator:
       case user.is.authenticated && user.postion.owner:
-        return super.putRoute(request, response)
+        return super.putRoute(req, res)
       case user.is.anonymous: throw Controller.FORBIDDEN
       default: throw Controller.INVALID_REQUEST
     }
@@ -154,14 +173,14 @@ class TmiUserController extends UserController {
    * Write partial user
    * @inheritDoc
    */
-  patchRoute(request, response){
+  patchRoute(req, res){
 
-    var user = request.user
+    var user = req.user
 
     switch(true){
       case user.is.administrator:
       case user.is.authenticated && user.postion.owner:
-        return super.patchRoute(request, response)
+        return super.patchRoute(req, res)
       case user.is.anonymous: throw Controller.FORBIDDEN
       default: throw INVALID_REQUEST
       }
@@ -171,14 +190,14 @@ class TmiUserController extends UserController {
    * Delete user
    * @inheritDoc
    */
-  deleteRoute(request, response){
+  deleteRoute(req, res){
 
-    var user = request.user
+    var user = req.user
 
     switch(true){
       case user.is.administrator:
       case user.is.authenticated && user.postion.owner:
-        return super.deleteRoute(request, response)
+        return super.deleteRoute(req, res)
       case user.is.anonymous: throw Controller.FORBIDDEN
       default: throw Controller.INVALID_REQUEST
     }
@@ -189,7 +208,8 @@ class TmiUserController extends UserController {
 // ----- Log Messages -----
 
 
-TmiUserController.CREATING = '    Created \x1b[1m%s\x1b[0m user.'
+TmiUserController.CREATING =
+  '\x1b[37m    Creating \x1b[0m%s\x1b[37m user.'
 
 
 // ----- System Accounts -----

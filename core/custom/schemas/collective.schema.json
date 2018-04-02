@@ -4,14 +4,10 @@
 
   "definitions": {
     "uei": {"$ref": "http://minimi.org/schemas/fields.json#/definitions/uei"},
-    "exposure": {"$ref": "http://tmi-platform.org/schemas/core/shared.json#/definitions/exposure"},
-    "status": {"$ref": "http://tmi-platform.org/schemas/core/shared.json#/definitions/status"},
-
-    "membership": {
-      "type": "string",
-      "enum": ["public", "private"],
-      "default": "private"
-    }
+    "name": {"$ref": "http://tmi-platform.org/schemas/shared.json#/definitions/name"},
+    "description": {"$ref": "http://tmi-platform.org/schemas/shared.json#/definitions/description"},
+    "exposure": {"$ref": "http://tmi-platform.org/schemas/shared.json#/definitions/exposure"},
+    "status": {"$ref": "http://tmi-platform.org/schemas/shared.json#/definitions/status"}
   },
 
   "type": "object",
@@ -23,28 +19,38 @@
         {"$ref": "#/definitions/uei"},
         {
           "title": "Collective ID",
-          "description": "Unique collective identifier"
+          "description": "Unique collective identifier."
         }
       ],
       "isUniqueKey": true
     },
 
-    "name": {
-      "title": "Name",
-      "type": "string"
+    "name":  {
+      "allOf": [
+        {"$ref": "#/definitions/name"},
+        {
+          "title": "Collective name",
+          "Description": "Name of the collective."
+        }
+      ],
+      "isUniqueKey": true
     },
 
-    "description": {
-      "title": "Description",
-      "type": "string"
+    "description":  {
+      "allOf": [
+        {"$ref": "#/definitions/description"},
+        {
+          "title": "Description",
+          "Description": "A short description of the collective."
+        }
+      ]
     },
 
-    "status": {"$ref": "#/definitions/status"},
 
     "profiles": {
       "title": "Collective profiles",
       "type": "array",
-      "description": "Profiles this collective possesses.",
+      "description": "Profiles this collective collects.",
       "items": {
         "type": "number"
       }
@@ -70,10 +76,9 @@
       }
     },
 
+    "status": {"$ref": "#/definitions/status"},
     "exposure": {"$ref": "#/definitions/exposure"},
-
-    "membership": {"$ref": "#/definitions/membership"}
-
+    "membership": {"$ref": "#/definitions/exposure"}
   },
 
   "required": ["name", "description", "status"]

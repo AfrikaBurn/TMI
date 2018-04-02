@@ -1,0 +1,107 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://tmi-platform.org/schemas/shared.json",
+
+  "definitions": {
+
+    "uei": {"$ref": "http://minimi.org/schemas/fields.json#/definitions/uei"},
+
+    "name": {
+      "title": "Name",
+      "type": "string",
+      "pattern": "^(\\s?\\S+\\s?){1,20}$",
+      "errorMessage": "should only be 1 to 20 words"
+    },
+
+    "description": {
+      "title": "Description",
+      "type": "string",
+      "pattern": "^(\\s?\\S+\\s?){0,500}$",
+      "errorMessage": "should only be up to 500 words"
+    },
+
+    "entityType": {
+      "type": "string",
+      "enum": [
+        "agreement",
+        "collective",
+        "profile",
+        "schema",
+        "post",
+        "user"
+      ]
+    },
+
+    "exposure": {
+      "title": "Exposure",
+      "type": "string",
+      "enum": [
+        "owner",
+        "administrator",
+        "moderator",
+        "member",
+        "visitor",
+        "authenticated",
+        "anonymous"
+      ],
+      "default": "owner"
+    },
+
+    "status": {
+      "title": "Status",
+      "type": "string",
+      "enum": [
+        "draft",
+        "active",
+        "retired",
+        "suspended",
+        "deleted"
+      ],
+      "default": "draft"
+    },
+
+    "entityRef": {
+      "type": "object",
+      "description": "External reference",
+      "properties": {
+        "entityType": {"$ref": "#/definitions/entityType"},
+        "id": {"$ref": "#/definitions/uei"}
+      }
+    },
+
+    "schemaRef": {
+      "type": "object",
+      "description": "Schema reference",
+      "properties": {
+        "entityType":{
+          "allOf": [
+            {"$ref": "#/definitions/entityType"},
+            {
+              "enum": ["schema"],
+              "errorMessage": "Inappropriate reference type. Must be 'schema'."
+            }
+          ]
+        },
+        "id": {"$ref": "#/definitions/uei"}
+      }
+    },
+
+    "participant": {
+      "type": "object",
+      "description": "Schema reference",
+      "properties": {
+        "entityType":{
+          "allOf": [
+            {"$ref": "#/definitions/entityType"},
+            {
+              "enum": ["collective", "user"],
+              "errorMessage": "Inappropriate reference type. Must be 'collective' or 'user."
+            }
+          ]
+        },
+        "id": {"$ref": "#/definitions/uei"}
+      }
+    }
+
+  }
+}

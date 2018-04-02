@@ -1,0 +1,11 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://tmi-platform.org/schemas/agreements/member.json",
+
+  "type": "object",
+  "title": "Membership Agreement",
+
+  "allOf": [
+    {"$ref": "http://tmi-platform.org/schemas/agreement/base.agreement.schema.json"}
+  ]
+}

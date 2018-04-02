@@ -21,10 +21,10 @@ class Controller {
 
   /**
    * Creates a new Controller
-   * @param  {object} nanoService NanoService that contains this controller.
+   * @param  {object} service Service that contains this controller.
    */
-  constructor(nanoService){
-    this.service = nanoService
+  constructor(service){
+    this.service = service
     this.attach()
   }
 
@@ -32,7 +32,7 @@ class Controller {
    * Performs installation tasks.
    */
   install(){
-    console.log('    \x1b[37mNothing to do.')
+    console.log('    \x1b[37mNothing to do.\x1b[0m')
   }
 
   /**
@@ -76,9 +76,9 @@ class Controller {
    *     post: [...]
    *   }
    * }
-   * Will map requests to:
-   * getModify(request, response, next){ ... }
-   * postModify(request, response, next){ ... }
+   * Will map reqs to:
+   * getModify(req, res, next){ ... }
+   * postModify(req, res, next){ ... }
    */
   loaders(){
     return {}
@@ -115,9 +115,9 @@ class Controller {
    *     post: [...]
    *   }
    * }
-   * Will map requests to:
-   * getModify(request, response, next){ ... }
-   * postModify(request, response, next){ ... }
+   * Will map reqs to:
+   * getModify(req, res, next){ ... }
+   * postModify(req, res, next){ ... }
    */
   modifiers(){
     return {}
@@ -154,9 +154,9 @@ class Controller {
    *     post: [...]
    *   }
    * }
-   * Will map requests to:
-   * getRoute(request, response, next){ ... }
-   * postRoute(request, response, next){ ... }
+   * Will map reqs to:
+   * getRoute(req, res, next){ ... }
+   * postRoute(req, res, next){ ... }
    */
   routes(){
     return {}
@@ -186,10 +186,10 @@ class Controller {
 
           if (path == this.service.path && this[method + name]){
             router[method]('/' + path,
-              (request, response, next) => {
-                var result = this[method + name](request, response)
+              (req, res, next) => {
+                var result = this[method + name](req, res)
                 if (result) {
-                  response.send(
+                  res.send(
                     Object.assign(
                       Stash.clone(result[0]),
                       {entities: result[1] || []}
@@ -211,12 +211,12 @@ class Controller {
 
 Controller.PARSE_BODY  = bodyParser.json()
 Controller.PARSE_QUERY = bodyParser.urlencoded({ extended: false })
-Controller.CONSOLE_LOG = function consoleLog(request, response, next) {
-  console.log('Processing: ' + request.url)
-  console.log('Accept: ' + request.header('Accept'))
-  console.log('Content-Type: ' + request.header('Content-Type'))
-  console.log('Query:', request.query)
-  console.log('Body:', request.body ,'\n')
+Controller.CONSOLE_LOG = function consoleLog(req, res, next) {
+  console.log('Processing: ' + req.url)
+  console.log('Accept: ' + req.header('Accept'))
+  console.log('Content-Type: ' + req.header('Content-Type'))
+  console.log('Query:', req.query)
+  console.log('Body:', req.body ,'\n')
   next()
 }
 
@@ -225,7 +225,7 @@ Controller.CONSOLE_LOG = function consoleLog(request, response, next) {
 
 
 Controller.INVALID_REQUEST = {
-  error: "Invalid request", code: 400, expose: true
+  error: "Invalid req", code: 400, expose: true
 }
 Controller.FORBIDDEN = {
   error: "Forbidden to unauthorised users", code: 403, expose: true

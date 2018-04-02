@@ -27,8 +27,8 @@ class UserController extends RestfulController {
   /**
    * @inheritDoc
    */
-  constructor(nano){
-    super(nano)
+  constructor(service){
+    super(service)
 
     passport.serializeUser(
       (user, done) => { this.serializeUser(user, done) }
@@ -99,13 +99,13 @@ class UserController extends RestfulController {
 
       [this.service.path + '/logout']: {
         'get': [
-          (request, response, next) => {
-              if (request.session)
-                request.session.destroy(
+          (req, res, next) => {
+              if (req.session)
+                req.session.destroy(
                   () => {
-                    request.logout()
-                    response.clearCookie('connect.sid', {path: "/"})
-                    response.json(Controller.SUCCESS)
+                    req.logout()
+                    res.clearCookie('connect.sid', {path: "/"})
+                    res.json(Controller.SUCCESS)
                   }
                 )
           }
@@ -210,7 +210,7 @@ class UserController extends RestfulController {
 
     var sessionHandler = expressSession(
       {
-        secret: this.service.getConfig().salt,
+        secret: this.service.config.salt,
         resave: true,
         saveUninitialized: true,
         store: this.service.stash.toSessionStore(),
@@ -252,16 +252,16 @@ class UserController extends RestfulController {
 // ----- Middleware -----
 
 
-UserController.LOGIN = (request, response, next) => {
+UserController.LOGIN = (req, res, next) => {
   passport.authenticate(
     'login',
     function(error, user, info) {
       if (error) throw error
-      request.logIn(
+      req.logIn(
         user,
         function(error) {
           if (error) throw error
-          response.json(
+          res.json(
             Object.assign(
               Stash.clone(Controller.SUCCESS),
               { user: user }
@@ -270,23 +270,23 @@ UserController.LOGIN = (request, response, next) => {
         }
       )
     }
-  )(request, response, next)
+  )(req, res, next)
 }
 
 /**
- * User role
+ * User system role assignment
  */
-UserController.USER_ROLE = function setRole(request, response, next){
+UserController.USER_ROLE = function setRole(req, res, next){
 
-  request.user = request.user
-    ? Object.assign(request.user, {is: {}})
+  req.user = req.user
+    ? Object.assign(req.user, {is: {}})
     : {id: 0, is: { anonymous: true }}
 
   Object.assign(
-    request.user.is,
+    req.user.is,
     {
-      administrator: request.user.id === 1,
-      authenticated: request.user.id > 1
+      administrator: req.user.id === 1,
+      authenticated: req.user.id >= 1
     }
   )
 

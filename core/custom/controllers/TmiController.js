@@ -20,16 +20,16 @@ class TmiController extends RestfulController {
    * Get the Collective schema, find or list Collectives
    * @inheritDoc
    */
-  getRoute(request, response){
+  getRoute(req, res){
 
-    var user = request.user
+    var user = req.user
 
     switch(true){
-      case request.header('Content-Type') == 'application/json;schema':
+      case req.header('Content-Type') == 'application/json;schema':
       case user.is.administrator:
       case user.is.authenticated:
       case user.is.anonymous:
-        return super.getRoute(request, response)
+        return super.getRoute(req, res)
       default: throw Controller.INVALID_REQUEST
     }
   }
@@ -38,14 +38,14 @@ class TmiController extends RestfulController {
    * Create user
    * @inheritDoc
    */
-  postRoute(request, response){
+  postRoute(req, res){
 
-    var user = request.user
+    var user = req.user
 
     switch(true){
       case user.is.administrator:
       case user.is.authenticated:
-        return super.postRoute(request, response)
+        return super.postRoute(req, res)
       case user.is.anonymous:
         throw Controller.FORBIDDEN
       default: throw Controller.INVALID_REQUEST
@@ -56,14 +56,14 @@ class TmiController extends RestfulController {
    * Write complete user
    * @inheritDoc
    */
-  putRoute(request, response){
+  putRoute(req, res){
 
-    var user = request.user
+    var user = req.user
 
     switch(true){
       case user.is.administrator:
       case user.is.authenticated && user.postion.owner:
-        return super.putRoute(request, response)
+        return super.putRoute(req, res)
       case user.is.anonymous:
         throw Controller.FORBIDDEN
       default: throw Controller.INVALID_REQUEST
@@ -74,14 +74,14 @@ class TmiController extends RestfulController {
    * Write partial user
    * @inheritDoc
    */
-  patchRoute(request, response){
+  patchRoute(req, res){
 
-    var user = request.user
+    var user = req.user
 
     switch(true){
       case user.is.administrator:
       case user.is.authenticated && user.postion.owner:
-        return super.patchRoute(request, response)
+        return super.patchRoute(req, res)
       case user.is.anonymous:
         throw Controller.FORBIDDEN
       default: throw Controller.INVALID_REQUEST
@@ -92,14 +92,14 @@ class TmiController extends RestfulController {
    * Delete user
    * @inheritDoc
    */
-  deleteRoute(request, response){
+  deleteRoute(req, res){
 
-    var user = request.user
+    var user = req.user
 
     switch(true){
       case user.is.administrator:
       case user.is.authenticated && user.postion.owner:
-        return super.deleteRoute(request, response)
+        return super.deleteRoute(req, res)
       case user.is.anonymous:
         throw Controller.FORBIDDEN
       default: throw Controller.INVALID_REQUEST

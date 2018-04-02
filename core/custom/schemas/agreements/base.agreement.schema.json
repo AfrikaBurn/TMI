@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://tmi-platform.org/schemas/agreement/base.agreement.schema.json",
+
+  "type": "object",
+  "title": "Agreement Base",
+
+  "definitions": {
+    "participant": {"$ref": "http://tmi-platform.org/schemas/shared.json#/definitions/participant"}
+  },
+
+  "properties":{
+    "promisor": {"$ref": "#/definitions/participant"},
+    "promisee": {"$ref": "#/definitions/participant"}
+  }
+}

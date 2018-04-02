@@ -41,7 +41,7 @@ class Bootstrap extends EventEmitter {
     }
 
     console.log(
-      '\nSpawning \x1b[1mMINI\x1b[0mmal \x1b[1mMI\x1b[0mcroservice:\n\n' +
+      '\Spinning up \x1b[1mMINI\x1b[0mmal \x1b[1mMI\x1b[0mcroservice:\n\n' +
       '\x1b[34m' + this.config.name + '\n'
     )
 
@@ -72,7 +72,7 @@ class Bootstrap extends EventEmitter {
    */
   delegate(){
     for(var name in this.config.services){
-      this.services[name] = new Service(name, this)
+      this.services[name] = new Service(name, this.config.services[name], this)
     }
   }
 
@@ -83,7 +83,7 @@ class Bootstrap extends EventEmitter {
     for(var name in this.services){
       console.log('\n  Installing: \x1b[1m' + name)
       this.services[name].install()
-      console.log('\x1b[32m  Done.')
+      console.log('\x1b[32m  Done.\x1b[0m')
     }
   }
 
@@ -99,8 +99,9 @@ class Bootstrap extends EventEmitter {
       this.config.port,
       () => {
         console.log(
-          '\n\nOccupying \x1b[1mhttp://127.0.0.1:' + this.config.port + '\n' +
-          '\x1b[34m' + this.config.name + ' is ready.\n'
+          '\n\nOccupying \x1b[1mhttp://127.0.0.1:' + this.config.port + '\n\n' +
+          '\x1b[0m' +
+          '\x1b[34m' + this.config.name + ' is ready.\x1b[0m\n'
         )
       }
     )
@@ -111,16 +112,16 @@ class Bootstrap extends EventEmitter {
    */
   stop(){
 
-    console.log(' kill command received!\n');
+    console.log('\x1b[31m kill command received!\n');
 
-    for (var name in this.minions){
-      process.stdout.write('Retiring ' + name + ' minion... ');
-      this.minions[name].dispose()
+    for (var name in this.services){
+      process.stdout.write('Retiring ' + name + ' service... ');
+      this.services[name].dispose()
       console.log('done.');
     }
 
     console.log(
-      '\n' + this.config.name + ' is done.\n'
+      '\n\x1b[34m' + this.config.name + ' is done.\x1b[0m\n'
     )
   }
 
@@ -131,27 +132,31 @@ class Bootstrap extends EventEmitter {
   /**
    * Handle errors.
    * @param  {object}   error    Error that has occured
-   * @param  {object}   request  Express request object
-   * @param  {object}   response Express response object
+   * @param  {object}   req      Express request object
+   * @param  {object}   res      Express response object
    * @param  {Function} next     Next middleware
    */
-  handleError(error, request, response, next){
+  handleError(error, req, res, next){
+
+    console.log('\x1b[33m' + req.method + ' ' + req.url)
     error.stack
-      ? console.log(error.stack)
-      : console.log(error)
+      ? console.log('\x1b[33m%s\x1b[0m', error.stack)
+      : console.log(error.error)
+    console.log('\x1b[0m')
+
     if (error.expose)
-      response.status(error.code || 500).json(error)
+      res.status(error.code || 500).json(error)
     else
-      response.status(500).end('Internal Server Error')
+      res.status(500).end('Internal Server Error')
   }
 
   /**
    * Handle not found
-   * @param  {object}   request  Express request object
-   * @param  {object}   response Express response object
+   * @param  {object}   req  Express request object
+   * @param  {object}   res  Express response object
    */
-  handleNotFound(request, response){
-    response.status(404).json({"error": 'Not found!'})
+  handleNotFound(req, res){
+    res.status(404).json({"error": 'Not found!'})
   }
 }
 

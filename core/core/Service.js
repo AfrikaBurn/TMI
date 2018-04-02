@@ -20,34 +20,47 @@ class Service {
   /**
    * Constructs a new service
    * @param  {string} name      Service name
+   * @param  {object} config    Service configuration
    * @param  {object} bootstrap main boot strap
    */
-  constructor(path, bootstrap){
+  constructor(path, config, bootstrap, tabSize = 0){
 
     this.bootstrap = bootstrap
     this.path = path
+    this.config = config
 
     var
-      config = this.getConfig(),
       controller = config.controller
         ? config.controller
         : 'Controller',
       stash = config.stash
         ? config.stash
-        : false
+        : false,
+      tab = ''.padStart(tabSize)
 
     console.log(
-      '\n  Spawning nanoservice at \x1b[1m/' + path + ':'
+      tab + '\x1b[0m  Loading service at \x1b[1m/' + path + ':\x1b[0m'
     );
 
-    this.schema = config.schema ? this.find('schemas', config.schema) : false;
+    switch (typeof config.schema){
+      case 'string': this.schema = this.find('schemas', config.schema); break
+      case 'object':
+        this.schema = this.config.schema.definition
+        this.config.schema = this.config.schema.name
+      break
+      default: this.schema = false
+    }
     this.stash = stash ? this.find('stashes', stash) : false
     this.controller = this.find('controllers', controller)
+
     console.log(
-        (config.schema ? '\x1b[37m    Schema:     ' + config.schema + '\n' : '' ) +
-      '\x1b[37m    Stash:      ' + stash + '\n' +
-      '\x1b[37m    Controller: ' + controller + '\n' +
-      '\x1b[32m  Done.'
+      tab + (config.schema
+        ? '\x1b[37m    Schema:     ' + config.schema
+        : ''
+      ) + '\x1b[0m\n' +
+      tab + '\x1b[37m    Stash:      ' + stash + '\x1b[0m\n' +
+      tab + '\x1b[37m    Controller: ' + controller + '\x1b[0m\n' +
+      tab + '\x1b[32m  Done.\x1b[0m\n'
     )
   }
 
@@ -64,17 +77,6 @@ class Service {
    */
   dispose(){
     this.stash.close()
-  }
-
-
-  // ----- Accessors -----
-
-
-  /**
-   * Returns the config for this service
-   */
-  getConfig(){
-    return this.bootstrap.config.services[this.path]
   }
 
 
