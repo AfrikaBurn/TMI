@@ -101,7 +101,7 @@ class Bootstrap extends EventEmitter {
         console.log(
           '\n\nOccupying \x1b[1mhttp://127.0.0.1:' + this.config.port + '\n\n' +
           '\x1b[0m' +
-          '\x1b[34m' + this.config.name + ' is ready.\x1b[0m\n'
+          '\x1b[34m' + this.config.name + ' is ready.\x1b[0m\n\n'
         )
       }
     )

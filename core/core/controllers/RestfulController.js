@@ -80,7 +80,7 @@ class RestfulController extends Controller {
    */
   getRoute(req, res) {
     return req.header('Content-Type') == 'application/json;schema'
-      ? [Controller.SUCCESS, this.service.schema]
+      ? this.service.schema
       : this.service.stash.read(req.user, req.query)
   }
 

@@ -7,8 +7,11 @@
 
 
 const
+  http = require('http'),
   Controller = require('../../core/controllers/Controller'),
-  UserController = require('../../core/controllers/UserController')
+  UserController = require('../../core/controllers/UserController'),
+  Stash = require('../../core/stashes/Stash'),
+  TmiStash = require('../stashes/TmiStash')
 
 
 class TmiUserController extends UserController {
@@ -23,7 +26,7 @@ class TmiUserController extends UserController {
   install(){
     ['Anonymous', 'Administrator'].forEach(
       (label, index) => {
-        if (this.service.stash.read({}, {id: index}).pop().length == 0){
+        if (this.service.stash.read({}, {id: index}).entities.length == 0){
           console.log(TmiUserController.CREATING, label)
           this.service.stash.create(
             {id: 1},
@@ -31,83 +34,6 @@ class TmiUserController extends UserController {
           )
         }
       }
-    )
-  }
-
-
-  // ----- Request Loading -----
-
-
-  /**
-   * Load affected user IDs.
-   * @inheritDoc
-   */
-  getLoad(req, res){
-
-    var user = req.user
-
-    req.targets = this.service.stash.read(
-      req.user,
-      req.query,
-      {
-        process: false,
-        fields: ['id']
-      }
-    ).pop()
-
-  }
-
-
-  // ----- Request Modification -----
-
-
-  /**
-   * Establish ownership and positionality.
-   * @inheritDoc
-   */
-  getModify(req, res){
-
-    var
-      user = req.user,
-      position = {
-        owner: true,
-        moderator: true,
-        administrator: true
-      }
-
-    user.position = user.position || []
-
-    req.targets.forEach(
-
-      (target, index) => {
-
-        user.position[index] = {
-          owner: user.id === target.id,
-          member: user.positions.member.filter(
-            (collection) => target.memberships.indexOf(collection) != -1
-          ).length > 0,
-          moderator: user.positions.moderator.filter(
-            (collection) => target.memberships.indexOf(collection) != -1
-          ).length > 0,
-          administrator: user.positions.administrator.filter(
-            (collection) => target.memberships.indexOf(collection) != -1
-          ).length > 0
-        }
-
-        position = {
-          owner: position.owner &&
-            user.position[index].owner,
-          moderator: position.moderator &&
-            user.position[index].moderator,
-          administrator: position.administrator &&
-            user.position[index].administrator,
-        }
-      }
-    )
-
-    Object.assign(
-      user.position,
-      position
     )
   }
 
@@ -125,9 +51,11 @@ class TmiUserController extends UserController {
 
     switch(true){
       case req.header('Content-Type') == 'application/json;schema':
+        return super.getRoute(req, res)
       case user.is.administrator:
       case user.is.authenticated:
-        return super.getRoute(req, res)
+        var users = this.service.stash.read(user, req.query)
+        return users
       case user.is.anonymous:
         throw Controller.FORBIDDEN
       default: throw Controller.INVALID_REQUEST
@@ -201,6 +129,77 @@ class TmiUserController extends UserController {
       case user.is.anonymous: throw Controller.FORBIDDEN
       default: throw Controller.INVALID_REQUEST
     }
+  }
+
+
+  // ----- Request Loading -----
+
+
+  /**
+   * Load affected user IDs.
+   * @inheritDoc
+   */
+  getLoad(req, res){
+
+    var user = req.user
+
+    req.targets = this.service.stash.read(
+      req.user,
+      req.query,
+      {
+        process: false,
+        fields: ['id']
+      }
+    ).entities
+
+  }
+
+
+  // ----- Request Modification -----
+
+
+  /**
+   * Establish ownership and positionality.
+   * @inheritDoc
+   */
+  getModify(req, res){
+
+    var
+      user = req.user
+
+    user.position = {
+      owner: true,
+      moderator: true,
+      administrator: true,
+      on: []
+    }
+
+    req.targets.forEach(
+
+      (target, index) => {
+
+        user.position.on[index] = {
+          owner: user.id == target.id || user.is.administrator,
+          member: user.positions.member.filter(
+            (collection) => target.memberships.indexOf(collection) != -1
+          ).length > 0,
+          moderator: user.positions.moderator.filter(
+            (collection) => target.memberships.indexOf(collection) != -1
+          ).length > 0,
+          administrator: user.positions.administrator.filter(
+            (collection) => target.memberships.indexOf(collection) != -1
+          ).length > 0
+        }
+
+        user.position.owner &= user.position.on[index].owner
+        user.position.moderator &= user.position.on[index].moderator
+        user.position.administrator &= user.position.on[index].administrator
+      }
+    )
+
+    user.position.owner = Boolean(user.position.owner)
+    user.position.moderator = Boolean(user.position.moderator)
+    user.position.administrator = Boolean(user.position.administrator)
   }
 }
 

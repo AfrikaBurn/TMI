@@ -115,29 +115,6 @@ class UserController extends RestfulController {
   }
 
 
-  // ----- Method utilities -----
-
-
-  /**
-   * @inheritDoc
-   */
-  detach(){
-    super.detach()
-
-    var
-      routes = this.service.bootstrap.router.stack,
-      keys = Object.keys(routes).reverse()
-
-    keys.forEach(
-      (key) => {
-        if(routes[key].handle.controllerOrigin == 'UserController'){
-          routes.splice(key, 1)
-        }
-      }
-    )
-  }
-
-
   // ----- Authentication -----
 
 
@@ -154,7 +131,7 @@ class UserController extends RestfulController {
         {},
         {username: username },
         {process: false}
-      )[1].shift()
+      ).entities.shift()
 
     switch(true){
       case !user:
@@ -191,7 +168,7 @@ class UserController extends RestfulController {
       {id: 0},
       {id: id},
       {processing: false}
-    )[1]
+    ).entities
 
     done(
       users && users.length == 0 ? UserController.ACCOUNT_GONE : null,

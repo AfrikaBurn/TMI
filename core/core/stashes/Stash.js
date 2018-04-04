@@ -70,10 +70,7 @@ class Stash {
 
     this.process(entities, 'comitted')
 
-    return [
-      Stash.SUCCESS,
-      entities
-    ]
+    return Stash.response(Stash.SUCCESS, entities)
   }
 
   /**
@@ -97,10 +94,7 @@ class Stash {
 
     if (process) this.process(entities, 'retrieved')
 
-    return [
-      Stash.SUCCESS,
-      entities
-    ]
+    return Stash.response(Stash.SUCCESS, entities)
   }
 
   /**
@@ -120,10 +114,7 @@ class Stash {
 
     this.process(entities, 'retrieved')
 
-    return [
-      Stash.SUCCESS,
-      entities
-    ]
+    return Stash.response(Stash.SUCCESS, entities)
   }
 
   /**
@@ -139,10 +130,7 @@ class Stash {
 
     this.process(entities, 'deleted')
 
-    return [
-      Stash.SUCCESS,
-      entities
-    ]
+    return Stash.response(Stash.SUCCESS, entities)
   }
 
 
@@ -232,6 +220,15 @@ Stash.clone = (entity) => {
   return JSON.parse(JSON.stringify(entity))
 }
 
+
+/**
+ * Returns a stash response object.
+ * @param {object} status Response status
+ * @param {*} entities Associated entities
+ */
+Stash.response = (status, entities = []) => {
+  return Object.assign({}, status, {entities: entities})
+}
 
 
 // ----- Shared Validation -----

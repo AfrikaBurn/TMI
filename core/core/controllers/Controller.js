@@ -189,12 +189,7 @@ class Controller {
               (req, res, next) => {
                 var result = this[method + name](req, res)
                 if (result) {
-                  res.send(
-                    Object.assign(
-                      Stash.clone(result[0]),
-                      {entities: result[1] || []}
-                    )
-                  )
+                  res.send(result)
                 } else next()
               }
             )

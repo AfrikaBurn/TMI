@@ -46,7 +46,7 @@ class MemoryStash extends Stash {
 
     this.process(entities, 'committed')
 
-    return [Stash.CREATED, entities]
+    return Stash.response(Stash.CREATED, entities)
   }
 
   /**
@@ -65,23 +65,22 @@ class MemoryStash extends Stash {
         )
       )
 
-    if (fields) matches.forEach(
-      (element, index) =>
-        matches[index] = fields.reduce(
-        (filtered, field) => {
-          return element[field] != undefined
-            ? Object.assign(filtered, {[field]: element[field]})
-            : filtered;
-        },
-        {}
-      )
+      if (fields) matches.forEach(
+        (element, index) => {
+          matches[index] = fields.reduce(
+            (filtered, field) => {
+              return element[field] != undefined || !fields
+                ? Object.assign(filtered, {[field]: element[field]})
+                : filtered;
+            },
+            {}
+          )
+        }
     )
 
     if (process) this.process(matches, 'retrieved')
-    return [
-      Stash.SUCCESS,
-      matches
-    ]
+
+    return Stash.response(Stash.SUCCESS, matches)
   }
 
   /**
@@ -105,7 +104,7 @@ class MemoryStash extends Stash {
 
     this.process(entities, 'committed')
 
-    return [Stash.SUCCESS, entities]
+    return Stash.response(Stash.SUCCESS, entities)
   }
 
   /**
@@ -114,7 +113,7 @@ class MemoryStash extends Stash {
   delete(user, criteria){
 
     var
-      toDelete = this.read(user, criteria, false)[1],
+      toDelete = this.read(user, criteria, false).entities,
       deleted = []
 
     while(toDelete.length){
@@ -129,7 +128,7 @@ class MemoryStash extends Stash {
 
     this.process(deleted, 'deleted')
 
-    return [Stash.SUCCESS, deleted]
+    return Stash.response(Stash.SUCCESS, deleted)
   }
 }
 

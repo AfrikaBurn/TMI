@@ -69,85 +69,96 @@ class TmiAgreementController extends TmiSchemaController {
   loaders(){
     return {
       '': {
-        'use': [(req, res, next) => {this.userPositions(req, res, next)}]
+        'use': [
+          (req, res, next) => {
+            this.userPositions(req.user);
+            next()
+          }
+        ]
       },
       'user': {
-        'get': [(req, res, next) => {this.userMemberships(req, res, next)}]
+        'get': [
+          (req, res, next) => {
+            this.userMemberships(req.user, req.targets)
+            next()
+          }
+        ]
       }
     }
   }
 
   /**
-   * Loads position agreements of the requesting user.
+   * Loads positional agreements of the requesting user.
+   * @param {object} user User to load positional agreements for.
    */
-  userPositions(req, res, next){
-    req.user.positions = {
+  userPositions(user){
+    user.positions = {
 
       member: this.services.member.stash.read(
-        req.user,
+        user,
         {
           promisor: {
             entityType: 'user',
-            id: req.user.id,
+            id: user.id,
           }
         }
-      )[1].reduce(
+      ).entities.reduce(
         (collectives, agreement) => collectives.concat(agreement.promisee.id),
         []
       ),
 
       moderator: this.services.moderator.stash.read(
-        req.user,
+        user,
         {
           promisor: {
             entityType: 'user',
-            id: req.user.id,
+            id: user.id,
           }
         }
-      )[1].reduce(
+      ).entities.reduce(
         (collectives, agreement) => collectives.concat(agreement.promisee.id),
         []
       ),
 
       administrator: this.services.administrator.stash.read(
-        req.user,
+        user,
         {
           promisor: {
             entityType: 'user',
-            id: req.user.id,
+            id: user.id,
           }
         }
-      )[1].reduce(
+      ).entities.reduce(
         (collectives, agreement) => collectives.concat(agreement.promisee.id),
         []
       )
     }
-    next()
   }
 
   /**
    * Load membership agreements of target users.
+   * @param {object} user requesting user.
+   * @param {object} targets users to load membership agreements for.
    */
-  userMemberships(req, res, next){
-    req.targets.forEach(
+  userMemberships(user, targets){
+    targets.forEach(
       (target) => {
 
         target.memberships = this.services.member.stash.read(
-          req.user,
+          user,
           {
             promisor: {
               entityType: 'user',
               id: target.id,
             }
           }
-        )[1].reduce(
+        ).entities.reduce(
           (collectives, agreement) => collectives.concat(agreement.promisee.id),
           []
         )
 
       }
     )
-    next()
   }
 }
 

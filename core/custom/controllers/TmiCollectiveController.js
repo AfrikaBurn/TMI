@@ -20,7 +20,7 @@ class TmiCollectiveController extends TmiController {
   install(){
     ['Administrator', 'Moderator'].forEach(
       (label, index) => {
-        if (this.service.stash.read({}, {id: index}).pop().length == 0){
+        if (this.service.stash.read({}, {id: index}).entities.length == 0){
           console.log(TmiCollectiveController.CREATING, label)
           this.service.stash.create(
             {id: 1},
