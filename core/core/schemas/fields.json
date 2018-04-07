@@ -7,7 +7,7 @@
     "uei": {
       "title": "Unique Entity Identifier",
       "type": "number",
-      "minimum": 0
+      "minimum": -1
     },
 
     "email": {

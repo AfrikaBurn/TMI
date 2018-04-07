@@ -45,7 +45,7 @@ class Service {
     switch (typeof config.schema){
       case 'string': this.schema = this.find('schemas', config.schema); break
       case 'object':
-        this.schema = this.config.schema.definition
+        this.schema = this.config.schema
         this.config.schema = this.config.schema.name
       break
       default: this.schema = false

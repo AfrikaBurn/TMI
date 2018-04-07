@@ -7,32 +7,32 @@
 		"user":{
 			"schema": "user.schema",
 			"salt": "default salt",
-			"controller": "TmiUserController",
-			"stash": "TmiUserStash"
+			"controller": "UserController",
+			"stash": "UserStash"
 		},
 
 		"agreement":{
 			"schema": "agreement.schema",
-			"controller": "TmiAgreementController",
-			"stash": "TmiAgreementStash"
+			"controller": "AgreementTypeController",
+			"stash": "AgreementStash"
 		},
 
 		"collective":{
 			"schema": "collective.schema",
-			"controller": "TmiCollectiveController",
-			"stash": "TmiCollectiveStash"
+			"controller": "CollectiveController",
+			"stash": "CollectiveStash"
 		},
 
 		"post":{
 			"schema": "post.schema",
-			"controller": "TmiPostController",
-			"stash": "TmiPostStash"
+			"controller": "PostTypeController",
+			"stash": "PostStash"
 		},
 
 		"profile":{
 			"schema": "profile.schema",
-			"controller": "TmiProfileController",
-			"stash": "TmiProfileStash"
+			"controller": "ProfileTypeController",
+			"stash": "ProfileStash"
 		}
 
 	},

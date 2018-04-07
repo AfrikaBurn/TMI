@@ -1,0 +1,81 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://tmi-platform.org/schemas/shared/references.schema.json",
+
+  "definitions": {
+
+    "uei": {"$ref": "http://minimi.org/schemas/fields.json#/definitions/uei"},
+    "entityType": {"$ref": "http://tmi-platform.org/schemas/shared/primitives.schema.json#/definitions/entityType"},
+
+    "schemaRef": {
+      "type": "object",
+      "description": "Schema reference",
+      "properties": {
+        "entityType":{
+          "allOf": [
+            {"$ref": "#/definitions/entityType"},
+            {
+              "enum": ["user"],
+              "errorMessage": "Inappropriate reference type. Must be 'schema.",
+              "default": "schema"
+            }
+          ]
+        },
+        "id": {"$ref": "#/definitions/uei"}
+      }
+    },
+
+    "userRef": {
+      "type": "object",
+      "description": "User reference",
+      "properties": {
+        "entityType":{
+          "allOf": [
+            {"$ref": "#/definitions/entityType"},
+            {
+              "enum": ["user"],
+              "errorMessage": "Inappropriate reference type. Must be 'user.",
+              "default": "user"
+            }
+          ]
+        },
+        "id": {"$ref": "#/definitions/uei"}
+      }
+    },
+
+    "collectiveRef": {
+      "type": "object",
+      "description": "Collective reference",
+      "properties": {
+        "entityType":{
+          "allOf": [
+            {"$ref": "#/definitions/entityType"},
+            {
+              "enum": ["collective"],
+              "errorMessage": "Inappropriate reference type. Must be 'collective' or 'collective.",
+              "default": "collective"
+            }
+          ]
+        },
+        "id": {"$ref": "#/definitions/uei"}
+      }
+    },
+
+    "participantRef": {
+      "type": "object",
+      "description": "User or Collective reference",
+      "properties": {
+        "entityType":{
+          "allOf": [
+            {"$ref": "#/definitions/entityType"},
+            {
+              "enum": ["collective", "user"],
+              "errorMessage": "Inappropriate reference type. Must be 'collective' or 'user."
+            }
+          ]
+        },
+        "id": {"$ref": "#/definitions/uei"}
+      }
+    }
+  }
+}

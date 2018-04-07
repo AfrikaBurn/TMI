@@ -7,7 +7,6 @@
 
   "definitions": {
     "uei": {"$ref": "http://minimi.org/schemas/fields.json#/definitions/uei"},
-    "entityType": {"$ref": "http://tmi-platform.org/schemas/shared.json#/definitions/entityType"},
     "name": {"$ref": "http://tmi-platform.org/schemas/shared.json#/definitions/name"}
   },
 
@@ -15,20 +14,8 @@
     "id": {"$ref": "#/definitions/uei"},
     "name": {"$ref": "#/definitions/name"},
     "description": {"$ref": "#/definitions/description"},
-    "schemaType": {
-      "allOf": [
-        {
-          "$ref": "#definitions/entityType",
-          "errorMessage": "Invalid schema type."
-        },
-        {
-          "enum": ["agreement", "post", "profile"],
-          "errorMessage": "Inappropriate schema type."
-        }
-      ]
-    },
     "schema": {"type": "object"}
   },
 
-  "required": ["id", "name", "schemaType", "schema"]
+  "required": ["id", "name", "schema", "definition"]
 }

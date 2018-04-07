@@ -1,5 +1,5 @@
 /**
- * @file RestfulController.js
+ * @file CoreRestfulController.js
  * Basic RESTful controller for basic HTTP methods.
  */
 
@@ -7,10 +7,10 @@
 
 
 const
-  Controller = require('./Controller')
+  CoreController = require('./CoreController')
 
 
-class RestfulController extends Controller {
+class CoreRestfulController extends CoreController {
 
 
   // ----- Request Loading -----
@@ -22,11 +22,11 @@ class RestfulController extends Controller {
   loaders(){
     return {
       [this.service.path]: {
-        'get': [Controller.PARSE_QUERY],
-        'post': [Controller.PARSE_BODY],
-        'put': [Controller.PARSE_BODY],
-        'delete': [Controller.PARSE_QUERY],
-        'patch': [Controller.PARSE_QUERY, Controller.PARSE_BODY]
+        'get': [CoreController.PARSE_QUERY],
+        'post': [CoreController.PARSE_BODY],
+        'put': [CoreController.PARSE_BODY],
+        'delete': [CoreController.PARSE_QUERY],
+        'patch': [CoreController.PARSE_QUERY, CoreController.PARSE_BODY]
       }
     }
   }
@@ -122,4 +122,4 @@ class RestfulController extends Controller {
 }
 
 
-module.exports = RestfulController
+module.exports = CoreRestfulController

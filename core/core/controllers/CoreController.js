@@ -1,5 +1,5 @@
 /**
- * @file Controller.js
+ * @file CoreController.js
  * A basic controller for a single path with the means to map, attach and detach
  * HTTP method calls to handler functions by the same name.
  */
@@ -9,18 +9,17 @@
 
 const
 
-  bodyParser = require('body-parser'),
-  Stash = require('../stashes/Stash')
+  bodyParser = require('body-parser')
 
 
-class Controller {
+class CoreController {
 
 
   // ----- Process -----
 
 
   /**
-   * Creates a new Controller
+   * Creates a new CoreController
    * @param  {object} service Service that contains this controller.
    */
   constructor(service){
@@ -67,7 +66,7 @@ class Controller {
    *   }
    * }
    * Method may be any of [get|post|put|delete|...] or 'use' to bind to all
-   * methods. Controller object methods named [method]Modify will automatically
+   * methods. CoreController object methods named [method]Modify will automatically
    * be bound to [this.path] with a corresponding method declaration, after any
    * middleware. Eg:
    * {
@@ -106,7 +105,7 @@ class Controller {
    *   }
    * }
    * Method may be any of [get|post|put|delete|...] or 'use' to bind to all
-   * methods. Controller object methods named [method]Modify will automatically
+   * methods. CoreController object methods named [method]Modify will automatically
    * be bound to [this.path] with a corresponding method declaration, after any
    * middleware. Eg:
    * {
@@ -145,7 +144,7 @@ class Controller {
    *   }
    * }
    * Method may be any of [get|post|put|delete|...] or 'use' to bind to all
-   * methods. Controller object methods named [method]Route will automatically
+   * methods. CoreController object methods named [method]Route will automatically
    * be bound to [this.path] with a corresponding method declaration, after any
    * middleware. Eg:
    * {
@@ -189,6 +188,7 @@ class Controller {
               (req, res, next) => {
                 var result = this[method + name](req, res)
                 if (result) {
+                  res.status(result.code ? result.code : 200)
                   res.send(result)
                 } else next()
               }
@@ -204,9 +204,9 @@ class Controller {
 // ----- Middleware -----
 
 
-Controller.PARSE_BODY  = bodyParser.json()
-Controller.PARSE_QUERY = bodyParser.urlencoded({ extended: false })
-Controller.CONSOLE_LOG = function consoleLog(req, res, next) {
+CoreController.PARSE_BODY  = bodyParser.json()
+CoreController.PARSE_QUERY = bodyParser.urlencoded({ extended: false })
+CoreController.CONSOLE_LOG = function consoleLog(req, res, next) {
   console.log('Processing: ' + req.url)
   console.log('Accept: ' + req.header('Accept'))
   console.log('Content-Type: ' + req.header('Content-Type'))
@@ -219,14 +219,14 @@ Controller.CONSOLE_LOG = function consoleLog(req, res, next) {
 // ----- Response types -----
 
 
-Controller.INVALID_REQUEST = {
+CoreController.INVALID_REQUEST = {
   error: "Invalid req", code: 400, expose: true
 }
-Controller.FORBIDDEN = {
+CoreController.FORBIDDEN = {
   error: "Forbidden to unauthorised users", code: 403, expose: true
 }
-Controller.SUCCESS = { status: "Success", code: 200 }
+CoreController.SUCCESS = { status: "Success", code: 200 }
 
 
 
-module.exports = Controller
+module.exports = CoreController

@@ -4,8 +4,7 @@
 
   "definitions": {
     "uei": {"$ref": "http://minimi.org/schemas/fields.json#/definitions/uei"},
-    "reference": {"$ref": "http://tmi-platform.org/schemas/shared.json#/definitions/reference"},
-    "participant": {"$ref": "http://tmi-platform.org/schemas/shared.json#/definitions/participant"}
+    "participantRef": {"$ref": "http://tmi-platform.org/schemas/shared/references.schema.json#/definitions/participantRef"}
   },
 
   "type": "object",
@@ -13,7 +12,7 @@
 
   "properties": {
     "id": {"$ref": "#/definitions/uei"},
-    "owner": {"$ref": "#/definitions/participant"},
+    "owner": {"$ref": "#/definitions/participantRef"},
     "schema": {"type": "object"}
   },
 

@@ -1,5 +1,5 @@
 /**
- * @file TmiController.js
+ * @file Controller.js
  * TMI base controller.
  */
 
@@ -7,10 +7,10 @@
 
 
 const
-  RestfulController = require('../../core/controllers/RestfulController')
+  CoreRestfulController = require('../../core/controllers/CoreRestfulController')
 
 
-class TmiController extends RestfulController {
+class Controller extends CoreRestfulController {
 
 
   // ----- Method responders
@@ -108,4 +108,4 @@ class TmiController extends RestfulController {
 }
 
 
-module.exports = TmiController
+module.exports = Controller

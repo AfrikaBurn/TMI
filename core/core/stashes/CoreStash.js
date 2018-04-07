@@ -1,6 +1,6 @@
 /**
- * @file Stash.js
- * Basic Data Storage Stash.
+ * @file CoreStash.js
+ * Basic Data Storage CoreStash.
  */
 
 "use strict"
@@ -11,7 +11,7 @@ const
   passwordHash = require('password-hash')
 
 
-class Stash {
+class CoreStash {
 
 
   // ----- Process -----
@@ -23,7 +23,7 @@ class Stash {
    */
   constructor(service){
     this.service = service
-    Stash.VALIDATOR.addSchema(service.schema, service.config.schema)
+    CoreStash.VALIDATOR.addSchema(service.schema, service.config.schema)
   }
 
   /**
@@ -70,7 +70,7 @@ class Stash {
 
     this.process(entities, 'comitted')
 
-    return Stash.response(Stash.SUCCESS, entities)
+    return CoreStash.response(CoreStash.CREATED, entities)
   }
 
   /**
@@ -94,7 +94,7 @@ class Stash {
 
     if (process) this.process(entities, 'retrieved')
 
-    return Stash.response(Stash.SUCCESS, entities)
+    return CoreStash.response(CoreStash.SUCCESS, entities)
   }
 
   /**
@@ -114,7 +114,7 @@ class Stash {
 
     this.process(entities, 'retrieved')
 
-    return Stash.response(Stash.SUCCESS, entities)
+    return CoreStash.response(CoreStash.SUCCESS, entities)
   }
 
   /**
@@ -130,7 +130,7 @@ class Stash {
 
     this.process(entities, 'deleted')
 
-    return Stash.response(Stash.SUCCESS, entities)
+    return CoreStash.response(CoreStash.SUCCESS, entities)
   }
 
 
@@ -143,6 +143,11 @@ class Stash {
    */
   validate(entities){
 
+    if (!Array.isArray(entities)) throw CoreStash.error(
+      CoreStash.INVALID,
+      ["Array expected"]
+    )
+
     var errors = []
 
     this.process(entities, 'raw')
@@ -150,16 +155,16 @@ class Stash {
     entities.forEach(
       (entity, index) => {
         if (
-          !Stash.VALIDATOR.validate(
+          !CoreStash.VALIDATOR.validate(
             this.service.config.schema,
             entity
           )
-        ) errors[index] = Stash.normaliseErrors(Stash.VALIDATOR.errors)
+        ) errors[index] = CoreStash.normaliseErrors(CoreStash.VALIDATOR.errors)
 
       }
     )
 
-    if (errors.length) throw Object.assign(Stash.INVALID, {errors: errors})
+    if (errors.length) throw CoreStash.error(CoreStash.INVALID, errors)
     else this.process(entities, 'validated')
   }
 
@@ -184,14 +189,14 @@ class Stash {
         if (processors && Object.keys(processors).length){
           for (let property in processors){
 
-            var processor = Stash.PROCESSORS[processors[property]]
+            var processor = CoreStash.PROCESSORS[processors[property]]
 
             if (processor){
               if (entity[property])
                 entity[property] = processor(entity[property])
             } else {
               throw Object.assign(
-                Stash.PROCESSOR_NOT_FOUND,
+                CoreStash.PROCESSOR_NOT_FOUND,
                 {processorName: processors[property]}
               )
             }
@@ -216,7 +221,7 @@ class Stash {
  * Clones an entity.
  * @param {object}  Entity to clone.
  */
-Stash.clone = (entity) => {
+CoreStash.clone = (entity) => {
   return JSON.parse(JSON.stringify(entity))
 }
 
@@ -224,30 +229,39 @@ Stash.clone = (entity) => {
 /**
  * Returns a stash response object.
  * @param {object} status Response status
- * @param {*} entities Associated entities
+ * @param {array} entities Associated entities
  */
-Stash.response = (status, entities = []) => {
+CoreStash.response = (status, entities = []) => {
   return Object.assign({}, status, {entities: entities})
+}
+
+/**
+ * Returns a stash response object.
+ * @param {object} status Response status
+ * @param {array} errors Associated errors
+ */
+CoreStash.error = (status, errors = []) => {
+  return Object.assign({}, status, {errors: errors})
 }
 
 
 // ----- Shared Validation -----
 
 
-Stash.VALIDATOR = new Ajv({ allErrors: true, jsonPointers: true })
-Stash.VALIDATOR.addSchema(require('../schemas/fields.json'))
+CoreStash.VALIDATOR = new Ajv({ allErrors: true, jsonPointers: true })
+CoreStash.VALIDATOR.addSchema(require('../schemas/fields.json'))
 
 
 // ----- Validation error messages -----
 
 
-require('ajv-errors')(Stash.VALIDATOR);
+require('ajv-errors')(CoreStash.VALIDATOR);
 
 /**
 * Normalise error messages returned by the validator.
  * @param {array} errors
  */
-Stash.normaliseErrors = (errors) => {
+CoreStash.normaliseErrors = (errors) => {
   return [{}].concat(errors).reduce(
 
     (cache, next) => {
@@ -274,11 +288,11 @@ Stash.normaliseErrors = (errors) => {
 // ----- Shared Processors -----
 
 
-Stash.HASHER = passwordHash
+CoreStash.HASHER = passwordHash
 
-Stash.PROCESSORS = {}
-Stash.PROCESSORS.HASH = (value) => {
-  return Stash.HASHER.generate(
+CoreStash.PROCESSORS = {}
+CoreStash.PROCESSORS.HASH = (value) => {
+  return CoreStash.HASHER.generate(
     value,
     {
       algorithm: 'sha512',
@@ -286,18 +300,18 @@ Stash.PROCESSORS.HASH = (value) => {
     }
   )
 }
-Stash.PROCESSORS.BLANK = (value) => { return '*' }
-Stash.PROCESSORS.LOWERCASE = (value) => { return value.toLowerCase() }
+CoreStash.PROCESSORS.BLANK = (value) => { return '*' }
+CoreStash.PROCESSORS.LOWERCASE = (value) => { return value.toLowerCase() }
 
 
 // ----- Statuses -----
 
 
-Stash.SUCCESS = {status: 'Success', code: 200, expose: true}
-Stash.CREATED = {status: 'Entities created', code: 201, expose: true}
-Stash.INVALID = {error: 'Failed validation', code: 422, expose: true}
-Stash.PROCESSOR_NOT_FOUND = {error: 'Schema field processor not found!', code: 500}
-Stash.NOT_FOUND = {status: 'Entity not found', code: 404, expose: true}
+CoreStash.SUCCESS = {status: 'Success', code: 200, expose: true}
+CoreStash.CREATED = {status: 'Entities created', code: 201, expose: true}
+CoreStash.INVALID = {error: 'Failed validation', code: 422, expose: true}
+CoreStash.PROCESSOR_NOT_FOUND = {error: 'Schema field processor not found!', code: 500}
+CoreStash.NOT_FOUND = {status: 'Entity not found', code: 404, expose: true}
 
 
-module.exports = Stash
+module.exports = CoreStash

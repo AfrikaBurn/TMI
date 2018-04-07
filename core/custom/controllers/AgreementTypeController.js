@@ -1,5 +1,5 @@
 /**
- * @file TmiAgreementController.js
+ * @file AgreementTypeController.js
  * Agreement controller.
  */
 
@@ -7,10 +7,10 @@
 
 
 const
-  TmiSchemaController = require('./TmiSchemaController')
+  SchemaController = require('./SchemaController')
 
 
-class TmiAgreementController extends TmiSchemaController {
+class AgreementTypeController extends SchemaController {
 
 
   // ----- Process -----
@@ -25,7 +25,7 @@ class TmiAgreementController extends TmiSchemaController {
 
       (name) => {
 
-        console.log(TmiAgreementController.CREATING, name)
+        console.log(AgreementTypeController.CREATING, name)
 
         var machineName = name.toLowerCase()
 
@@ -71,7 +71,7 @@ class TmiAgreementController extends TmiSchemaController {
       '': {
         'use': [
           (req, res, next) => {
-            this.userPositions(req.user);
+            this.loadUserPositions(req.user);
             next()
           }
         ]
@@ -79,7 +79,7 @@ class TmiAgreementController extends TmiSchemaController {
       'user': {
         'get': [
           (req, res, next) => {
-            this.userMemberships(req.user, req.targets)
+            this.loadUserMemberships(req.user, req.target.users)
             next()
           }
         ]
@@ -87,11 +87,12 @@ class TmiAgreementController extends TmiSchemaController {
     }
   }
 
+
   /**
    * Loads positional agreements of the requesting user.
    * @param {object} user User to load positional agreements for.
    */
-  userPositions(user){
+  loadUserPositions(user){
     user.positions = {
 
       member: this.services.member.stash.read(
@@ -138,10 +139,10 @@ class TmiAgreementController extends TmiSchemaController {
   /**
    * Load membership agreements of target users.
    * @param {object} user requesting user.
-   * @param {object} targets users to load membership agreements for.
+   * @param {object} users target users to load membership agreements for.
    */
-  userMemberships(user, targets){
-    targets.forEach(
+  loadUserMemberships(user, users){
+    users.forEach(
       (target) => {
 
         target.memberships = this.services.member.stash.read(
@@ -166,9 +167,9 @@ class TmiAgreementController extends TmiSchemaController {
 // ----- Log Messages -----
 
 
-TmiAgreementController.CREATING =
+AgreementTypeController.CREATING =
   '\x1b[37m    Creating \x1b[0m%s\x1b[37m agreement.'
 
 
 
-module.exports = TmiAgreementController
+module.exports = AgreementTypeController

@@ -7,11 +7,11 @@
 
   "definitions": {
     "uei": {"$ref": "http://minimi.org/schemas/fields.json#/definitions/uei"},
-    "name": {"$ref": "http://tmi-platform.org/schemas/shared.json#/definitions/name"},
+    "name": {"$ref": "http://tmi-platform.org/schemas/shared/primitives.schema.json#/definitions/name"},
     "email": {"$ref": "http://minimi.org/schemas/fields.json#/definitions/email"},
     "password": {"$ref": "http://minimi.org/schemas/fields.json#/definitions/password"},
-    "exposure": {"$ref": "http://tmi-platform.org/schemas/shared.json#/definitions/exposure"},
-    "status": {"$ref": "http://tmi-platform.org/schemas/shared.json#/definitions/status"}
+    "exposure": {"$ref": "http://tmi-platform.org/schemas/shared/primitives.schema.json#/definitions/exposure"},
+    "status": {"$ref": "http://tmi-platform.org/schemas/shared/primitives.schema.json#/definitions/status"}
   },
 
   "properties": {

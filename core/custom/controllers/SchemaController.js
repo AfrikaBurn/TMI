@@ -1,5 +1,5 @@
 /**
- * @file TmiSchemaController.js
+ * @file SchemaController.js
  * Schema controller.
  */
 
@@ -7,11 +7,11 @@
 
 
 const
-  TmiController = require('./TmiController'),
+  Controller = require('./Controller'),
   Service = require('../../core/Service')
 
 
-class TmiSchemaController extends TmiController {
+class SchemaController extends Controller {
 
 
   // ----- Process -----
@@ -29,20 +29,20 @@ class TmiSchemaController extends TmiController {
    * Create a Schema subservice
    * @param {object} definition Schema definition
    */
-  createSubService(definition){
+  createSubService(schemaDef){
 
-    var name = definition.name.toLowerCase()
+    var name = schemaDef.name.toLowerCase()
 
     this.services[name] = new Service(
       this.service.path + '/' + name,
       {
         schema: {
           name: name,
-          definition: typeof definition.schema == 'string'
-            ? JSON.parse(definition.schema)
-            : definition.schema
+          schema: typeof schemaDef.schema == 'string'
+            ? JSON.parse(schemaDef.schema)
+            : schemaDef.schema
         },
-        controller: 'TmiController',
+        controller: 'Controller',
         stash: this.service.config.stash
       },
       this.service.bootstrap,
@@ -67,7 +67,7 @@ class TmiSchemaController extends TmiController {
       case user.is.authenticated:
 
         req.body.forEach(
-          (definition) => this.createSubService(definition)
+          (schemaDef) => this.createSubService(schemaDef)
         )
 
         return super.postRoute(req, res)
@@ -80,4 +80,4 @@ class TmiSchemaController extends TmiController {
 }
 
 
-module.exports = TmiSchemaController
+module.exports = SchemaController

@@ -1,5 +1,5 @@
 /**
- * @file UserController.js
+ * @file CoreUserController.js
  * Basic session authentication and permission verification controller.
  */
 
@@ -13,12 +13,12 @@ const
   passport = require('passport'),
   LocalStrategy = require('passport-local').Strategy,
 
-  Controller = require('./Controller'),
-  Stash = require('../stashes/Stash'),
-  RestfulController = require('./RestfulController')
+  CoreController = require('./CoreController'),
+  CoreStash = require('../stashes/CoreStash'),
+  CoreRestfulController = require('./CoreRestfulController')
 
 
-class UserController extends RestfulController {
+class CoreUserController extends CoreRestfulController {
 
 
   // ----- Process -----
@@ -63,7 +63,7 @@ class UserController extends RestfulController {
             this.expressSession(),
             this.passport(),
             this.passportSession(),
-            UserController.USER_ROLE
+            CoreUserController.USER_ROLE
           ],
         },
       },
@@ -82,18 +82,18 @@ class UserController extends RestfulController {
     return {
 
       [this.service.path]: {
-        'get': [Controller.PARSE_QUERY],
-        'post': [Controller.PARSE_BODY],
-        'put': [Controller.PARSE_BODY],
-        'delete': [Controller.PARSE_QUERY],
-        'patch': [Controller.PARSE_QUERY, Controller.PARSE_BODY]
+        'get': [CoreController.PARSE_QUERY],
+        'post': [CoreController.PARSE_BODY],
+        'put': [CoreController.PARSE_BODY],
+        'delete': [CoreController.PARSE_QUERY],
+        'patch': [CoreController.PARSE_QUERY, CoreController.PARSE_BODY]
       },
 
       [this.service.path + '/login']: {
         'post': [
-          Controller.PARSE_BODY,
-          Controller.PARSE_QUERY,
-          UserController.LOGIN
+          CoreController.PARSE_BODY,
+          CoreController.PARSE_QUERY,
+          CoreUserController.LOGIN
         ],
       },
 
@@ -105,7 +105,7 @@ class UserController extends RestfulController {
                   () => {
                     req.logout()
                     res.clearCookie('connect.sid', {path: "/"})
-                    res.json(Controller.SUCCESS)
+                    res.json(CoreController.SUCCESS)
                   }
                 )
           }
@@ -135,12 +135,12 @@ class UserController extends RestfulController {
 
     switch(true){
       case !user:
-        return done(UserController.INVALID_ACCOUNT, false)
-      case Stash.HASHER.verify(password, user.password):
+        return done(CoreUserController.INVALID_ACCOUNT, false)
+      case CoreStash.HASHER.verify(password, user.password):
         this.service.stash.process([user], 'committed')
         return done(null, user)
       default:
-      return done(UserController.INVALID_CREDENTIALS, false)
+      return done(CoreUserController.INVALID_CREDENTIALS, false)
     }
   }
 
@@ -171,7 +171,7 @@ class UserController extends RestfulController {
     ).entities
 
     done(
-      users && users.length == 0 ? UserController.ACCOUNT_GONE : null,
+      users && users.length == 0 ? CoreUserController.ACCOUNT_GONE : null,
       users[0]
     )
   }
@@ -202,7 +202,7 @@ class UserController extends RestfulController {
       }
     )
 
-    sessionHandler.controllerOrigin = 'UserController'
+    sessionHandler.controllerOrigin = 'CoreUserController'
     return sessionHandler
   }
 
@@ -211,7 +211,7 @@ class UserController extends RestfulController {
    */
   passport(){
     var init = passport.initialize()
-    init.controllerOrigin = 'UserController'
+    init.controllerOrigin = 'CoreUserController'
     return init
   }
 
@@ -220,7 +220,7 @@ class UserController extends RestfulController {
    */
   passportSession(){
     var passportSession = passport.session()
-    passportSession.controllerOrigin = 'UserController'
+    passportSession.controllerOrigin = 'CoreUserController'
     return passportSession
   }
 }
@@ -229,7 +229,7 @@ class UserController extends RestfulController {
 // ----- Middleware -----
 
 
-UserController.LOGIN = (req, res, next) => {
+CoreUserController.LOGIN = (req, res, next) => {
   passport.authenticate(
     'login',
     function(error, user, info) {
@@ -240,7 +240,7 @@ UserController.LOGIN = (req, res, next) => {
           if (error) throw error
           res.json(
             Object.assign(
-              Stash.clone(Controller.SUCCESS),
+              CoreStash.clone(CoreController.SUCCESS),
               { user: user }
             )
           )
@@ -253,7 +253,7 @@ UserController.LOGIN = (req, res, next) => {
 /**
  * User system role assignment
  */
-UserController.USER_ROLE = function setRole(req, res, next){
+CoreUserController.USER_ROLE = function setRole(req, res, next){
 
   req.user = req.user
     ? Object.assign(req.user, {is: {}})
@@ -274,9 +274,9 @@ UserController.USER_ROLE = function setRole(req, res, next){
 // ----- Response types -----
 
 
-UserController.INVALID_ACCOUNT = { error: "Invalid account", code: 401, expose: true }
-UserController.INVALID_CREDENTIALS = { error: "Invalid credentials", code: 401, expose: true }
-UserController.ACCOUNT_GONE = { error: "Account removed", code: 410, expose: true }
+CoreUserController.INVALID_ACCOUNT = { error: "Invalid account", code: 401, expose: true }
+CoreUserController.INVALID_CREDENTIALS = { error: "Invalid credentials", code: 401, expose: true }
+CoreUserController.ACCOUNT_GONE = { error: "Account removed", code: 410, expose: true }
 
 
-module.exports = UserController
+module.exports = CoreUserController

@@ -4,10 +4,12 @@
 
   "definitions": {
     "uei": {"$ref": "http://minimi.org/schemas/fields.json#/definitions/uei"},
-    "name": {"$ref": "http://tmi-platform.org/schemas/shared.json#/definitions/name"},
-    "description": {"$ref": "http://tmi-platform.org/schemas/shared.json#/definitions/description"},
-    "exposure": {"$ref": "http://tmi-platform.org/schemas/shared.json#/definitions/exposure"},
-    "status": {"$ref": "http://tmi-platform.org/schemas/shared.json#/definitions/status"}
+    "name": {"$ref": "http://tmi-platform.org/schemas/shared/primitives.schema.json#/definitions/name"},
+    "description": {"$ref": "http://tmi-platform.org/schemas/shared/primitives.schema.json#/definitions/description"},
+    "exposure": {"$ref": "http://tmi-platform.org/schemas/shared/primitives.schema.json#/definitions/exposure"},
+    "status": {"$ref": "http://tmi-platform.org/schemas/shared/primitives.schema.json#/definitions/status"},
+    "participantRef": {"$ref": "http://tmi-platform.org/schemas/shared/references.schema.json#/definitions/participantRef"},
+    "collectiveRef": {"$ref": "http://tmi-platform.org/schemas/shared/references.schema.json#/definitions/collectiveRef"}
   },
 
   "type": "object",
@@ -46,39 +48,53 @@
       ]
     },
 
-
     "profiles": {
       "title": "Collective profiles",
       "type": "array",
       "description": "Profiles this collective collects.",
-      "items": {
-        "type": "number"
+      "properties": {
+        "profileId": {
+          "type": "number"
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "cardinality": {
+          "type": "number"
+        },
+        "exposure": {"$ref": "#/definitions/exposure"}
       }
     },
 
     "agreements": {
       "title": "Agreements",
       "type": "array",
-      "description": "Agreements available between members of this collective.",
+      "description": "Agreements between members of this collective.",
       "items": {
         "type": "object",
         "properties": {
-          "agreementId":  {
+          "agreementId": {
             "type": "number"
           },
-          "required":  {
+          "required": {
             "type": "boolean"
           },
-          "cardinality":  {
+          "cardinality": {
             "type": "number"
-          }
+          },
+          "exposure": {"$ref": "#/definitions/exposure"}
         }
       }
     },
 
+    "owner": {"$ref": "#/definitions/participantRef"},
     "status": {"$ref": "#/definitions/status"},
     "exposure": {"$ref": "#/definitions/exposure"},
-    "membership": {"$ref": "#/definitions/exposure"}
+    "membership": {"$ref": "#/definitions/exposure"},
+    "defer": {
+      "administration": {"$ref": "#/definitions/collectiveRef"},
+      "moderation": {"$ref": "#/definitions/collectiveRef"}
+    }
   },
 
   "required": ["name", "description", "status"]

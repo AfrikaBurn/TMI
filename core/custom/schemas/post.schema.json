@@ -4,8 +4,7 @@
 
   "definitions": {
     "uei": {"$ref": "http://minimi.org/schemas/fields.json#/definitions/uei"},
-    "reference": {"$ref": "http://tmi-platform.org/schemas/shared.json#/definitions/reference"},
-    "schemaReference": {"$ref": "http://tmi-platform.org/schemas/shared.json#/definitions/schemaReference"}
+    "reference": {"$ref": "http://tmi-platform.org/schemas/shared.json#/definitions/reference"}
   },
 
   "type": "object",
