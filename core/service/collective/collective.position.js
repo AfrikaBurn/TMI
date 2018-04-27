@@ -45,22 +45,22 @@ class CollectiveModifier extends core.processors.Processor {
 
       (collective, index) => {
 
-        // user.position.on[index] = {
-        //   owner: user.id == collective.owner.id || user.is.administrator,
-        //   member: user.positions.member.indexOf(collective.id) != -1,
-        //   moderator: user.positions.moderator.filter(
-        //     (collectiveId) =>
-        //       collective.deferred.moderation.indexOf(collectiveId) != -1
-        //   ).length > 0,
-        //   administrator: user.positions.administrator.filter(
-        //     (collectiveId) =>
-        //       collective.deferred.administration.indexOf(collectiveId) != -1
-        //     ).length > 0
-        //   }
+        user.position.on[index] = {
+          owner: user.id == collective.owner.id,
+          member: user.positions.member.indexOf(collective.id) != -1,
+          moderator: user.positions.moderator.filter(
+            (collectiveId) =>
+              collective.deferred.moderation.indexOf(collectiveId) != -1
+          ).length > 0,
+          administrator: user.positions.administrator.filter(
+            (collectiveId) =>
+              collective.deferred.administration.indexOf(collectiveId) != -1
+            ).length > 0
+          }
 
-        // user.position.owner &= user.position.on[index].owner
-        // user.position.moderator &= user.position.on[index].moderator
-        // user.position.administrator &= user.position.on[index].administrator
+        user.position.owner &= user.position.on[index].owner
+        user.position.moderator &= user.position.on[index].moderator
+        user.position.administrator &= user.position.on[index].administrator
       }
     )
 

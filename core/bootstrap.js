@@ -117,7 +117,7 @@ class Bootstrap {
    */
   setupRouters(){
 
-    for (let phase of ['preload', 'load', 'modify', 'access', 'execute']){
+    for (let phase of ['load', 'position', 'access', 'execute']){
       this.routers[phase] = express.Router()
       this.app.use(this.routers[phase])
     }
