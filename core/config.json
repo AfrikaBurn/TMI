@@ -1,40 +1,11 @@
 {
-	"name": "Tribe Core",
+	"name": "TMI Core",
 	"port": 3000,
 
 	"services": {
-
-		"user":{
-			"schema": "user.schema",
-			"salt": "default salt",
-			"controller": "UserController",
-			"stash": "UserStash"
-		},
-
-		"agreement":{
-			"schema": "agreement.schema",
-			"controller": "AgreementTypeController",
-			"stash": "AgreementStash"
-		},
-
-		"collective":{
-			"schema": "collective.schema",
-			"controller": "CollectiveController",
-			"stash": "CollectiveStash"
-		},
-
-		"post":{
-			"schema": "post.schema",
-			"controller": "PostTypeController",
-			"stash": "PostStash"
-		},
-
-		"profile":{
-			"schema": "profile.schema",
-			"controller": "ProfileTypeController",
-			"stash": "ProfileStash"
+		"/": {
+			"salt": "Bleh Bleh"
 		}
-
 	},
 
 	"origins": ["http://localhost:4200"]

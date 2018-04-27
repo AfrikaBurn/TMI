@@ -1,0 +1,78 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://tmi-platform.org/user/user.schema.json",
+
+  "type": "object",
+  "title": "User",
+
+  "definitions": {
+    "uei": {"$ref": "http://tmi-platform.org/root.schema.json#/definitions/uei"},
+    "name": {"$ref": "http://tmi-platform.org/root.schema.json#/definitions/name"},
+    "email": {"$ref": "http://tmi-platform.org/root.schema.json#/definitions/email"},
+    "password": {"$ref": "http://tmi-platform.org/root.schema.json#/definitions/password"},
+    "exposure": {"$ref": "http://tmi-platform.org/root.schema.json#/definitions/exposure"},
+    "status": {"$ref": "http://tmi-platform.org/root.schema.json#/definitions/status"}
+  },
+
+  "properties": {
+
+    "id":  {
+      "allOf": [
+        {"$ref": "#/definitions/uei"},
+        {
+          "title": "User ID",
+          "description": "Unique user identifier"
+        }
+      ],
+      "isUniqueKey": true
+    },
+
+    "username":  {
+      "allOf": [
+        {"$ref": "#/definitions/name"},
+        {
+          "title": "Username",
+          "Description": "Unique chosen name."
+        }
+      ],
+      "isUniqueKey": true
+    },
+
+    "email":  {
+      "title": "Email",
+      "description": "Email address used for login retrieval and notification",
+      "type": "object",
+      "properties": {
+        "value": {"$ref": "#/definitions/email"},
+        "privacy": {
+          "allOf": [
+            {"$ref": "#/definitions/exposure"},
+            {
+              "not": {
+                "enum": ["anonymous"]
+              },
+              "errorMessage": "Unacceptible level of exposure."
+            }
+          ]
+        }
+      },
+      "required": ["value", "privacy"],
+      "isUniqueKey": true,
+      "processors": {
+        "raw": {"value": "LOWERCASE"}
+      }
+    },
+
+    "password":  {"$ref": "#/definitions/password"},
+    "status": {"$ref": "#/definitions/status"}
+  },
+
+  "required": ["username", "email", "password"],
+
+  "processors": {
+    "validated": {"password": "HASH"},
+    "committed": {"password": "BLANK"},
+    "deleted": {"password": "BLANK"},
+    "retrieved": {"password": "BLANK"}
+  }
+}

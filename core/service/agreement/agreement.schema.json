@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://tmi-platform.org/agreement/agreement.schema.json",
+
+  "definitions": {
+    "uei": {"$ref": "http://tmi-platform.org/root.schema.json#/definitions/uei"},
+    "participantRef": {"$ref": "http://tmi-platform.org/root.schema.json#/definitions/participantRef"},
+
+    "parties":{
+      "promisor": {"$ref": "#/definitions/participant"},
+      "promisee": {"$ref": "#/definitions/participant"}
+    }
+  },
+
+  "type": "object",
+  "title": "Agreement",
+
+  "properties": {
+    "id": {"$ref": "#/definitions/uei"},
+    "owner": {"$ref": "#/definitions/participantRef"},
+    "schema": {"type": "object"}
+  },
+
+  "required": ["owner", "schema"]
+}

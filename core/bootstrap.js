@@ -1,54 +1,68 @@
 /**
- * @file bootstrap.js
- * Contains nano bootstrapping code.
+ * @file core.js
+ * Core bootstrapping code.
  */
-
 "use strict"
 
 
 const
-
   express = require('express'),
   fs = require('fs'),
-  path = require('path'),
+  pathUtil = require('path'),
   parseError = require('express-body-parser-json-error')(),
-  EventEmitter = require('events'),
-  Service = require('./core/Service'),
   cors = require('cors')
 
 
-class Bootstrap extends EventEmitter {
+class Bootstrap {
 
 
-  // ----- Process -----
+  /* ----- Construction ----- */
 
 
   /**
-   * Constructs Bootstrap.
+   * Bootstraps the service.
    */
   constructor(){
 
-    super()
-
-    this.app = express()
-    this.config = require('./config.json')
-    this.services = {}
-    this.path = path.normalize(__dirname)
-    this.routers = {
-      load: express.Router(),
-      modify: express.Router(),
-      route: express.Router()
-    }
+    this.setupApp()
 
     console.log(
-      '\Spinning up \x1b[1mMINI\x1b[0mmal \x1b[1mMI\x1b[0mcroservice:\n\n' +
+      '\n\Spinning up \x1b[1mMINI\x1b[0mmal \x1b[1mMI\x1b[0mcroservice:\n' +
       '\x1b[34m' + this.config.name + '\n'
     )
 
-    process.chdir(this.path)
-    process.on('SIGINT', () => { process.exit() })
-    process.on('SIGTERM', () => { process.exit() })
-    process.on('exit', () => { this.stop() })
+    this.setupBase()
+
+    core.log('\x1b[1mLOADING\x1b[0m\n')
+
+    this.setupRouters()
+    this.delegate()
+
+    core.log('\x1b[1mINSTALLING\x1b[0m\n')
+
+    this.services.install()
+
+    this.start()
+  }
+
+
+  // ----- Server Setup -----
+
+
+  /**
+   * Setup local variables, config, routers and processors.
+   */
+  setupApp(){
+
+    global.core = this;
+
+    this.app = express()
+    this.config = require('./config.json')
+    this.installRoot = pathUtil.normalize(__dirname)
+    this.serviceRoot = this.installRoot + '/service'
+
+    this.routers = {}
+    this.services = {}
 
     this.app.use(cors((request, callback) => callback(null,
       {
@@ -56,43 +70,86 @@ class Bootstrap extends EventEmitter {
         allowedHeaders: ['Content-Type', 'Authorization', 'Accept']
       }
     )))
-    this.app.use(this.routers.load)
-    this.app.use(this.routers.modify)
-    this.app.use(this.routers.route)
-    this.app.use(this.handleError)
-    this.app.use(this.handleNotFound)
 
-    this.delegate()
-    this.install()
-    this.start()
+    process.chdir(this.installRoot)
+    process.on('SIGINT', () => { process.exit() })
+    process.on('SIGTERM', () => { process.exit() })
+    process.on('exit', () => { this.stop() })
   }
 
   /**
-   * Delegate to a services as per the provided configuration
+   * Setup global base classes.
+   */
+  setupBase(){
+    Object.assign(
+      this,
+      {
+        processors: {
+          Processor: require('./base/processors/Processor'),
+          RestProcessor: require('./base/processors/RestProcessor'),
+          ServiceProcessor: require('./base/processors/ServiceProcessor')
+        },
+        stashes: {
+          Stash: require('./base/stashes/Stash'),
+          MemoryStash: require('./base/stashes/MemoryStash')
+        },
+        services: {
+          Service: require('./base/services/Service'),
+          MetaService: require('./base/services/MetaService')
+        },
+        installers: {
+          Installer: require('./base/installers/Installer.js')
+        },
+        log: (message, indent = 0) => {
+
+          var padding = ' '.repeat(indent)
+
+          typeof message == 'string'
+            ? console.log(padding + message.replace(/\n/g, '\n' + padding))
+            : console.log(message.message, message.stack)
+        }
+      }
+    )
+  }
+
+  /**
+   * Setup global routers and handlers.
+   */
+  setupRouters(){
+
+    for (let phase of ['preload', 'load', 'modify', 'access', 'execute']){
+      this.routers[phase] = express.Router()
+      this.app.use(this.routers[phase])
+    }
+
+    this.app.use(this.handleException)
+    this.app.use(this.handleResponse)
+    this.app.use(this.handleNotFound)
+  }
+
+
+  // ----- Service Setup -----
+
+
+  /**
+   * Delegate to services.
    */
   delegate(){
-    for(var name in this.config.services){
-      this.services[name] = new Service(name, this.config.services[name], this)
+    try{
+      var Service = require(core.serviceRoot + 'service.js')
+      this.services = new Service('root', this, '/', core.serviceRoot)
+    } catch (e) {
+      this.services = new this.services.Service(
+        'root', this, '/', core.serviceRoot
+      )
     }
   }
 
-  /**
-   * Delegate to a services as per the provided configuration
-   */
-  install(){
-    for(var name in this.services){
-      console.log('\n  Installing: \x1b[1m' + name)
-      this.services[name].install()
-      console.log('\x1b[32m  Done.\x1b[0m')
-    }
-  }
-
-
-  // ----- Service control -----
+  // ----- Server control -----
 
 
   /**
-   * Start the service.
+   * Start the server.
    */
   start(){
     this.app.listen(
@@ -108,10 +165,9 @@ class Bootstrap extends EventEmitter {
   }
 
   /**
-   * Stop the service.
+   * Stop the server.
    */
   stop(){
-
     console.log('\x1b[31m kill command received!\n');
 
     for (var name in this.services){
@@ -126,37 +182,84 @@ class Bootstrap extends EventEmitter {
   }
 
 
-  // ----- Error handling -----
+  /* ----- Response handling ----- */
 
 
   /**
-   * Handle errors.
-   * @param  {object}   error    Error that has occured
-   * @param  {object}   req      Express request object
-   * @param  {object}   res      Express response object
-   * @param  {Function} next     Next middleware
+   * Commit the data contained within the response object.
+   * @param  {object}   req  Express request object
+   * @param  {object}   res  Express response object
+   * @param  {Function} next Next middleware
    */
-  handleError(error, req, res, next){
+  handleResponse(req, res, next){
+    if (res.data){
+      res.status(res.data.code).json(res.data)
+    } else next()
+  }
 
-    console.log('\x1b[33m' + req.method + ' ' + req.url)
-    error.stack
-      ? console.log('\x1b[33m%s\x1b[0m', error.stack)
-      : console.log(error.error)
-    console.log('\x1b[0m')
+  /**
+   * Handle exceptions. Exceptions may be errors or immediate responses.
+   * @param  {object}   exception Exception that has occured
+   * @param  {object}   req       Express request object
+   * @param  {object}   res       Express response object
+   * @param  {Function} next      Next middleware
+   */
+  handleException(exception, req, res, next){
 
-    if (error.expose)
-      res.status(error.code || 500).json(error)
+    if (exception instanceof Error){
+      console.log('\x1b[33m' + req.method + ' ' + req.url)
+      exception.stack
+        ? console.log('\x1b[33m%s\x1b[0m', exception.stack)
+        : console.log(exception)
+        console.log('\x1b[0m')
+    }
+
+    if (exception.expose)
+      res.status(exception.code || 500).json(exception)
     else
       res.status(500).end('Internal Server Error')
   }
 
   /**
-   * Handle not found
-   * @param  {object}   req  Express request object
-   * @param  {object}   res  Express response object
+   * Handle not found.
+   * @param  {object} req  Express request object
+   * @param  {object} res  Express response object
    */
   handleNotFound(req, res){
     res.status(404).json({"error": 'Not found!'})
+  }
+}
+
+
+/* ----- Global Utility ----- */
+
+
+global.utility = {
+
+  /**
+   * Clones an entity.
+   * @param {object}  Entity to clone.
+   */
+  clone: (entity) => {
+    return JSON.parse(JSON.stringify(entity))
+  },
+
+  /**
+   * Returns a stash response object.
+   * @param {object} status Response status
+   * @param {array} entities Associated entities
+   */
+  response: (status, entities = []) => {
+    return Object.assign({}, status, {entities: entities})
+  },
+
+  /**
+   * Returns a stash response object.
+   * @param {object} status Response status
+   * @param {array} errors Associated errors
+   */
+  error: (status, errors = []) => {
+    return Object.assign({}, status, {errors: errors})
   }
 }
 
