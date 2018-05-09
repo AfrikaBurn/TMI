@@ -286,8 +286,8 @@ class Service {
           if (route == this.url && processor[method]){
             router[method](route,
               (req, res, next) => {
-                res.data =  processor[method](req, res)
-                next()
+                res.data =  processor[method](req, res, next)
+                if (res.data !== false) next()
               }
             )
           }

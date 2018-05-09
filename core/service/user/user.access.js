@@ -6,52 +6,59 @@
 
 
 const
-  Processor = core.processors.Processor
+  AccessProcessor = core.processors.AccessProcessor
 
 
-class UserAccess extends core.processors.RestProcessor {
-
-
-  // ----- Request Routing -----
-
+class UserAccess extends AccessProcessor {
 
   /**
    * @inheritDoc
    */
   get(req, res){
-    if (
-      req.header('Content-Type') != 'application/json;schema' &&
-      req.user.is.anonymous
-    ) throw Processor.FORBIDDEN
+    req.header('Content-Type') != 'application/json;schema' &&
+    req.user.is.anonymous
+      ? AccessProcessor.DENY(req)
+      : AccessProcessor.GRANT(req)
   }
 
   /**
    * @inheritDoc
    */
   post(req, res){
-    if (
-      req.user.is.anonymous && req.body.length > 1
-    ) throw Processor.FORBIDDEN
+    (req.user.is.anonymous && req.body.length > 1) ||
+    (req.user.is.authenticated && !req.user.is.administrator)
+      ? AccessProcessor.DENY(req)
+      : AccessProcessor.GRANT(req)
   }
 
   /**
    * @inheritDoc
    */
   put(req, res){
-    if (
-      req.user.is.anonymous ||
-      !(req.user.is.owner || req.user.is.administrator)
-    ) throw Processor.FORBIDDEN
+    req.user.is.anonymous ||
+    !(req.user.is.owner || req.user.is.administrator)
+      ? AccessProcessor.DENY(req)
+      : AccessProcessor.GRANT(req)
+  }
+
+  /**
+   * @inheritDoc
+   */
+  patch(req, res){
+    req.user.is.anonymous ||
+    !(req.user.is.owner || req.user.is.administrator)
+      ? AccessProcessor.DENY(req)
+      : AccessProcessor.GRANT(req)
   }
 
   /**
    * @inheritDoc
    */
   delete(req, res){
-    if (
-      req.user.is.anonymous ||
-      !(req.user.is.owner || req.user.is.administrator)
-    ) throw Processor.FORBIDDEN
+    req.user.is.anonymous ||
+    !(req.user.is.owner || req.user.is.administrator)
+      ? AccessProcessor.DENY(req)
+      : AccessProcessor.GRANT(req)
   }
 }
 

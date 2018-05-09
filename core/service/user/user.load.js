@@ -7,11 +7,10 @@
 
 const
   passport = require('passport'),
-  expressSession = require('express-session'),
-  Processor = core.processors.Processor
+  expressSession = require('express-session')
 
 
-class UserLoader extends Processor{
+class UserLoader extends core.processors.RestProcessor{
 
 
   /* ----- Routing ----- */
@@ -23,21 +22,15 @@ class UserLoader extends Processor{
   routes(path){
     return {
       [path]: {
-        'get': [Processor.PARSE_QUERY]
+        'use': [
+          core.processors.Processor.PARSE_QUERY,
+          (req, res, next) => {
+            this.loadTargetUsers(req);
+            next();
+          }
+        ]
       }
     }
-  }
-
-
-  /* ----- Method responders ----- */
-
-
-  /**
-   * Load request target user IDs.
-   * @inheritDoc
-   */
-  get(req, res){
-    this.loadTargetUsers(req)
   }
 
 
@@ -45,8 +38,8 @@ class UserLoader extends Processor{
 
 
   /**
-   * Load target user IDs.
-   * @param  {object} req Express request object
+   * Load request target user IDs.
+   * @param {object} req Express request object
    */
   loadTargetUsers(req){
 

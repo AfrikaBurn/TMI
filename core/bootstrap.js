@@ -85,6 +85,7 @@ class Bootstrap {
       this,
       {
         processors: {
+          AccessProcessor: require('./base/processors/AccessProcessor'),
           Processor: require('./base/processors/Processor'),
           RestProcessor: require('./base/processors/RestProcessor'),
           ServiceProcessor: require('./base/processors/ServiceProcessor')

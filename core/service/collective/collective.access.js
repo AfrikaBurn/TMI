@@ -6,10 +6,10 @@
 
 
 const
-  Processor = core.processors.Processor
+  AccessProcessor = core.processors.AccessProcessor
 
 
-class CollectiveAccess extends core.processors.RestProcessor {
+class CollectiveAccess extends AccessProcessor {
 
 
   // ----- Request Routing -----
@@ -26,13 +26,22 @@ class CollectiveAccess extends core.processors.RestProcessor {
    * @inheritDoc
    */
   post(req, res){
-    if (req.user.is.anonymous) throw Processor.FORBIDDEN
+    req.user.is.anonymous
+      ? AccessProcessor.DENY(req)
+      : AccessProcessor.GRANT(req)
   }
 
   /**
    * @inheritDoc
    */
   put(req, res){
+    // TODO
+  }
+
+  /**
+   * @inheritDoc
+   */
+  patch(req, res){
     // TODO
   }
 

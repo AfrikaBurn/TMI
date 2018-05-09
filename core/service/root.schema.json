@@ -46,7 +46,7 @@
         "administrator",
         "moderator",
         "member",
-        "visitor",
+        "guest",
         "authenticated",
         "anonymous"
       ],

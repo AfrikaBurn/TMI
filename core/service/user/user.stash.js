@@ -5,11 +5,7 @@
 "use strict"
 
 
-const
-  Stash = core.stashes.MemoryStash
-
-
-class UserStash extends Stash {}
+class UserStash extends core.stashes.MemoryStash {}
 
 
 module.exports = UserStash

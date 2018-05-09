@@ -31,7 +31,7 @@ class AgreementLoader extends core.processors.RestProcessor {
       '/user': {
         'get': [
           (req, res, next) => {
-            this.loadUserMemberships(req.user, req.target.users)
+            this.loadTargetMemberships(req.user, req.target.users)
             next()
           }
         ]
@@ -48,47 +48,25 @@ class AgreementLoader extends core.processors.RestProcessor {
    * @param {object} user User to load positional agreements for.
    */
   loadUserPositions(user){
-    user.positions = {
 
-      member: this.service.services.member.stash.read(
-        user,
-        {
-          promisor: {
-            entityType: 'user',
-            id: user.id,
-          }
-        }
-      ).entities.reduce(
-        (collectives, agreement) => collectives.concat(agreement.promisee.id),
-        []
-      ),
+    user.positions = {};
 
-      moderator: this.service.services.moderator.stash.read(
-        user,
-        {
-          promisor: {
-            entityType: 'user',
-            id: user.id,
+    ['administrator', 'moderator', 'member', 'guest'].forEach(
+      (position) => {
+        user.positions[position] = this.service.services[position].stash.read(
+          user,
+          {
+            promisor: {
+              entityType: 'user',
+              id: user.id,
+            }
           }
-        }
-      ).entities.reduce(
-        (collectives, agreement) => collectives.concat(agreement.promisee.id),
-        []
-      ),
-
-      administrator: this.service.services.administrator.stash.read(
-        user,
-        {
-          promisor: {
-            entityType: 'user',
-            id: user.id,
-          }
-        }
-      ).entities.reduce(
-        (collectives, agreement) => collectives.concat(agreement.promisee.id),
-        []
-      )
-    }
+        ).entities.reduce(
+          (collectives, agreement) => collectives.concat(agreement.promisee.id),
+          []
+        )
+      }
+    )
   }
 
   /**
@@ -96,7 +74,7 @@ class AgreementLoader extends core.processors.RestProcessor {
    * @param {object} user requesting user.
    * @param {object} users target users to load membership agreements for.
    */
-  loadUserMemberships(user, users){
+  loadTargetMemberships(user, users){
     users.forEach(
       (target) => {
 

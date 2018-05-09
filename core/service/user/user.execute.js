@@ -63,6 +63,38 @@ class UserExecutor extends core.processors.RestProcessor {
   }
 
 
+   /* ----- Method responders ----- */
+
+
+  /**
+   * Creates a user and logs in as that user.
+   * @inheritDoc
+   */
+  post(req, res, next) {
+
+    var
+      result = super.post(req, res),
+      user = result.code === 201
+        ? result.entities[0]
+        : false
+
+    if (user){
+      req.logIn(
+        user,
+        function(error) {
+          if (error) throw error
+          throw utility.response(
+            Processor.SUCCESS,
+            user
+          )
+        }
+      )
+    } else throw result
+
+    return false
+  }
+
+
   /* ----- Authentication ----- */
 
 

@@ -57,7 +57,7 @@ class CollectiveLoader extends Processor{
       req.query,
       {
         process: false,
-        fields: ['id', 'owner', 'defer']
+        fields: ['id', 'owner', 'defer', 'exposure']
       }
     ).entities
 

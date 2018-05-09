@@ -65,7 +65,7 @@ class Stash {
 
     this.process(entities, 'comitted')
 
-    return core.response(Stash.CREATED, entities)
+    return utility.response(Stash.CREATED, entities)
   }
 
   /**
@@ -89,7 +89,7 @@ class Stash {
 
     if (process) this.process(entities, 'retrieved')
 
-    return core.response(Stash.SUCCESS, entities)
+    return utility.response(Stash.SUCCESS, entities)
   }
 
   /**
@@ -109,7 +109,7 @@ class Stash {
 
     this.process(entities, 'retrieved')
 
-    return core.response(Stash.SUCCESS, entities)
+    return utility.response(Stash.SUCCESS, entities)
   }
 
   /**
@@ -125,7 +125,7 @@ class Stash {
 
     this.process(entities, 'deleted')
 
-    return core.response(Stash.SUCCESS, entities)
+    return utility.response(Stash.SUCCESS, entities)
   }
 
 

@@ -86,7 +86,7 @@ Processor.LOGGER = function consoleLog(req, res, next) {
 
 
 Processor.INVALID_REQUEST = { error: "Invalid request", code: 400, expose: true }
-Processor.SUCCESS = { status: "Success", code: 200 }
+Processor.SUCCESS = { status: "Success", code: 200, expose: true }
 Processor.FORBIDDEN = {
   error: "Forbidden to unauthorised users", code: 403, expose: true
 }

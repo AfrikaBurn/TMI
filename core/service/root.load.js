@@ -11,7 +11,7 @@ const
   Processor = core.processors.Processor
 
 
-class SessionLoader extends Processor{
+class SessionLoader extends Processor {
 
 
   /* ----- Construction ----- */

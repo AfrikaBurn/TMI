@@ -16,9 +16,10 @@ class AgreementInstaller extends core.installers.Installer{
       [
         {name: "Administrator"},
         {name: "Moderator"},
-        {name: "Member"}
+        {name: "Member"},
+        {name: "Guest"}
       ]
-    ).entities.length != 3
+    ).entities.length != 4
   }
 
   /**
@@ -33,7 +34,7 @@ class AgreementInstaller extends core.installers.Installer{
       'agreement-base'
     );
 
-    ['Administrator', 'Moderator', 'Member'].forEach(
+    ['Administrator', 'Moderator', 'Member', 'Guest'].forEach(
 
       (name) => {
 
