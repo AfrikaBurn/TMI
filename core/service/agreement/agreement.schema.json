@@ -13,7 +13,8 @@
   },
 
   "type": "object",
-  "title": "Agreement",
+  "title": "string",
+  "name": "string",
 
   "properties": {
     "id": {"$ref": "#/definitions/uei"},
@@ -21,5 +22,5 @@
     "schema": {"type": "object"}
   },
 
-  "required": ["owner", "schema"]
+  "required": ["name", "owner", "schema"]
 }

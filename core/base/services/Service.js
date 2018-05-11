@@ -48,7 +48,7 @@ class Service {
     this.loadStash()
     this.loadProcessors()
 
-    core.log('\x1b[32mDone loading service at ' + this.url + '.\x1b[0m\n', 2)
+    core.log('\x1b[32mDone loading service at ' + this.url + '\x1b[0m\n', 2)
 
     this.loadChildren()
   }
@@ -132,7 +132,7 @@ class Service {
           processor = new Processor(this),
           displayPath = pathUtil.relative(this.source, path)
 
-        this.attachProcessor(processor, phase)
+        processor.attach(this.url, core.routers[phase])
         this.processors[phase] = processor
 
         core.log(phase + ' processor \x1b[1m\t\t' + displayPath + '\x1b[0m', 4)
@@ -263,39 +263,6 @@ class Service {
       '.'
     ].filter(path => fs.existsSync(path)).shift()
   }
-
-  /**
-   * Attach handlers to routers according to the processor map.
-   * @param {path}
-   */
-  attachProcessor(processor, phase){
-
-    var
-      routeMap = processor.routes(this.url),
-      routes = Object.keys(routeMap),
-      router = core.routers[phase]
-
-    routes.forEach(
-      (route) => {
-        for (let method in routeMap[route]){
-
-          routeMap[route][method].forEach(
-            (middleware) => router[method](route, middleware)
-          )
-
-          if (route == this.url && processor[method]){
-            router[method](route,
-              (req, res, next) => {
-                res.data =  processor[method](req, res, next)
-                if (res.data !== false) next()
-              }
-            )
-          }
-        }
-      }
-    )
-  }
-
 
   /**
    * Gets a stash by checking ancestors.

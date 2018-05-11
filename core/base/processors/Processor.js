@@ -7,7 +7,6 @@
 
 const
   fs = require('fs'),
-  path = require('path'),
   bodyParser = require('body-parser')
 
 
@@ -64,6 +63,38 @@ class Processor {
    */
   routes(path, controller){ return {} }
 
+
+  /**
+   * Attach handlers to routers according to the processor map.
+   * @param {string}  path    Path to attach to.
+   * @param {object}  router  Router to attach to.
+   */
+  attach(path, router){
+
+    var
+      routeMap = this.routes(path),
+      routes = Object.keys(routeMap)
+
+    routes.forEach(
+      (route) => {
+        for (let method in routeMap[route]){
+
+          routeMap[route][method].forEach(
+            (middleware) => router[method](route, middleware)
+          )
+
+          if (route == path && this[method]){
+            router[method](route,
+              (req, res, next) => {
+                res.data =  this[method](req, res, next)
+                if (res.data !== false) next()
+              }
+            )
+          }
+        }
+      }
+    )
+  }
 }
 
 

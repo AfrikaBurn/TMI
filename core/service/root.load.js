@@ -117,7 +117,7 @@ SessionLoader.USER_ROLE = function setRole(req, res, next){
 
   req.user.is = {
     administrator: req.user.id === 1,
-    anonymous: req.user.id == 0,
+    anonymous: req.user.id === 0,
     authenticated: req.user.id >= 1
   }
 

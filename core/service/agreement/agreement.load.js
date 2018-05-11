@@ -1,6 +1,6 @@
 /**
  * @file load.js
- * User loading.
+ * Agreement loading.
  */
 "use strict"
 
@@ -10,7 +10,7 @@ const
   expressSession = require('express-session')
 
 
-class UserLoader extends core.processors.Processor{
+class AgreementLoader extends core.processors.Processor{
 
 
   /* ----- Routing ----- */
@@ -25,8 +25,8 @@ class UserLoader extends core.processors.Processor{
         'use': [
           core.processors.Processor.PARSE_QUERY,
           (req, res, next) => {
-            this.loadTargetUsers(req);
-            next();
+            this.loadTargetAgreements(req)
+            next()
           }
         ]
       }
@@ -38,23 +38,27 @@ class UserLoader extends core.processors.Processor{
 
 
   /**
-   * Load request target user IDs.
+   * Load request target agreement IDs and owners.
    * @param {object} req Express request object
    */
-  loadTargetUsers(req){
+  loadTargetAgreements(req){
 
     req.target = req.target || {}
 
-    req.target.users = this.service.stash.read(
+    req.target.agreements = this.service.stash.read(
       req.user,
       req.query,
       {
         process: false,
-        fields: ['id']
+        fields: ['id', 'owner']
       }
     ).entities
+
+    req.exising = req.exising || {}
+
+
   }
 }
 
 
-module.exports = UserLoader
+module.exports = AgreementLoader

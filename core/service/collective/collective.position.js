@@ -5,7 +5,7 @@
 "use strict"
 
 
-class CollectiveModifier extends core.processors.Processor {
+class CollectiveModifier extends core.processors.PositionProcessor {
 
 
   /* ----- Request Routing ----- */
@@ -16,21 +16,25 @@ class CollectiveModifier extends core.processors.Processor {
    */
   routes(path){
     return {
-      [path]: {
-        'get': []
+      [path]:{
+        'get':    [],
+        'put':    [],
+        'patch':  [],
+        'delete': []
       }
     }
   }
 
 
-  /* ----- Request Modification ----- */
+  /* ----- Positionality calculation ----- */
 
 
   /**
-   * Establish requesting user and target user ownership and positionality.
+   * Establish requesting user positionality to target collectives.
    * @inheritDoc
    */
-  get(req, res){
+  position(req, res){
+
     var
       user = req.user
 

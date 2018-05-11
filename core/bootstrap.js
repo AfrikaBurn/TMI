@@ -87,6 +87,7 @@ class Bootstrap {
         processors: {
           AccessProcessor: require('./base/processors/AccessProcessor'),
           Processor: require('./base/processors/Processor'),
+          PositionProcessor: require('./base/processors/PositionProcessor'),
           RestProcessor: require('./base/processors/RestProcessor'),
           ServiceProcessor: require('./base/processors/ServiceProcessor')
         },
@@ -118,7 +119,7 @@ class Bootstrap {
    */
   setupRouters(){
 
-    for (let phase of ['load', 'position', 'access', 'execute']){
+    for (let phase of ['load', 'prepare', 'position', 'access', 'execute']){
       this.routers[phase] = express.Router()
       this.app.use(this.routers[phase])
     }

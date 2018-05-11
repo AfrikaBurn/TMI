@@ -63,7 +63,7 @@ class UserExecutor extends core.processors.RestProcessor {
   }
 
 
-   /* ----- Method responders ----- */
+  /* ----- Method responders ----- */
 
 
   /**
@@ -78,15 +78,12 @@ class UserExecutor extends core.processors.RestProcessor {
         ? result.entities[0]
         : false
 
-    if (user){
+    if (req.user.is.anonymous && user){
       req.logIn(
         user,
         function(error) {
           if (error) throw error
-          throw utility.response(
-            Processor.SUCCESS,
-            user
-          )
+          else throw result
         }
       )
     } else throw result
@@ -178,7 +175,7 @@ UserExecutor.LOGOUT = (req, res, next) => {
 /**
  * Serializes a user into the session.
  * @param {Obect} user    User to serialise.
- * @param {Function} done Callback function upon competion.
+ * @param {Function} done Callback function upon completion.
  */
 UserExecutor.serializeUser = (user, done) => {
   done(null, user.id)

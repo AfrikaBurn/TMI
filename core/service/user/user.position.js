@@ -1,11 +1,11 @@
 /**
- * @file UserModifier.js
+ * @file UserPosition.js
  * A basic processor template.
  */
 "use strict"
 
 
-class UserModifier extends core.processors.Processor {
+class UserPosition extends core.processors.PositionProcessor {
 
 
   /* ----- Request Routing ----- */
@@ -16,24 +16,33 @@ class UserModifier extends core.processors.Processor {
    */
   routes(path){
     return {
-      [path]: {
-        'get': []
+      [path]:{
+        'get':    [],
+        'put':    [],
+        'patch':  [],
+        'delete': []
       }
     }
   }
 
 
-  /* ----- Request Modification ----- */
+  /* ----- Positionality calculation ----- */
 
 
   /**
-   * Establish requesting user and target user ownership and positionality.
+   * Establish requesting user positionality to target users.
    * @inheritDoc
    */
-  get(req, res){
+  position(req, res){
 
     var
-      user = req.user
+      user = req.user,
+      users = req.target.users
+
+    core.services.agreement.agreedPositions(
+      req.target.users,
+      ['member']
+    )
 
     user.position = {
       owner: true,
@@ -42,20 +51,20 @@ class UserModifier extends core.processors.Processor {
       on: []
     }
 
-    req.target.users.forEach(
+    users.forEach(
 
       (target, index) => {
 
         user.position.on[index] = {
           owner: user.id == target.id || user.is.administrator,
           member: user.positions.member.filter(
-            (collectiveId) => target.memberships.indexOf(collectiveId) != -1
+            (collectiveId) => target.positions.member.indexOf(collectiveId) >= 0
           ).length > 0,
           moderator: user.positions.moderator.filter(
-            (collectiveId) => target.memberships.indexOf(collectiveId) != -1
+            (collectiveId) => target.positions.member.indexOf(collectiveId) >= 0
           ).length > 0,
           administrator: user.positions.administrator.filter(
-            (collectiveId) => target.memberships.indexOf(collectiveId) != -1
+            (collectiveId) => target.positions.member.indexOf(collectiveId) >= 0
           ).length > 0
         }
 
@@ -72,4 +81,4 @@ class UserModifier extends core.processors.Processor {
 }
 
 
-module.exports = UserModifier
+module.exports = UserPosition

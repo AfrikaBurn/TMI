@@ -1,5 +1,5 @@
 /**
- * @file AgreementLoader.js
+ * @file AgreementPosition.js
  * User access processor.
  */
 "use strict"
@@ -9,92 +9,60 @@ const
   Processor = core.processors.Processor
 
 
-class AgreementLoader extends core.processors.RestProcessor {
+class AgreementPosition extends core.processors.PositionProcessor {
 
 
   /* ----- Request Routing ----- */
 
 
   /**
+   * Adds middleware to load user and target user positionality.
    * @inheritDoc
    */
   routes(path){
     return {
-      '': {
-        'use': [
-          (req, res, next) => {
-            this.loadUserPositions(req.user);
-            next()
-          }
-        ]
-      },
-      '/user': {
-        'get': [
-          (req, res, next) => {
-            this.loadTargetMemberships(req.user, req.target.users)
-            next()
-          }
-        ]
+      [path]:{
+        'get':    [],
+        'put':    [],
+        'patch':  [],
+        'delete': [],
       }
     }
   }
 
 
-  // ----- Request Loading -----
+  /* ----- Positionality calculation ----- */
 
 
   /**
-   * Loads positional agreements of the requesting user.
-   * @param {object} user User to load positional agreements for.
+   * Loads user ownership of target agreements.
+   * @inheritDoc
    */
-  loadUserPositions(user){
+  position(req, res){
 
-    user.positions = {};
+    var
+      user = req.user
 
-    ['administrator', 'moderator', 'member', 'guest'].forEach(
-      (position) => {
-        user.positions[position] = this.service.services[position].stash.read(
-          user,
-          {
-            promisor: {
-              entityType: 'user',
-              id: user.id,
-            }
-          }
-        ).entities.reduce(
-          (collectives, agreement) => collectives.concat(agreement.promisee.id),
-          []
-        )
+    user.position = {
+      owner: true,
+      on: []
+    }
+
+    req.target.agreements.forEach(
+      (agreement, index) => {
+        user.position.on[index] = {
+          owner: agreement.owner.type === 'user'
+            ? agreement.owner.id === user.id
+            : user.positions
+        }
+
+        user.position.owner &= user.position.on[index].owner
       }
     )
-  }
 
-  /**
-   * Load membership agreements of target users.
-   * @param {object} user requesting user.
-   * @param {object} users target users to load membership agreements for.
-   */
-  loadTargetMemberships(user, users){
-    users.forEach(
-      (target) => {
-
-        target.memberships = this.service.services.member.stash.read(
-          user,
-          {
-            promisor: {
-              entityType: 'user',
-              id: target.id,
-            }
-          }
-        ).entities.reduce(
-          (collectives, agreement) => collectives.concat(agreement.promisee.id),
-          []
-        )
-
-      }
-    )
+    user.position.owner = Boolean(user.position.owner)
   }
 }
 
 
-module.exports = AgreementLoader
+module.exports = AgreementPosition
