@@ -72,7 +72,7 @@
   "processors": {
     "validated": {"password": "HASH"},
     "committed": {"password": "BLANK"},
-    "deleted": {"password": "BLANK"},
+    "deleted":   {"password": "BLANK"},
     "retrieved": {"password": "BLANK"}
   }
 }

@@ -50,7 +50,6 @@ class AgreementInstaller extends core.installers.Installer{
               body: [{
                 owner: {entityType: 'collective', id: 0},
                 name: machineName,
-                schemaType: 'agreement',
                 schema: require(
                   './install/' + machineName + '.agreement.schema.json'
                 )
@@ -69,7 +68,7 @@ class AgreementInstaller extends core.installers.Installer{
           )
 
         } catch (e) {
-          core.error(e)
+          utility.log(e)
           installed = false
         }
       }

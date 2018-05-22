@@ -4,9 +4,13 @@
 
 	"services": {
 		"/": {
-			"salt": "Bleh Bleh"
+			"salt": "uiTh1kei Re5oZo2e Bohr7Xee uR5OoX7n ua7quooX mu8Faefu thoobu6U"
 		}
 	},
 
-	"origins": ["http://localhost:4200"]
+	"phases": ["load", "prepare", "position", "access", "filter", "execute"],
+
+	"whitelist": [
+		"http://localhost:4200"
+	]
 }

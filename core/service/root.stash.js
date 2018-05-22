@@ -1,15 +1,11 @@
 /**
- * @file SessionStash.js
- * User Stash.
+ * @file root.stash.js
+ * Stash to be used for session storage.
  */
 "use strict"
 
 
-const
-  Stash = core.stashes.MemoryStash
+class SessionStash extends core.stashes.MemoryStash {}
 
 
-class SessionStash extends Stash {}
-
-
-module.exports = SessionStash
+module.exports  = SessionStash

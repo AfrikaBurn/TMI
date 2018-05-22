@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://tmi-platform.org/agreement/base.profile.schema.json",
+
+  "type": "object",
+  "title": "Profile Base",
+
+  "definitions": {
+    "collectiveRef": {"$ref": "http://tmi-platform.org/root.schema.json#/definitions/collectiveRef"}
+  },
+
+  "properties":{
+    "owner": {"$ref": "#/definitions/collectiveRef"}
+  }
+}

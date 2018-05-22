@@ -19,7 +19,7 @@ class CollectiveAccess extends AccessProcessor {
    * @inheritDoc
    */
   get(req, res){
-    // TODO
+    AccessProcessor.GRANT(req)
   }
 
   /**
@@ -35,21 +35,27 @@ class CollectiveAccess extends AccessProcessor {
    * @inheritDoc
    */
   put(req, res){
-    // TODO
+    req.user.is.owner || req.user.is.administrator
+      ? AccessProcessor.DENY(req)
+      : AccessProcessor.GRANT(req)
   }
 
   /**
    * @inheritDoc
    */
   patch(req, res){
-    // TODO
+    req.user.is.owner || req.user.is.administrator
+      ? AccessProcessor.DENY(req)
+      : AccessProcessor.GRANT(req)
   }
 
   /**
    * @inheritDoc
    */
   delete(req, res){
-    // TODO
+    req.user.is.owner || req.user.is.administrator
+      ? AccessProcessor.DENY(req)
+      : AccessProcessor.GRANT(req)
   }
 }
 

@@ -1,10 +1,10 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "http://tmi-platform.org/agreement/agreement.schema.json",
+  "$id": "http://tmi-platform.org/profile/profile.schema.json",
 
   "definitions": {
     "uei": {"$ref": "http://tmi-platform.org/root.schema.json#/definitions/uei"},
-    "participantRef": {"$ref": "http://tmi-platform.org/root.schema.json#/definitions/participantRef"}
+    "collectionRef": {"$ref": "http://tmi-platform.org/root.schema.json#/definitions/collectionRef"}
   },
 
   "type": "object",
@@ -13,7 +13,7 @@
 
   "properties": {
     "id": {"$ref": "#/definitions/uei"},
-    "owner": {"$ref": "#/definitions/participantRef"},
+    "owner": {"$ref": "#/definitions/collectionRef"},
     "schema": {"type": "object"}
   },
 

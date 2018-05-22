@@ -9,7 +9,7 @@ const
   Processor = core.processors.Processor
 
 
-class AgreementPosition extends core.processors.PositionProcessor {
+class AgreementPosition extends core.processors.UniformProcessor {
 
 
   /* ----- Request Routing ----- */
@@ -38,7 +38,7 @@ class AgreementPosition extends core.processors.PositionProcessor {
    * Loads user ownership of target agreements.
    * @inheritDoc
    */
-  position(req, res){
+  process(req, res){
 
     var
       user = req.user
@@ -53,7 +53,7 @@ class AgreementPosition extends core.processors.PositionProcessor {
         user.position.on[index] = {
           owner: agreement.owner.type === 'user'
             ? agreement.owner.id === user.id
-            : user.positions
+            : user.positions.administrator.indexOf(agreement.owner.id) >= 0
         }
 
         user.position.owner &= user.position.on[index].owner

@@ -5,7 +5,7 @@
 "use strict"
 
 
-class UserPosition extends core.processors.PositionProcessor {
+class UserPosition extends core.processors.UniformProcessor {
 
 
   /* ----- Request Routing ----- */
@@ -33,13 +33,13 @@ class UserPosition extends core.processors.PositionProcessor {
    * Establish requesting user positionality to target users.
    * @inheritDoc
    */
-  position(req, res){
+  process(req, res){
 
     var
       user = req.user,
       users = req.target.users
 
-    core.services.agreement.agreedPositions(
+    bootstrap.services['/agreement'].agreedPositions(
       req.target.users,
       ['member']
     )
@@ -81,4 +81,4 @@ class UserPosition extends core.processors.PositionProcessor {
 }
 
 
-module.exports = UserPosition
+module.exports  = UserPosition

@@ -8,4 +8,4 @@
 class UserStash extends core.stashes.MemoryStash {}
 
 
-module.exports = UserStash
+module.exports  = UserStash

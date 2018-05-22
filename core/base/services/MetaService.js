@@ -29,9 +29,14 @@ class MetaService extends Service{
 
   /**
    * @inheritDoc
-   * TODO
    */
-  loadChildren(){}
+  loadChildren(){
+    this.stash.read({id: -1}, {fields: ['name', 'schema']}).entities.forEach(
+      (child) => {
+        this.createSubService(child)
+      }
+    )
+  }
 
 
   /* ----- Utility ----- */
@@ -60,17 +65,6 @@ class MetaService extends Service{
       this.source + '/default',
       serviceDefinition.schema
     )
-  }
-
-
-  /**
-   * Returns the names of children to load
-   */
-  getChildrenNames(){
-    return this.stash.read(
-      {id: -1},
-      {fields: ['name']}
-    ).entities
   }
 }
 

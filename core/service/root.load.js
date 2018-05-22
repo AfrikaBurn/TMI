@@ -59,7 +59,7 @@ class SessionLoader extends Processor {
    */
   deserializeUser(id, done){
 
-    var users = core.services.user.stash.read(
+    var users = bootstrap.services['/user'].stash.read(
       {id: 0},
       {id: id},
       {processing: false}
@@ -85,7 +85,7 @@ class SessionLoader extends Processor {
 
     return expressSession(
       {
-        secret: core.config.services[path].salt,
+        secret: bootstrap.config.services[path].salt,
         resave: true,
         saveUninitialized: true,
         store: sessionStore,
@@ -131,4 +131,4 @@ SessionLoader.USER_ROLE = function setRole(req, res, next){
 SessionLoader.ACCOUNT_GONE = { error: "Account removed", code: 410, expose: true }
 
 
-module.exports = SessionLoader
+module.exports  = SessionLoader

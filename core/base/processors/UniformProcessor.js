@@ -1,15 +1,15 @@
 /**
- * @file PositionProcessor.js
- * Basic Positional processor for basic HTTP methods.
+ * @file UniformProcessor.js
+ * Basic uniform processor for basic HTTP methods.
  */
 "use strict"
 
 
 const
-  Processor = require('./Processor')
+  RestProcessor = require('./RestProcessor')
 
 
-class PositionProcessor extends Processor {
+class UniformProcessor extends RestProcessor {
 
 
   /* ----- Request Routing ----- */
@@ -38,35 +38,35 @@ class PositionProcessor extends Processor {
    * @inheritDoc
    */
   get(req, res) {
-    this.position(req, res)
+    this.process(req, res)
   }
 
   /**
    * @inheritDoc
    */
   post(req, res) {
-    this.position(req, res)
+    this.process(req, res)
   }
 
   /**
    * @inheritDoc
    */
   put(req, res) {
-    this.position(req, res)
+    this.process(req, res)
   }
 
   /**
    * @inheritDoc
    */
   patch(req, res) {
-    this.position(req, res)
+    this.process(req, res)
   }
 
   /**
    * @inheritDoc
    */
   delete(req, res) {
-    this.position(req, res)
+    this.process(req, res)
   }
 
 
@@ -74,12 +74,12 @@ class PositionProcessor extends Processor {
 
 
   /**
-   * Default positionality calculator.
+   * Default request processor.
    * @param  {object} req Express request object
    * @param  {object} res Express response object
    */
-  position(req, res){}
+  process(req, res){}
 }
 
 
-module.exports = PositionProcessor
+module.exports = UniformProcessor

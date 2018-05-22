@@ -216,7 +216,7 @@ class Stash {
    * @return {object}
    */
   toSessionStore(){
-    core.log(
+    utility.log(
       '\x1b[33mWARNING: Using memory based stash for session storage!\n' +
       '\x1b[33mIt will fail with multiple connections!\n' +
       '\x1b[33mUse another stash for production.',

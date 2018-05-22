@@ -1,11 +1,11 @@
 /**
- * @file RootPosition.js
- * Agreement pre positioning.
+ * @file root.position.js
+ * Loads requesting user agreed positions.
  */
 "use strict"
 
 
-class RootPosition extends core.processors.PositionProcessor {
+class RootPosition extends core.processors.UniformProcessor {
 
   /**
    * @inheritDoc
@@ -15,7 +15,7 @@ class RootPosition extends core.processors.PositionProcessor {
       '': {
         'use': [
           (req, res, next) => {
-            this.position(req, res)
+            this.process(req, res)
             next()
           }
         ]
@@ -30,8 +30,8 @@ class RootPosition extends core.processors.PositionProcessor {
    * Loads requesting user positions.
    * @inheritDoc
    */
-  position(req, res) {
-    core.services.agreement.agreedPositions(
+  process(req, res) {
+    bootstrap.services['/agreement'].agreedPositions(
       [req.user],
       ['administrator', 'moderator', 'member', 'guest']
     )
@@ -39,4 +39,4 @@ class RootPosition extends core.processors.PositionProcessor {
 }
 
 
-module.exports = RootPosition
+module.exports  = RootPosition

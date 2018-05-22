@@ -57,4 +57,4 @@ class UserLoader extends core.processors.Processor{
 }
 
 
-module.exports = UserLoader
+module.exports  = UserLoader

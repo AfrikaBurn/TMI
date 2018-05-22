@@ -104,11 +104,11 @@ class Processor {
 Processor.PARSE_BODY  = bodyParser.json()
 Processor.PARSE_QUERY = bodyParser.urlencoded({ extended: false })
 Processor.LOGGER = function consoleLog(req, res, next) {
-  core.log('Processing: ' + req.url)
-  core.log('Accept: ' + req.header('Accept'))
-  core.log('Content-Type: ' + req.header('Content-Type'))
-  core.log('Query:', req.query)
-  core.log('Body:', req.body ,'\n')
+  utility.log('Processing: ' + req.url)
+  utility.log('Accept: ' + req.header('Accept'))
+  utility.log('Content-Type: ' + req.header('Content-Type'))
+  utility.log('Query:', req.query)
+  utility.log('Body:', req.body ,'\n')
   next()
 }
 

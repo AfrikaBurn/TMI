@@ -33,7 +33,7 @@ class CollectiveLoader extends Processor{
 
 
   /**
-   * Load request target user IDs.
+   * Load request target collectives.
    * @inheritDoc
    */
   get(req, res){
@@ -45,7 +45,7 @@ class CollectiveLoader extends Processor{
 
 
   /**
-   * Load target collectives IDs, ownership and deference.
+   * Load target collectives IDs, ownership, deference and exposure.
    * @param  {object} req Express request object
    */
   loadTargetCollectives(req){

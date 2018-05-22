@@ -31,18 +31,16 @@ class Bootstrap {
       '\x1b[34m' + this.config.name + '\n'
     )
 
-    this.setupBase()
-
-    core.log('\x1b[1mLOADING\x1b[0m\n')
-
+    utility.log('\x1b[1mLOADING\x1b[0m\n')
+    this.setupWhitelist()
     this.setupRouters()
-    this.delegate()
+    this.setupServices()
 
-    core.log('\x1b[1mINSTALLING\x1b[0m\n')
-
-    this.services.install()
-
-    this.start()
+    if (this.root) {
+      utility.log('\x1b[1mINSTALLING\x1b[0m\n')
+      this.root.install()
+      this.start()
+    }
   }
 
 
@@ -50,11 +48,28 @@ class Bootstrap {
 
 
   /**
+   * Setup connection whitelist.
+   */
+  setupWhitelist(){
+    this.app.use(
+      cors(
+        (request, callback) => callback(
+          null,
+          {
+            origin: this.config.whitelist || [],
+            allowedHeaders: ['Content-Type', 'Authorization', 'Accept']
+          }
+        )
+      )
+    )
+  }
+
+  /**
    * Setup local variables, config, routers and processors.
    */
   setupApp(){
 
-    global.core = this;
+    global.bootstrap = this;
 
     this.app = express()
     this.config = require('./config.json')
@@ -63,63 +78,23 @@ class Bootstrap {
 
     this.routers = {}
     this.services = {}
-
-    this.app.use(cors((request, callback) => callback(null,
-      {
-        origin: this.config.origins || [],
-        allowedHeaders: ['Content-Type', 'Authorization', 'Accept']
-      }
-    )))
+    this.root = false
 
     process.chdir(this.installRoot)
-    process.on('SIGINT', () => { process.exit() })
+    process.on('SIGINT',  () => { process.exit() })
     process.on('SIGTERM', () => { process.exit() })
-    process.on('exit', () => { this.stop() })
+    process.on('exit',    () => { this.stop()    })
   }
 
   /**
-   * Setup global base classes.
-   */
-  setupBase(){
-    Object.assign(
-      this,
-      {
-        processors: {
-          AccessProcessor: require('./base/processors/AccessProcessor'),
-          Processor: require('./base/processors/Processor'),
-          PositionProcessor: require('./base/processors/PositionProcessor'),
-          RestProcessor: require('./base/processors/RestProcessor'),
-          ServiceProcessor: require('./base/processors/ServiceProcessor')
-        },
-        stashes: {
-          Stash: require('./base/stashes/Stash'),
-          MemoryStash: require('./base/stashes/MemoryStash')
-        },
-        services: {
-          Service: require('./base/services/Service'),
-          MetaService: require('./base/services/MetaService')
-        },
-        installers: {
-          Installer: require('./base/installers/Installer.js')
-        },
-        log: (message, indent = 0) => {
-
-          var padding = ' '.repeat(indent)
-
-          typeof message == 'string'
-            ? console.log(padding + message.replace(/\n/g, '\n' + padding))
-            : console.log(message.message, message.stack)
-        }
-      }
-    )
-  }
-
-  /**
-   * Setup global routers and handlers.
+   * Setup global routers.
    */
   setupRouters(){
 
-    for (let phase of ['load', 'prepare', 'position', 'access', 'execute']){
+    var
+      phases = this.config.phases || ['load', 'access', 'execute']
+
+    for (let phase of phases){
       this.routers[phase] = express.Router()
       this.app.use(this.routers[phase])
     }
@@ -129,23 +104,27 @@ class Bootstrap {
     this.app.use(this.handleNotFound)
   }
 
-
-  // ----- Service Setup -----
-
-
   /**
    * Delegate to services.
    */
-  delegate(){
+  setupServices(){
+
+    this.root = false
+
     try{
-      var Service = require(core.serviceRoot + 'service.js')
-      this.services = new Service('root', this, '/', core.serviceRoot)
+      var Service = require(bootstrap.serviceRoot + 'service.js')
+      this.root = new Service('root', this, '/', bootstrap.serviceRoot)
     } catch (e) {
-      this.services = new this.services.Service(
-        'root', this, '/', core.serviceRoot
-      )
+      if (e.code == 'MODULE_NOT_FOUND'){
+        this.root = new core.services.Service(
+          'root', this, '/', bootstrap.serviceRoot
+        )
+      } else {
+        console.log(e)
+      }
     }
   }
+
 
   // ----- Server control -----
 
@@ -174,7 +153,7 @@ class Bootstrap {
 
     for (var name in this.services){
       process.stdout.write('Retiring ' + name + ' service... ');
-      this.services[name].dispose()
+      this.services[name].stop()
       console.log('done.');
     }
 
@@ -233,6 +212,35 @@ class Bootstrap {
 }
 
 
+/* ----- Global Core Classes ----- */
+
+
+global.core = {
+
+  processors: {
+    AccessProcessor:    require('./base/processors/AccessProcessor'),
+    Processor:          require('./base/processors/Processor'),
+    UniformProcessor:  require('./base/processors/UniformProcessor'),
+    RestProcessor:      require('./base/processors/RestProcessor'),
+    ServiceProcessor:   require('./base/processors/ServiceProcessor')
+  },
+
+  stashes: {
+    Stash: require('./base/stashes/Stash'),
+    MemoryStash: require('./base/stashes/MemoryStash')
+  },
+
+  services: {
+    Service: require('./base/services/Service'),
+    MetaService: require('./base/services/MetaService')
+  },
+
+  installers: {
+    Installer: require('./base/installers/Installer.js')
+  }
+}
+
+
 /* ----- Global Utility ----- */
 
 
@@ -247,7 +255,7 @@ global.utility = {
   },
 
   /**
-   * Returns a stash response object.
+   * Returns a structured status object.
    * @param {object} status Response status
    * @param {array} entities Associated entities
    */
@@ -256,12 +264,26 @@ global.utility = {
   },
 
   /**
-   * Returns a stash response object.
+   * Returns a structured error response object.
    * @param {object} status Response status
    * @param {array} errors Associated errors
    */
   error: (status, errors = []) => {
     return Object.assign({}, status, {errors: errors})
+  },
+
+  /**
+   * Logs a message at a specified indent,
+   * @param {string} message  Message to log
+   * @param {int} indent      Indent to apply
+   */
+  log: (message, indent = 0) => {
+
+    var padding = ' '.repeat(indent)
+
+    typeof message == 'string'
+      ? console.log(padding + message.replace(/\n/g, '\n' + padding))
+      : console.log(message.message, message.stack)
   }
 }
 
