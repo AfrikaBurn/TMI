@@ -1,0 +1,2115 @@
+{
+	"info": {
+		"_postman_id": "7c933d81-3907-4ba0-aa83-8c8b5aee190e",
+		"name": "tmi core",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Install",
+			"description": "Setup tasks required to run test requests.",
+			"item": [
+				{
+					"name": "Admin Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "31887572-edcf-4547-b343-214f5f983c94",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status OK\", () => pm.response.to.have.status(200))",
+									"pm.test(\"Session cookie set\", () => pm.expect(postman.getResponseCookie('connect.sid')).to.not.eql(undefined))",
+									"",
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Logged in as Administrator\", () => pm.expect(jsonData.user.username).to.eql(\"Administrator\"))",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"Administrator\", \n  \"password\": \"Administrator\"\n}"
+						},
+						"url": {
+							"raw": "localhost:3000/user/login",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "System Users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9e47c522-4893-42a3-9f14-3b72d3a5915f",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status OK\", () => pm.response.to.have.status(200))",
+									"",
+									"const ",
+									"    EXPECTED = [",
+									"        {",
+									"            \"username\": \"Anonymous\",",
+									"            \"password\": \"*\",",
+									"            \"email\": {",
+									"                \"value\": \"no-reply@system.com\",",
+									"                \"privacy\": \"owner\"",
+									"            },",
+									"            \"id\": 0",
+									"        },",
+									"        {",
+									"            \"username\": \"Administrator\",",
+									"            \"password\": \"*\",",
+									"            \"email\": {",
+									"                \"value\": \"no-reply@system.com\",",
+									"                \"privacy\": \"owner\"",
+									"            },",
+									"            \"id\": 1",
+									"        }",
+									"    ]",
+									"",
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Response is an array of \" + EXPECTED.length, ",
+									"    () => {",
+									"        pm.expect(jsonData.entities.length).to.eql(EXPECTED.length)",
+									"    }",
+									");",
+									"",
+									"for (let i=0; i<EXPECTED.length; i++){        ",
+									"    pm.test(EXPECTED[i].username + \" account\", ",
+									"        () => {",
+									"            pm.expect(jsonData.entities[i]).to.eql(EXPECTED[i])",
+									"        }",
+									"    );",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:3000/user",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "System Collectives",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6fc595b9-99a1-4367-9f84-b8679f79b14a",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status OK\", () => pm.response.to.have.status(200))",
+									"",
+									"const ",
+									"    EXPECTED = [",
+									"        {",
+									"            \"name\": \"System\",",
+									"            \"description\": \"System operators of this tribe.\",",
+									"            \"status\": \"active\",",
+									"            \"owner\": {",
+									"                \"entityType\": \"user\",",
+									"                \"id\": -1",
+									"            },",
+									"            \"id\": 0",
+									"        },",
+									"        {",
+									"            \"name\": \"Participants\",",
+									"            \"description\": \"Tribe participation group.\",",
+									"            \"status\": \"active\",",
+									"            \"owner\": {",
+									"                \"id\": -1",
+									"            },",
+									"            \"delegate\": {",
+									"                \"moderation\": {",
+									"                    \"id\": 0",
+									"                },",
+									"                \"administration\": {",
+									"                    \"id\": 0",
+									"                }",
+									"            },",
+									"            \"id\": 1",
+									"        }",
+									"    ]",
+									"",
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Response is an array of \" + EXPECTED.length, ",
+									"    () => {",
+									"        pm.expect(jsonData.entities.length).to.eql(EXPECTED.length)",
+									"    }",
+									");",
+									"",
+									"for (let i=0; i<EXPECTED.length; i++){        ",
+									"    pm.test(EXPECTED[i].name + \" collective\", ",
+									"        () => {",
+									"            pm.expect(jsonData.entities[i]).to.eql(EXPECTED[i])",
+									"        }",
+									"    );",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:3000/collective",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"collective"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "System Agreements",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "79eea4f5-d3de-46df-a27f-aa3f299fbcb3",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status OK\", () => pm.response.to.have.status(200))",
+									"",
+									"const ",
+									"    EXPECTED = [",
+									"        {",
+									"            \"owner\": {",
+									"                \"entityType\": \"collective\",",
+									"                \"id\": 0",
+									"            },",
+									"            \"name\": \"administrator\",",
+									"            \"schema\": {",
+									"                \"$schema\": \"http://json-schema.org/draft-07/schema#\",",
+									"                \"$id\": \"http://tmi-platform.org/agreement/administrator/administrator.schema.json\",",
+									"                \"type\": \"object\",",
+									"                \"title\": \"Administrator Agreement\",",
+									"                \"allOf\": [",
+									"                    {",
+									"                        \"$ref\": \"http://tmi-platform.org/agreement/base.agreement.schema.json\"",
+									"                    }",
+									"                ]",
+									"            },",
+									"            \"id\": 0",
+									"        },",
+									"        {",
+									"            \"owner\": {",
+									"                \"entityType\": \"collective\",",
+									"                \"id\": 0",
+									"            },",
+									"            \"name\": \"moderator\",",
+									"            \"schema\": {",
+									"                \"$schema\": \"http://json-schema.org/draft-07/schema#\",",
+									"                \"$id\": \"http://tmi-platform.org/schemas/agreement/default/moderator.json\",",
+									"                \"type\": \"object\",",
+									"                \"title\": \"Moderator Agreement\",",
+									"                \"allOf\": [",
+									"                    {",
+									"                        \"$ref\": \"http://tmi-platform.org/agreement/base.agreement.schema.json\"",
+									"                    }",
+									"                ]",
+									"            },",
+									"            \"id\": 1",
+									"        },",
+									"        {",
+									"            \"owner\": {",
+									"                \"entityType\": \"collective\",",
+									"                \"id\": 0",
+									"            },",
+									"            \"name\": \"member\",",
+									"            \"schema\": {",
+									"                \"$schema\": \"http://json-schema.org/draft-07/schema#\",",
+									"                \"$id\": \"http://tmi-platform.org/agreement/default/member.agreement.schema.json\",",
+									"                \"type\": \"object\",",
+									"                \"title\": \"Membership Agreement\",",
+									"                \"allOf\": [",
+									"                    {",
+									"                        \"$ref\": \"http://tmi-platform.org/agreement/base.agreement.schema.json\"",
+									"                    }",
+									"                ]",
+									"            },",
+									"            \"id\": 2",
+									"        },",
+									"        {",
+									"            \"owner\": {",
+									"                \"entityType\": \"collective\",",
+									"                \"id\": 0",
+									"            },",
+									"            \"name\": \"guest\",",
+									"            \"schema\": {",
+									"                \"$schema\": \"http://json-schema.org/draft-07/schema#\",",
+									"                \"$id\": \"http://tmi-platform.org/schemas/agreement/default/guest.json\",",
+									"                \"type\": \"object\",",
+									"                \"title\": \"Guest Agreement\",",
+									"                \"allOf\": [",
+									"                    {",
+									"                        \"$ref\": \"http://tmi-platform.org/agreement/base.agreement.schema.json\"",
+									"                    }",
+									"                ]",
+									"            },",
+									"            \"id\": 3",
+									"        }",
+									"    ]",
+									"",
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Response is an array of \" + EXPECTED.length, ",
+									"    () => {",
+									"        pm.expect(jsonData.entities.length).to.eql(EXPECTED.length)",
+									"    }",
+									");",
+									"",
+									"for (let i=0; i<EXPECTED.length; i++){        ",
+									"    pm.test(EXPECTED[i].name + \" agreement\", ",
+									"        () => {",
+									"            pm.expect(jsonData.entities[i]).to.eql(EXPECTED[i])",
+									"        }",
+									"    );",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:3000/agreement",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"agreement"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Administrator Agreement Service",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1f563bda-7a2a-43d1-8c45-383464f83b71",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status OK\", () => pm.response.to.have.status(200))",
+									"",
+									"const ",
+									"    EXPECTED = [",
+									"        {",
+									"            \"promisor\": {",
+									"                \"entityType\": \"user\",",
+									"                \"id\": 1",
+									"            },",
+									"            \"promisee\": {",
+									"                \"entityType\": \"collective\",",
+									"                \"id\": 0",
+									"            },",
+									"            \"id\": 0",
+									"        }",
+									"    ]",
+									"",
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Response is an array of \" + EXPECTED.length, ",
+									"    () => {",
+									"        pm.expect(jsonData.entities.length).to.eql(EXPECTED.length)",
+									"    }",
+									");",
+									"",
+									"for (let i=0; i<EXPECTED.length; i++){        ",
+									"    pm.test(\"Agreement entity \" + i, ",
+									"        () => {",
+									"            pm.expect(jsonData.entities[i]).to.eql(EXPECTED[i])",
+									"        }",
+									"    );",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:3000/agreement/administrator",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"agreement",
+								"administrator"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Moderator Agreement Service",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ddcbcf7d-1a67-49a2-8c13-9c5b9ab4915a",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status OK\", () => pm.response.to.have.status(200))",
+									"",
+									"const ",
+									"    EXPECTED = [",
+									"        {",
+									"            \"promisor\": {",
+									"                \"entityType\": \"user\",",
+									"                \"id\": 1",
+									"            },",
+									"            \"promisee\": {",
+									"                \"entityType\": \"collective\",",
+									"                \"id\": 0",
+									"            },",
+									"            \"id\": 0",
+									"        }",
+									"    ]",
+									"",
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Response is an array of \" + EXPECTED.length, ",
+									"    () => {",
+									"        pm.expect(jsonData.entities.length).to.eql(EXPECTED.length)",
+									"    }",
+									");",
+									"",
+									"for (let i=0; i<EXPECTED.length; i++){        ",
+									"    pm.test(\"Agreement entity \" + i, ",
+									"        () => {",
+									"            pm.expect(jsonData.entities[i]).to.eql(EXPECTED[i])",
+									"        }",
+									"    );",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:3000/agreement/moderator",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"agreement",
+								"moderator"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Member Agreement Service",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "797730d1-665e-4ae3-b51b-42282d0dcf93",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status OK\", () => pm.response.to.have.status(200))",
+									"",
+									"const ",
+									"    EXPECTED = [",
+									"        {",
+									"            \"promisor\": {",
+									"                \"entityType\": \"user\",",
+									"                \"id\": 1",
+									"            },",
+									"            \"promisee\": {",
+									"                \"entityType\": \"collective\",",
+									"                \"id\": 0",
+									"            },",
+									"            \"id\": 0",
+									"        }",
+									"    ]",
+									"",
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Response is an array of \" + EXPECTED.length, ",
+									"    () => {",
+									"        pm.expect(jsonData.entities.length).to.eql(EXPECTED.length)",
+									"    }",
+									");",
+									"",
+									"for (let i=0; i<EXPECTED.length; i++){        ",
+									"    pm.test(\"Agreement entity \" + i, ",
+									"        () => {",
+									"            pm.expect(jsonData.entities[i]).to.eql(EXPECTED[i])",
+									"        }",
+									"    );",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:3000/agreement/member",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"agreement",
+								"member"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Guest Agreement Service",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "797730d1-665e-4ae3-b51b-42282d0dcf93",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status OK\", () => pm.response.to.have.status(200))",
+									"",
+									"const ",
+									"    EXPECTED = [",
+									"        {",
+									"            \"promisor\": {",
+									"                \"entityType\": \"user\",",
+									"                \"id\": 1",
+									"            },",
+									"            \"promisee\": {",
+									"                \"entityType\": \"collective\",",
+									"                \"id\": 0",
+									"            },",
+									"            \"id\": 0",
+									"        }",
+									"    ]",
+									"",
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Response is an array of \" + EXPECTED.length, ",
+									"    () => {",
+									"        pm.expect(jsonData.entities.length).to.eql(EXPECTED.length)",
+									"    }",
+									");",
+									"",
+									"for (let i=0; i<EXPECTED.length; i++){        ",
+									"    pm.test(\"Agreement entity \" + i, ",
+									"        () => {",
+									"            pm.expect(jsonData.entities[i]).to.eql(EXPECTED[i])",
+									"        }",
+									"    );",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:3000/agreement/guest",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"agreement",
+								"guest"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "b95d2658-82c5-451f-9f21-ffdcb9a2f514",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "5edc648f-693b-41dc-94be-444b4e7e6923",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "As anonymous",
+			"description": "Requests bu unauthenticated users.",
+			"item": [
+				{
+					"name": "Prepare",
+					"description": "",
+					"item": [
+						{
+							"name": "Logout",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "5815bd4f-5177-4e71-bd6a-3749225eb0fb",
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status OK\", () => pm.response.to.have.status(200))",
+											"pm.test(\"Logged out\", pm.globals.get('NO_SESSION_COOKIE'));",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "localhost:3000/user/logout",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"user",
+										"logout"
+									]
+								},
+								"description": "Log the user out of the current session."
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "User",
+					"description": "Requests to the user service.",
+					"item": [
+						{
+							"name": "Schema",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "7cdc9bc3-d707-4fed-b4c1-afd1498faf5d",
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status OK\", () => pm.response.to.have.status(200))",
+											"",
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.test(\"User schema\", function () {",
+											"  pm.expect(jsonData.schema[\"$id\"]).to.eql(\"http://tmi-platform.org/user/user.schema.json\");",
+											"});",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json;schema"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "localhost:3000/user",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"user"
+									]
+								},
+								"description": "Retrieves the User schema"
+							},
+							"response": []
+						},
+						{
+							"name": "List",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "fd172cf8-5495-4514-a78b-1eca755605f2",
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Should not be allowed\", () => pm.response.to.have.status(403))"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "localhost:3000/user",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"user"
+									]
+								},
+								"description": "Retrieves a list of users"
+							},
+							"response": []
+						},
+						{
+							"name": "Find",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "ad5bd6f4-759a-42c1-8f33-610acf79770c",
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Should not be allowed\", () => pm.response.to.have.status(403))"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "localhost:3000/user?username=Test",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"user"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "Test"
+										}
+									]
+								},
+								"description": "Retrieves a list of users that satisfy a set of criteria"
+							},
+							"response": []
+						},
+						{
+							"name": "Create",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "644c628f-dc3c-4b5a-b886-51d5d9a68fac",
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status CREATED\", () => pm.response.to.have.status(201))",
+											"pm.test(\"Response is an array\", pm.globals.get('BODY_IS_ARRAY'))",
+											"",
+											"const EXPECTED = 1",
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Response is an array of \" + EXPECTED, function () {",
+											"    pm.expect(jsonData.entities.length).to.eql(EXPECTED)",
+											"});",
+											"",
+											"for (let i=0; i<EXPECTED; i++){        ",
+											"    pm.test(i + \": Id property set\", function () {",
+											"        pm.expect(jsonData.entities[i].id).to.not.eql(undefined)",
+											"    });",
+											"    pm.test(i + \": Username property set\", function () {",
+											"        pm.expect(jsonData.entities[i].username).to.not.eql(undefined)",
+											"    });",
+											"    pm.test(i + \": Email property set\", function () {",
+											"        pm.expect(jsonData.entities[i].email.value).to.not.eql(undefined)",
+											"    });",
+											"    pm.test(i + \": Email property lowercased\", function () {",
+											"        pm.expect(jsonData.entities[i].email.value).to.not.eql(undefined)",
+											"    });",
+											"    pm.test(i + \": Email privacy set\", function () {",
+											"        pm.expect(jsonData.entities[i].email.privacy).to.eql(\"owner\")",
+											"    });",
+											"    pm.test(i + \": Password property set\", function () {",
+											"        pm.expect(jsonData.entities[i].password).to.not.eql(undefined)",
+											"    });",
+											"    pm.test(i + \": Password property blanked\", function () {",
+											"        pm.expect(jsonData.entities[i].password).to.eql(\"*\")",
+											"    });",
+											"}"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n\t{\n\t\t\"username\": \"Authenticated\",\n\t\t\"email\": {\n\t\t\t\"value\": \"Tester@Tester.com\",\n\t\t\t\"privacy\": \"owner\"\n\t\t},\n\t\t\"password\": \"Authenticated\"\n\t}\n]"
+								},
+								"url": {
+									"raw": "localhost:3000/user",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"user"
+									]
+								},
+								"description": "Create a user"
+							},
+							"response": []
+						},
+						{
+							"name": "Logout",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "5815bd4f-5177-4e71-bd6a-3749225eb0fb",
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status OK\", () => pm.response.to.have.status(200))",
+											"pm.test(\"Logged out\", pm.globals.get('NO_SESSION_COOKIE'));",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "localhost:3000/user/logout",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"user",
+										"logout"
+									]
+								},
+								"description": "Log the user out of the current session."
+							},
+							"response": []
+						},
+						{
+							"name": "Update",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "1ed21a8d-73c1-4fb0-84a4-f37a8fff26c6",
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Should not be allowed\", () => pm.response.to.have.status(403))"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"Authenticated\",\n  \"email\": \"a@b.c\", \n  \"password\": \"TEST\"\n}"
+								},
+								"url": {
+									"raw": "localhost:3000/user?username=Tester",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"user"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "Tester"
+										}
+									]
+								},
+								"description": "Update a user"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "399316cc-e714-4c83-90fc-540b3fb99253",
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Should not be allowed\", () => pm.response.to.have.status(403))"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"Test\",\n  \"email\": \"a@b.c\", \n  \"password\": \"TEST\"\n}"
+								},
+								"url": {
+									"raw": "localhost:3000/user?username=Test",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"user"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "Test"
+										}
+									]
+								},
+								"description": "Delete a user"
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "36b4ccf2-8d08-4b88-94d4-b883651a1ec1",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "b1be6024-ccb7-4fb5-a6c9-f529e8e74f13",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Collective",
+					"description": null,
+					"item": [
+						{
+							"name": "Schema",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "1041af6f-18c5-4a17-98c9-5818e24b2ff0",
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status OK\", () => pm.response.to.have.status(200))",
+											"",
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Collective schema\", function () {",
+											"  pm.expect(jsonData.schema[\"$id\"]).to.eql(\"http://tmi-platform.org/collective/collective.schema.json\");",
+											"});",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json;schema"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "localhost:3000/collective",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"collective"
+									]
+								},
+								"description": "Retrieves the User schema"
+							},
+							"response": []
+						},
+						{
+							"name": "List",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "b10a915b-d5c5-48a2-b859-ed4750c86e5f",
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status OK\", () => pm.response.to.have.status(200))",
+											"",
+											"pm.test(\"Response is an array\", pm.globals.get('BODY_IS_ARRAY'))"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "localhost:3000/collective",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"collective"
+									]
+								},
+								"description": "Retrieves the User schema"
+							},
+							"response": []
+						},
+						{
+							"name": "Find - add more tests",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "170f9ae3-a67a-426c-8f8b-0f325642793f",
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status OK\", () => pm.response.to.have.status(200))",
+											"pm.test(\"Response is an array\", pm.globals.get('BODY_IS_ARRAY'))"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "localhost:3000/collective?name=Participants",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"collective"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Participants"
+										}
+									]
+								},
+								"description": "Retrieves a list of users that satisfy a set of criteria"
+							},
+							"response": []
+						},
+						{
+							"name": "Create",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "4d7fe3fe-6b75-4634-a991-65cc34517d41",
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Should not be allowed\", () => pm.response.to.have.status(403))"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n\t{\n\t\t\"name\": \"Test Collective\",\n\t\t\"description\": \"A little test is a Testicle.\",\n\t\t\"status\": \"active\",\n\t\t\"owner\": {\n\t\t\t\"entityType\": \"user\",\n\t\t\t\"id\": 2\n\t\t}\n\t}\n]"
+								},
+								"url": {
+									"raw": "localhost:3000/collective",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"collective"
+									]
+								},
+								"description": "Create a user"
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Agreement",
+					"description": "",
+					"item": [
+						{
+							"name": "Schema",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "59c07c9b-e95e-4c07-a1f4-c0a3112fb965",
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status OK\", () => pm.response.to.have.status(200))",
+											"",
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Agreement schema\", function () {",
+											"  pm.expect(jsonData.schema[\"$id\"]).to.eql(\"http://tmi-platform.org/collective/collective.schema.json\");",
+											"});",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json;schema"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "localhost:3000/collective",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"collective"
+									]
+								},
+								"description": "Retrieves the User schema"
+							},
+							"response": []
+						},
+						{
+							"name": "List",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "localhost:3000/agreement",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"agreement"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "d698331c-b681-478e-bfbb-a2f25497b555",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "58c91c37-64db-49d8-bc01-c75250b3194a",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "As administrator",
+			"description": null,
+			"item": [
+				{
+					"name": "Prepare",
+					"description": "",
+					"item": [
+						{
+							"name": "Authenticate",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c6487877-4fd2-4717-8c9e-b3fc707c8b4a",
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status OK\", () => pm.response.to.have.status(200))",
+											"pm.test(\"Logged in\", () => pm.expect(postman.getResponseCookie('connect.sid')).to.not.eql(undefined))"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"Administrator\", \n  \"password\": \"Administrator\"\n}"
+								},
+								"url": {
+									"raw": "localhost:3000/user/login",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"user",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "User",
+					"description": null,
+					"item": [
+						{
+							"name": "Schema",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "4050ebe2-11bd-439b-b251-42006eabf656",
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status OK\", () => pm.response.to.have.status(200))",
+											"",
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.test(\"User schema\", function () {",
+											"  pm.expect(jsonData.schema[\"$id\"]).to.eql(\"http://tmi-platform.org/user/user.schema.json\");",
+											"});",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json;schema"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "localhost:3000/user",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"user"
+									]
+								},
+								"description": "Retrieves the User schema"
+							},
+							"response": []
+						},
+						{
+							"name": "List",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "4dee1b45-6a06-443a-871c-7c036c375119",
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status OK\", () => pm.response.to.have.status(200))",
+											"",
+											"pm.test(\"Response is an array\", pm.globals.get('BODY_IS_ARRAY'))",
+											"",
+											"const EXPECTED = 3",
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Response is an array of \" + EXPECTED, function () {",
+											"    pm.expect(jsonData.entities.length).to.eql(EXPECTED)",
+											"});",
+											"",
+											"for (let i=0; i<EXPECTED; i++){        ",
+											"    pm.test(i + \": Id property set\", function () {",
+											"        pm.expect(jsonData.entities[i].id).to.not.eql(undefined)",
+											"    });",
+											"    pm.test(i + \": Username property set\", function () {",
+											"        pm.expect(jsonData.entities[i].username).to.not.eql(undefined)",
+											"    });",
+											"    pm.test(i + \": Email property set\", function () {",
+											"        pm.expect(jsonData.entities[i].email.value).to.not.eql(undefined)",
+											"    });",
+											"    pm.test(i + \": Email property lowercased\", function () {",
+											"        pm.expect(jsonData.entities[i].email.value).to.not.eql(undefined)",
+											"    });",
+											"    pm.test(i + \": Email privacy set\", function () {",
+											"        pm.expect(jsonData.entities[i].email.privacy).to.eql(\"owner\")",
+											"    });",
+											"    pm.test(i + \": Password property set\", function () {",
+											"        pm.expect(jsonData.entities[i].password).to.not.eql(undefined)",
+											"    });",
+											"    pm.test(i + \": Password property blanked\", function () {",
+											"        pm.expect(jsonData.entities[i].password).to.eql(\"*\")",
+											"    });",
+											"}"
+										]
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "localhost:3000/user",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"user"
+									]
+								},
+								"description": "Retrieves a list of users"
+							},
+							"response": []
+						},
+						{
+							"name": "Find",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0feed6e4-6226-46a2-88d5-b02164202f69",
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status OK\", () => pm.response.to.have.status(200))",
+											"",
+											"pm.test(\"Response is an array\", pm.globals.get('BODY_IS_ARRAY'))",
+											"",
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Response is an array of 1\", function () {",
+											"    pm.expect(jsonData.entities.length).to.eql(1)",
+											"});",
+											"",
+											"pm.test(\"Correct username\", function () {",
+											"    pm.expect(jsonData.entities[0].username).to.eql('Authenticated')",
+											"});",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "localhost:3000/user?username=Authenticated",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"user"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "Authenticated"
+										}
+									]
+								},
+								"description": "Retrieves a list of users that satisfy a set of criteria"
+							},
+							"response": []
+						},
+						{
+							"name": "Create - review tests",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c77e2209-c623-4c68-bebe-218b68ac109f",
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status CREATED\", () => pm.response.to.have.status(201))",
+											"",
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Error object is undefined\", function () {",
+											"    pm.expect(jsonData.error).to.eql(undefined);",
+											"});",
+											"",
+											"pm.test(\"Response is an array of 1\", function () {",
+											"    pm.expect(jsonData.entities.length).to.eql(1);",
+											"});",
+											"",
+											"pm.test(\"Id property set\", function () {",
+											"    pm.expect(jsonData.entities[0].id).to.not.eql(undefined);",
+											"});",
+											"",
+											"pm.test(\"Username property set\", function () {",
+											"    pm.expect(jsonData.entities[0].username).to.eql(\"Tester\");",
+											"});",
+											"",
+											"pm.test(\"Email property set\", function () {",
+											"    pm.expect(jsonData.entities[0].email.value).to.not.eql(undefined);",
+											"});",
+											"",
+											"pm.test(\"Email property lowercased\", function () {",
+											"    pm.expect(jsonData.entities[0].email.value).to.eql(\"tester@tester.com\");",
+											"});",
+											"",
+											"pm.test(\"Email privacy set\", function () {",
+											"    pm.expect(jsonData.entities[0].email.privacy).to.eql(\"owner\");",
+											"});",
+											"",
+											"pm.test(\"Password property set\", function () {",
+											"    pm.expect(jsonData.entities[0].password).to.not.eql(undefined);",
+											"});",
+											"",
+											"pm.test(\"Password property blanked\", function () {",
+											"    pm.expect(jsonData.entities[0].password).to.eql(\"*\");",
+											"});",
+											"",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n\t{\n\t\t\"username\": \"Tester\",\n        \"email\": {\n        \t\"value\": \"Tester@Tester.com\",\n        \t\"privacy\": \"owner\"\n        },\n        \"password\": \"Tester0\"\n\t}\n]"
+								},
+								"url": {
+									"raw": "localhost:3000/user",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"user"
+									]
+								},
+								"description": "Create a user"
+							},
+							"response": []
+						},
+						{
+							"name": "Update - add tests",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "19ee65ef-74b1-468a-9b2f-de3bd07c4d9b",
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status OK\", () => pm.response.to.have.status(200))",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"Tester\",\n  \"email\": {\n  \t\"value\": \"a@b.com\",\n  \t\"privacy\": \"member\"\n  },\n  \"password\": \"TEST\"\n}"
+								},
+								"url": {
+									"raw": "localhost:3000/user?username=Tester",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"user"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "Tester"
+										}
+									]
+								},
+								"description": "Update a user"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete - review tests",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "a077f8f4-0229-458e-b512-3dbcf9c63d4d",
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status OK\", () => pm.response.to.have.status(200))",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "localhost:3000/user?username=Tester",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"user"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "Tester"
+										}
+									]
+								},
+								"description": "Delete a user"
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Collective",
+					"description": "",
+					"item": [
+						{
+							"name": "Create",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "dc104a7b-b1ff-4bf0-8cca-25c7f1c7ab3c",
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status OK\", () => pm.response.to.have.status(201))",
+											"pm.test(\"Response is an array\", pm.globals.get('BODY_IS_ARRAY'))",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n\t{\n\t\t\"name\": \"Test Collective\",\n\t\t\"description\": \"A little test is a Testicle.\",\n\t\t\"status\": \"active\",\n\t\t\"owner\": {\n\t\t\t\"entityType\": \"user\",\n\t\t\t\"id\": 2\n\t\t}\n\t}\n]"
+								},
+								"url": {
+									"raw": "localhost:3000/collective",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"collective"
+									]
+								},
+								"description": "Create a user"
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "af896ee3-c59c-407d-a8f6-3d01b6629c07",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status OK\", () => pm.response.to.have.status(200))",
+									"",
+									"pm.test(\"Logged out\", () => ",
+									"    pm.expect(pm.globals.get('SESSION_COOKIE')).to.eql(undefined)",
+									")",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "",
+								"value": "",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:3000/user/logout",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"logout"
+							]
+						},
+						"description": "Log the user out of the current session."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "As user",
+			"description": null,
+			"item": [
+				{
+					"name": "Authenticate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9c86c721-4ca8-435f-b318-29ee2d40a62f",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status OK\", () => pm.response.to.have.status(200))",
+									"pm.test(\"Logged in\", () => pm.expect(postman.getResponseCookie('connect.sid')).to.not.eql(undefined))"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"Authenticated\", \n  \"password\": \"Authenticated\"\n}"
+						},
+						"url": {
+							"raw": "localhost:3000/user/login",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Schema",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a288af22-31df-4068-8a5e-b4a618aaeb02",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status OK\", () => pm.response.to.have.status(200))",
+									"",
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"User schema\", function () {",
+									"  pm.expect(jsonData.schema[\"$id\"]).to.eql(\"http://tmi-platform.org/user/user.schema.json\");",
+									"});",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;schema"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:3000/user",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user"
+							]
+						},
+						"description": "Retrieves the User schema"
+					},
+					"response": []
+				},
+				{
+					"name": "List - review tests",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7c432c58-d993-49dc-b6b5-76684300d573",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status OK\", () => pm.response.to.have.status(200))",
+									"",
+									"const EXPECTED = 3",
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Response is an array of \" + EXPECTED, function () {",
+									"    pm.expect(jsonData.entities.length).to.eql(EXPECTED)",
+									"});",
+									"",
+									"for (let i=0; i<EXPECTED; i++){        ",
+									"    pm.test(i + \": Id property set\", function () {",
+									"        pm.expect(jsonData.entities[i].id).to.not.eql(undefined)",
+									"    });",
+									"    pm.test(i + \": Username property set\", function () {",
+									"        pm.expect(jsonData.entities[i].username).to.not.eql(undefined)",
+									"    });",
+									"    pm.test(i + \": Email property set\", function () {",
+									"        pm.expect(jsonData.entities[i].email.value).to.not.eql(undefined)",
+									"    });",
+									"    pm.test(i + \": Email property lowercased\", function () {",
+									"        pm.expect(jsonData.entities[i].email.value).to.not.eql(undefined)",
+									"    });",
+									"    pm.test(i + \": Email privacy set\", function () {",
+									"        pm.expect(jsonData.entities[i].email.privacy).to.eql(\"owner\")",
+									"    });",
+									"    pm.test(i + \": Password property set\", function () {",
+									"        pm.expect(jsonData.entities[i].password).to.not.eql(undefined)",
+									"    });",
+									"    pm.test(i + \": Password property blanked\", function () {",
+									"        pm.expect(jsonData.entities[i].password).to.eql(\"*\")",
+									"    });",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:3000/user",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user"
+							]
+						},
+						"description": "Retrieves a list of users"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "b13a292c-beaa-47ed-acd2-3d9e241f7676",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "c728ef4c-21f7-4962-a7d7-cfd2dd78fbcf",
+				"type": "text/javascript",
+				"exec": [
+					"pm.test(\"Content-Type is present\", () => pm.response.to.have.header(\"Content-Type\"))",
+					"pm.test(\"Response is JSON\", () => pm.response.to.be.json)",
+					"pm.test(\"Response has body\", () => pm.response.to.be.withBody)",
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "a5613570-b8f7-4502-92d4-478d39dcb249",
+			"key": "NO_ERROR",
+			"value": "function () {\n    var jsonData = pm.response.json();\n    pm.expect(jsonData.error).to.eql(undefined);\n}",
+			"type": "string",
+			"description": ""
+		},
+		{
+			"id": "1a242acc-a0bc-4e4a-9c42-0d2369007e30",
+			"key": "BODY_IS_ARRAY",
+			"value": "function () {\n    pm.expect(jsonData.entities.length).to.not.eql(undefined);\n}",
+			"type": "string",
+			"description": ""
+		},
+		{
+			"id": "64600189-f49d-48e8-bde4-4898aff22483",
+			"key": "NO_SESSION_COOKIE",
+			"value": "function () {\n postman.getResponseCookie('connect.sid').to.eql(undefined);\n}",
+			"type": "string",
+			"description": ""
+		},
+		{
+			"id": "05a63160-6639-497e-a136-74f4c7804472",
+			"key": "USER_ARRAY",
+			"value": "function () {\n  pm.test(\"Response is an array of \" + EXPECTED, function () {\n    pm.expect(jsonData.entities.length).to.eql(EXPECTED)\n  });\n  for (let i=0; i<EXPECTED; i++){        \n    pm.test(i + \": Id property set\", function () {\n      pm.expect(jsonData.entities[i].id).to.not.eql(undefined);\n    });\n    pm.test(i + \": Username property set\", function () {\n      pm.expect(jsonData.entities[i].username).to.not.eql(undefined);\n    });\n    pm.test(i + \": Email property set\", function () {\n      pm.expect(jsonData.entities[i].email.value).to.not.eql(undefined);\n    });\n    pm.test(i + \": Email property lowercased\", function () {\n      pm.expect(jsonData.entities[i].email.value).to.eql(\"tester@tester.com\");\n    });\n    pm.test(i + \": Email privacy set\", function () {\n      pm.expect(jsonData.entities[i].email.privacy).to.eql(\"private\");\n    });\n    pm.test(i + \": Password property set\", function () {\n      pm.expect(jsonData.entities[i].password).to.not.eql(undefined);\n    });\n    pm.test(i + \": Password property blanked\", function () {\n      pm.expect(jsonData.entities[i].password).to.eql(\"*\");\n    });\n  }\n}",
+			"type": "string",
+			"description": ""
+		}
+	]
+}

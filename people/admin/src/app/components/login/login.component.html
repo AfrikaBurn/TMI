@@ -1,0 +1,33 @@
+<h1><mat-icon class="md-48">lock</mat-icon>Login</h1>
+
+<div *ngIf="!busy">
+
+  <mat-form-field>
+    <input
+      matInput
+      [(ngModel)]="username"
+      placeholder="Username"
+    >
+  </mat-form-field>
+
+  <mat-form-field>
+    <input
+      matInput
+      [(ngModel)]="password"
+      placeholder="Password"
+      type="password"
+    >
+  </mat-form-field>
+
+  <p *ngIf="message">{{ message }}</p>
+
+  <p>
+    <button (click)="onLoginClick()" mat-raised-button color="primary">
+      Login
+    </button>
+  </p>
+</div>
+
+<div *ngIf="busy" class="busy">
+  <mat-spinner></mat-spinner>
+</div>

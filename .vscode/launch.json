@@ -7,8 +7,21 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Launch Program",
-      "program": "${workspaceFolder}/core/bootstrap.js"
+      "name": "People Backend",
+      "program": "${workspaceFolder}/people/core/bootstrap.js"
+    },
+    {
+      "type": "chrome",
+      "request": "launch",
+      "name": "People Admin",
+      "url": "http://localhost:4200",
+      "webRoot": "${workspaceFolder}/apps/admin",
+    }
+  ],
+  "compounds": [
+    {
+        "name": "Core/Admin",
+        "configurations": ["Launch Core", "Launch Admin"]
     }
   ]
 }
