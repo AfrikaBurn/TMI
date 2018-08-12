@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "7c933d81-3907-4ba0-aa83-8c8b5aee190e",
-		"name": "tmi core",
+		"name": "tmi people",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -61,7 +61,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "9e47c522-4893-42a3-9f14-3b72d3a5915f",
+								"id": "1c1be6a8-47d6-437d-a2ee-5bcf5abfe932",
 								"type": "text/javascript",
 								"exec": [
 									"pm.test(\"Status OK\", () => pm.response.to.have.status(200))",
@@ -71,6 +71,7 @@
 									"        {",
 									"            \"username\": \"Anonymous\",",
 									"            \"password\": \"*\",",
+									"            \"status\": \"active\",",
 									"            \"email\": {",
 									"                \"value\": \"no-reply@system.com\",",
 									"                \"privacy\": \"owner\"",
@@ -80,6 +81,7 @@
 									"        {",
 									"            \"username\": \"Administrator\",",
 									"            \"password\": \"*\",",
+									"            \"status\": \"active\",",
 									"            \"email\": {",
 									"                \"value\": \"no-reply@system.com\",",
 									"                \"privacy\": \"owner\"",
@@ -2084,28 +2086,28 @@
 	],
 	"variable": [
 		{
-			"id": "a5613570-b8f7-4502-92d4-478d39dcb249",
+			"id": "f22192e3-3be8-45b6-a09f-e969fb4c6f69",
 			"key": "NO_ERROR",
 			"value": "function () {\n    var jsonData = pm.response.json();\n    pm.expect(jsonData.error).to.eql(undefined);\n}",
 			"type": "string",
 			"description": ""
 		},
 		{
-			"id": "1a242acc-a0bc-4e4a-9c42-0d2369007e30",
+			"id": "5bd80ccc-c94c-45de-9b57-f7e604bda340",
 			"key": "BODY_IS_ARRAY",
 			"value": "function () {\n    pm.expect(jsonData.entities.length).to.not.eql(undefined);\n}",
 			"type": "string",
 			"description": ""
 		},
 		{
-			"id": "64600189-f49d-48e8-bde4-4898aff22483",
+			"id": "0553a663-58b9-4dac-a3e6-3f8569807dd5",
 			"key": "NO_SESSION_COOKIE",
 			"value": "function () {\n postman.getResponseCookie('connect.sid').to.eql(undefined);\n}",
 			"type": "string",
 			"description": ""
 		},
 		{
-			"id": "05a63160-6639-497e-a136-74f4c7804472",
+			"id": "5d5f197b-055b-44f2-afd1-434e41543bd1",
 			"key": "USER_ARRAY",
 			"value": "function () {\n  pm.test(\"Response is an array of \" + EXPECTED, function () {\n    pm.expect(jsonData.entities.length).to.eql(EXPECTED)\n  });\n  for (let i=0; i<EXPECTED; i++){        \n    pm.test(i + \": Id property set\", function () {\n      pm.expect(jsonData.entities[i].id).to.not.eql(undefined);\n    });\n    pm.test(i + \": Username property set\", function () {\n      pm.expect(jsonData.entities[i].username).to.not.eql(undefined);\n    });\n    pm.test(i + \": Email property set\", function () {\n      pm.expect(jsonData.entities[i].email.value).to.not.eql(undefined);\n    });\n    pm.test(i + \": Email property lowercased\", function () {\n      pm.expect(jsonData.entities[i].email.value).to.eql(\"tester@tester.com\");\n    });\n    pm.test(i + \": Email privacy set\", function () {\n      pm.expect(jsonData.entities[i].email.privacy).to.eql(\"private\");\n    });\n    pm.test(i + \": Password property set\", function () {\n      pm.expect(jsonData.entities[i].password).to.not.eql(undefined);\n    });\n    pm.test(i + \": Password property blanked\", function () {\n      pm.expect(jsonData.entities[i].password).to.eql(\"*\");\n    });\n  }\n}",
 			"type": "string",
