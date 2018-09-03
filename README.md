@@ -102,10 +102,6 @@ TMI Core is done.
 
 ## Applications
 
-### Prerequisites
-
-* [Angular](https://angular.io) for the Admin client application.
-
 
 ### Administration
 
@@ -113,6 +109,11 @@ Admin is the first of the client applications and is meant to be a low level adm
 It has begun to be implemented using [Angular](https://angular.io/).
 
 Read more about administration in its [README.md](people/admin/README.md)
+
+
+#### Prerequisites
+
+* [Angular](https://angular.io) for the Admin client application.
 
 
 #### Installing Administration
