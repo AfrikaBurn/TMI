@@ -3,21 +3,21 @@
 
 ## Index
 
-* [Prerequisites](#Prerequisites)
-* [Core](#Core)
+* [Prerequisites](#prerequisites)
+* [Core](#core)
   * [Installing](#installing-core)
   * [Running](#running-core)
   * [Testing](#testing-core)
   * [Stopping](#stopping-core)
-* [Applications](#Applications)
-  * [Administration](#Administration)
+* [Applications](#applications)
+  * [Administration](#administration)
   * [Tribe](#Tribe)
-  * [Ground Zero](#Groud-Zero)
+  * [Ground Zero](#groud-Zero)
   * [Events](#Events)
-  * [Incidents](#Incidents)
-  * [Web](#Web)
-  * [Inventory](#Inventory)
-  * [Projects](#Projects)
+  * [Incidents](#incidents)
+  * [Web](#web)
+  * [Inventory](#inventory)
+  * [Projects](#projects)
 
 
 ## Prerequisites
