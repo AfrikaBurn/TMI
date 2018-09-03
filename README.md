@@ -5,14 +5,12 @@
 
 * [Prerequisites](#Prerequisites)
 * [Core](#Core)
-  * [Installing core](#installing-core)
-  * [Running core](#running-core)
-  * [Testing core](#testing-core)
-  * [Stopping core](#stopping-core)
+  * [Installing](#installing-core)
+  * [Running](#running-core)
+  * [Testing](#testing-core)
+  * [Stopping](#stopping-core)
 * [Applications](#Applications)
   * [Administration](#Administration)
-    * [Installing Administration](#installing-administration)
-    * [Running Administration](#running-administration)
   * [Tribe](#Tribe)
   * [Ground Zero](#Groud-Zero)
   * [Events](#Events)
@@ -24,17 +22,20 @@
 
 ## Prerequisites
 
-* The [nodejs](https://nodejs.org) runtime that TMI core is based on.
-* [Postman](https://www.getpostman.com) for testing the API endpoints.
-* [Angular](https://angular.io) for the Admin client application.
+* The [nodejs](https://nodejs.org) runtime.
 
 
-## Recommended
+## Recommended apps
 
-* [Visual Studio](https://visualstudio.microsoft.com)
+* [Visual Studio](https://visualstudio.microsoft.com).
 
 
 ## Core
+
+
+### Recommended apps
+
+* [Postman](https://www.getpostman.com) for testing the API endpoints.
 
 
 ### Installing core
@@ -100,6 +101,10 @@ TMI Core is done.
 ```
 
 ## Applications
+
+### Prerequisites
+
+* [Angular](https://angular.io) for the Admin client application.
 
 
 ### Administration
