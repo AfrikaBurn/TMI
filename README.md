@@ -25,7 +25,7 @@
 * The [nodejs](https://nodejs.org) runtime.
 
 
-## Recommended apps
+## Recommended applications
 
 * [Visual Studio](https://visualstudio.microsoft.com).
 
