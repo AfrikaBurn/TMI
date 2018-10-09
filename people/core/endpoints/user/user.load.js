@@ -22,7 +22,7 @@ class UserLoader extends core.processors.Processor{
   routes(path){
     return {
       [path]: {
-        'use': [
+        'all': [
           core.processors.Processor.PARSE_QUERY,
           (req, res, next) => {
             this.loadTargetUsers(req);

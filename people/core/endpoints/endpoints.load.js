@@ -38,7 +38,7 @@ class SessionLoader extends Processor {
   routes(path){
     return {
       '': {
-        'use': [
+        'all': [
           this.expressSession(path),
           passport.initialize(),
           passport.session(),

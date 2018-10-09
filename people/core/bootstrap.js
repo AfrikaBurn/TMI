@@ -45,25 +45,6 @@ class Bootstrap {
 
 
   /**
-   * Setup connection whitelist.
-   */
-  setupWhitelist(){
-
-    this.config.whitelist = this.config.whitelist || []
-
-    this.app.use(
-      (req, res, next) => {
-        if (this.config.whitelist.indexOf(req.headers.origin) != -1){
-          res.setHeader('Access-Control-Allow-Origin', req.headers.origin)
-          res.setHeader('Access-Control-Allow-Credentials', true)
-          res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
-        }
-        next()
-      }
-    )
-  }
-
-  /**
    * Setup local variables, config, routers and processors.
    */
   setupApp(){
@@ -83,6 +64,25 @@ class Bootstrap {
     process.on('SIGINT',  () => { process.exit() })
     process.on('SIGTERM', () => { process.exit() })
     process.on('exit',    () => { this.stop()    })
+  }
+
+  /**
+   * Setup connection whitelist.
+   */
+  setupWhitelist(){
+
+    this.config.whitelist = this.config.whitelist || []
+
+    this.app.use(
+      (req, res, next) => {
+        if (this.config.whitelist.indexOf(req.headers.origin) != -1){
+          res.setHeader('Access-Control-Allow-Origin', req.headers.origin)
+          res.setHeader('Access-Control-Allow-Credentials', true)
+          res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+        }
+        next()
+      }
+    )
   }
 
   /**

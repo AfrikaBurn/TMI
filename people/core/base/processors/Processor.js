@@ -46,7 +46,7 @@ class Processor {
    *     ...
    *   }
    * }
-   * Method may be any of [get|post|put|delete|...] or 'use' to bind to all
+   * Method may be any of [get|post|put|delete|...] or 'all' to bind to all
    * methods. Processor methods named for http methods will
    * automatically be bound to [path] if it has a method declaration, after any
    * middleware. Eg:

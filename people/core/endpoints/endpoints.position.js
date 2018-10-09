@@ -13,7 +13,7 @@ class RootPosition extends core.processors.UniformProcessor {
   routes(path){
     return {
       '': {
-        'use': [
+        'all': [
           (req, res, next) => {
             this.process(req, res)
             next()
