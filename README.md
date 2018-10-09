@@ -3,38 +3,39 @@
 
 ## Index
 
-* [Prerequisites](#Prerequisites)
-* [Core](#Core)
-  * [Installing core](#installing-core)
-  * [Running core](#running-core)
-  * [Testing core](#testing-core)
-  * [Stopping core](#stopping-core)
-* [Applications](#Applications)
-  * [Administration](#Administration)
-    * [Installing Administration](#installing-administration)
-    * [Running Administration](#running-administration)
-  * [Tribe](#Tribe)
-  * [Ground Zero](#Groud-Zero)
-  * [Events](#Events)
-  * [Incidents](#Incidents)
-  * [Web](#Web)
-  * [Inventory](#Inventory)
-  * [Projects](#Projects)
+* [Prerequisites](#prerequisites)
+* [Core](#core)
+  * [Installing](#installing-core)
+  * [Running](#running-core)
+  * [Testing](#testing-core)
+  * [Stopping](#stopping-core)
+* [Applications](#applications)
+  * [Administration](#administration)
+  * [Tribe](#tribe)
+  * [Ground Zero](#groud-Zero)
+  * [Events](#events)
+  * [Incidents](#incidents)
+  * [Web](#web)
+  * [Inventory](#inventory)
+  * [Projects](#projects)
 
 
 ## Prerequisites
 
-* The [nodejs](https://nodejs.org) runtime that TMI core is based on.
-* [Postman](https://www.getpostman.com) for testing the API endpoints.
-* [Angular](https://angular.io) for the Admin client application.
+* The [nodejs](https://nodejs.org) runtime.
 
 
-## Recommended
+## Recommended applications
 
-* [Visual Studio](https://visualstudio.microsoft.com)
+* [Visual Studio](https://visualstudio.microsoft.com).
 
 
 ## Core
+
+
+### Recommended apps
+
+* [Postman](https://www.getpostman.com) for testing the API endpoints.
 
 
 ### Installing core
@@ -108,6 +109,11 @@ Admin is the first of the client applications and is meant to be a low level adm
 It has begun to be implemented using [Angular](https://angular.io/).
 
 Read more about administration in its [README.md](people/admin/README.md)
+
+
+#### Prerequisites
+
+* [Angular](https://angular.io) for the Admin client application.
 
 
 #### Installing Administration
