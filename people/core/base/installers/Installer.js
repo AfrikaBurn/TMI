@@ -13,10 +13,10 @@ class Installer {
 
   /**
    * Constructs a new Processor.
-   * @param {object} service Service this installer belongs to.
+   * @param {object} endpoint Endpoint this installer belongs to.
    */
-  constructor(service){
-    this.service = service
+  constructor(endpoint){
+    this.endpoint = endpoint
   }
 
   /**

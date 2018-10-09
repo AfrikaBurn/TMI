@@ -21,11 +21,7 @@ class UniformProcessor extends RestProcessor {
   routes(path){
     return {
       [path]: {
-        'get':    [],
-        'post':   [],
-        'put':    [],
-        'patch':  [],
-        'delete': []
+        'all': [],
       }
     }
   }
@@ -37,35 +33,7 @@ class UniformProcessor extends RestProcessor {
   /**
    * @inheritDoc
    */
-  get(req, res) {
-    this.process(req, res)
-  }
-
-  /**
-   * @inheritDoc
-   */
-  post(req, res) {
-    this.process(req, res)
-  }
-
-  /**
-   * @inheritDoc
-   */
-  put(req, res) {
-    this.process(req, res)
-  }
-
-  /**
-   * @inheritDoc
-   */
-  patch(req, res) {
-    this.process(req, res)
-  }
-
-  /**
-   * @inheritDoc
-   */
-  delete(req, res) {
+  all(req, res) {
     this.process(req, res)
   }
 

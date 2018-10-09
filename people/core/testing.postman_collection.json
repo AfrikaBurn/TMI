@@ -356,7 +356,7 @@
 					"response": []
 				},
 				{
-					"name": "Administrator Agreement Service",
+					"name": "Administrator Agreement Endpoint",
 					"event": [
 						{
 							"listen": "test",
@@ -427,7 +427,7 @@
 					"response": []
 				},
 				{
-					"name": "Moderator Agreement Service",
+					"name": "Moderator Agreement Endpoint",
 					"event": [
 						{
 							"listen": "test",
@@ -498,7 +498,7 @@
 					"response": []
 				},
 				{
-					"name": "Member Agreement Service",
+					"name": "Member Agreement Endpoint",
 					"event": [
 						{
 							"listen": "test",
@@ -569,7 +569,7 @@
 					"response": []
 				},
 				{
-					"name": "Guest Agreement Service",
+					"name": "Guest Agreement Endpoint",
 					"event": [
 						{
 							"listen": "test",
@@ -720,7 +720,7 @@
 				},
 				{
 					"name": "User",
-					"description": "Requests to the user service.",
+					"description": "Requests to the user endpoint.",
 					"item": [
 						{
 							"name": "Schema",

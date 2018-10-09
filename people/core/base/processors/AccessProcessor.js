@@ -10,7 +10,43 @@ const
   RestProcessor = require('./RestProcessor')
 
 
-class AccessProcessor extends RestProcessor {}
+class AccessProcessor extends RestProcessor {
+
+  /**
+   * @inheritDoc
+   */
+  get(req, res){
+    AccessProcessor.GRANT(req)
+  }
+
+  /**
+   * @inheritDoc
+   */
+  post(req, res){
+    AccessProcessor.GRANT(req)
+  }
+
+  /**
+   * @inheritDoc
+   */
+  put(req, res){
+    AccessProcessor.GRANT(req)
+  }
+
+  /**
+   * @inheritDoc
+   */
+  patch(req, res){
+    AccessProcessor.GRANT(req)
+  }
+
+  /**
+   * @inheritDoc
+   */
+  delete(req, res){
+    AccessProcessor.GRANT(req)
+  }
+}
 
 
 AccessProcessor.GRANT = (req) => {

@@ -175,7 +175,7 @@ Create and collaborate.
 ## TODO
 
 * Create Core readme.
-* Implement modality and permission checking in Core.
+* Complete access and permission checking in Core.
 * Implement database stash for Core.
 * Update Admin readme.
 * Complete Admin

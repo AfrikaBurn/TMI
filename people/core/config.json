@@ -2,13 +2,13 @@
 	"name": "TMI Core",
 	"port": 3000,
 
-	"services": {
+	"phases": ["load", "prepare", "position", "access", "filter", "execute"],
+
+	"endpoints": {
 		"/": {
 			"salt": "uiTh1kei Re5oZo2e Bohr7Xee uR5OoX7n ua7quooX mu8Faefu thoobu6U"
 		}
 	},
-
-	"phases": ["load", "prepare", "position", "access", "filter", "execute"],
 
 	"whitelist": [
 		"http://localhost:4200"

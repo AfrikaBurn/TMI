@@ -18,10 +18,10 @@ class Processor {
 
   /**
    * Constructs a new Processor.
-   * @param {object} service Service this processor belongs to.
+   * @param {object} endpoint Endpoint this processor belongs to.
    */
-  constructor(service){
-    this.service = service
+  constructor(endpoint){
+    this.endpoint = endpoint
   }
 
 
@@ -30,8 +30,7 @@ class Processor {
 
   /**
    * Maps middleware and handlers to routes.
-   * @param  {string} path        path of the current service.
-   * @param  {string} controller  controller of the current service.
+   * @param  {string} path        path of the current endpoint.
    * @return {object}             middleware mapping keyed by method:
    *
    * {
@@ -61,7 +60,7 @@ class Processor {
    * getModify(req, res, next){ ... }
    * postModify(req, res, next){ ... }
    */
-  routes(path, controller){ return {} }
+  routes(path){ return {} }
 
 
   /**
@@ -79,12 +78,16 @@ class Processor {
       (route) => {
         for (let method in routeMap[route]){
 
+          var routerMethod = method == 'all'
+            ? 'use'
+            : method
+
           routeMap[route][method].forEach(
-            (middleware) => router[method](route, middleware)
+            (middleware) => router[routerMethod](route, middleware)
           )
 
           if (route == path && this[method]){
-            router[method](route,
+            router[routerMethod](route,
               (req, res, next) => {
                 res.data =  this[method](req, res, next)
                 if (res.data !== false) next()

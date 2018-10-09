@@ -7,9 +7,7 @@
 
 const
   express = require('express'),
-  fs = require('fs'),
-  pathUtil = require('path'),
-  parseError = require('express-body-parser-json-error')()
+  pathUtil = require('path')
 
 
 class Bootstrap {
@@ -19,21 +17,21 @@ class Bootstrap {
 
 
   /**
-   * Bootstraps the service.
+   * Bootstraps the endpoint.
    */
   constructor(){
 
     this.setupApp()
 
     console.log(
-      '\n\Spinning up \x1b[1mMINI\x1b[0mmal \x1b[1mMI\x1b[0mcroservice:\n' +
+      '\n\Spinning up \x1b[1mMINI\x1b[0mmal \x1b[1mMI\x1b[0mcroendpoint:\n' +
       '\x1b[34m' + this.config.name + '\n'
     )
 
     utility.log('\x1b[1mLOADING\x1b[0m\n')
     this.setupWhitelist()
     this.setupRouters()
-    this.setupServices()
+    this.setupEndpoints()
 
     if (this.root) {
       utility.log('\x1b[1mINSTALLING\x1b[0m\n')
@@ -75,10 +73,10 @@ class Bootstrap {
     this.app = express()
     this.config = require('./config.json')
     this.installRoot = pathUtil.normalize(__dirname)
-    this.serviceRoot = this.installRoot + '/service'
+    this.endpointRoot = this.installRoot + '/endpoints'
 
     this.routers = {}
-    this.services = {}
+    this.endpoints = {}
     this.root = false
 
     process.chdir(this.installRoot)
@@ -106,19 +104,19 @@ class Bootstrap {
   }
 
   /**
-   * Delegate to services.
+   * Delegate to endpoints.
    */
-  setupServices(){
+  setupEndpoints(){
 
     this.root = false
 
     try{
-      var Service = require(bootstrap.serviceRoot + 'service.js')
-      this.root = new Service('root', this, '/', bootstrap.serviceRoot)
+      var Endpoint = require(bootstrap.endpointRoot + 'endpoint.js')
+      this.root = new Endpoint('endpoints', this, '/', bootstrap.endpointRoot)
     } catch (e) {
       if (e.code == 'MODULE_NOT_FOUND'){
-        this.root = new core.services.Service(
-          'root', this, '/', bootstrap.serviceRoot
+        this.root = new core.endpoints.Endpoint(
+          'endpoints', this, '/', bootstrap.endpointRoot
         )
       } else {
         console.log(e)
@@ -134,13 +132,22 @@ class Bootstrap {
    * Start the server.
    */
   start(){
+
+    var
+      port = this.config.port
+        ? this.config.port
+        : 3000,
+      name = this.config.name
+        ? this.config.name
+        : 'MINIMI'
+
     this.app.listen(
-      this.config.port,
+      port,
       () => {
         console.log(
-          '\n\nOccupying \x1b[1mhttp://127.0.0.1:' + this.config.port + '\n\n' +
+          '\n\nOccupying \x1b[1mhttp://127.0.0.1:' + port + '\n\n' +
           '\x1b[0m' +
-          '\x1b[34m' + this.config.name + ' is ready.\x1b[0m\n\n'
+          '\x1b[34m' + name + ' is ready.\x1b[0m\n\n'
         )
       }
     )
@@ -152,9 +159,9 @@ class Bootstrap {
   stop(){
     console.log('\x1b[31m kill command received!\n');
 
-    for (var name in this.services){
-      process.stdout.write('Retiring ' + name + ' service... ');
-      this.services[name].stop()
+    for (var name in this.endpoints){
+      process.stdout.write('Retiring ' + name + ' endpoint... ');
+      this.endpoints[name].stop()
       console.log('done.');
     }
 
@@ -220,11 +227,11 @@ class Bootstrap {
 global.core = {
 
   processors: {
-    AccessProcessor:    require('./base/processors/AccessProcessor'),
-    Processor:          require('./base/processors/Processor'),
-    UniformProcessor:  require('./base/processors/UniformProcessor'),
-    RestProcessor:      require('./base/processors/RestProcessor'),
-    ServiceProcessor:   require('./base/processors/ServiceProcessor')
+    AccessProcessor: require('./base/processors/AccessProcessor'),
+    Processor: require('./base/processors/Processor'),
+    UniformProcessor: require('./base/processors/UniformProcessor'),
+    RestProcessor: require('./base/processors/RestProcessor'),
+    EndpointProcessor: require('./base/processors/EndpointProcessor')
   },
 
   stashes: {
@@ -232,9 +239,9 @@ global.core = {
     MemoryStash: require('./base/stashes/MemoryStash')
   },
 
-  services: {
-    Service: require('./base/services/Service'),
-    MetaService: require('./base/services/MetaService')
+  endpoints: {
+    Endpoint: require('./base/endpoints/Endpoint'),
+    MetaEndpoint: require('./base/endpoints/MetaEndpoint')
   },
 
   installers: {

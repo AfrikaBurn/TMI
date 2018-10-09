@@ -18,7 +18,7 @@ class Stash {
 
   /**
    * Creates a new data stash.
-   * @param  {object} config service configuration.
+   * @param  {object} config endpoint configuration.
    */
   constructor(name, config, schema){
     this.name = name
@@ -219,7 +219,7 @@ class Stash {
     utility.log(
       '\x1b[33mWARNING: Using memory based stash for session storage!\n' +
       '\x1b[33mIt will fail with multiple connections!\n' +
-      '\x1b[33mUse another stash for production.',
+      '\x1b[33mUse another stash for production.\x1b[0m',
       4
     );
     return undefined;
