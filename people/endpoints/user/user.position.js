@@ -8,25 +8,6 @@
 class UserPosition extends core.processors.UniformProcessor {
 
 
-  /* ----- Request Routing ----- */
-
-
-  /**
-   * @inheritDoc
-   */
-  // routes(path){
-  //   return {
-  //     [path]:{
-  //       'get':    [],
-  //       'post':   [],
-  //       'put':    [],
-  //       'patch':  [],
-  //       'delete': []
-  //     }
-  //   }
-  // }
-
-
   /* ----- Positionality calculation ----- */
 
 

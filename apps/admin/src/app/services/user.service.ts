@@ -38,6 +38,22 @@ export class UserService {
     )
   }
 
+  connected(config, callback){
+    this.http.get(
+      config.core.concat('/user'),
+      {
+        headers: SCHEMA_HEADER,
+        withCredentials: true
+      }
+    ).subscribe(
+      (data: any) => callback(true),
+      (error) => {
+        console.log(error)
+        callback(false)
+      }
+    )
+  }
+
   schema(config, callback){
     this.http.get(
       config.core.concat('/user'),

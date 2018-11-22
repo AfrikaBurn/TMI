@@ -1,9 +1,10 @@
 
-# MiniMi - Minimal Microservices
+# MiniMi
 
-MiniMi is designed to spin up microservices quickly and easily by using
-intuitive structural convention to enable simple phased processing of requests
-and pluggable state management.
+
+MiniMi is designed to spin up **Mini**mal **Mi**croservices quickly and easily
+by using minimal configuration and intuitive structural convention to enable
+simple phased processing of requests and pluggable state management.
 
 
 ## Index

@@ -23,11 +23,18 @@ $custom-theme: mat-light-theme($custom-primary, $custom-accent, $custom-warn);
 
 body{
 
-  font-size: 20px;
+  font-size: 8pt;
   font-family: 'Ubuntu', sans-serif;
 
-  h1, h2, h3, h4, h5, h6{
-    font-family: 'Syncopate', sans-serif;
+  @for $i from 1 through 6{
+    h#{$i} {
+      font-family: 'Syncopate', sans-serif;
+      font-size: #{400/$i/1.6 + '%'};
+    }
+  }
+
+  .mat-cell{
+    font-size: 100%;
   }
 }
 
@@ -63,7 +70,7 @@ body{
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
 /* Rules for sizing the icon. */
-@each $size in (12, 24, 36, 48) {
+@each $size in (12px, 24px, 36px, 48px) {
   .material-icons.md-#{$size} {
     font-size: $size;
     height: $size;

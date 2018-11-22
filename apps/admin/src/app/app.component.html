@@ -1,10 +1,10 @@
 <h1>{{ appName }} People Administration</h1>
 
-<div *ngIf="!config" class="busy">
-  <mat-spinner></mat-spinner>
+<div *ngIf="connecting" class="connecting">
+  <mat-spinner></mat-spinner>Connecting...
 </div>
 
-<mat-tab-group *ngIf="user" class="admin-tab-group">
+<mat-tab-group *ngIf="user && !connecting" class="admin-tab-group">
 
   <mat-tab label="Users">
 

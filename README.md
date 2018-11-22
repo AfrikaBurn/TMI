@@ -4,11 +4,11 @@
 ## Index
 
 * [Prerequisites](#prerequisites)
-* [Core](#core)
-  * [Installing](#installing-core)
-  * [Running](#running-core)
-  * [Testing](#testing-core)
-  * [Stopping](#stopping-core)
+* [People](#people)
+  * [Installing](#installing-people)
+  * [Running](#running-people)
+  * [Testing](#testing-people)
+  * [Stopping](#stopping-people)
 * [Applications](#applications)
   * [Administration](#administration)
   * [Tribe](#tribe)
@@ -30,7 +30,7 @@
 * [Visual Studio](https://visualstudio.microsoft.com).
 
 
-## Core
+## People
 
 
 ### Recommended apps
@@ -38,20 +38,20 @@
 * [Postman](https://www.getpostman.com) for testing the API endpoints.
 
 
-### Installing core
+### Installing people
 
 Within a terminal, inside the downloaded TMI directory:
 ```
-cd people/core
+cd people
 npm install
 ```
 
 
-### Running core
+### Running people
 
 Within a terminal, inside the downloaded TMI directory:
 ```
-node people/core
+node people
 ```
 
 You should see startup output ending in:
@@ -59,28 +59,29 @@ You should see startup output ending in:
 ```
 Occupying http://127.0.0.1:3000
 
-TMI Core is ready.
+TMI People is ready.
 ```
 
-This means the core is running and awaiting requests.
+This means the people is running and awaiting requests.
 Warnings will be present in the startup output until database integration has been completed.
-For now TMI Core runs in memory alone.
+For now TMI People runs in memory alone.
 
 
-### Testing core
+### Testing people
 
-Fire up postman and import the [test collection](people/core/testing.postman_collection.json) at:
+Fire up postman and import the [test collection](people/testing.postman_collection.json) at:
 ```
-people/core/testing.postman_collection.json
+people/testing.postman_collection.json
 ```
 
-You may start up the test runner in postman and execute the whole TMI collection, or fire them seperately as exmaples of requests to direct at the core.
+You may start up the test runner in postman and execute the whole TMI collection, or fire them seperately as exmaples of requests to direct at the people.
 Note that the tests are not idempotent and some will fail on subsequent test runs.
-It is best to restart core before running the whole suite again.
+It is best to restart people before running the whole suite again.
 
-### Stopping core
 
-In the terminal where core is running simply press CTRL-C to terminate the process.
+### Stopping people
+
+In the terminal where people is running simply press CTRL-C to terminate the process.
 
 The output should be:
 ```
@@ -97,7 +98,7 @@ Retiring /agreement/moderator service... done.
 Retiring /agreement/member service... done.
 Retiring /agreement/guest service... done.
 
-TMI Core is done.
+TMI People is done.
 ```
 
 ## Applications
@@ -105,10 +106,10 @@ TMI Core is done.
 
 ### Administration
 
-Admin is the first of the client applications and is meant to be a low level administration of the core elements.
+Admin is the first of the client applications and is meant to be a low level administration of the people elements.
 It has begun to be implemented using [Angular](https://angular.io/).
 
-Read more about administration in its [README.md](people/admin/README.md)
+Read more about administration in its [README.md](apps/admin/README.md)
 
 
 #### Prerequisites
@@ -122,17 +123,17 @@ Read more about administration in its [README.md](people/admin/README.md)
 1. Within a terminal, inside the downloaded TMI directory:
 
 ```
-cd people/admin
+cd apps/admin
 npm install
 ```
 
 #### Running Administration
 
-1. [Run TMI Core](#Running).
+1. [Run TMI People](#Running).
 1. Within another terminal, inside the downloaded TMI directory:
 
 ```
-cd people/admin
+cd apps/admin
 npm start
 ```
 
@@ -180,9 +181,9 @@ Create and collaborate.
 
 ## TODO
 
-* Create Core readme.
-* Complete access and permission checking in Core.
-* Implement database stash for Core.
+* Create People readme.
+* Complete access and permission checking in People.
+* Implement database stash for People.
 * Update Admin readme.
 * Complete Admin
 * Complete request test set in Postman.

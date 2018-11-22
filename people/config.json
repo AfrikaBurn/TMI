@@ -1,5 +1,5 @@
 {
-	"name": "TMI Core",
+	"name": "TMI People",
 	"port": 3000,
 
 	"phases": ["load", "prepare", "position", "access", "filter", "execute"],

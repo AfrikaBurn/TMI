@@ -19,10 +19,6 @@ span{
   cursor: cell;
 }
 
-.mat-column-username{
-  width: 30%;
-}
-
 .mat-column-status{
   width: 80px;
 }
@@ -36,8 +32,13 @@ span{
   width: 208px;
 }
 
+.mat-row input{
+  height: 100%;
+  font-size: 100%;
+}
+
 .mat-row .mat-column-action .mat-icon{
-    visibility: hidden;
+  visibility: hidden;
 }
 .mat-row:hover .mat-column-action .mat-icon{
   visibility: visible;

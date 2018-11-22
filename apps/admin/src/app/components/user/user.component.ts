@@ -39,12 +39,12 @@ export class UserComponent implements OnInit {
 
     this.userService.list(
       this.config,
-      users => {this.users = users; console.log(users)}
+      users => this.users = users
     )
 
     this.userService.position(
       this.config,
-      position => {this.position = position; console.log(position)}
+      position => this.position = position
     )
 
     this.userService.schema(

@@ -1,14 +1,11 @@
 
-# MiniMi - Minimal Microservices - Overview
+# MiniMi - Overview
 
 
 ## Introduction
 
->MiniMi is designed to spin up microservices quickly and easily by using
-minimal [configuration](./CONFIGURATION.md) and intuitive structural convention
-to enable simple phased processing of requests and pluggable state management.
-
-These conventions include:
+MiniMi uses minimal [configuration](./CONFIGURATION.md) and these simple
+conventions to define microservices:
 
 * A set of [URL endpoints](#url-endpoints) defined by the folder structure of
   the endpoint folder.
@@ -20,9 +17,9 @@ These conventions include:
 
 ## Configuration
 
-A minimal set of global settings may be found in the [config.js](../config.js)
-file and controls the endpoint name, port, processing phases, whitelisted clients
-and custom configuration data for endpoints.
+A minimal set of [global settings](./CONFIGURATION.md) may be found in the
+[config.js](../config.js) file and controls the service name, port, processing
+phases, whitelisted clients and custom configuration data for endpoints.
 
 The default configuration:
 
@@ -33,8 +30,6 @@ The default configuration:
   "phases": ['load', 'access', 'execute']
 }
 ```
-
-[More about configuration](./CONFIGURATION.md)
 
 
 ## URL endpoints
@@ -49,7 +44,7 @@ endpoints
  ├─ foo
  │   └─ bar
  └─ foobar
- ```
+```
 
 Will create URL enpoints at:
 
@@ -59,7 +54,6 @@ Will create URL enpoints at:
 /foo/bar
 /foobar
 ```
-
 
 ## Phased processing
 
@@ -96,10 +90,10 @@ endpoints
  ```
 
 Where:
-* /foo/bar has a processor for each defined phase,
-* /foo has load and execute processors,
-* /foobar only has an execute processor, while
-* / only has a load processor.
+* **/foo/bar** has a processor for each defined phase,
+* **/foo** has load and execute processors,
+* **/foobar** only has an execute processor, while
+* **/** only has a load processor.
 
 [More on processors](./PROCESSORS.md)
 
@@ -108,3 +102,4 @@ Where:
 
 > A stash represents a standard way to read, write, update and delete data
 records and serves as a means to abstract data storage technologies.
+
