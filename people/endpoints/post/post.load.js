@@ -1,16 +1,11 @@
 /**
  * @file load.js
- * User loading.
+ * Post loading.
  */
 "use strict"
 
 
-const
-  passport = require('passport'),
-  expressSession = require('express-session')
-
-
-class UserLoader extends core.processors.Processor{
+class PostLoader extends core.processors.Processor{
 
 
   /* ----- Routing ----- */
@@ -25,7 +20,7 @@ class UserLoader extends core.processors.Processor{
         'all': [
           core.processors.Processor.PARSE_QUERY,
           (req, res, next) => {
-            this.loadTargetUsers(req)
+            this.loadTargetPosts(req)
             next()
           }
         ]
@@ -38,23 +33,27 @@ class UserLoader extends core.processors.Processor{
 
 
   /**
-   * Load request target user IDs.
+   * Load request target post IDs and owners.
    * @param {object} req Express request object
    */
-  loadTargetUsers(req){
+  loadTargetPosts(req){
 
     req.target = req.target || {}
 
-    req.target.users = this.endpoint.stash.read(
+    req.target.posts = this.endpoint.stash.read(
       req.user,
       req.query,
       {
         process: false,
-        fields: ['id']
+        fields: ['id', 'owner']
       }
     ).entities
+
+    req.exising = req.exising || {}
+
+
   }
 }
 
 
-module.exports  = UserLoader
+module.exports = PostLoader

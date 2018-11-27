@@ -38,7 +38,10 @@ class AgreementInstaller extends core.installers.Installer{
 
       (name) => {
 
-        console.log(AgreementInstaller.CREATING, name)
+        utility.log(
+          '\x1b[37mCreating \x1b[0m' + name + '\x1b[37m agreement.\x1b[0m',
+          {indent: 2}
+        )
 
         var machineName = name.toLowerCase()
 
@@ -77,14 +80,6 @@ class AgreementInstaller extends core.installers.Installer{
     return installed
   }
 }
-
-
-/* ----- Log Messages ----- */
-
-
-AgreementInstaller.CREATING =
-  '\x1b[37m  Creating \x1b[0m%s\x1b[37m agreement.\x1b[0m'
-
 
 
 module.exports = AgreementInstaller

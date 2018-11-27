@@ -39,4 +39,4 @@ class RootPosition extends core.processors.UniformProcessor {
 }
 
 
-module.exports  = RootPosition
+module.exports = RootPosition

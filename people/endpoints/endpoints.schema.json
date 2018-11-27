@@ -123,7 +123,7 @@
             {"$ref": "#/definitions/entityType"},
             {
               "enum": ["collective"],
-              "errorMessage": "Inappropriate reference type. Must be 'collective' or 'collective.",
+              "errorMessage": "Inappropriate reference type. Must be 'collective'.",
               "default": "collective"
             }
           ]
@@ -141,7 +141,7 @@
             {"$ref": "#/definitions/entityType"},
             {
               "enum": ["collective", "user"],
-              "errorMessage": "Inappropriate reference type. Must be 'collective' or 'user."
+              "errorMessage": "Inappropriate reference type. Must be 'collective' or 'user'."
             }
           ]
         },

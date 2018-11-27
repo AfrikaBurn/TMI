@@ -5,11 +5,6 @@
 "use strict"
 
 
-const
-  passport = require('passport'),
-  expressSession = require('express-session')
-
-
 class AgreementLoader extends core.processors.Processor{
 
 
@@ -55,7 +50,6 @@ class AgreementLoader extends core.processors.Processor{
     ).entities
 
     req.exising = req.exising || {}
-
 
   }
 }

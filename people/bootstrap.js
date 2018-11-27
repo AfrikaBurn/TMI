@@ -23,9 +23,10 @@ class Bootstrap {
 
     this.setupApp()
 
-    console.log(
-      '\n\Spinning up \x1b[1mMINI\x1b[0mmal \x1b[1mMI\x1b[0mcroendpoint:\n' +
-      '\x1b[34m' + this.config.name + '\n'
+    utility.log(
+      '\nSpinning up \x1b[1mMINI\x1b[0mmal \x1b[1mMI\x1b[0mcroservices for ' +
+      '\x1b[34m' + this.config.name + '\n',
+      {verbose: false}
     )
 
     utility.log('\x1b[1mLOADING\x1b[0m\n')
@@ -34,9 +35,8 @@ class Bootstrap {
     this.setupEndpoints()
 
     if (this.root) {
-      utility.log('\x1b[1mINSTALLING\x1b[0m\n')
-      this.root.install()
-      this.start()
+      utility.log('\n\x1b[1mINSTALLING\x1b[0m\n')
+      if (this.root.install()) this.start()
     }
   }
 
@@ -59,6 +59,10 @@ class Bootstrap {
     this.routers = {}
     this.endpoints = {}
     this.root = false
+
+    this.options = {
+      verbose: process.argv.includes('-v')
+    }
 
     process.chdir(this.installRoot)
     process.on('SIGINT',  () => { process.exit() })
@@ -157,7 +161,8 @@ class Bootstrap {
    * Stop the server.
    */
   stop(){
-    console.log('\x1b[31m kill command received!\n');
+
+    console.log('\x1b[31m Yes master!\n');
 
     for (var name in this.endpoints){
       process.stdout.write('Retiring ' + name + ' endpoint... ');
@@ -181,6 +186,12 @@ class Bootstrap {
    * @param  {Function} next Next middleware
    */
   handleResponse(req, res, next){
+
+    utility.log(
+      '\x1b[32m' + req.method + ' ' + req.url + '\x1b[0m',
+      {verbose: true, time: true}
+    )
+
     if (res.data){
       res.status(res.data.code).json(res.data)
     } else next()
@@ -196,11 +207,16 @@ class Bootstrap {
   handleException(exception, req, res, next){
 
     if (exception instanceof Error){
-      console.log('\x1b[33m' + req.method + ' ' + req.url)
+      utility.log('\x1b[33m' + req.method + ' ' + req.url, {verbose: false, time: true})
       exception.stack
-        ? console.log('\x1b[33m%s\x1b[0m', exception.stack)
-        : console.log(exception)
-        console.log('\x1b[0m')
+        ? console.log('\x1b[33m%s\x1b[0m' + exception.stack)
+        : utility.log(exception)
+    } else {
+      if (exception.error){
+        utility.log('\x1b[33m' + req.method + ' ' + req.url + ': ' + exception.error, {verbose: false, time: true})
+      } else {
+        utility.log('\x1b[32m' + req.method + ' ' + req.url + ': ' + exception.status, {time: true})
+      }
     }
 
     if (exception.expose){
@@ -216,6 +232,7 @@ class Bootstrap {
    * @param  {object} res  Express response object
    */
   handleNotFound(req, res){
+    utility.log('\x1b[33m' + req.method + ' ' + req.url + ': not found', {verbose: false, time: true})
     res.status(404).json({"error": 'Not found!'})
   }
 }
@@ -284,15 +301,32 @@ global.utility = {
   /**
    * Logs a message at a specified indent,
    * @param {string} message  Message to log
-   * @param {int} indent      Indent to apply
+   * @param {object} options  Logging options: [
+   *  indent: Indent to apply
+   * ]
    */
-  log: (message, indent = 0) => {
+  log: (message, options = false) => {
 
-    var padding = ' '.repeat(indent)
+    options = options ? options : {verbose: true}
+    options.verbose = !(options.verbose === false)
 
-    typeof message == 'string'
-      ? console.log(padding + message.replace(/\n/g, '\n' + padding))
-      : console.log(message.message, message.stack)
+    if (options.once && !bootstrap.options.verbose) {
+      this.cache = this.cache ? this.cache : []
+      if (this.cache.includes(message)) return
+      this.cache.push(message)
+    }
+
+    var
+      time = options.time
+        ? '\x1b[0m' + new Date(Date.now()).toLocaleString() + ' '
+        : '',
+      padding = options.indent ? ' '.repeat(options.indent) : ''
+
+    if(typeof message == 'string'){
+      if (bootstrap.options.verbose && options.verbose || !options.verbose){
+        console.log(time + padding + message.replace(/\n/g, '\n' + padding))
+      }
+    } else console.log(message.message, message.stack)
   }
 }
 

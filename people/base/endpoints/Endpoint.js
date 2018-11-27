@@ -41,13 +41,16 @@ class Endpoint {
       '\x1b[0mLoading ' +
       'endpoint at \x1b[1m' + this.url +
       '\n\x1b[37mfrom ' + this.source + '\x1b[0m',
-      2
+      {indent: 2}
     )
     this.loadSchema()
     this.loadStash()
     this.loadProcessors()
 
-    utility.log('\x1b[32mDone loading endpoint at ' + this.url + '\x1b[0m\n', 2)
+    utility.log(
+      '\x1b[32mDone loading endpoint at ' + this.url + '\x1b[0m\n',
+      {indent: 2}
+    )
     this.loadChildren()
   }
 
@@ -77,12 +80,15 @@ class Endpoint {
         this.schemaSource
         ? '\x1b[0mschema\x1b[1m\t\t\tOBJECT\x1b[0m'
         : '\x1b[0mschema\x1b[1m\t\t\t' + this.name + '.schema.json\x1b[0m',
-        4
+        {indent: 4}
       )
 
     } catch(error){
       if (error.code != 'MODULE_NOT_FOUND') utility.log(error)
-      utility.log('\x1b[37mschema\t\t\tNONE\x1b[0m', 4)
+      utility.log(
+        '\x1b[37mschema\t\t\tNONE\x1b[0m',
+        {indent: 4}
+      )
     }
   }
 
@@ -93,13 +99,20 @@ class Endpoint {
 
     try{
 
-      this.stash = new (require(this.getLoadName('stash.js')))(
+      var name = this.getLoadName('stash.js')
+
+      this.stash = new (require(name))(
         this.name,
         bootstrap.config.endpoints[this.url],
         this.schema
       )
 
-      utility.log('\x1b[0mstash\x1b[1m\t\t\t' + this.name + '.stash.js\x1b[0m', 4)
+      utility.log(
+        '\x1b[0mstash\x1b[1m\t\t\t' +
+        pathUtil.relative(this.source, name) +
+        '\x1b[0m',
+        {indent: 4}
+      )
 
     } catch(e){
       if (e.code == 'MODULE_NOT_FOUND'){
@@ -108,7 +121,7 @@ class Endpoint {
           this.stash
             ? '\x1b[0mstash\x1b[0m inherited'
             : '\x1b[37mstash\t\t\tNONE\x1b[0m',
-          4
+          {indent: 4}
         )
       } else {
         utility.log(e.stack)
@@ -119,7 +132,7 @@ class Endpoint {
       utility.log(
         '\x1b[33mWARNING: Memory stashes intended for testing only!\n' +
         '\x1b[33mThey evaporate once the server stops!\x1b[0m',
-        4
+        {indent: 4, verbose: false, once: true}
       )
     }
   }
@@ -143,12 +156,18 @@ class Endpoint {
         processor.attach(this.url, bootstrap.routers[phase])
         this.processors[phase] = processor
 
-        utility.log(phase + ' processor \x1b[1m\t\t' + displayPath + '\x1b[0m', 4)
+        utility.log(
+          phase + ' processor \x1b[1m\t\t' + displayPath + '\x1b[0m',
+          {indent: 4}
+        )
 
       } catch (e) {
         if (e.code == 'MODULE_NOT_FOUND'){
           this.processors[phase] = false
-          utility.log('\x1b[37m' + phase + ' processor \t\tNONE\x1b[0m', 4)
+          utility.log(
+            '\x1b[37m' + phase + ' processor \t\tNONE\x1b[0m',
+            {indent: 4}
+          )
         } else {
           utility.log(e)
           loaded = false
@@ -214,6 +233,8 @@ class Endpoint {
    */
   install(){
 
+    var installed = true
+
     try{
 
       var
@@ -222,13 +243,18 @@ class Endpoint {
 
       if (installer.toInstall()) {
 
-        utility.log('\x1b[0mInstalling \x1b[1m' + this.name, 2)
+        utility.log(
+          '\x1b[0mInstalling \x1b[1m' + this.name,
+          {indent: 2}
+        )
+
+        installed = installer.install()
 
         utility.log(
-          installer.install()
+          installed
             ? '\x1b[32mDone installing ' + this.name + '.\x1b[0m\n'
             : '\x1b[31mFAILED installing ' + this.name + '.\x1b[0m!\n',
-          2
+          {indent: 2}
         )
 
       } else {
@@ -237,7 +263,7 @@ class Endpoint {
           '\x1b[37m' +
           this.name +
           ' install\t\t\x1b[37mNOTHING TO DO\n',
-          4
+          {indent: 4}
         )
 
       }
@@ -245,13 +271,18 @@ class Endpoint {
     } catch (e) {
       if (e.code != 'MODULE_NOT_FOUND'){
         utility.log(e)
-        return false
+        installed = false
       }
     }
 
-    this.children.forEach(
-      (child) => child.install()
+    if (installed) this.children.some(
+      (child) => {
+        installed &= child.install()
+        return !installed
+      }
     )
+
+    return installed
   }
 
 

@@ -28,14 +28,21 @@ class CollectiveInstaller extends core.installers.Installer{
       (label, index) => {
         try{
           if (this.endpoint.stash.read({}, {id: index}).entities.length == 0){
-            console.log(CollectiveInstaller.CREATING, label)
+
+            utility.log(
+              '\x1b[37mCreating \x1b[0m' +
+              label +
+              '\x1b[37m collective.\x1b[0m',
+              {indent: 4}
+            )
+
             this.endpoint.stash.create(
               {id: -1},
               [CollectiveInstaller.SYSTEM_COLLECTIVES[index]]
             )
           }
         } catch(e) {
-          console.log(e)
+          utility.log(e)
           installed = false
         }
       }
@@ -44,13 +51,6 @@ class CollectiveInstaller extends core.installers.Installer{
     return installed
   }
 }
-
-
-/* ----- Log Messages ----- */
-
-
-CollectiveInstaller.CREATING =
-  '\x1b[37m    Creating \x1b[0m%s\x1b[37m collective.\x1b[0m'
 
 
 /* ----- System Collectives ----- */

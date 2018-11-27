@@ -25,14 +25,19 @@ class UserInstaller extends core.installers.Installer{
       (label, index) => {
         try{
           if (this.endpoint.stash.read({}, {id: index}).entities.length == 0){
-            console.log(UserInstaller.CREATING, label)
+
+            utility.log(
+              '\x1b[37mCreating \x1b[0m' + label + '\x1b[37m user.\x1b[0m',
+              {indent: 4}
+            )
+
             this.endpoint.stash.create(
               {id: 1},
               [UserInstaller.SYSTEM_ACCOUNTS[index]]
             )
           }
         } catch(e) {
-          console.log(e)
+          utility.log(e)
           return false
         }
       }
@@ -46,7 +51,7 @@ class UserInstaller extends core.installers.Installer{
 
 
 UserInstaller.CREATING =
-  '\x1b[37m    Creating \x1b[0m%s\x1b[37m user.\x1b[0m'
+
 
 
 /* ----- System Accounts ----- */

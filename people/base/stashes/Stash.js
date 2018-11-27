@@ -63,7 +63,7 @@ class Stash {
 
     // Commit entities here
 
-    this.process(entities, 'comitted')
+    this.process(entities, 'committed')
 
     return utility.response(Stash.CREATED, entities)
   }
@@ -220,7 +220,7 @@ class Stash {
       '\x1b[33mWARNING: Using memory based stash for session storage!\n' +
       '\x1b[33mIt will fail with multiple connections!\n' +
       '\x1b[33mUse another stash for production.\x1b[0m',
-      4
+      {indent: 4, verbose: false, once: true}
     );
     return undefined;
   }

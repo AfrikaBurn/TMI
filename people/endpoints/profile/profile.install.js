@@ -31,11 +31,4 @@ class ProfileInstaller extends core.installers.Installer{
 }
 
 
-/* ----- Log Messages ----- */
-
-
-ProfileInstaller.CREATING =
-  '\x1b[37m  Creating \x1b[0m%s\x1b[37m profile.\x1b[0m'
-
-
 module.exports = ProfileInstaller
