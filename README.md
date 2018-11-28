@@ -82,7 +82,7 @@ This means the people is running and awaiting requests.
 Warnings will be present in the startup output until database integration has been completed.
 For now TMI People runs in memory alone.
 
-For more verbose outpu, run people with the -v switch:
+For more detailed output, run people with the verbose switch:
 
 ```
 node people -v
@@ -107,18 +107,20 @@ In the terminal where people is running simply press CTRL-C to terminate the pro
 
 The output should be:
 ```
-^C kill command received!
+^C Kill command received:
 
-Retiring / service... done.
-Retiring /agreement service... done.
-Retiring /collective service... done.
-Retiring /post service... done.
-Retiring /profile service... done.
-Retiring /user service... done.
-Retiring /agreement/administrator service... done.
-Retiring /agreement/moderator service... done.
-Retiring /agreement/member service... done.
-Retiring /agreement/guest service... done.
+Retiring / endpoint... done.
+Retiring /agreement endpoint... done.
+Retiring /collective endpoint... done.
+Retiring /post endpoint... done.
+Retiring /profile endpoint... done.
+Retiring /user endpoint... done.
+Retiring /agreement/administrator endpoint... done.
+Retiring /agreement/moderator endpoint... done.
+Retiring /agreement/member endpoint... done.
+Retiring /agreement/guest endpoint... done.
+Retiring /post/article endpoint... done.
+Retiring /post/comment endpoint... done.
 
 TMI People is done.
 ```

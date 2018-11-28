@@ -162,7 +162,7 @@ class Bootstrap {
    */
   stop(){
 
-    console.log('\x1b[31m Yes master!\n');
+    console.log('\x1b[31m Kill command received:\n');
 
     for (var name in this.endpoints){
       process.stdout.write('Retiring ' + name + ' endpoint... ');

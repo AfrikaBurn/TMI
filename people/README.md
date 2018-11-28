@@ -9,19 +9,19 @@
     * [List Agreement types](#list-agreement-types)
     * [Find agreement types](#find-agreement-types)
     * [Create agreement type(s)](#create-agreement-types)
-    * [Update agreement type(s)](#update-agreement-types) TODO
-    * [Delete agreement type(s)](#delete-agreement-types) TODO
-  * [Agreement schema](#agreement-schema) TODO
-  * [List agreements](#list-agreements) TODO
-  * [Find agreement](#find-agreements) TODO
-  * [Create agreement](#create-agreements) TODO
-  * [Update agreement](#update-agreements) TODO
-  * [Delete agreement](#delete-agreements) TODO
+    * [Update agreement type(s)](#update-agreement-types) TODOC
+    * [Delete agreement type(s)](#delete-agreement-types) TODOC
+  * [Agreement schema](#agreement-schema) TODOC
+  * [List agreements](#list-agreements) TODOC
+  * [Find agreement](#find-agreements) TODOC
+  * [Create agreement](#create-agreements) TODOC
+  * [Update agreement](#update-agreements) TODOC
+  * [Delete agreement](#delete-agreements) TODOC
 
-* Collectives (TODO)
-* Posts (TODO)
-* Profiles (TODO)
-* Users (TODO)
+* Collectives (TODOC)
+* Posts (TODOC)
+* Profiles (TODOC)
+* Users (TODOC)
 
 <br />
 
@@ -102,7 +102,7 @@ defines agreement types.
 
 ---
 
-### List agreement types:
+### List agreement types
 
 |||
 --- | ---
@@ -204,7 +204,7 @@ Content-Type| `application/json`
 <br />
 
 ---
-### Find agreement types:
+### Find agreement types
 
 |||
 --- | ---
@@ -253,7 +253,7 @@ eg.
 <br />
 
 ---
-### Create agreement type(s):
+### Create agreement type(s)
 
 |||
 --- | ---
@@ -287,7 +287,7 @@ Content-Type| `application/json`
 ]
 ```
 </details>
-
+<br />
 <details><summary>Expected response</summary>
 
 ```JSON
@@ -322,6 +322,8 @@ Content-Type| `application/json`
 }
 ```
 </details>
+
+<br />
 
 A new endpoint is created at:
 ```
