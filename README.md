@@ -32,6 +32,13 @@
 
 ## People
 
+People is the backbone of TMI and manages users, collectives, profiles,
+agreements and posts. It enforces positionality and access to only allow a user
+to interact with the information they own or curate in ways the owners of said
+information have consented to.
+
+* [More about TMI People (including API)](./people/README.md).
+
 
 ### Recommended apps
 
@@ -57,6 +64,15 @@ node people
 You should see startup output ending in:
 
 ```
+Spinning up MINImal MIcroservices for TMI People
+
+    WARNING: Memory stashes intended for testing only!
+    They evaporate once the server stops!
+    WARNING: Using memory based stash for session storage!
+    It will fail with multiple connections!
+    Use another stash for production.
+
+
 Occupying http://127.0.0.1:3000
 
 TMI People is ready.
@@ -65,6 +81,12 @@ TMI People is ready.
 This means the people is running and awaiting requests.
 Warnings will be present in the startup output until database integration has been completed.
 For now TMI People runs in memory alone.
+
+For more verbose outpu, run people with the -v switch:
+
+```
+node people -v
+```
 
 
 ### Testing people
