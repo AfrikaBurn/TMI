@@ -1,15 +1,15 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "http://tmi-platform.org/collective/collective.schema.json",
+  "$id": "http://tmi.mobi/collective/collective.schema.json",
 
   "definitions": {
-    "uei": {"$ref": "http://tmi-platform.org/root.schema.json#/definitions/uei"},
-    "name": {"$ref": "http://tmi-platform.org/root.schema.json#/definitions/name"},
-    "description": {"$ref": "http://tmi-platform.org/root.schema.json#/definitions/description"},
-    "exposure": {"$ref": "http://tmi-platform.org/root.schema.json#/definitions/exposure"},
-    "status": {"$ref": "http://tmi-platform.org/root.schema.json#/definitions/status"},
-    "participantRef": {"$ref": "http://tmi-platform.org/root.schema.json#/definitions/participantRef"},
-    "collectiveRef": {"$ref": "http://tmi-platform.org/root.schema.json#/definitions/collectiveRef"}
+    "uei": {"$ref": "http://tmi.mobi/root.schema.json#/definitions/uei"},
+    "name": {"$ref": "http://tmi.mobi/root.schema.json#/definitions/name"},
+    "description": {"$ref": "http://tmi.mobi/root.schema.json#/definitions/description"},
+    "exposure": {"$ref": "http://tmi.mobi/root.schema.json#/definitions/exposure"},
+    "status": {"$ref": "http://tmi.mobi/root.schema.json#/definitions/status"},
+    "participantRef": {"$ref": "http://tmi.mobi/root.schema.json#/definitions/participantRef"},
+    "collectiveRef": {"$ref": "http://tmi.mobi/root.schema.json#/definitions/collectiveRef"}
   },
 
   "type": "object",

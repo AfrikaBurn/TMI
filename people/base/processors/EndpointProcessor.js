@@ -6,11 +6,10 @@
 
 
 const
-  RestProcessor = require('./RestProcessor'),
-  Endpoint = require('../endpoints/Endpoint')
+  RestStashProcessor = require('./RestStashProcessor')
 
 
-class EndpointProcessor extends RestProcessor {
+class EndpointProcessor extends RestStashProcessor {
 
 
   /* ----- Method responders ----- */

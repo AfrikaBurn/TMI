@@ -248,6 +248,7 @@ global.core = {
     Processor: require('./base/processors/Processor'),
     UniformProcessor: require('./base/processors/UniformProcessor'),
     RestProcessor: require('./base/processors/RestProcessor'),
+    RestStashProcessor: require('./base/processors/RestStashProcessor'),
     EndpointProcessor: require('./base/processors/EndpointProcessor')
   },
 

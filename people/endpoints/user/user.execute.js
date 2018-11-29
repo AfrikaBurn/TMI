@@ -11,7 +11,7 @@ const
   Processor = core.processors.Processor
 
 
-class UserExecutor extends core.processors.RestProcessor {
+class UserExecutor extends core.processors.RestStashProcessor {
 
 
   /* ----- Construction ----- */

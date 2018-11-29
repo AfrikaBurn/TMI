@@ -1,10 +1,10 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "http://tmi-platform.org/profile/profile.schema.json",
+  "$id": "http://tmi.mobi/profile/profile.schema.json",
 
   "definitions": {
-    "uei": {"$ref": "http://tmi-platform.org/root.schema.json#/definitions/uei"},
-    "collectiveRef": {"$ref": "http://tmi-platform.org/root.schema.json#/definitions/collectiveRef"}
+    "uei": {"$ref": "http://tmi.mobi/root.schema.json#/definitions/uei"},
+    "collectiveRef": {"$ref": "http://tmi.mobi/root.schema.json#/definitions/collectiveRef"}
   },
 
   "type": "object",

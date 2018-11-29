@@ -240,12 +240,12 @@
 									"            \"name\": \"administrator\",",
 									"            \"schema\": {",
 									"                \"$schema\": \"http://json-schema.org/draft-07/schema#\",",
-									"                \"$id\": \"http://tmi-platform.org/agreement/administrator/administrator.schema.json\",",
+									"                \"$id\": \"http://tmi.mobi/agreement/administrator/administrator.schema.json\",",
 									"                \"type\": \"object\",",
 									"                \"title\": \"Administrator Agreement\",",
 									"                \"allOf\": [",
 									"                    {",
-									"                        \"$ref\": \"http://tmi-platform.org/agreement/base.agreement.schema.json\"",
+									"                        \"$ref\": \"http://tmi.mobi/agreement/base.agreement.schema.json\"",
 									"                    }",
 									"                ]",
 									"            },",
@@ -259,12 +259,12 @@
 									"            \"name\": \"moderator\",",
 									"            \"schema\": {",
 									"                \"$schema\": \"http://json-schema.org/draft-07/schema#\",",
-									"                \"$id\": \"http://tmi-platform.org/schemas/agreement/default/moderator.json\",",
+									"                \"$id\": \"http://tmi.mobi/schemas/agreement/default/moderator.json\",",
 									"                \"type\": \"object\",",
 									"                \"title\": \"Moderator Agreement\",",
 									"                \"allOf\": [",
 									"                    {",
-									"                        \"$ref\": \"http://tmi-platform.org/agreement/base.agreement.schema.json\"",
+									"                        \"$ref\": \"http://tmi.mobi/agreement/base.agreement.schema.json\"",
 									"                    }",
 									"                ]",
 									"            },",
@@ -278,12 +278,12 @@
 									"            \"name\": \"member\",",
 									"            \"schema\": {",
 									"                \"$schema\": \"http://json-schema.org/draft-07/schema#\",",
-									"                \"$id\": \"http://tmi-platform.org/agreement/default/member.agreement.schema.json\",",
+									"                \"$id\": \"http://tmi.mobi/agreement/default/member.agreement.schema.json\",",
 									"                \"type\": \"object\",",
 									"                \"title\": \"Membership Agreement\",",
 									"                \"allOf\": [",
 									"                    {",
-									"                        \"$ref\": \"http://tmi-platform.org/agreement/base.agreement.schema.json\"",
+									"                        \"$ref\": \"http://tmi.mobi/agreement/base.agreement.schema.json\"",
 									"                    }",
 									"                ]",
 									"            },",
@@ -297,12 +297,12 @@
 									"            \"name\": \"guest\",",
 									"            \"schema\": {",
 									"                \"$schema\": \"http://json-schema.org/draft-07/schema#\",",
-									"                \"$id\": \"http://tmi-platform.org/schemas/agreement/default/guest.json\",",
+									"                \"$id\": \"http://tmi.mobi/schemas/agreement/default/guest.json\",",
 									"                \"type\": \"object\",",
 									"                \"title\": \"Guest Agreement\",",
 									"                \"allOf\": [",
 									"                    {",
-									"                        \"$ref\": \"http://tmi-platform.org/agreement/base.agreement.schema.json\"",
+									"                        \"$ref\": \"http://tmi.mobi/agreement/base.agreement.schema.json\"",
 									"                    }",
 									"                ]",
 									"            },",
@@ -733,7 +733,7 @@
 											"var jsonData = pm.response.json();",
 											"",
 											"pm.test(\"User schema\", function () {",
-											"  pm.expect(jsonData.schema[\"$id\"]).to.eql(\"http://tmi-platform.org/user/user.schema.json\");",
+											"  pm.expect(jsonData.schema[\"$id\"]).to.eql(\"http://tmi.mobi/user/user.schema.json\");",
 											"});",
 											""
 										]
@@ -1103,7 +1103,7 @@
 											"var jsonData = pm.response.json();",
 											"",
 											"pm.test(\"Collective schema\", function () {",
-											"  pm.expect(jsonData.schema[\"$id\"]).to.eql(\"http://tmi-platform.org/collective/collective.schema.json\");",
+											"  pm.expect(jsonData.schema[\"$id\"]).to.eql(\"http://tmi.mobi/collective/collective.schema.json\");",
 											"});",
 											""
 										]
@@ -1427,7 +1427,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "[\n\t{\n\t\t\"owner\": {\"entityType\": \"collective\", \"id\": 0},\n\t\t\"name\": \"test-agreement\",\n\t\t\"schema\": {\n\t\t\t\"$schema\": \"http://json-schema.org/draft-07/schema#\",\n\t\t\t\"$id\": \"http://tmi-platform.org/schemas/agreement/test-agreement\",\n\t\t\t\n\t\t\t\"type\": \"object\",\n\t\t\t\"title\": \"Test Agreement\",\n\t\t\t\n\t\t\t\"allOf\": [\n\t\t\t\t{\"$ref\": \"http://tmi-platform.org/agreement/base.agreement.schema.json\"}\n\t\t\t],\n\t\t\t\"properties\": {\n\t\t\t\t\"newProp\": {\"type\": \"string\"}\n\t\t\t}\n\t\t}\n\t}\n]"
+									"raw": "[\n\t{\n\t\t\"owner\": {\"entityType\": \"collective\", \"id\": 0},\n\t\t\"name\": \"test-agreement\",\n\t\t\"schema\": {\n\t\t\t\"$schema\": \"http://json-schema.org/draft-07/schema#\",\n\t\t\t\"$id\": \"http://tmi.mobi/schemas/agreement/test-agreement\",\n\t\t\t\n\t\t\t\"type\": \"object\",\n\t\t\t\"title\": \"Test Agreement\",\n\t\t\t\n\t\t\t\"allOf\": [\n\t\t\t\t{\"$ref\": \"http://tmi.mobi/agreement/base.agreement.schema.json\"}\n\t\t\t],\n\t\t\t\"properties\": {\n\t\t\t\t\"newProp\": {\"type\": \"string\"}\n\t\t\t}\n\t\t}\n\t}\n]"
 								},
 								"url": {
 									"raw": "localhost:3000/agreement",
@@ -1469,7 +1469,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"owner\": {\"entityType\": \"collective\", \"id\": 0},\n\t\"name\": \"test-agreement\",\n\t\"schema\": {\n\t\t\"$schema\": \"http://json-schema.org/draft-07/schema#\",\n\t\t\"$id\": \"http://tmi-platform.org/schemas/agreement/test-agreement\",\n\t\t\n\t\t\"type\": \"object\",\n\t\t\"title\": \"Test Agreement\",\n\t\t\n\t\t\"allOf\": [\n\t\t\t{\"$ref\": \"http://tmi-platform.org/agreement/base.agreement.schema.json\"}\n\t\t],\n\t\t\"properties\": {\n\t\t\t\"newProp\": {\"type\": \"boolean\"}\n\t\t}\n\t}\n}"
+									"raw": "{\n\t\"owner\": {\"entityType\": \"collective\", \"id\": 0},\n\t\"name\": \"test-agreement\",\n\t\"schema\": {\n\t\t\"$schema\": \"http://json-schema.org/draft-07/schema#\",\n\t\t\"$id\": \"http://tmi.mobi/schemas/agreement/test-agreement\",\n\t\t\n\t\t\"type\": \"object\",\n\t\t\"title\": \"Test Agreement\",\n\t\t\n\t\t\"allOf\": [\n\t\t\t{\"$ref\": \"http://tmi.mobi/agreement/base.agreement.schema.json\"}\n\t\t],\n\t\t\"properties\": {\n\t\t\t\"newProp\": {\"type\": \"boolean\"}\n\t\t}\n\t}\n}"
 								},
 								"url": {
 									"raw": "localhost:3000/agreement?name=test-agreement",
@@ -1586,7 +1586,7 @@
 											"var jsonData = pm.response.json();",
 											"",
 											"pm.test(\"User schema\", function () {",
-											"  pm.expect(jsonData.schema[\"$id\"]).to.eql(\"http://tmi-platform.org/user/user.schema.json\");",
+											"  pm.expect(jsonData.schema[\"$id\"]).to.eql(\"http://tmi.mobi/user/user.schema.json\");",
 											"});",
 											""
 										]
@@ -2090,7 +2090,7 @@
 									"var jsonData = pm.response.json();",
 									"",
 									"pm.test(\"User schema\", function () {",
-									"  pm.expect(jsonData.schema[\"$id\"]).to.eql(\"http://tmi-platform.org/user/user.schema.json\");",
+									"  pm.expect(jsonData.schema[\"$id\"]).to.eql(\"http://tmi.mobi/user/user.schema.json\");",
 									"});",
 									""
 								]

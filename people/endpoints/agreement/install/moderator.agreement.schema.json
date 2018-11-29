@@ -1,11 +1,11 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "http://tmi-platform.org/schemas/agreement/default/moderator.json",
+  "$id": "http://tmi.mobi/schemas/agreement/default/moderator.json",
 
   "type": "object",
   "title": "Moderator Agreement",
 
   "allOf":[
-    {"$ref": "http://tmi-platform.org/agreement/base.agreement.schema.json"}
+    {"$ref": "http://tmi.mobi/agreement/base.agreement.schema.json"}
   ]
 }

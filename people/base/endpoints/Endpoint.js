@@ -88,7 +88,7 @@ class Endpoint {
       if (error.code != 'MODULE_NOT_FOUND') throw utility.error(
         Endpoint.INVALID_SCHEMA,
         [error.message]
-        )
+      )
       utility.log('\x1b[37mschema\t\t\tNONE\x1b[0m', {indent: 4})
     }
   }

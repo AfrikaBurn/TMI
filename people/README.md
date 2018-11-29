@@ -32,7 +32,7 @@
 
 >Agreements are forged between users; collectives; and users and collectives.
 These agreements represent relationships within the system and include:
->*
+>
 >* friendship between users
 >* invitations to, and member- and moderatorship between users and collectives
 >* registration of projects between collectives.
@@ -41,7 +41,11 @@ These agreements represent relationships within the system and include:
 
 ## Agreement types
 
->This endpoint allows management of *agreement types*.
+```
+http://127.0.0.1:3000/agreement
+```
+
+>The root endpoint of agreements allows management of *agreement types*.
 
 <br />
 
@@ -61,13 +65,13 @@ Content-Type| `application/json;schema`
     "code": 200,
     "schema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
-        "$id": "http://tmi-platform.org/agreement/agreement.schema.json",
+        "$id": "http://tmi.mobi/agreement/agreement.schema.json",
         "definitions": {
             "uei": {
-                "$ref": "http://tmi-platform.org/root.schema.json#/definitions/uei"
+                "$ref": "http://tmi.mobi/root.schema.json#/definitions/uei"
             },
             "participantRef": {
-                "$ref": "http://tmi-platform.org/root.schema.json#/definitions/participantRef"
+                "$ref": "http://tmi.mobi/root.schema.json#/definitions/participantRef"
             }
         },
         "type": "object",
@@ -126,12 +130,12 @@ Content-Type| `application/json`
             "name": "administrator",
             "schema": {
                 "$schema": "http://json-schema.org/draft-07/schema#",
-                "$id": "http://tmi-platform.org/agreement/administrator/administrator.schema.json",
+                "$id": "http://tmi.mobi/agreement/administrator/administrator.schema.json",
                 "type": "object",
                 "title": "Administrator Agreement",
                 "allOf": [
                     {
-                        "$ref": "http://tmi-platform.org/agreement/base.agreement.schema.json"
+                        "$ref": "http://tmi.mobi/agreement/base.agreement.schema.json"
                     }
                 ]
             },
@@ -145,12 +149,12 @@ Content-Type| `application/json`
             "name": "moderator",
             "schema": {
                 "$schema": "http://json-schema.org/draft-07/schema#",
-                "$id": "http://tmi-platform.org/schemas/agreement/default/moderator.json",
+                "$id": "http://tmi.mobi/schemas/agreement/default/moderator.json",
                 "type": "object",
                 "title": "Moderator Agreement",
                 "allOf": [
                     {
-                        "$ref": "http://tmi-platform.org/agreement/base.agreement.schema.json"
+                        "$ref": "http://tmi.mobi/agreement/base.agreement.schema.json"
                     }
                 ]
             },
@@ -164,12 +168,12 @@ Content-Type| `application/json`
             "name": "member",
             "schema": {
                 "$schema": "http://json-schema.org/draft-07/schema#",
-                "$id": "http://tmi-platform.org/agreement/default/member.agreement.schema.json",
+                "$id": "http://tmi.mobi/agreement/default/member.agreement.schema.json",
                 "type": "object",
                 "title": "Membership Agreement",
                 "allOf": [
                     {
-                        "$ref": "http://tmi-platform.org/agreement/base.agreement.schema.json"
+                        "$ref": "http://tmi.mobi/agreement/base.agreement.schema.json"
                     }
                 ]
             },
@@ -183,12 +187,12 @@ Content-Type| `application/json`
             "name": "guest",
             "schema": {
                 "$schema": "http://json-schema.org/draft-07/schema#",
-                "$id": "http://tmi-platform.org/schemas/agreement/default/guest.json",
+                "$id": "http://tmi.mobi/schemas/agreement/default/guest.json",
                 "type": "object",
                 "title": "Guest Agreement",
                 "allOf": [
                     {
-                        "$ref": "http://tmi-platform.org/agreement/base.agreement.schema.json"
+                        "$ref": "http://tmi.mobi/agreement/base.agreement.schema.json"
                     }
                 ]
             },
@@ -231,12 +235,12 @@ eg.
             "name": "guest",
             "schema": {
                 "$schema": "http://json-schema.org/draft-07/schema#",
-                "$id": "http://tmi-platform.org/schemas/agreement/default/guest.json",
+                "$id": "http://tmi.mobi/schemas/agreement/default/guest.json",
                 "type": "object",
                 "title": "Guest Agreement",
                 "allOf": [
                     {
-                        "$ref": "http://tmi-platform.org/agreement/base.agreement.schema.json"
+                        "$ref": "http://tmi.mobi/agreement/base.agreement.schema.json"
                     }
                 ]
             },
@@ -272,12 +276,12 @@ Content-Type| `application/json`
             "name": "test-agreement",
             "schema": {
                 "$schema": "http://json-schema.org/draft-07/schema#",
-                "$id": "http://tmi-platform.org/schemas/agreement/test-agreement",
+                "$id": "http://tmi.mobi/schemas/agreement/test-agreement",
                 "type": "object",
                 "title": "Test Agreement",
                 "allOf": [
                     {
-                        "$ref": "http://tmi-platform.org/agreement/base.agreement.schema.json"
+                        "$ref": "http://tmi.mobi/agreement/base.agreement.schema.json"
                     }
                 ],
                 "properties": {
@@ -309,12 +313,12 @@ Content-Type| `application/json`
             "name": "test-agreement",
             "schema": {
                 "$schema": "http://json-schema.org/draft-07/schema#",
-                "$id": "http://tmi-platform.org/schemas/agreement/test-agreement",
+                "$id": "http://tmi.mobi/schemas/agreement/test-agreement",
                 "type": "object",
                 "title": "Test Agreement",
                 "allOf": [
                     {
-                        "$ref": "http://tmi-platform.org/agreement/base.agreement.schema.json"
+                        "$ref": "http://tmi.mobi/agreement/base.agreement.schema.json"
                     }
                 ],
                 "properties": {
@@ -360,13 +364,13 @@ Content-Type| `application/json`
 		"name": "test-agreement",
 		"schema": {
 			"$schema": "http://json-schema.org/draft-07/schema#",
-			"$id": "http://tmi-platform.org/schemas/agreement/default/guest.json",
+			"$id": "http://tmi.mobi/schemas/agreement/default/guest.json",
 
 			"type": "object",
 			"title": "Test Agreement",
 
 			"allOf": [
-				{"$ref": "http://tmi-platform.org/agreement/base.agreement.schema.json"}
+				{"$ref": "http://tmi.mobi/agreement/base.agreement.schema.json"}
 			],
 			"properties": {
 				"newProp": "boolean"
@@ -394,12 +398,12 @@ Content-Type| `application/json`
             "name": "test-agreement",
             "schema": {
                 "$schema": "http://json-schema.org/draft-07/schema#",
-                "$id": "http://tmi-platform.org/schemas/agreement/test-agreement",
+                "$id": "http://tmi.mobi/schemas/agreement/test-agreement",
                 "type": "object",
                 "title": "Test Agreement",
                 "allOf": [
                     {
-                        "$ref": "http://tmi-platform.org/agreement/base.agreement.schema.json"
+                        "$ref": "http://tmi.mobi/agreement/base.agreement.schema.json"
                     }
                 ],
                 "properties": {

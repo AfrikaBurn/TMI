@@ -5,11 +5,6 @@
 "use strict"
 
 
-const
-  passport = require('passport'),
-  expressSession = require('express-session')
-
-
 class UserLoader extends core.processors.Processor{
 
 

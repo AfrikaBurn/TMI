@@ -5,7 +5,7 @@
 "use strict"
 
 
-class DefaultPostExecutor extends core.processors.RestProcessor {}
+class DefaultPostExecutor extends core.processors.RestStashProcessor {}
 
 
 module.exports = DefaultPostExecutor

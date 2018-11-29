@@ -1,11 +1,11 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "http://tmi-platform.org/agreement/default/member.agreement.schema.json",
+  "$id": "http://tmi.mobi/agreement/default/member.agreement.schema.json",
 
   "type": "object",
   "title": "Membership Agreement",
 
   "allOf": [
-    {"$ref": "http://tmi-platform.org/agreement/base.agreement.schema.json"}
+    {"$ref": "http://tmi.mobi/agreement/base.agreement.schema.json"}
   ]
 }

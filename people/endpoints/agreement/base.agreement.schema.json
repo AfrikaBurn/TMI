@@ -1,12 +1,12 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "http://tmi-platform.org/agreement/base.agreement.schema.json",
+  "$id": "http://tmi.mobi/agreement/base.agreement.schema.json",
 
   "type": "object",
   "title": "Agreement Base",
 
   "definitions": {
-    "participantRef": {"$ref": "http://tmi-platform.org/root.schema.json#/definitions/participantRef"}
+    "participantRef": {"$ref": "http://tmi.mobi/root.schema.json#/definitions/participantRef"}
   },
 
   "properties":{

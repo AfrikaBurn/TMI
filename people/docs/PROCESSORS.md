@@ -131,13 +131,13 @@ This instructs MiniMi to:
 ## Predefined processors
 
 
-### [RestProcessor](../base/processors/RestProcessor.js)
+### [RestStashProcessor](../base/processors/RestStashProcessor.js)
 
 > Maps all HTTP methods to sensible middleware as well as the corresponding
 processor methods already implemented to handle persistance using the stash
 defined for the endpoint.
 
-To assign a RestProcessor to an endpoint (usually the execute phase) create a
+To assign a RestStashProcessor to an endpoint (usually the execute phase) create a
 file within the endpoint folder, named:
 
 ```[endpoint-folder-name].[phase].js```
@@ -151,14 +151,14 @@ eg. in the "foo" folder, create "foo.execute.js" with content:
  */
 "use strict"
 
-class FooExecutor extends core.processors.RestProcessor {}
+class FooExecutor extends core.processors.RestStashProcessor {}
 
 module.exports = FooExecutor
 ```
 
 ### [AccessProcessor](../base/processors/AccessProcessor.js)
 
-> Extends RestProcessor and overrides all methods to provide access control.
+> Extends RestStashProcessor and overrides all methods to provide access control.
 Grants access to al methods by default.
 
 To assign an AccessProcessor to an endpoint (usually the access phase) that

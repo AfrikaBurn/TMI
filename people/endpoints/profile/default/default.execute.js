@@ -5,7 +5,7 @@
 "use strict"
 
 
-class DefaultProfileExecutor extends core.processors.RestProcessor {}
+class DefaultProfileExecutor extends core.processors.RestStashProcessor {}
 
 
 module.exports = DefaultProfileExecutor
