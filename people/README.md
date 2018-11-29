@@ -9,8 +9,8 @@
     * [List Agreement types](#list-agreement-types)
     * [Find agreement types](#find-agreement-types)
     * [Create agreement type(s)](#create-agreement-types)
-    * [Update agreement type(s)](#update-agreement-types) TODOC
-    * [Delete agreement type(s)](#delete-agreement-types) TODOC
+    * [Update agreement type(s)](#update-agreement-types)
+    * [Delete agreement type(s)](#delete-agreement-types)
   * [Agreement schema](#agreement-schema) TODOC
   * [List agreements](#list-agreements) TODOC
   * [Find agreement](#find-agreements) TODOC
@@ -96,9 +96,8 @@ Content-Type| `application/json;schema`
 Where ```schema:``` is the
 [JSON schema](endpoints/agreement/agreement.schema.json) that
 defines agreement types.
-</details>
 
-<br />
+</details><br />
 
 ---
 
@@ -199,9 +198,7 @@ Content-Type| `application/json`
 }
 ```
 
-</details>
-
-<br />
+</details><br />
 
 ---
 ### Find agreement types
@@ -248,9 +245,8 @@ eg.
     ]
 }
 ```
-</details>
 
-<br />
+</details><br />
 
 ---
 
@@ -294,8 +290,9 @@ Content-Type| `application/json`
         }
     ]
 ```
-</details>
-<br />
+
+</details><br />
+
 <details><summary>Expected response</summary>
 
 ```JSON
@@ -331,16 +328,16 @@ Content-Type| `application/json`
     ]
 }
 ```
-</details>
 
-<br />
+</details><br />
 
-A new endpoint is created at:
+Creates a new agreement type and enpoint, in this case:
 ```
 /agreement/test-agreement
 ```
 that may now be used to create instances of the agreement type "test-agreement",
 as per the provided name and schema.
+
 <br />
 
 ---
@@ -372,10 +369,49 @@ Content-Type| `application/json`
 				{"$ref": "http://tmi-platform.org/agreement/base.agreement.schema.json"}
 			],
 			"properties": {
-				"newProp": "string"
+				"newProp": "boolean"
 			}
 		}
 	}
 ]
 ```
 </details>
+
+</details><br />
+<details><summary>Expected response</summary>
+
+```JSON
+{
+    "status": "Success",
+    "code": 200,
+    "expose": true,
+    "entities": [
+        {
+            "owner": {
+                "entityType": "collective",
+                "id": 0
+            },
+            "name": "test-agreement",
+            "schema": {
+                "$schema": "http://json-schema.org/draft-07/schema#",
+                "$id": "http://tmi-platform.org/schemas/agreement/test-agreement",
+                "type": "object",
+                "title": "Test Agreement",
+                "allOf": [
+                    {
+                        "$ref": "http://tmi-platform.org/agreement/base.agreement.schema.json"
+                    }
+                ],
+                "properties": {
+                    "newProp": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "id": 4
+        }
+    ]
+}
+```
+
+</details><br />
