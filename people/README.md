@@ -253,6 +253,8 @@ eg.
 <br />
 
 ---
+
+
 ### Create agreement type(s)
 
 |||
@@ -260,6 +262,96 @@ eg.
 Authentication| **`Required`**
 Endpoint|`http://127.0.0.1:3000/agreement`
 Request type| `POST`
+Content-Type| `application/json`
+
+<details><summary>Request body</summary>
+
+```JSON
+[
+        {
+            "owner": {
+                "entityType": "collective",
+                "id": 0
+            },
+            "name": "test-agreement",
+            "schema": {
+                "$schema": "http://json-schema.org/draft-07/schema#",
+                "$id": "http://tmi-platform.org/schemas/agreement/test-agreement",
+                "type": "object",
+                "title": "Test Agreement",
+                "allOf": [
+                    {
+                        "$ref": "http://tmi-platform.org/agreement/base.agreement.schema.json"
+                    }
+                ],
+                "properties": {
+                    "newProp": {
+                        "type": "string"
+                    }
+                }
+            },
+            "id": 4
+        }
+    ]
+```
+</details>
+<br />
+<details><summary>Expected response</summary>
+
+```JSON
+{
+    "status": "Entities created",
+    "code": 201,
+    "expose": true,
+    "entities": [
+        {
+            "owner": {
+                "entityType": "collective",
+                "id": 0
+            },
+            "name": "test-agreement",
+            "schema": {
+                "$schema": "http://json-schema.org/draft-07/schema#",
+                "$id": "http://tmi-platform.org/schemas/agreement/test-agreement",
+                "type": "object",
+                "title": "Test Agreement",
+                "allOf": [
+                    {
+                        "$ref": "http://tmi-platform.org/agreement/base.agreement.schema.json"
+                    }
+                ],
+                "properties": {
+                    "newProp": {
+                        "type": "string"
+                    }
+                }
+            },
+            "id": 4
+        }
+    ]
+}
+```
+</details>
+
+<br />
+
+A new endpoint is created at:
+```
+/agreement/test-agreement
+```
+that may now be used to create instances of the agreement type "test-agreement",
+as per the provided name and schema.
+<br />
+
+---
+
+### Update agreement type(s)
+
+|||
+--- | ---
+Authentication| **`Required`**
+Endpoint|`http://127.0.0.1:3000/agreement`
+Request type| `PUT`
 Content-Type| `application/json`
 
 <details><summary>Request body</summary>
@@ -287,50 +379,3 @@ Content-Type| `application/json`
 ]
 ```
 </details>
-<br />
-<details><summary>Expected response</summary>
-
-```JSON
-{
-    "status": "Entities created",
-    "code": 201,
-    "expose": true,
-    "entities": [
-        {
-            "owner": {
-                "entityType": "collective",
-                "id": 0
-            },
-            "name": "test-agreement",
-            "schema": {
-                "$schema": "http://json-schema.org/draft-07/schema#",
-                "$id": "http://tmi-platform.org/schemas/agreement/default/guest.json",
-                "type": "object",
-                "title": "Test Agreement",
-                "allOf": [
-                    {
-                        "$ref": "http://tmi-platform.org/agreement/base.agreement.schema.json"
-                    }
-                ],
-                "properties": {
-                    "newProp": "string"
-                }
-            },
-            "id": 4
-        }
-    ]
-}
-```
-</details>
-
-<br />
-
-A new endpoint is created at:
-```
-/agreemant/test-agreement
-```
-that may now be used to create instances of the agreement type "test-agreement",
-as per the provided schema.
-<br />
-
----

@@ -6,10 +6,10 @@
 
 
 const
-  Stash = core.stashes.MemoryStash
+  MemoryStash = core.stashes.MemoryStash
 
 
-class AgreementStash extends Stash {}
+class AgreementStash extends MemoryStash {}
 
 
 module.exports = AgreementStash

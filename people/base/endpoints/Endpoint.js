@@ -43,15 +43,16 @@ class Endpoint {
       '\n\x1b[37mfrom ' + this.source + '\x1b[0m',
       {indent: 2}
     )
+
     this.loadSchema()
     this.loadStash()
     this.loadProcessors()
+    this.loadChildren()
 
     utility.log(
       '\x1b[32mDone loading endpoint at ' + this.url + '\x1b[0m\n',
       {indent: 2}
     )
-    this.loadChildren()
   }
 
   /**
@@ -84,11 +85,11 @@ class Endpoint {
       )
 
     } catch(error){
-      if (error.code != 'MODULE_NOT_FOUND') utility.log(error)
-      utility.log(
-        '\x1b[37mschema\t\t\tNONE\x1b[0m',
-        {indent: 4}
-      )
+      if (error.code != 'MODULE_NOT_FOUND') throw utility.error(
+        Endpoint.INVALID_SCHEMA,
+        [error.message]
+        )
+      utility.log('\x1b[37mschema\t\t\tNONE\x1b[0m', {indent: 4})
     }
   }
 
@@ -114,8 +115,8 @@ class Endpoint {
         {indent: 4}
       )
 
-    } catch(e){
-      if (e.code == 'MODULE_NOT_FOUND'){
+    } catch(error){
+      if (error.code == 'MODULE_NOT_FOUND'){
         this.stash = this.getStash()
         utility.log(
           this.stash
@@ -123,9 +124,7 @@ class Endpoint {
             : '\x1b[37mstash\t\t\tNONE\x1b[0m',
           {indent: 4}
         )
-      } else {
-        utility.log(e.stack)
-      }
+      } else throw error
     }
 
     if (this.stash instanceof core.stashes.MemoryStash){
@@ -135,14 +134,14 @@ class Endpoint {
         {indent: 4, verbose: false, once: true}
       )
     }
+
+    return true
   }
 
   /**
    * Loads the processors of this endpoint.
    */
   loadProcessors(){
-
-    var loaded = true
 
     for (let phase in bootstrap.routers){
       try{
@@ -170,12 +169,12 @@ class Endpoint {
           )
         } else {
           utility.log(e)
-          loaded = false
+          return false
         }
       }
     }
 
-    if (!loaded) throw new Error('Processor loading failed')
+    return true
   }
 
   /**
@@ -207,7 +206,7 @@ class Endpoint {
         } catch (e) {
 
           if (e.code != 'MODULE_NOT_FOUND') {
-            loaded = false
+            throw e
             utility.log(e)
           }
 
@@ -220,8 +219,6 @@ class Endpoint {
         this.children.push(child)
       }
     )
-
-    if (!loaded) throw new Error('Endpoint loading failed')
   }
 
 
@@ -315,6 +312,14 @@ class Endpoint {
         ? this.parent.getStash()
         : false
   }
+}
+
+
+// ----- Response Types -----
+
+
+Endpoint.INVALID_SCHEMA = {
+  error: "Invalid schema", code: 422, expose: true
 }
 
 

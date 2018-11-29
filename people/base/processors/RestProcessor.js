@@ -24,7 +24,7 @@ class RestProcessor extends Processor {
         'all':    [],
         'get':    [Processor.PARSE_QUERY],
         'post':   [Processor.PARSE_BODY],
-        'put':    [Processor.PARSE_BODY],
+        'put':    [Processor.PARSE_QUERY, Processor.PARSE_BODY],
         'delete': [Processor.PARSE_QUERY],
         'patch':  [Processor.PARSE_QUERY, Processor.PARSE_BODY]
       }

@@ -15,8 +15,7 @@ class AgreementAccess extends AccessProcessor {
    * @inheritDoc
    */
   get(req, res){
-    req.user.is.authenticated ||
-    (req.user.is.anonymous && req.body.length <= 1)
+    req.user.is.authenticated
       ? AccessProcessor.GRANT(req)
       : AccessProcessor.DENY(req)
   }
@@ -35,7 +34,7 @@ class AgreementAccess extends AccessProcessor {
    */
   put(req, res){
     // TODO: Revisioning for existing
-    req.user.is.owner || user.is.administrator
+    req.user.is.owner || req.user.is.administrator
       ? AccessProcessor.GRANT(req)
       : AccessProcessor.DENY(req)
   }
@@ -45,7 +44,7 @@ class AgreementAccess extends AccessProcessor {
    */
   patch(req, res){
     // TODO: Revisioning for existing
-    req.user.is.owner || user.is.administrator
+    req.user.is.owner || req.user.is.administrator
       ? AccessProcessor.GRANT(req)
       : AccessProcessor.DENY(req)
   }
@@ -55,7 +54,7 @@ class AgreementAccess extends AccessProcessor {
    */
   delete(req, res){
     // TODO: Revisioning for existing
-    req.user.is.owner || user.is.administrator
+    req.user.is.owner || req.user.is.administrator
       ? AccessProcessor.GRANT(req)
       : AccessProcessor.DENY(req)
   }

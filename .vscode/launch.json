@@ -8,7 +8,8 @@
       "type": "node",
       "request": "launch",
       "name": "People Backend",
-      "program": "${workspaceFolder}/people/bootstrap.js"
+      "program": "${workspaceFolder}/people/bootstrap.js",
+      "args": ["-v"]
     }
   ]
 }

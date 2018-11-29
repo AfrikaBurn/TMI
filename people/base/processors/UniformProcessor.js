@@ -6,10 +6,10 @@
 
 
 const
-  RestProcessor = require('./RestProcessor')
+  Processor = require('./Processor')
 
 
-class UniformProcessor extends RestProcessor {
+class UniformProcessor extends Processor {
 
 
   /* ----- Request Routing ----- */
