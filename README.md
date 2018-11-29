@@ -78,9 +78,11 @@ Occupying http://127.0.0.1:3000
 TMI People is ready.
 ```
 
-This means the people is running and awaiting requests.
-Warnings will be present in the startup output until database integration has been completed.
-For now TMI People runs in memory alone.
+This means the people services are running and awaiting requests.
+Warnings will be present in the startup output until database integration has
+been completed.
+
+**For now TMI People runs in memory alone.**
 
 For more detailed output, run people with the verbose switch:
 
@@ -91,19 +93,24 @@ node people -v
 
 ### Testing people
 
-Fire up postman and import the [test collection](people/testing.postman_collection.json) at:
+Fire up postman and import the
+[test collection](people/testing.postman_collection.json) at:
 ```
 people/testing.postman_collection.json
 ```
 
-You may start up the test runner in postman and execute the whole TMI collection, or fire them seperately as exmaples of requests to direct at the people.
-Note that the tests are not idempotent and some will fail on subsequent test runs.
-It is best to restart people before running the whole suite again.
+You may start up the test runner in postman and execute the whole TMI collection
+, or fire them seperately as examples of requests to direct at the people
+services. Note that the tests are not idempotent and some will fail on
+subsequent test runs.
+
+**It is best to restart people before running the whole suite again**.
 
 
 ### Stopping people
 
-In the terminal where people is running simply press CTRL-C to terminate the process.
+In the terminal where people is running simply press CTRL-C to terminate the
+process.
 
 The output should be:
 ```
@@ -130,8 +137,9 @@ TMI People is done.
 
 ### Administration
 
-Admin is the first of the client applications and is meant to be a low level administration of the people elements.
-It has begun to be implemented using [Angular](https://angular.io/).
+Admin is the first of the client applications and is meant to be a low level
+administration of the people elements. It has begun to be implemented using
+[Angular](https://angular.io/).
 
 Read more about administration in its [README.md](apps/admin/README.md)
 
@@ -170,7 +178,8 @@ Password: Administrator
 
 ### Tribe
 
-Social networking app that authenticates, represents connects and collects participants.
+Social networking app that authenticates, represents connects and collects
+participants.
 
 
 ### Groud Zero
@@ -190,7 +199,8 @@ Incident app that logs, disseminates and escalates.
 
 ### Web
 
-Website that educates, informs and promotes projects, collectives, initiatives and events.
+Website that educates, informs and promotes projects, collectives, initiatives
+and events.
 
 
 ### Inventory
@@ -205,8 +215,9 @@ Create and collaborate.
 
 ## TODO
 
-* Create People readme.
-* Complete access and permission checking in People.
+* Complete People API readme.
+* Complete access and permission checking of sub- agreements and posts in
+  People.
 * Implement database stash for People.
 * Update Admin readme.
 * Complete Admin
