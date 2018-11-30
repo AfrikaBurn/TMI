@@ -37,7 +37,7 @@ agreements and posts. It enforces positionality and access to only allow a user
 to interact with the information they own or curate in ways the owners of said
 information have consented to.
 
-* [More about TMI People (including API)](./people/README.md).
+* [TMI People API](https://github.com/AfrikaBurn/tmi-people/blob/master/README.md).
 
 
 ### Recommended apps
@@ -94,7 +94,7 @@ node people -v
 ### Testing people
 
 Fire up postman and import the
-[test collection](people/testing.postman_collection.json) at:
+[test collection](https://github.com/AfrikaBurn/tmi-people/blob/master/testing.postman_collection.json) at:
 ```
 people/testing.postman_collection.json
 ```
