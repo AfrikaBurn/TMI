@@ -1,0 +1,3 @@
+[submodule "people"]
+	path = people
+	url = git@github.com:AfrikaBurn/tmi-people.git
