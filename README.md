@@ -11,7 +11,7 @@ projects; A tool to find and share resources without commercial agenda; A means
 to publish and share information without bias or manipulation; A facilitator of
 agreements; An ecosystem that nurtures, protects and promotes its participants.
 
-* [Read the full introduction](./docs/Introduction.pdf)
+* [Read more](./docs/Introduction.pdf)
 
 >Checkout this project to retrieve the ecosystem documentation and sourcecode as
 a whole, or navigate to the various subprojects using the links in the sections
@@ -27,15 +27,6 @@ Core backend service to manage, guard, and access user data.
 [TMI People github project](https://github.com/AfrikaBurn/TMI-People).
 
 >TODO
-- [X] Design data structure.
-- [X] Design permission and access model.
-- [X] Develop core framework.
-- [X] Develop core services.
-- [X] Shared, Agreement, Collective, Post, Profile, User schemas.
-- [X] Administrator collective.
-- [X] Administrator, Guest, Member, Moderator agreement types.
-- [X] Article & comment post types.
-- [X] Anonymous & Root user.
 - [ ] Access and permission checking of agreements.
 - [ ] Access and permission checking of posts.
 - [ ] Database stash.
