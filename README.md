@@ -1,70 +1,83 @@
 # TMI - Tribe Mobilisation Infrastructure
 
 
+![Ecosystem structure](./docs/ecosystem.svg)
+
+
 ## Introduction
 
-A social platform to empower and mobilise communities to realise their own
+A set of tools to empower and mobilise communities to realise their own
 projects; A tool to find and share resources without commercial agenda; A means
 to publish and share information without bias or manipulation; A facilitator of
-agreements that nurtures, protects and promotes its participants.
+agreements; An ecosystem that nurtures, protects and promotes its participants.
 
 * [Read more](./docs/Introduction.pdf)
 
 
-## Components
-
-![Ecosystem structure](./docs/ecosystem.svg)
-
-
 ### People
 
-TODO & TODOC
-* Complete People API readme.
-* Complete access and permission checking of sub- agreements and posts in
-  People.
-* Implement database stash for People.
-* Complete request test set in Postman.
-* Expand tests to inlude invalid requests.
+Core backend service to manage, guard, and access user data.
 
 [TMI People github project](https://github.com/AfrikaBurn/TMI-People).
+
+>TODO
+>-[X] Develop core services
+>-[ ] Access and permission checking of agreements.
+>-[ ] Access and permission checking of posts.
+>-[ ] Database stash.
+>-[ ] Postman test cases.
+>-[ ] Expand tests to inlude invalid requests.
+>-[ ] People API readme.
 
 
 ### Administration
 
-TODO & TODOC
-* Update Admin readme.
-* Complete Admin
-
 [TMI Administration github project](https://github.com/AfrikaBurn/TMI-Admin).
+
+>TODO & TODOC
+>-[ ] Wireframes.
+>-[ ] Development.
+>-[ ] Readme.
 
 
 ### Tribe
 
-Social networking app that authenticates, represents connects and collects
-participants.
+Social networking app to represent, connect and collect participants.
 
-TODO & TODOC
+>TODO & TODOC
+>-[ ] Wireframes.
+>-[ ] Development.
+>-[ ] Readme.
 
 
 ### Groud Zero
 
 Realtime monitoring app of interactive statistics and trends.
 
-TODO & TODOC
+>TODO & TODOC
+>-[ ] Wireframes.
+>-[ ] Development.
+>-[ ] Readme.
 
 
 ### Events
 
 Event organisation app, that allows scheduling, coordination and participation.
 
-TODO & TODOC
+>TODO & TODOC
+>-[ ] Wireframes.
+>-[ ] Development.
+>-[ ] Readme.
 
 
 ### Incidents
 
 Incident app that logs, disseminates and escalates.
 
-TODO & TODOC
+>TODO & TODOC
+>-[ ] Wireframes.
+>-[ ] Development.
+>-[ ] Readme.
 
 
 ### Web
@@ -72,19 +85,28 @@ TODO & TODOC
 Website that educates, informs and promotes projects, collectives, initiatives
 and events.
 
-TODO & TODOC
+>TODO & TODOC
+>-[ ] Wireframes.
+>-[ ] Development.
+>-[ ] Readme.
 
 
 ### Inventory
 
 Manage, track and trace assets and inventory.
 
-TODO & TODOC
+>TODO & TODOC
+>-[ ] Wireframes.
+>-[ ] Development.
+>-[ ] Readme.
 
 
 ### Projects
 
 Create and collaborate.
 
-TODO & TODOC
+>TODO & TODOC
+>-[ ] Wireframes.
+>-[ ] Development.
+>-[ ] Readme.
 
