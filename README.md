@@ -1,5 +1,9 @@
 # TMI - Tribe Mobilisation Infrastructure
 
+>Checkout this project to retrieve the ecosystem sourcecode as a whole, or
+navigate to the various subprojects using the links in the sections below.
+
+
 
 ![Ecosystem structure](./docs/ecosystem.svg)
 
@@ -21,7 +25,15 @@ Core backend service to manage, guard, and access user data.
 [TMI People github project](https://github.com/AfrikaBurn/TMI-People).
 
 >TODO
-- [X] Develop core services
+- [X] Design data structure.
+- [X] Design permission and access model.
+- [X] Develop core framework.
+- [X] Develop core services.
+- [X] Shared, Agreement, Collective, Post, Profile, User schemas.
+- [X] Administrator collective.
+- [X] Administrator, Guest, Member, Moderator agreement types.
+- [X] Article & comment post types.
+- [X] Anonymous & Root user.
 - [ ] Access and permission checking of agreements.
 - [ ] Access and permission checking of posts.
 - [ ] Database stash.
@@ -36,6 +48,7 @@ Core backend service to manage, guard, and access user data.
 
 >TODO & TODOC
 - [ ] Wireframes.
+- [ ] Data model.
 - [ ] Development.
 - [ ] Readme.
 
@@ -46,6 +59,7 @@ Social networking app to represent, connect and collect participants.
 
 >TODO & TODOC
 - [ ] Wireframes.
+- [ ] Data model.
 - [ ] Development.
 - [ ] Readme.
 
@@ -56,6 +70,7 @@ Realtime monitoring app of interactive statistics and trends.
 
 >TODO & TODOC
 - [ ] Wireframes.
+- [ ] Data model.
 - [ ] Development.
 - [ ] Readme.
 
@@ -66,6 +81,7 @@ Event organisation app, that allows scheduling, coordination and participation.
 
 >TODO & TODOC
 - [ ] Wireframes.
+- [ ] Data model.
 - [ ] Development.
 - [ ] Readme.
 
@@ -76,6 +92,7 @@ Incident app that logs, disseminates and escalates.
 
 >TODO & TODOC
 - [ ] Wireframes.
+- [ ] Data model.
 - [ ] Development.
 - [ ] Readme.
 
@@ -87,6 +104,7 @@ and events.
 
 >TODO & TODOC
 - [ ] Wireframes.
+- [ ] Data model.
 - [ ] Development.
 - [ ] Readme.
 
@@ -97,6 +115,7 @@ Manage, track and trace assets and inventory.
 
 >TODO & TODOC
 - [ ] Wireframes.
+- [ ] Data model.
 - [ ] Development.
 - [ ] Readme.
 
@@ -107,6 +126,7 @@ Create and collaborate.
 
 >TODO & TODOC
 - [ ] Wireframes.
+- [ ] Data model.
 - [ ] Development.
 - [ ] Readme.
 
