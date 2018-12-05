@@ -21,13 +21,13 @@ Core backend service to manage, guard, and access user data.
 [TMI People github project](https://github.com/AfrikaBurn/TMI-People).
 
 >TODO
->-[X] Develop core services
->-[ ] Access and permission checking of agreements.
->-[ ] Access and permission checking of posts.
->-[ ] Database stash.
->-[ ] Postman test cases.
->-[ ] Expand tests to inlude invalid requests.
->-[ ] People API readme.
+- [X] Develop core services
+- [ ] Access and permission checking of agreements.
+- [ ] Access and permission checking of posts.
+- [ ] Database stash.
+- [ ] Postman test cases.
+- [ ] Expand tests to inlude invalid requests.
+- [ ] People API readme.
 
 
 ### Administration
@@ -35,9 +35,9 @@ Core backend service to manage, guard, and access user data.
 [TMI Administration github project](https://github.com/AfrikaBurn/TMI-Admin).
 
 >TODO & TODOC
->-[ ] Wireframes.
->-[ ] Development.
->-[ ] Readme.
+- [ ] Wireframes.
+- [ ] Development.
+- [ ] Readme.
 
 
 ### Tribe
@@ -45,9 +45,9 @@ Core backend service to manage, guard, and access user data.
 Social networking app to represent, connect and collect participants.
 
 >TODO & TODOC
->-[ ] Wireframes.
->-[ ] Development.
->-[ ] Readme.
+- [ ] Wireframes.
+- [ ] Development.
+- [ ] Readme.
 
 
 ### Groud Zero
@@ -55,9 +55,9 @@ Social networking app to represent, connect and collect participants.
 Realtime monitoring app of interactive statistics and trends.
 
 >TODO & TODOC
->-[ ] Wireframes.
->-[ ] Development.
->-[ ] Readme.
+- [ ] Wireframes.
+- [ ] Development.
+- [ ] Readme.
 
 
 ### Events
@@ -65,9 +65,9 @@ Realtime monitoring app of interactive statistics and trends.
 Event organisation app, that allows scheduling, coordination and participation.
 
 >TODO & TODOC
->-[ ] Wireframes.
->-[ ] Development.
->-[ ] Readme.
+- [ ] Wireframes.
+- [ ] Development.
+- [ ] Readme.
 
 
 ### Incidents
@@ -75,9 +75,9 @@ Event organisation app, that allows scheduling, coordination and participation.
 Incident app that logs, disseminates and escalates.
 
 >TODO & TODOC
->-[ ] Wireframes.
->-[ ] Development.
->-[ ] Readme.
+- [ ] Wireframes.
+- [ ] Development.
+- [ ] Readme.
 
 
 ### Web
@@ -86,9 +86,9 @@ Website that educates, informs and promotes projects, collectives, initiatives
 and events.
 
 >TODO & TODOC
->-[ ] Wireframes.
->-[ ] Development.
->-[ ] Readme.
+- [ ] Wireframes.
+- [ ] Development.
+- [ ] Readme.
 
 
 ### Inventory
@@ -96,9 +96,9 @@ and events.
 Manage, track and trace assets and inventory.
 
 >TODO & TODOC
->-[ ] Wireframes.
->-[ ] Development.
->-[ ] Readme.
+- [ ] Wireframes.
+- [ ] Development.
+- [ ] Readme.
 
 
 ### Projects
@@ -106,7 +106,7 @@ Manage, track and trace assets and inventory.
 Create and collaborate.
 
 >TODO & TODOC
->-[ ] Wireframes.
->-[ ] Development.
->-[ ] Readme.
+- [ ] Wireframes.
+- [ ] Development.
+- [ ] Readme.
 
