@@ -8,11 +8,12 @@ projects; A tool to find and share resources without commercial agenda; A means
 to publish and share information without bias or manipulation; A facilitator of
 agreements that nurtures, protects and promotes its participants.
 
-Further reading:
-* [Introductory presentation](./docs/Introduction.pdf)
+* [Read more](./docs/Introduction.pdf)
 
 
 ## Components
+
+![Ecosystem structure](./docs/ecosystem.svg)
 
 
 ### People
