@@ -1,5 +1,8 @@
 # TMI - Tribe Mobilisation Infrastructure
 
+>This is a container project for the TMI ecosystem documentation and sourcecode
+as a whole. The various subprojects may be checked individually out using the
+links in the sections below.
 
 ![Ecosystem structure](./docs/ecosystem.svg)
 
@@ -13,18 +16,14 @@ agreements; An ecosystem that nurtures, protects and promotes its participants.
 
 * [Read more](./docs/Introduction.pdf)
 
->Checkout this project to retrieve the ecosystem documentation and sourcecode as
-a whole, or navigate to the various subprojects using the links in the sections
-below.
-
 
 ### People
 
-Core backend service to manage, guard, and access user data.
+Core backend service to manage, guard and access user data.
 
 ![People Entity Relationships](./docs/People-Entity-Relationships.svg)
 
-[TMI People github project](https://github.com/AfrikaBurn/TMI-People).
+[Go to the TMI People github project](https://github.com/AfrikaBurn/TMI-People).
 
 >TODO
 - [ ] Access and permission checking of agreements.
@@ -58,14 +57,68 @@ Administrative frontend to the people subsystem.
 
 Social networking app to represent, connect and collect participants.
 
-[Tribe Use Cases](./docs/Tribe-Use-Cases.svg)
+![Tribe Use Cases](./docs/Tribe-Use-Cases.svg)
 
 ![Tribe Wireframes](./docs/Tribe-Wireframes.svg)
 
 >TODO & TODOC
+- [ ] Repository
 - [ ] Wireframes.
 - [ ] Data model.
 - [ ] Repository.
+- [ ] Development.
+- [ ] Readme.
+
+<hr />
+
+
+### Projects
+
+Create and collaborate.
+
+![Projects Use Cases](./docs/Projects-Use-Cases.svg)
+
+![Projects Wireframes](./docs/Projects-Wireframes.svg)
+
+>TODO & TODOC
+- [ ] Repository
+- [ ] Wireframes.
+- [ ] Data model.
+- [ ] Development.
+- [ ] Readme.
+
+
+### Events
+
+Event organisation app, that allows scheduling, coordination and participation.
+
+![Events Use Cases](./docs/Event-Use-Cases.svg)
+
+![Events Wireframes](./docs/Event-Wireframes.svg)
+
+
+>TODO & TODOC
+- [ ] Repository
+- [ ] Wireframes.
+- [ ] Data model.
+- [ ] Development.
+- [ ] Readme.
+
+<hr />
+
+
+### Incidents
+
+Incident app that logs, disseminates and escalates.
+
+![Incidents Use Cases](./docs/Incident-Use-Cases.svg)
+
+![Incidents Wireframes](./docs/Incidents-Wireframes.svg)
+
+>TODO & TODOC
+- [ ] Repository
+- [ ] Wireframes.
+- [ ] Data model.
 - [ ] Development.
 - [ ] Readme.
 
@@ -79,6 +132,7 @@ Realtime monitoring app of interactive statistics and trends.
 ![Ground Zero Wireframes](./docs/Ground-Zero-Wireframes.svg)
 
 >TODO & TODOC
+- [ ] Repository
 - [ ] Use cases.
 - [ ] Wireframes.
 - [ ] Data model.
@@ -89,33 +143,14 @@ Realtime monitoring app of interactive statistics and trends.
 <hr />
 
 
-### Events
+### Inventory
 
-Event organisation app, that allows scheduling, coordination and participation.
+Manage, track and trace assets and inventory.
 
-[Events Use Cases](./docs/Event-Use-Cases.svg)
-
-![Events Wireframes](./docs/Event-Wireframes.svg)
-
+![Inventory Use Cases](./docs/Inventory-Use-Cases.svg)
 
 >TODO & TODOC
-- [ ] Wireframes.
-- [ ] Data model.
-- [ ] Development.
-- [ ] Readme.
-
-<hr />
-
-
-### Incidents
-
-Incident app that logs, disseminates and escalates.
-
-[Incidents Use Cases](./docs/Incident-Use-Cases.svg)
-
-![Incidents Wireframes](./docs/Incidents-Wireframes.svg)
-
->TODO & TODOC
+- [ ] Repository
 - [ ] Wireframes.
 - [ ] Data model.
 - [ ] Development.
@@ -129,42 +164,13 @@ Incident app that logs, disseminates and escalates.
 Website that educates, informs and promotes projects, collectives, initiatives
 and events.
 
-[Web Use Cases](./docs/Web-Use-Cases.svg)
+![Web Use Cases](./docs/Web-Use-Cases.svg)
 
 >TODO & TODOC
+- [ ] Repository
 - [ ] Wireframes.
 - [ ] Data model.
 - [ ] Development.
 - [ ] Readme.
 
 <hr />
-
-
-### Inventory
-
-Manage, track and trace assets and inventory.
-
-[Inventory Use Cases](./docs/Inventory-Use-Cases.svg)
-
->TODO & TODOC
-- [ ] Wireframes.
-- [ ] Data model.
-- [ ] Development.
-- [ ] Readme.
-
-<hr />
-
-
-### Projects
-
-Create and collaborate.
-
-[Projects Use Cases](./docs/Projects-Use-Cases.svg)
-
-![Projects Wireframes](./docs/Projects-Wireframes.svg)
-
->TODO & TODOC
-- [ ] Wireframes.
-- [ ] Data model.
-- [ ] Development.
-- [ ] Readme.
