@@ -21,6 +21,10 @@ agreements; An ecosystem that nurtures, protects and promotes its participants.
 
 Core backend service to manage, guard and access user data.
 
+[People Entity Relationships](./docs/People-Entity-Relationships.svg) |
+[People Entity Classes](./docs/People-Class-Diagram.svg) |
+[People github project](https://github.com/AfrikaBurn/TMI-People)
+
 |||
 --- | ---
 |Language|[Javascript](https://www.javascript.com/)|
@@ -30,10 +34,6 @@ Core backend service to manage, guard and access user data.
 ||[MiniMi](https://github.com/scheepers/minimi)|
 |API|RESTful ([Check it out here](https://github.com/AfrikaBurn/TMI-People/blob/master/API.md))|
 |Progress|80ish%|
-
-[People Entity Relationships](./docs/People-Entity-Relationships.svg) |
-[People Entity Classes](./docs/People-Class-Diagram.svg) |
-[People github project](https://github.com/AfrikaBurn/TMI-People)
 
 >TODO
 - [ ] Access and permission checking of agreements.
