@@ -2,7 +2,7 @@
 
 >This is a container project for the TMI ecosystem documentation and source code
 as a whole. The various subprojects may be checked out individually as per the
-project links in the sections below.
+repository links in the sections below.
 
 ![Ecosystem structure](./docs/ecosystem.svg)
 
@@ -21,19 +21,19 @@ agreements; An ecosystem that nurtures, protects and promotes its participants.
 
 Core backend service to manage, guard and access user data.
 
-[People Entity Relationships](./docs/People-Entity-Relationships.svg) |
-[People Entity Classes](./docs/People-Class-Diagram.svg) |
-[People github project](https://github.com/AfrikaBurn/TMI-People)
-
 |||
 --- | ---
+|Repository|[Github](https://github.com/AfrikaBurn/TMI-People)|
+|Architecture|[Entity Relationships](./docs/People-Entity-Relationships.svg)|
+||[Entity Classes](./docs/People-Class-Diagram.svg)|
 |Language|[Javascript](https://www.javascript.com/)|
 |Tech|[NodeJS](https://nodejs.org)|
 ||[JSON Schema](https://json-schema.org/)|
 |Frameworks|[Express](https://expressjs.com/)|
 ||[MiniMi](https://github.com/scheepers/minimi)|
-|API|RESTful ([Check it out here](https://github.com/AfrikaBurn/TMI-People/blob/master/API.md))|
+|API|[RESTful](https://github.com/AfrikaBurn/TMI-People/blob/master/API.md)|
 |Progress|80ish%|
+
 
 >TODO
 - [ ] Access and permission checking of agreements.
@@ -50,10 +50,10 @@ Core backend service to manage, guard and access user data.
 
 Administrative front-end to the people subsystem.
 
-![Administration Wireframes](./docs/Administration-Wireframes.svg)
-
 |||
 --- | ---
+|Repository|[Github](https://github.com/AfrikaBurn/TMI-Admin)|
+|Design|[Wireframes](./docs/Administration-Wireframes.svg)|
 |Language|[Javascript](https://www.javascript.com/)|
 |Tech|[Angular](https://angular.io)|
 ||[JSON Schema](https://json-schema.org/)|
@@ -61,7 +61,6 @@ Administrative front-end to the people subsystem.
 |API|NONE|
 |Progress|10ish%|
 
-[TMI Administration github project](https://github.com/AfrikaBurn/TMI-Admin).
 
 >TODO & TODOC
 - [ ] Wireframes.
@@ -76,12 +75,11 @@ Administrative front-end to the people subsystem.
 
 Social networking app to represent, connect and collect participants.
 
-![Tribe Wireframes](./docs/Tribe-Wireframes.svg)
-
-![Tribe Use Cases](./docs/Tribe-Use-Cases.svg)
-
 |||
 --- | ---
+|Repository|[github project]|
+|Design|[Wireframes](./docs/Tribe-Wireframes.svg)|
+||[Use Cases](./docs/Tribe-Use-Cases.svg)|
 |Language|UP FOR GRABS|
 |Tech|UP FOR GRABS|
 |Frameworks|UP FOR GRABS|
@@ -106,12 +104,11 @@ Social networking app to represent, connect and collect participants.
 
 Create and collaborate.
 
-![Projects Wireframes](./docs/Projects-Wireframes.svg)
-
-![Projects Use Cases](./docs/Projects-Use-Cases.svg)
-
 |||
 --- | ---
+|Repository|[github project]|
+|Design|[Wireframes](./docs/Projects-Wireframes.svg)|
+||[Use Cases](./docs/Projects-Use-Cases.svg)|
 |Language|UP FOR GRABS|
 |Tech|UP FOR GRABS|
 |Frameworks|UP FOR GRABS|
@@ -133,12 +130,11 @@ Create and collaborate.
 
 Event organisation app, that allows scheduling, coordination and participation.
 
-![Events Wireframes](./docs/Event-Wireframes.svg)
-
-![Events Use Cases](./docs/Event-Use-Cases.svg)
-
 |||
 --- | ---
+|Repository|[github project]|
+|Design|[Wireframes](./docs/Event-Wireframes.svg)|
+||[Use Cases](./docs/Event-Use-Cases.svg)|
 |Language|UP FOR GRABS|
 |Tech|UP FOR GRABS|
 |Frameworks|UP FOR GRABS|
@@ -164,12 +160,11 @@ Event organisation app, that allows scheduling, coordination and participation.
 
 Incident app that logs, disseminates and escalates.
 
-![Incidents Wireframes](./docs/Incidents-Wireframes.svg)
-
-![Incidents Use Cases](./docs/Incident-Use-Cases.svg)
-
 |||
 --- | ---
+|Repository|[github project]|
+|Design|[Wireframes](./docs/Incidents-Wireframes.svg)|
+||[Use Cases](./docs/Incidents-Use-Cases.svg)|
 |Language|UP FOR GRABS|
 |Tech|UP FOR GRABS|
 |Frameworks|UP FOR GRABS|
@@ -192,10 +187,10 @@ Incident app that logs, disseminates and escalates.
 
 Realtime monitoring app of interactive statistics and trends.
 
-![Ground Zero Wireframes](./docs/Ground-Zero-Wireframes.svg)
-
 |||
 --- | ---
+|Repository|[github project]|
+|Design|[Wireframes](./docs/Ground-Zero-Wireframes.svg)|
 |Language|UP FOR GRABS|
 |Tech|UP FOR GRABS|
 |Frameworks|UP FOR GRABS|
@@ -218,10 +213,11 @@ Realtime monitoring app of interactive statistics and trends.
 
 Manage, track and trace assets and inventory.
 
-![Inventory Use Cases](./docs/Inventory-Use-Cases.svg)
-
 |||
 --- | ---
+|Repository|[github project]|
+|Design|[Wireframes](./docs/Inventory-Wireframes.svg)|
+||[Use Cases](./docs/Inventory-Use-Cases.svg)|
 |Language|UP FOR GRABS|
 |Tech|UP FOR GRABS|
 |Frameworks|UP FOR GRABS|
@@ -247,10 +243,10 @@ Manage, track and trace assets and inventory.
 Website that educates, informs and promotes projects, collectives, initiatives
 and events.
 
-![Web Use Cases](./docs/Web-Use-Cases.svg)
-
 |||
 --- | ---
+|Repository|[github project]|
+||[Use Cases](./docs/Web-Use-Cases.svg)|
 |Language|UP FOR GRABS|
 |Tech|UP FOR GRABS|
 |Frameworks|UP FOR GRABS|
