@@ -31,9 +31,9 @@ Core backend service to manage, guard and access user data.
 |API|RESTful ([Check it out here](https://github.com/AfrikaBurn/TMI-People/blob/master/API.md))|
 |Progress|80ish%|
 
-[People Entity Relationships](./docs/People-Entity-Relationships.svg)
-[People Class Diagram](./docs/People-Class-Diagram.svg)
-[People github project](https://github.com/AfrikaBurn/TMI-People).
+[People Entity Relationships](./docs/People-Entity-Relationships.svg) |
+[People Entity Classes](./docs/People-Class-Diagram.svg) |
+[People github project](https://github.com/AfrikaBurn/TMI-People)
 
 >TODO
 - [ ] Access and permission checking of agreements.
