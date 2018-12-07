@@ -21,8 +21,6 @@ agreements; An ecosystem that nurtures, protects and promotes its participants.
 
 Core backend service to manage, guard and access user data.
 
-![People Entity Relationships](./docs/People-Entity-Relationships.svg)
-
 |||
 --- | ---
 |Language|[Javascript](https://www.javascript.com/)|
@@ -33,7 +31,9 @@ Core backend service to manage, guard and access user data.
 |API|RESTful ([Check it out here](https://github.com/AfrikaBurn/TMI-People/blob/master/API.md))|
 |Progress|80ish%|
 
-[Go to the TMI People github project](https://github.com/AfrikaBurn/TMI-People).
+[People Entity Relationships](./docs/People-Entity-Relationships.svg)
+[People Class Diagram](./docs/People-Class-Diagram.svg)
+[People github project](https://github.com/AfrikaBurn/TMI-People).
 
 >TODO
 - [ ] Access and permission checking of agreements.
@@ -48,7 +48,7 @@ Core backend service to manage, guard and access user data.
 
 ### Administration
 
-Administrative frontend to the people subsystem.
+Administrative front-end to the people subsystem.
 
 ![Administration Wireframes](./docs/Administration-Wireframes.svg)
 
@@ -95,6 +95,9 @@ Social networking app to represent, connect and collect participants.
 - [ ] Repository.
 - [ ] Development.
 - [ ] Readme.
+- [ ] User agreements
+- [ ] User profiles
+
 
 <hr />
 
@@ -121,6 +124,9 @@ Create and collaborate.
 - [ ] Data model.
 - [ ] Development.
 - [ ] Readme.
+- [ ] Collective profiles
+- [ ] Collective agreements
+
 
 
 ### Events
@@ -145,6 +151,11 @@ Event organisation app, that allows scheduling, coordination and participation.
 - [ ] Data model.
 - [ ] Development.
 - [ ] Readme.
+- [ ] Event collective profile.
+- [ ] Event attendance agreement.
+- [ ] Shift collective profile.
+- [ ] Shift attendance agreement.
+
 
 <hr />
 
@@ -171,6 +182,8 @@ Incident app that logs, disseminates and escalates.
 - [ ] Data model.
 - [ ] Development.
 - [ ] Readme.
+- [ ] Log collective profile.
+- [ ] Log entry post type.
 
 <hr />
 
@@ -221,6 +234,10 @@ Manage, track and trace assets and inventory.
 - [ ] Data model.
 - [ ] Development.
 - [ ] Readme.
+- [ ] Inventory collective profile.
+- [ ] Inventory item post type.
+- [ ] Inventory item state post type.
+- [ ] Inventory item list post type.
 
 <hr />
 
