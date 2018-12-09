@@ -37,6 +37,12 @@ Core backend service to manage, guard and interact with user data.
 #### Entity Classes
 ![Entity Classes](./docs/People-Entity-Classes.svg)
 
+#### Request Processing
+
+Requests are processed in the following phases per endpoint:
+
+![Request Processing](./docs/Request-Processing.svg)
+
 |||
 --- | ---
 |Repository|[Github](https://github.com/AfrikaBurn/TMI-People)|
