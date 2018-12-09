@@ -1,9 +1,5 @@
 # TMI - Tribe Mobilisation Infrastructure
 
->This is a container project for the TMI ecosystem documentation and source code
-as a whole. The various subprojects may be checked out individually as per the
-repository links in the sections below.
-
 ![Ecosystem structure](./docs/ecosystem.svg)
 
 
@@ -16,16 +12,34 @@ agreements; An ecosystem that nurtures, protects and promotes its participants.
 
 * [Read more](./docs/Introduction.pdf)
 
+>This is the container project for the TMI ecosystem documentation and source
+code. The various components may be checked out individually as per repository
+links in sections below.
+
+* [People](#people)
+* [Administration](#administration)
+* [Tribe](#tribe)
+* [Projects](#projects)
+* [Events](#events)
+* [Incidents](#incidents)
+* [Ground Zero](#ground-zero)
+* [Inventory](#inventory)
+* [Web](#web)
+
 
 ### People
 
-Core backend service to manage, guard and access user data.
+Core backend service to manage, guard and interact with user data.
+
+#### Entity Relationships
+![Entity Relationships](./docs/People-Entity-Relationships.svg)
+
+#### Entity Classes
+![Entity Classes](./docs/People-Entity-Classes.svg)
 
 |||
 --- | ---
 |Repository|[Github](https://github.com/AfrikaBurn/TMI-People)|
-|Architecture|[Entity Relationships](./docs/People-Entity-Relationships.svg)|
-||[Entity Classes](./docs/People-Class-Diagram.svg)|
 |Language|[Javascript](https://www.javascript.com/)|
 |Tech|[NodeJS](https://nodejs.org)|
 ||[JSON Schema](https://json-schema.org/)|
@@ -50,10 +64,12 @@ Core backend service to manage, guard and access user data.
 
 Administrative front-end to the people subsystem.
 
+#### Wireframes
+![Wireframes](./docs/Administration-Wireframes.svg)
+
 |||
 --- | ---
 |Repository|[Github](https://github.com/AfrikaBurn/TMI-Admin)|
-|Design|[Wireframes](./docs/Administration-Wireframes.svg)|
 |Language|[Javascript](https://www.javascript.com/)|
 |Tech|[Angular](https://angular.io)|
 ||[JSON Schema](https://json-schema.org/)|
@@ -75,11 +91,18 @@ Administrative front-end to the people subsystem.
 
 Social networking app to represent, connect and collect participants.
 
+#### Use Cases
+![Use Cases](./docs/Tribe-Use-Cases.svg)
+
+#### Entity Classes
+![Entity Classes](./docs/Tribe-Entity-Classes.svg)
+
+#### Wireframes
+![Wireframes](./docs/Tribe-Wireframes.svg)
+
 |||
 --- | ---
 |Repository|[github project]|
-|Design|[Wireframes](./docs/Tribe-Wireframes.svg)|
-||[Use Cases](./docs/Tribe-Use-Cases.svg)|
 |Language|UP FOR GRABS|
 |Tech|UP FOR GRABS|
 |Frameworks|UP FOR GRABS|
@@ -89,13 +112,11 @@ Social networking app to represent, connect and collect participants.
 >TODO & TODOC
 - [ ] Repository
 - [ ] Wireframes.
-- [ ] Data model.
 - [ ] Repository.
 - [ ] Development.
 - [ ] Readme.
 - [ ] User agreements
 - [ ] User profiles
-
 
 <hr />
 
@@ -104,11 +125,18 @@ Social networking app to represent, connect and collect participants.
 
 Create and collaborate.
 
+#### Use Cases
+![Use Cases](./docs/Projects-Use-Cases.svg)
+
+#### Entity Classes
+![Entity Classes](./docs/Projects-Entity-Classes.svg)
+
+#### Wireframes
+![Wireframes](./docs/Projects-Wireframes.svg)
+
 |||
 --- | ---
 |Repository|[github project]|
-|Design|[Wireframes](./docs/Projects-Wireframes.svg)|
-||[Use Cases](./docs/Projects-Use-Cases.svg)|
 |Language|UP FOR GRABS|
 |Tech|UP FOR GRABS|
 |Frameworks|UP FOR GRABS|
@@ -118,17 +146,17 @@ Create and collaborate.
 >TODO & TODOC
 - [ ] Repository
 - [ ] Wireframes.
-- [ ] Data model.
 - [ ] Development.
 - [ ] Readme.
 - [ ] Collective profiles
 - [ ] Collective agreements
 
 
-
 ### Events
 
 Event organisation app, that allows scheduling, coordination and participation.
+
+![Wireframes](./docs/Event-Wireframes.svg)
 
 |||
 --- | ---
@@ -160,6 +188,8 @@ Event organisation app, that allows scheduling, coordination and participation.
 
 Incident app that logs, disseminates and escalates.
 
+![Wireframes](./docs/Incidents-Wireframes.svg)
+
 |||
 --- | ---
 |Repository|[github project]|
@@ -186,6 +216,9 @@ Incident app that logs, disseminates and escalates.
 ### Groud Zero
 
 Realtime monitoring app of interactive statistics and trends.
+
+#### Wireframes
+![Wireframes](./docs/Ground-Zero-Wireframes.svg)
 
 |||
 --- | ---
@@ -216,7 +249,7 @@ Manage, track and trace assets and inventory.
 |||
 --- | ---
 |Repository|[github project]|
-|Design|[Wireframes](./docs/Inventory-Wireframes.svg)|
+|Design|[Wireframes]|
 ||[Use Cases](./docs/Inventory-Use-Cases.svg)|
 |Language|UP FOR GRABS|
 |Tech|UP FOR GRABS|
@@ -246,6 +279,7 @@ and events.
 |||
 --- | ---
 |Repository|[github project]|
+|Design|[Wireframes]|
 ||[Use Cases](./docs/Web-Use-Cases.svg)|
 |Language|UP FOR GRABS|
 |Tech|UP FOR GRABS|
