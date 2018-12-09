@@ -232,7 +232,7 @@ Incident app that logs, disseminates and escalates.
 <hr />
 
 
-### Groud Zero
+### Ground Zero
 
 Realtime monitoring app of interactive statistics and trends.
 
