@@ -6,7 +6,7 @@
 ## Introduction
 
 A set of tools to empower and mobilise communities to realise their own
-projects; A tool to find and share resources without commercial agenda; A means
+projects; A space to find and share resources without commercial agenda; A means
 to publish and share information without bias or manipulation; A facilitator of
 agreements; An ecosystem that nurtures, protects and promotes its participants.
 
@@ -15,6 +15,8 @@ agreements; An ecosystem that nurtures, protects and promotes its participants.
 >This is the container project for the TMI ecosystem documentation and source
 code. The various components may be checked out individually as per repository
 links in sections below.
+
+## Components
 
 * [People](#people)
 * [Administration](#administration)
@@ -39,8 +41,6 @@ Core backend service to manage, guard and interact with user data.
 
 #### Request Processing
 
-Requests are processed in the following phases per endpoint:
-
 ![Request Processing](./docs/Request-Processing.svg)
 
 |||
@@ -62,6 +62,8 @@ Requests are processed in the following phases per endpoint:
 - [ ] Postman test cases.
 - [ ] Expand tests to inlude invalid requests.
 - [ ] People API readme.
+
+[^ back up to the component index](#components)
 
 <hr />
 
@@ -89,6 +91,8 @@ Administrative front-end to the people subsystem.
 - [ ] Data model.
 - [ ] Development.
 - [ ] Readme.
+
+[^ back up to the component index](#components)
 
 <hr />
 
@@ -124,6 +128,8 @@ Social networking app to represent, connect and collect participants.
 - [ ] User agreements
 - [ ] User profiles
 
+[^ back up to the component index](#components)
+
 <hr />
 
 
@@ -157,6 +163,10 @@ Create and collaborate.
 - [ ] Collective profiles
 - [ ] Collective agreements
 
+[^ back up to the component index](#components)
+
+<hr />
+
 
 ### Events
 
@@ -186,6 +196,7 @@ Event organisation app, that allows scheduling, coordination and participation.
 - [ ] Shift collective profile.
 - [ ] Shift attendance agreement.
 
+[^ back up to the component index](#components)
 
 <hr />
 
@@ -216,6 +227,8 @@ Incident app that logs, disseminates and escalates.
 - [ ] Log collective profile.
 - [ ] Log entry post type.
 
+[^ back up to the component index](#components)
+
 <hr />
 
 
@@ -244,6 +257,8 @@ Realtime monitoring app of interactive statistics and trends.
 - [ ] Repository.
 - [ ] Development.
 - [ ] Readme.
+
+[^ back up to the component index](#components)
 
 <hr />
 
@@ -274,6 +289,8 @@ Manage, track and trace assets and inventory.
 - [ ] Inventory item state post type.
 - [ ] Inventory item list post type.
 
+[^ back up to the component index](#components)
+
 <hr />
 
 
@@ -300,4 +317,7 @@ and events.
 - [ ] Development.
 - [ ] Readme.
 
+[^ back up to the component index](#components)
+
 <hr />
+
