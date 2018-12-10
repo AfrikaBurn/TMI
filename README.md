@@ -28,20 +28,25 @@ links in sections below.
 * [Inventory](#inventory)
 * [Web](#web)
 
+<hr />
 
-### People
+
+## People
 
 Core backend service to manage, guard and interact with user data.
 
-#### Entity Relationships
-![Entity Relationships](./docs/People-Entity-Relationships.svg)
+### Request Processing
 
-#### Entity Classes
-![Entity Classes](./docs/People-Entity-Classes.svg)
-
-#### Request Processing
+All dynamic requests to the people service are processed in the following
+manner:
 
 ![Request Processing](./docs/Request-Processing.svg)
+
+### Entity Relationships
+![Entity Relationships](./docs/People-Entity-Relationships.svg)
+
+### Entity Classes
+![Entity Classes](./docs/People-Entity-Classes.svg)
 
 |||
 --- | ---
@@ -68,11 +73,11 @@ Core backend service to manage, guard and interact with user data.
 <hr />
 
 
-### Administration
+## Administration
 
 Administrative front-end to the people subsystem.
 
-#### Wireframes
+### Wireframes
 ![Wireframes](./docs/Administration-Wireframes.svg)
 
 |||
@@ -97,17 +102,17 @@ Administrative front-end to the people subsystem.
 <hr />
 
 
-### Tribe
+## Tribe
 
 Social networking app to represent, connect and collect participants.
 
-#### Use Cases
+### Use Cases
 ![Use Cases](./docs/Tribe-Use-Cases.svg)
 
-#### Entity Classes
+### Entity Classes
 ![Entity Classes](./docs/Tribe-Entity-Classes.svg)
 
-#### Wireframes
+### Wireframes
 ![Wireframes](./docs/Tribe-Wireframes.svg)
 
 |||
@@ -133,17 +138,17 @@ Social networking app to represent, connect and collect participants.
 <hr />
 
 
-### Projects
+## Projects
 
 Create and collaborate.
 
-#### Use Cases
+### Use Cases
 ![Use Cases](./docs/Projects-Use-Cases.svg)
 
-#### Entity Classes
+### Entity Classes
 ![Entity Classes](./docs/Projects-Entity-Classes.svg)
 
-#### Wireframes
+### Wireframes
 ![Wireframes](./docs/Projects-Wireframes.svg)
 
 |||
@@ -168,17 +173,24 @@ Create and collaborate.
 <hr />
 
 
-### Events
+## Events
 
 Event organisation app, that allows scheduling, coordination and participation.
 
+### Use Cases
+![Use Cases](./docs/Event-Use-Cases.svg)
+
+### Wireframes
 ![Wireframes](./docs/Event-Wireframes.svg)
+
+### Entity Classes
+![Entity Classes](./docs/Projects-Entity-Classes.svg)
+
 
 |||
 --- | ---
 |Repository|[github project]|
 |Design|[Wireframes](./docs/Event-Wireframes.svg)|
-||[Use Cases](./docs/Event-Use-Cases.svg)|
 |Language|UP FOR GRABS|
 |Tech|UP FOR GRABS|
 |Frameworks|UP FOR GRABS|
@@ -201,7 +213,7 @@ Event organisation app, that allows scheduling, coordination and participation.
 <hr />
 
 
-### Incidents
+## Incidents
 
 Incident app that logs, disseminates and escalates.
 
@@ -232,11 +244,11 @@ Incident app that logs, disseminates and escalates.
 <hr />
 
 
-### Ground Zero
+## Ground Zero
 
 Realtime monitoring app of interactive statistics and trends.
 
-#### Wireframes
+### Wireframes
 ![Wireframes](./docs/Ground-Zero-Wireframes.svg)
 
 |||
@@ -263,7 +275,7 @@ Realtime monitoring app of interactive statistics and trends.
 <hr />
 
 
-### Inventory
+## Inventory
 
 Manage, track and trace assets and inventory.
 
@@ -294,7 +306,7 @@ Manage, track and trace assets and inventory.
 <hr />
 
 
-### Web
+## Web
 
 Website that educates, informs and promotes projects, collectives, initiatives
 and events.
