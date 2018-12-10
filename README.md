@@ -68,7 +68,7 @@ manner:
 - [ ] Expand tests to inlude invalid requests.
 - [ ] People API readme.
 
-[^ back up to the component index](#components)
+[Back to Index](#components)
 
 <hr />
 
@@ -97,7 +97,7 @@ Administrative front-end to the people subsystem.
 - [ ] Development.
 - [ ] Readme.
 
-[^ back up to the component index](#components)
+[Back to Index](#components)
 
 <hr />
 
@@ -133,7 +133,7 @@ Social networking app to represent, connect and collect participants.
 - [ ] User agreements
 - [ ] User profiles
 
-[^ back up to the component index](#components)
+[Back to Index](#components)
 
 <hr />
 
@@ -168,7 +168,7 @@ Create and collaborate.
 - [ ] Collective profiles
 - [ ] Collective agreements
 
-[^ back up to the component index](#components)
+[Back to Index](#components)
 
 <hr />
 
@@ -208,7 +208,7 @@ Event organisation app, that allows scheduling, coordination and participation.
 - [ ] Shift collective profile.
 - [ ] Shift attendance agreement.
 
-[^ back up to the component index](#components)
+[Back to Index](#components)
 
 <hr />
 
@@ -239,7 +239,7 @@ Incident app that logs, disseminates and escalates.
 - [ ] Log collective profile.
 - [ ] Log entry post type.
 
-[^ back up to the component index](#components)
+[Back to Index](#components)
 
 <hr />
 
@@ -270,7 +270,7 @@ Realtime monitoring app of interactive statistics and trends.
 - [ ] Development.
 - [ ] Readme.
 
-[^ back up to the component index](#components)
+[Back to Index](#components)
 
 <hr />
 
@@ -301,7 +301,7 @@ Manage, track and trace assets and inventory.
 - [ ] Inventory item state post type.
 - [ ] Inventory item list post type.
 
-[^ back up to the component index](#components)
+[Back to Index](#components)
 
 <hr />
 
@@ -329,7 +329,7 @@ and events.
 - [ ] Development.
 - [ ] Readme.
 
-[^ back up to the component index](#components)
+[Back to Index](#components)
 
 <hr />
 
