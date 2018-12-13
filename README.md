@@ -121,7 +121,7 @@ Social networking app to represent, connect and collect participants.
 |Language|UP FOR GRABS|
 |Tech|UP FOR GRABS|
 |Frameworks|UP FOR GRABS|
-|API|NONE / UP FOR GRABS|
+|API|UP FOR GRABS|
 |Progress|0%|
 
 >TODO & TODOC
@@ -157,7 +157,7 @@ Create and collaborate.
 |Language|UP FOR GRABS|
 |Tech|UP FOR GRABS|
 |Frameworks|UP FOR GRABS|
-|API|RESTFull - UP FOR GRABS|
+|API|UP FOR GRABS|
 |Progress|0%|
 
 >TODO & TODOC
@@ -180,11 +180,11 @@ Event organisation app, that allows scheduling, coordination and participation.
 ### Use Cases
 ![Use Cases](./docs/Event-Use-Cases.svg)
 
+### Entity Classes
+![Entity Classes](./docs/Events-Entity-Classes.svg)
+
 ### Wireframes
 ![Wireframes](./docs/Event-Wireframes.svg)
-
-### Entity Classes
-![Entity Classes](./docs/Projects-Entity-Classes.svg)
 
 
 |||
@@ -217,13 +217,18 @@ Event organisation app, that allows scheduling, coordination and participation.
 
 Incident app that logs, disseminates and escalates.
 
+### Use cases
+![Use Cases](./docs/Incidents-Use-Cases.svg)
+
+### Entity Classes
+![Entity Classes](./docs/Incidents-Entity-Classes.svg)
+
+### Wireframes
 ![Wireframes](./docs/Incidents-Wireframes.svg)
 
 |||
 --- | ---
 |Repository|[github project]|
-|Design|[Wireframes](./docs/Incidents-Wireframes.svg)|
-||[Use Cases](./docs/Incidents-Use-Cases.svg)|
 |Language|UP FOR GRABS|
 |Tech|UP FOR GRABS|
 |Frameworks|UP FOR GRABS|
@@ -258,7 +263,7 @@ Realtime monitoring app of interactive statistics and trends.
 |Language|UP FOR GRABS|
 |Tech|UP FOR GRABS|
 |Frameworks|UP FOR GRABS|
-|API|NONE - UP FOR GRABS|
+|API|UP FOR GRABS|
 |Progress|0%|
 
 >TODO & TODOC
@@ -279,15 +284,22 @@ Realtime monitoring app of interactive statistics and trends.
 
 Manage, track and trace assets and inventory.
 
+### Use Cases
+![Use Cases](./docs/Inventory-Use-Cases.svg)
+
+### Entity Classes
+![Inventory Entity Classes](./docs/Inventory-Entity-Classes.svg)
+
+### Wireframes
+![Inventory wireframes](./docs/Inventory-Wireframes.svg)
+
 |||
 --- | ---
 |Repository|[github project]|
-|Design|[Wireframes]|
-||[Use Cases](./docs/Inventory-Use-Cases.svg)|
 |Language|UP FOR GRABS|
 |Tech|UP FOR GRABS|
 |Frameworks|UP FOR GRABS|
-|API|NONE - UP FOR GRABS|
+|API|UP FOR GRABS|
 |Progress|0%|
 
 >TODO & TODOC
@@ -311,15 +323,19 @@ Manage, track and trace assets and inventory.
 Website that educates, informs and promotes projects, collectives, initiatives
 and events.
 
+### Use Cases
+![Use Cases](./docs/Web-Use-Cases.svg)
+
+### Entity Classes
+![Use Cases](./docs/Web-Entity-Classes.svg)
+
 |||
 --- | ---
 |Repository|[github project]|
-|Design|[Wireframes]|
-||[Use Cases](./docs/Web-Use-Cases.svg)|
 |Language|UP FOR GRABS|
 |Tech|UP FOR GRABS|
 |Frameworks|UP FOR GRABS|
-|API|NONE - UP FOR GRABS|
+|API|UP FOR GRABS|
 |Progress|0%|
 
 >TODO & TODOC
