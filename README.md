@@ -57,6 +57,7 @@ manner:
 |Frameworks|[Express](https://expressjs.com/)|
 ||[MiniMi](https://github.com/scheepers/minimi)|
 |API|[RESTful](https://github.com/AfrikaBurn/TMI-People/blob/master/API.md)|
+||[JSON:API](https://jsonapi.org/)|
 |Progress|80ish%|
 
 
