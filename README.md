@@ -54,7 +54,9 @@ manner:
 |Language|[Javascript](https://www.javascript.com/)|
 |Tech|[NodeJS](https://nodejs.org)|
 ||[JSON Schema](https://json-schema.org/)|
+||[OpenID](https://json-schema.org/)|
 |Frameworks|[Express](https://expressjs.com/)|
+||[PassportJS](http://www.passportjs.org/)|
 ||[MiniMi](https://github.com/scheepers/minimi)|
 |API|[RESTful](https://github.com/AfrikaBurn/TMI-People/blob/master/API.md)|
 ||[JSON:API](https://jsonapi.org/)|
@@ -107,14 +109,14 @@ Administrative front-end to the people subsystem.
 
 Social networking app to represent, connect and collect participants.
 
+### Wireframes
+![Wireframes](./docs/Tribe-Wireframes.svg)
+
 ### Use Cases
 ![Use Cases](./docs/Tribe-Use-Cases.svg)
 
 ### Entity Classes
 ![Entity Classes](./docs/Tribe-Entity-Classes.svg)
-
-### Wireframes
-![Wireframes](./docs/Tribe-Wireframes.svg)
 
 |||
 --- | ---
@@ -143,14 +145,14 @@ Social networking app to represent, connect and collect participants.
 
 Create and collaborate.
 
+### Wireframes
+![Wireframes](./docs/Projects-Wireframes.svg)
+
 ### Use Cases
 ![Use Cases](./docs/Projects-Use-Cases.svg)
 
 ### Entity Classes
 ![Entity Classes](./docs/Projects-Entity-Classes.svg)
-
-### Wireframes
-![Wireframes](./docs/Projects-Wireframes.svg)
 
 |||
 --- | ---
@@ -178,14 +180,14 @@ Create and collaborate.
 
 Event organisation app, that allows scheduling, coordination and participation.
 
+### Wireframes
+![Wireframes](./docs/Event-Wireframes.svg)
+
 ### Use Cases
 ![Use Cases](./docs/Event-Use-Cases.svg)
 
 ### Entity Classes
 ![Entity Classes](./docs/Events-Entity-Classes.svg)
-
-### Wireframes
-![Wireframes](./docs/Event-Wireframes.svg)
 
 
 |||
@@ -218,14 +220,14 @@ Event organisation app, that allows scheduling, coordination and participation.
 
 Incident app that logs, disseminates and escalates.
 
+### Wireframes
+![Wireframes](./docs/Incidents-Wireframes.svg)
+
 ### Use cases
 ![Use Cases](./docs/Incidents-Use-Cases.svg)
 
 ### Entity Classes
 ![Entity Classes](./docs/Incidents-Entity-Classes.svg)
-
-### Wireframes
-![Wireframes](./docs/Incidents-Wireframes.svg)
 
 |||
 --- | ---
@@ -285,14 +287,14 @@ Realtime monitoring app of interactive statistics and trends.
 
 Manage, track and trace assets and inventory.
 
+### Wireframes
+![Inventory wireframes](./docs/Inventory-Wireframes.svg)
+
 ### Use Cases
 ![Use Cases](./docs/Inventory-Use-Cases.svg)
 
 ### Entity Classes
 ![Inventory Entity Classes](./docs/Inventory-Entity-Classes.svg)
-
-### Wireframes
-![Inventory wireframes](./docs/Inventory-Wireframes.svg)
 
 |||
 --- | ---
