@@ -13,8 +13,19 @@ agreements; An ecosystem that nurtures, protects and promotes its participants.
 * [Read more](./docs/Introduction.pdf)
 
 >This is the container project for the TMI ecosystem documentation and source
-code. The various components may be checked out individually as per repository
-links in sections below.
+code.
+
+## Getting TMI source
+
+To checkout the whole of TMI including its submodules:
+
+```
+git clone --recurse-submodules -j8 https://github.com/AfrikaBurn/TMI.git
+```
+
+Or alternatively the various components may be checked out individually as per
+repository links in sections below.
+
 
 ## Components
 
