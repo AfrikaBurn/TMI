@@ -20,7 +20,7 @@ code.
 To checkout the whole of TMI including its submodules:
 
 ```
-git clone --recurse-submodules -j8 https://github.com/AfrikaBurn/TMI.git
+git clone --recurse-submodules https://github.com/AfrikaBurn/TMI.git
 ```
 
 Or alternatively the various components may be checked out individually as per
