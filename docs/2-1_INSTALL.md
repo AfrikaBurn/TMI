@@ -116,23 +116,23 @@ Fire up postman and on the "File" menu select "Import" and then import the [test
 people/testing.postman_collection.json
 ```
 
-![Ecosystem structure](./docs/Postman-import.png)
+![Ecosystem structure](./images/Postman-import.png)
 
 Ensure you select collections on the left-hand side menu. 
 
 Then click on the right arrow next to "tmi people".
 
-![Ecosystem structure](./docs/Postman-collections.png)
+![Ecosystem structure](./images/Postman-collections.png)
 
 From the popout menu select "run":
 
-![Ecosystem structure](./docs/Postman-run.png)
+![Ecosystem structure](./images/Postman-run.png)
 
 This will generate a list of all current system test and whether or not they passed or failed. 
 
 You will be able to look at each call and see what was sent and the response from the server. 
 
-![Ecosystem structure](./docs/Postman-results.png)
+![Ecosystem structure](./images/Postman-results.png)
 
 You may start up the test runner in postman and execute the whole TMI collection, or fire them separately as examples of requests to direct at the people services. Note that the tests are not idempotent and some will fail on subsequent test runs.
 
