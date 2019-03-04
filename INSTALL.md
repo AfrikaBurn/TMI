@@ -45,25 +45,30 @@ All software used is free
 
 ### Development OS
 Ubuntu or an Ubuntu flavour
+
 Long term stable, 18.04 or higher
 
 ### Visual Studio
 https://linuxize.com/post/how-to-install-visual-studio-code-on-ubuntu-18-04/
+
 Version 1.31.1 or later
 
 ### Postman
 https://www.getpostman.com
+
 Once download you will need to register the software
+
 Version 6.7.4 or later
 
 ### Nodejs
 https://github.com/nodesource/distributions/blob/master/README.md
+
 Version 11.10.1
 
 <hr />
 
 ## Installation
-Within a terminal:
+Within a terminal, got to the people folder, then type:
 ```
 npm install
 ```
@@ -106,8 +111,7 @@ node People/ -v
 
 ## Test People
 
-Fire up postman and import the
-[test collection](https://github.com/AfrikaBurn/tmi-people/blob/master/testing.postman_collection.json) at:
+Fire up postman and on the "File" menu select "Import" and then import the [test collection](https://github.com/AfrikaBurn/tmi-people/blob/master/testing.postman_collection.json) at:
 ```
 people/testing.postman_collection.json
 ```
@@ -116,7 +120,19 @@ people/testing.postman_collection.json
 
 Ensure you select collections on the left-hand side menu. 
 
-![Ecosystem structure](./docs/Postman-collections)
+Then click on the right arrow next to "tmi people".
+
+![Ecosystem structure](./docs/Postman-collections.png)
+
+From the popout menu select "run":
+
+![Ecosystem structure](./docs/Postman-run.png)
+
+This will generate a list of all current system test and whether or not they passed or failed. 
+
+You will be able to look at each call and see what was sent and the response from the server. 
+
+![Ecosystem structure](./docs/Postman-results.png)
 
 You may start up the test runner in postman and execute the whole TMI collection, or fire them separately as examples of requests to direct at the people services. Note that the tests are not idempotent and some will fail on subsequent test runs.
 
