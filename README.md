@@ -26,15 +26,11 @@ time.
 ## Design
 
 TMI follows consistent and simple U[IX] design patterns to ensure a smooth,
-seemless experience accross the different aspects...
-[more](./docs/design.md)
+seemless experience accross the different aspects... [more](./docs/design.md)
 
 
 ## Architecture
 
-TMIs implementation of the
-[required functionality](./docs/functional-requirements.md) follows a
-[microservice](http://microservices.io)(ish)
-architectural style so that its different aspects can be seperately and
-independently developed, maintained and deployed...
-[more](./docs/architecture.md)
+TMIs follows a [microservice](http://microservices.io)(ish) architectural style
+so that its different aspects can be seperately and independently developed,
+maintained and deployed... [more](./docs/architecture.md)
