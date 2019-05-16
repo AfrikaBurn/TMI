@@ -21,7 +21,7 @@ instance up and running so you can code and leverage the [API]() in no time.
 
 TMI follows consistent and simple U[IX] design patterns to ensure a smooth,
 seemless experience accross the different aspects...
-[more](./docs/wireframes.md)
+[more](./docs/design.md)
 
 
 ## Architecture
