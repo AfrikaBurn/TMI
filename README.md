@@ -28,7 +28,7 @@ seemless experience accross the different aspects...
 ## Architecture
 
 TMIs implementation of the
-[required functionality](./docs/function-requirements.md) follows a
+[required functionality](./docs/functional-requirements.md) follows a
 [microservice](http://microservices.io)(ish)
 architectural style so that its different aspects can be seperately and
 independently developed, maintained and deployed...
