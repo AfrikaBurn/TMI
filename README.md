@@ -10,6 +10,11 @@ into realising their own projects:
 
 In an ecosystem that nurtures, protects and promotes its participants.
 
+## Analysis
+
+Learn more about the [context](./docs/context.md) and
+[requirements](./requirements.md) of the system.
+
 
 ## Development
 

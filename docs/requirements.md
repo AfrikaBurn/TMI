@@ -1,6 +1,12 @@
-# TMI functional requirements
+# TMI requirements
 
-## People
+
+## Services
+
+![Request Processing](./svg/Data-Requirements.svg)
+
+
+## Privacy
 
 To ensure privacy, requests to the people service are processed in the following
 manner:
