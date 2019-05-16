@@ -1,6 +1,6 @@
 # TMI - Tribe Mobilisation Infrastructure
 
-![Ecosystem structure](./docs/ecosystem.svg)
+![Ecosystem structure](./svg/Ecosystem.svg)
 
 
 ## Introduction

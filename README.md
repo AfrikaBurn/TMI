@@ -1,35 +1,32 @@
 ![TMI Logo](./docs/svg/tmi.svg)
 
-# TMI - Tribe Mobilisation Infrastructure
+# Tribe Mobilisation Infrastructure
 
-**A modular social network platform to empower and mobilise communities
-to realise their own projects:**
+Social networking tools to empower and mobilise communities
+into realising their own projects:
 
-* A space to find and share resources without commercial agenda.
-* A means to publish and share information without bias or manipulation.
-* A facilitator of agreements.
-* An ecosystem that nurtures, protects and promotes its participants.
+* **Find**, **create** and **share**.
+* **Collaborate**, **cultivate** and **coordinate**.
 
-
-## Architecture
-
-[Check out the architecture]() to get a better understanding of how subsystems
-relate.
-
-
-## Design
-
-Check out and contribute to [Wireframes]() and [Designs]() to help make TMI a
-slick and seemless experience.
+In an ecosystem that nurtures, protects and promotes its participants.
 
 
 ## Development
 
-[Go to the quick start]() to get an instance up and running and you coding in no
-time. [Check out the API]() for reference.
+Follow the [developer quick start](./docs/developer-quickstart.md) to get a local
+instance up and running so you can code and leverage the [API]() in no time.
 
 
-## Engineering
+## Design
 
-[Check out the specs]() to get a better understanding of the thinking behind
-architecture, processes, and how the various subsystems interact.
+TMI follows consistent and simple U[IX] design patterns to ensure a smooth,
+seemless experience accross the different aspects...
+[more](./docs/wireframes.md)
+
+
+## Architecture
+
+TMIs implementation follows a [microservice](http://microservices.io)(ish) architectural style so that its
+different aspects can be seperately and independently developed, maintained and
+deployed...
+[more](./docs/architecture.md)
