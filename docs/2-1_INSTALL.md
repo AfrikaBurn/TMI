@@ -77,7 +77,7 @@ npm install
 
 Within a terminal, one directory up from the downloaded TMI directory:
 ```
-node People/
+node people/
 ```
 
 You should see startup output ending in:
@@ -106,7 +106,7 @@ Warnings will be present in the startup output until database integration has be
 For more detailed output, run people with the verbose switch:
 
 ```
-node People/ -v
+node people/ -v
 ```
 
 ## Test People
