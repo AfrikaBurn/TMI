@@ -13,7 +13,7 @@ In an ecosystem that nurtures, protects and promotes its participants.
 ## Analysis
 
 Learn more about the [context](./docs/context.md) and
-[requirements](./requirements.md) of the system.
+[requirements](./docs/requirements.md) of the system.
 
 
 ## Development
