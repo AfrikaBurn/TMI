@@ -1,19 +1,6 @@
 # TMI requirements
 
 
-## Services
-
-![Request Processing](./svg/Data-Requirements.svg)
-
-
-## Privacy
-
-To ensure privacy, requests to the people service are processed in the following
-manner:
-
-![Request Processing](./svg/Request-Processing.svg)
-
-
 ## Tribe
 
 Represent, connect and collect participants.

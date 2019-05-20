@@ -1,15 +1,6 @@
 # TMI Context
 
->A platform to empower and mobilise communities to realise their own projects;
->A tool to find and share resources without commercial agenda;
->A means to publish and share information without bias or manipulation;
->A facilitator of agreements;
->An ecosystem that nurtures, protects and promotes its participants.
-
-
-## Setting
-
-Burns are a social experiment where participants create a temporary town where
+Burns are social experiments where participants create a temporary town where
 there was none. The experiment enables and experience that is created through
 participants contributing artworks, theme camps, mutant vehicles, performances
 and infrastructure.
