@@ -3,7 +3,7 @@
 # Tribe Mobilisation Infrastructure
 
 Social networking tools to empower and mobilise communities
-into realising their own ideas:
+so that they may realise their own ideas:
 
 * **Find**, **create** and **share** resources.
 * **Collaborate**, **cultivate** and **coordinate** projects.
