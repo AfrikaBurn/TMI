@@ -3,10 +3,10 @@
 # Tribe Mobilisation Infrastructure
 
 Social networking tools to empower and mobilise communities
-into realising their own projects:
+into realising their own ideas:
 
-* **Find**, **create** and **share**.
-* **Collaborate**, **cultivate** and **coordinate**.
+* **Find**, **create** and **share** resources.
+* **Collaborate**, **cultivate** and **coordinate** projects.
 
 In an ecosystem that nurtures, protects and promotes its participants.
 
@@ -16,21 +16,23 @@ Learn more about the [context](./docs/context.md) and
 [requirements](./docs/requirements.md) of the system.
 
 
-## Development
+## Architecture
 
-Follow the [developer quick start](./docs/developer-quickstart.md) to get a
-local instance up and running so you can code and leverage the [API]() in no
-time.
+TMIs hopes to follow a [microservice](http://microservices.io)(ish)
+architectural style so that its different aspects can be seperately and
+independently developed, maintained and deployed...
+[Learn more and contribute](./docs/architecture.md)
 
 
 ## Design
 
 TMI follows consistent and simple U[IX] design patterns to ensure a smooth,
-seemless experience accross the different aspects... [more](./docs/design.md)
+seemless experience accross the different aspects...
+[Learn more and contribute](./docs/design.md)
 
 
-## Architecture
+## Development
 
-TMIs follows a [microservice](http://microservices.io)(ish) architectural style
-so that its different aspects can be seperately and independently developed,
-maintained and deployed... [more](./docs/architecture.md)
+Follow the [developer quick start](./docs/developer-quickstart.md) to get a
+local instance up and running so you leverage the [API]() and contribute in no
+time.
