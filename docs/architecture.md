@@ -13,7 +13,7 @@ so that they may realise their own ideas.
 The people subsystem is intended to store participant's user login, profile,
 agreement, collective and post data in a secure manner that protects and
 enforces access and privacy so that other subsystems may access data in a
-simple unified manner.
+simple unified and permissable manner.
 
 
 ### Entity Relationships
