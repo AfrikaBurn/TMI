@@ -1,6 +1,6 @@
 [submodule "people"]
-	path = apps/people
+	path = components/people
 	url = https://github.com/AfrikaBurn/tmi-people.git
 [submodule "apps/admin"]
-	path = apps/admin
+	path = components/admin
 	url = https://github.com/AfrikaBurn/TMI-Admin.git
