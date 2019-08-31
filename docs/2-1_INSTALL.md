@@ -70,6 +70,7 @@ Version 11.10.1
 ## Installation
 Within a terminal, got to the people folder, then type:
 ```
+cd TMI/components/people
 npm install
 ```
 
@@ -77,6 +78,7 @@ npm install
 
 Within a terminal, one directory up from the downloaded TMI directory:
 ```
+cd ..
 node people/
 ```
 
