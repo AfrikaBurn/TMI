@@ -36,7 +36,7 @@ Incident logging, dissemination and escalation.
 ![Wireframes](./svg/Incidents-Wireframes.svg)
 
 
-## Ground Zero
+## Monitor
 
 Realtime monitoring of anonymised interactions and trends.
 
