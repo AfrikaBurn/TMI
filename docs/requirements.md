@@ -104,7 +104,7 @@ Schedule, coordinate, volunteer and participate.
 
 > Examples of project leads may be Artists, Ranger council, Volunteers portfolio or event organisers.
 
-* As a project lead I want to be able to create events so that I may effectively coordinate and execute commu8nal efforts. Ideally the system would publicise and promote events at the leads discression. 
+* As a project lead I want to be able to create events so that I may effectively coordinate and execute communal efforts. Ideally the system would publicise and promote events at the leads discression. 
 * As a project lead I would like to message the event attendees so that I may disseminate up to date information. Ideally the system would make this information available to all participants who indicated that they will be attending.
 * As a project lead I would like to create/update shifts so that participants may sign up for shifts. Ideally the system would display and enforce the capacity vs. signups.
 * As a project lead I would like to be able to add/update/delete shift slots so that I may specify numbers and roles of needed participants. Ideally the system would allow for minimum, specific or an unlimited number of sign ups per role per shift.
