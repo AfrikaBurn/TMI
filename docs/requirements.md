@@ -121,6 +121,17 @@ Incident logging, dissemination and escalation.
 
 ![Use Cases](./svg/Incidents-Use-Cases.svg)
 
+### Logger
+
+* As a logger I want to log an incident so that an accurate account of events can be kept. Ideally such a log should comply to legal standards.
+* As a logger I want to escalate an incident so that an incident may enjoy more specilised attention. Ideally multiple roles would be notifyable.
+* As a logger I want to extend an incident so that additional information may be added to an incident. Ideally the integrity of the log must be preserved.
+* As a logger I want to view an incident so that I may familiarise myself with a situation. Ideally such a view would increase situational awareness.
+* As a logger I want to restrict an incident so that access to it may be limited to certain roles. Ideally privacy will be protected. 
+* As a logger I want to view logs so that I may familiarise myself with the sequence of events. Ideally such a view would increase situational awareness.
+* As a logger I want to search logs so that I may find relevant details quickly. Ideally such a view would increase situational awareness.
+* As a logger I want to export logs so that I may be able to convert the format of information. Ideally into such exports must retain integrity.
+* As a logger I want notifications to be sent so that responses may be timely. Ideally such a system should be usable real time.
 
 ## Inventory
 
