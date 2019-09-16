@@ -133,11 +133,35 @@ Incident logging, dissemination and escalation.
 * As a logger I want to export logs so that I may be able to convert the format of information. Ideally into such exports must retain integrity.
 * As a logger I want notifications to be sent so that responses may be timely. Ideally such a system should be usable real time.
 
+
 ## Inventory
 
 Manage, track and trace assets and inventory.
 
 ![Inventory wireframes](./svg/Inventory-Use-Cases.svg)
+
+
+### Participant
+
+* As a Participant I want to search and view vendors so that I may find resources. Ideally such resources would have an ethical supply chain.
+* As a Participant I want to register vendors so that others may find vendors that I find useful. Ideally vendors would be community vetted.
+
+
+### Project lead
+
+* As a Project lead I want to view assets so that I may familiarise myself with them. Ideally such an asset view would include pertinent status displays. 
+* As a Project lead I want to view an asset history so that proper maintenance may be kept up. Ideally such a view would promote accountability.
+* As a Project lead I want to search assets so that I may view pertinent information. Ideally such a search would contain filters to narrow results.
+* As a Project lead I want to make bookings so that I may reserve access to assets. Ideally such a reservation would promote asset utilisation and remind me of bookings.
+
+
+### Quartermaster
+
+* As a Quartermaster I want to approve or decline a vendor so that I may curate the vendors of my inventory. Ideally such an action would promote ethical accountability.
+* As a Quartermaster I want to approve or decline bookings so that I may schedule and plan the movement of my inventory. Ideally such a schedule would simplify managing inventory movement.
+* As a Quartermaster I want to maintain asset inventory so that my information remains relevant. Ideally such maintenance would promote asset maintenance.
+* As a Quartermaster I want to check assets out so that I may keep track of asset locality. Ideally such checking would promote accountability and upkeep.
+* As a Quartermaster I want to check items in to keep track of asset locality so that loss may be minimised and state is tracked. Ideally such checking would promote accountability and upkeep.
 
 
 ## Web
@@ -146,3 +170,5 @@ Website that educates, informs and promotes projects, collectives, initiatives
 and events.
 
 ![Use Cases](./svg/Web-Use-Cases.svg)
+
+
