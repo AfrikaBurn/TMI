@@ -70,7 +70,9 @@ Create and collaborate.
 * As a project lead I would like to be able to upvote project registrations as part of the grant process so that I may show support for the funding efforts of projects. Ideally the system would allow all participating projects to vote.
 
 
-### Project Wrangler (Event organiser or their delegate, being an adminoistrator or moderator of an event group)
+### Project Wrangler
+
+> A project wrangler is an Event organiser or their delegate: An administrator or moderator, respectively of an event group.
 
 * As a wrangler I would like to be able to administer projects so that I may be able to curate and publicise which projects are attending the event as well as assign grant allocations. Ideally the system would facilitate creating reports.
 
