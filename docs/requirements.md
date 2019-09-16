@@ -45,7 +45,7 @@ Ideally I should be added to a default AfrikaBurn collective on registration.
 
 ### Group administrator
 
-* As a group administrator I would like to manage group members so that I may curate membership.
+* As a group administrator I would like to manage group members so that I may curate membership, moderatorship and administratorship. Ideally the system would inform other administrators to these changes.
 * As a group administrator I would like to attach toools like project creation, registration, specification and planning to a collective. Ideally some tools will be attached by default.
 
 
