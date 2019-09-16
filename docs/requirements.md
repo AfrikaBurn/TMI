@@ -84,6 +84,37 @@ Schedule, coordinate, volunteer and participate.
 ![Use Cases](./svg/Event-Use-Cases.svg)
 
 
+### Visitor
+
+* As a visitor I would like to be able to view events so that I may attend or find out additional information about them. Ideally I should be shown events that are nearby or aligns with my interest.
+* As a visitor I would like to be able to search events so that I may be able to find specific events. Ideally the system should allow me to search by location, name, date and classification.
+* As a participant I would like to indicate my event attendance so that I may be alerted to changes, reminded closer to the date of the event and my friends may see what events I am interested in attending. Ideally the system would allow me to invite my friends.
+* As a participant I would like to see what shifts are avaialble so that I may sign up and contribute to events and projects at the event. Ideally the system would align these with my skills and preferences.
+* As a participant I would like to be able to sign up for a shift so I may contribute and receive reminders of my upcoming shifts. Ideally the system should also warn me if I attempt to sign up for conflicting shifts.
+* As a participant I would like to be able to message the participants my shift to be able to effectively collaborate and coordinate our shift. Ideally the system would allow for bulk and individual messaging from both participants, shift lead and organiser.
+* As a participant I would like to be able to update my ticketing information so that I may gain entrance to the event or transfer my ticket. Ideally the system would take into account limitations placed on the ticketing by the event organisers.
+
+
+### Shift lead
+
+* As a shift lead I would like to record shift attendance so that the reputations of participants may be maintained. Ideally the system would make this information available to organiserss at the participants discression for exclusive shifts.
+
+
+### Project lead
+
+> Examples of project leads may be Artists, Ranger council, Volunteers portfolio or event organisers.
+
+* As a project lead I want to be able to create events so that I may effectively coordinate and execute commu8nal efforts. Ideally the system would publicise and promote events at the leads discression. 
+* As a project lead I would like to message the event attendees so that I may disseminate up to date information. Ideally the system would make this information available to all participants who indicated that they will be attending.
+* As a project lead I would like to create/update shifts so that participants may sign up for shifts. Ideally the system would display and enforce the capacity vs. signups.
+* As a project lead I would like to be able to add/update/delete shift slots so that I may specify numbers and roles of needed participants. Ideally the system would allow for minimum, specific or an unlimited number of sign ups per role per shift.
+* As a project lead I would like to optionally approve or decline shif signups so that I may curate the participants and their commitments on a shift. Ideally the system will notify the project lead of signups and reminders to moderate.
+* As a project lead I may want to be able to assign shift slots to participants so that I may plan shift population according to my own requirements. Ideally the system would allow participants to indicate a willingness to do shifts and add them to a pool of assignables to a shift.
+* As a project lead I want to be able to create tickets so that I may curate both the number and role of participants. Ideally the system would communicate with an external ticket vendor to outsource transactions and fees.
+* As a project lead I would like to be able to allocate tickets so that I may promote particular roles. Ideally the system would keep track of, produce reports on these assignments and notify participants of assignments.
+* As a project lead I would like to be able to assign ticket allocation so that I may outsource ticket allocations to moderators or collaborators.
+
+
 ## Incidents
 
 Incident logging, dissemination and escalation.
