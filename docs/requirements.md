@@ -21,7 +21,7 @@ Ideally I should be added to a default AfrikaBurn collective on registration.
 ### Participant
 
 * As a participant I would like to be able to view my agreements, so that I may be able to see which collectives I belong to, which projects I have created and registered, and whatever other agreements like codes of conduct I have agreed to. Ideally the system should make it easy for me to view these based on projects, collectives and individuals.
-* as a participant I would like to be able to consent to agreements so that I may join collectives, become an administrator of collectives, manage my privacy, become a ranger, DPW member etc. Ideally the system should prepopulate these from existing information from my profiles.
+* As a participant I would like to be able to consent to agreements so that I may join collectives, become an administrator of collectives, manage my privacy, become a ranger, DPW member etc. Ideally the system should prepopulate these from existing information from my profiles.
 * As a participant I would like to be able to log out so that I may use the system on public computers in a secure manner. Ideally the system should ask whether I am using a public, computer and log me out automatically on those.
 * As a participant I would like to create collectives so that I may effectively group my communication with other participants, create and register projects, have discussions and plan and collaborate effectively.
 * As a participant I would like to be able to contact a collective so that I may gather information that will help me decide whether I would like to join the collective. Ideally the system would forward such communication to all admins.
