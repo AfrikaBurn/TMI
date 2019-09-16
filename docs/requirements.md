@@ -172,3 +172,21 @@ and events.
 ![Use Cases](./svg/Web-Use-Cases.svg)
 
 
+### Visitor
+
+As a visitor I want to view content so that I may familiarise myself with the community culture and experiments. Ideally such views will promote acculturation.
+As a visitor I want to search content so that I may quickly find useful informarion. Ideally search results will promote information discoverability.
+As a visitor I want to sign up for the newsletter so that I may keep abreast of movement-wide happenings. Ideally such newsletters will promote community engagement.
+As a visitor I want to contact the organisation so that I may access support. Ideally such enquiries would follow some research.
+
+
+### Participant
+
+As a participant I want to contribute and maintain content so that visitors are encouraged to acculturate. Ideally content would be crowdsourced.
+As a participant I want to upvote or flag content so that other participants or moderators respectively may be alerted. Ideally content would be self promoting and community moderated.
+
+
+### Editor
+
+As an editor I want to be able to revert changes so that faulty updates may be reversed. Ideally revision would be reviewable and simple.
+As an editor I want to publish or unpublish content so that community values may be promoted. Ideally editing will be crowsourced.
