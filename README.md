@@ -18,7 +18,7 @@ Learn more about the [context](./docs/context.md) and
 
 ## Design
 
-TMI follows consistent and simple U[IX] design patterns to ensure a smooth,
+TMI follows consistent and simple design patterns to ensure a smooth,
 seemless experience accross the different aspects...
 [Learn more and contribute](./docs/design.md)
 
