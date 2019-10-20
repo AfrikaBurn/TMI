@@ -16,19 +16,19 @@ Learn more about the [context](./docs/context.md) and
 [requirements](./docs/requirements.md) of the system.
 
 
+## Design
+
+TMI follows consistent and simple U[IX] design patterns to ensure a smooth,
+seemless experience accross the different aspects...
+[Learn more and contribute](./docs/design.md)
+
+
 ## Architecture
 
 TMIs hopes to follow a [microservice](http://microservices.io)(ish)
 architectural style so that its different aspects can be seperately and
 independently developed, maintained and deployed...
 [Learn more and contribute](./docs/architecture.md)
-
-
-## Design
-
-TMI follows consistent and simple U[IX] design patterns to ensure a smooth,
-seemless experience accross the different aspects...
-[Learn more and contribute](./docs/design.md)
 
 
 ## Development
