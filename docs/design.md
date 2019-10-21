@@ -14,8 +14,8 @@ layout guide for the smallest supported resolution.
 * Header and footer uses Julius Sans One font while content uses Comfortaa.
 * Apps should use a columnar layout each column being assigned a width of 20
   units.
-* Apps must adapt by increasing the number of colunms appropriate to the width:
-
+* Apps must adapt by increasing the number of colunms appropriate to the width,
+  while maintaining a minimum of 5.
 
 
 ### Header
@@ -89,7 +89,6 @@ these pages:
   units and an action label. Any additional actions must be on the item page
   view.
 * expanded tems must have a "More" action that leads to a full page item view.
-
 
 
 ## Administration
