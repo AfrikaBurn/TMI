@@ -19,7 +19,7 @@ Learn more about the [context](./docs/context.md) and
 ## Design
 
 TMI follows consistent and simple design patterns to ensure a smooth,
-seemless experience accross the different aspects...
+seemless experience accross the different apps...
 [Learn more and contribute](./docs/design.md)
 
 
