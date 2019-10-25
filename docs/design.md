@@ -2,7 +2,7 @@
 
 To ensure a consistent experience apps follow the same layout of 
 functionality. Check out the [Layout Guide](./layout-guide.md) if you're
-implementing an app front-end or want to create your own TMI app.
+skinning an app or want to build your own.
 
 
 ## Administration
