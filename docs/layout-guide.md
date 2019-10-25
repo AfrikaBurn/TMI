@@ -1,4 +1,4 @@
-# App layout guide
+# Layout Guide
 
 To ensure a consistent experience Apps must conform to the following general
 layout guide for the smallest supported resolution.
