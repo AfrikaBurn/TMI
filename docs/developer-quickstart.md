@@ -8,19 +8,19 @@ Within a terminal:
 git clone --recurse-submodules https://github.com/AfrikaBurn/TMI.git
 ```
 
-This creates a TMI folder with the source code for all coponents:
+This creates a TMI folder with the source code for coponents:
 
 TMI\
 ├─ components\
-│   ├─ administration
-│   ├─ tribe
-│   ├─ people
-│   ├─ projects
-│   ├─ events
-│   ├─ incidents
-│   ├─ groundzero
-│   ├─ inventory
-│   └─ Web
+│   ├─ administration\
+│   ├─ tribe\
+│   ├─ people\
+│   ├─ projects\
+│   ├─ events\
+│   ├─ incidents\
+│   ├─ groundzero\
+│   ├─ inventory\
+│   └─ web\
 ├─ docs\
 └─ [README.md](../README.md)
 
