@@ -8,19 +8,19 @@ Within a terminal:
 git clone --recurse-submodules https://github.com/AfrikaBurn/TMI.git
 ```
 
-This creates a TMI folder with complete source code for all aspects:
+This creates a TMI folder with the source code for coponents:
 
 TMI\
-├─ apps\
-│   ├─ [administration](#administration)\
-│   ├─ [tribe](#tribe)\
-│   ├─ [people](#people)\
-│   ├─ [projects](#projects)\
-│   ├─ [events](#events)\
-│   ├─ [Incidents](#incidents)\
-│   ├─ [Ground Zero](#ground-zero)\
-│   ├─ [Inventory](#inventory)\
-│   └─ [Web](#web)\
+├─ components\
+│   ├─ administration\
+│   ├─ tribe\
+│   ├─ people\
+│   ├─ projects\
+│   ├─ events\
+│   ├─ incidents\
+│   ├─ groundzero\
+│   ├─ inventory\
+│   └─ web\
 ├─ docs\
 └─ [README.md](../README.md)
 
@@ -55,16 +55,16 @@ Version 11.10.1
 <hr />
 
 ## Installation
-Within a terminal, got to the people folder, then type:
+Within a terminal, got to the components/people folder, then type:
 ```
 npm install
 ```
 
 ## Running people
 
-Within a terminal, one directory up from the downloaded TMI directory:
+Within a terminal, in the TMI directory:
 ```
-node people/
+node components/people
 ```
 
 You should see startup output ending in:
@@ -93,14 +93,14 @@ Warnings will be present in the startup output until database integration has be
 For more detailed output, run people with the verbose switch:
 
 ```
-node people/ -v
+node components/people -v
 ```
 
 ## Test People
 
 Fire up postman and on the "File" menu select "Import" and then import the [test collection](https://github.com/AfrikaBurn/tmi-people/blob/master/testing.postman_collection.json) at:
 ```
-people/testing.postman_collection.json
+components/people/testing.postman_collection.json
 ```
 
 ![Postman screenshot](./images/Postman-import.png)

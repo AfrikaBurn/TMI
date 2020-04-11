@@ -1,7 +1,7 @@
 # TMI Context
 
 Burns are social experiments where participants create a temporary town where
-there was none. The experiment enables and experience that is created through
+there was none. The experiment enables an experience that is created through
 participants contributing artworks, theme camps, mutant vehicles, performances
 and infrastructure.
 
