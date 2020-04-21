@@ -1,6 +1,27 @@
-[submodule "people"]
-	path = components/people
-	url = https://github.com/AfrikaBurn/tmi-people.git
-[submodule "apps/admin"]
-	path = components/admin
-	url = https://github.com/AfrikaBurn/TMI-Admin.git
+[submodule "components/forms"]
+	path = components/forms
+	url = https://github.com/seatable/seatable.git
+[submodule "components/volunteer"]
+	path = components/volunteer
+	url = https://github.com/playasoft/volunteers.git
+[submodule "components/chat"]
+	path = components/chat
+	url = https://github.com/RocketChat/Rocket.Chat.git
+[submodule "components/collaborate"]
+	path = components/collaborate
+	url = https://github.com/loomio/loomio.git
+[submodule "components/inform"]
+	path = components/inform
+	url = https://github.com/playasoft/volunteers.git
+[submodule "components/bio"]
+	path = components/bio
+	url = https://github.com/drupal/drupal.git
+[submodule "components/web"]
+	path = components/web
+	url = https://github.com/AfrikaBurn/TMI-Web.git
+[submodule "components/learn"]
+	path = components/learn
+	url = https://github.com/moodle/moodle.git
+[submodule "components/cloud"]
+	path = components/cloud
+	url = https://github.com/nextcloud/server.git
