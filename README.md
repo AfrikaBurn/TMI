@@ -21,4 +21,4 @@ TMI is a collection of [open source]() software to be loosely integrated into a 
 | Collaborate | [Loomio](https://loomio.org) | Collaboration, Voting, Group decision making. | Checking it out. |
 | Learn | [Moodle](https://moodle.org) | Learning management. | Checking it out. |
 | Volunteer| [Playasoft volunteers](https://github.com/playasoft/volunteers) | Volunteer, Event and Shift management. | Checking it out. |
-| Web | [Drupal](drupal.org) | Brochureware and online presence. | Being populated. |
+| Web | [Drupal](drupal.org) | Public Web Presence | Being populated. |
