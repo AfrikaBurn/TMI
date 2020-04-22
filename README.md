@@ -19,7 +19,7 @@ TMI is a collection of open source software to be loosely integrated into a [mic
 | Bio | [Drupal](https://drupal.org) | User authentication. | Rescue select functionality from the [existing tribe system](https://github.com/afrikaburn/tribe).
 | Chat | [RocketChat](https://rocket.chat) & [Jitsi](https://jitsy.org) | Social, Text, Voice and Video. | Live. Social to be developed. |
 | Cloud | [NextCloud](https://nextcloud.) | Cloud drive, office suite, information gathering and sharing. | Trial. |
-| Collaborate | [Loomio](hhtps://loomio.org) | Collaboration, Voting, Group decision making. | Trial. |
+| Collaborate | [Loomio](https://loomio.org) | Collaboration, Voting, Group decision making. | Trial. |
 | Learn | [Moodle](https://moodle.org) | Learning management. | Trial. |
 | Volunteer| [Playasoft volunteers](https://github.com/playasoft/volunteers) | Volunteer, Event and Shift management. | Trial. |
 | Web | [Drupal](drupal.org) | Brochureware and online presence. | Being populated. |
