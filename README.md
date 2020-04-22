@@ -12,7 +12,7 @@ In an ecosystem that nurtures, protects and promotes its participants.
 
 Learn more about the [context](./docs/context.md), [requirements](./docs/requirements.md) and [abstract information architecture](./docs/architecture.md) of the system.
 
-TMI is a collection of open source software to be loosely integrated into a [microservice](https://microservices.io)(ish) architecture to answer these requirements.
+TMI is a collection of [open source]() software to be loosely integrated into a [microservice](https://microservices.io)(ish) architecture to answer these requirements.
 
 | Component | Tech | Description | Status |
 | -- | -- | -- | -- |
