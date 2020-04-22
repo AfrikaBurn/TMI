@@ -3,10 +3,9 @@
 # Tribe Mobilisation Infrastructure
 
 Tools to empower and mobilise communities so that they may co-create. 
-ideas:
 
 * **Find**, **create** and **share** resources.
-* **Cultivate**, **coordinate** and **Cocreate** on projects.
+* **Cultivate**, **coordinate** and **collaborate** on projects.
 
 In an ecosystem that nurtures, protects and promotes its participants.
 
