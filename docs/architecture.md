@@ -1,7 +1,7 @@
 # TMI Architecture
 
-> Social networking tools to empower and mobilise communities
-so that they may realise their own ideas.
+> Tools to empower and mobilise communities so that they may realise their own
+ideas.
 
 ![Ecosystem](./svg/Ecosystem.svg)
 
@@ -16,14 +16,15 @@ enforces access and privacy so that other subsystems may access data in a
 simple unified and permissable manner.
 
 
-### Entity Relationships
+### Entities and Relationships
+
 ![Entity Relationships](./svg/People-Entity-Relationships.svg)
 
-### Entity Classes
-![Entity Classes](./svg/People-Entity-Classes.svg)
 
-### Access control and privacy protection
-![Request Processing](./svg/Request-Processing.svg)
+
+### Entity classes
+
+![Entity Classes](./svg/People-Entity-Classes.svg)
 
 
 ## Tribe
@@ -33,38 +34,6 @@ simple unified and permissable manner.
 The tribe subsystem is intended to be the social networking interface between
 participants that they may find and connect with other participants and share
 resources.
-
-### Entity Classes
-![Entity Classes](./svg/Tribe-Entity-Classes.svg)
-
-#### Flag uses
-
-* **Adult** - Content inappropriate for minors.
-  (Sexual in nature, etc.)
-  Automatically hidden from minors and blurred to certain participants until reviewed.
-* **Abusive** - Content that is abusive to another participant or group.
-  (Racist, Hate speech, etc.)
-  Automatically hidden from minors and blurred to certain participants until reviewed.
-* **Explicit** - Content triggering in nature.
-  (Broken bones, medical operations, etc.)
-  Automatically hidden from minors and blurred to certain participants until reviewed.
-* **False** - Content that is false.
-  (False claims by participants, etc.)
-  Automatically hidden from minors and flag displayed to participants until reviewed.
-* **Dangerous** - Content that is unsafe.
-  (Don't try this at home)
-  Automatically hidden from minors and flag displayed to participants until reviewed.
-* **Inaccurate** - Information that is unintentionally incorrect.
-  (Shared fake news, etc.)
-  Automatically hidden from minors and flag displayed to participants until reviewed.
-* **Misleading** Content that is meant to mislead participants.
-  (Fake news, etc.)
-  Automatically hidden from minors and flag displayed to participants until reviewed.
-* **Violent** - any content that is violent or promotes violence.
-  Automatically hidden from minors and blurred to certain participants until reviewed.
-* **Infringement** - any content that infringes on the rights of participants.
-  (Non-consentual photographs, copyright, etc.)
-  Automatically hidden from minors and participants until reviewed.
 
 
 ## Projects
