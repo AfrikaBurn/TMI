@@ -2,7 +2,7 @@
 
 # Tribe Mobilisation Infrastructure
 
-Tools to empower and mobilise communities so that they may co-create. 
+Tools to empower and mobilise communities to co-create. 
 
 * **Find**, **create** and **share** resources.
 * **Cultivate**, **coordinate** and **collaborate** on projects.
