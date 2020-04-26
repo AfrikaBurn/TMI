@@ -7,9 +7,6 @@
 [submodule "components/web"]
 	path = components/web
 	url = https://github.com/AfrikaBurn/TMI-Web.git
-[submodule "components/learn"]
-	path = components/learn
-	url = https://github.com/moodle/moodle.git
 [submodule "components/inform"]
 	path = components/inform
 	url = https://github.com/seatable/seatable.git
