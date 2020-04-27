@@ -7,8 +7,8 @@ An integrated collection of [open source]() software arranged in a
 [microservice](https://microservices.io)(ish) architecture to empower a
 community to:
 
-* **Create**, **Find** and **Direct** resources.
-* **Co-create**, **Coordinate** and **collaborate** on projects.
+* **Create**, **Find** and **Share** resources.
+* **Co-create**, **Coordinate** and **collaborate on** projects.
 * **Share**, **Expand** and **Promote** knowledge.
 * **Inspire**, **Cultivate** and **Empower** people.
 * **Dream**, **Determine** and **Realise** a future.

@@ -7,3 +7,12 @@
 [submodule "components/web"]
 	path = components/web
 	url = https://github.com/AfrikaBurn/TMI-Web.git
+[submodule "access/drupal"]
+	path = access/drupal
+	url = git@github.com:AfrikaBurn/TMI-Access.git
+[submodule "components/decide/loomio"]
+	path = components/decide/loomio
+	url = git@github.com:AfrikaBurn/TMI-Decide.git
+[submodule "components/huddle/jitsi-meet"]
+	path = components/huddle/jitsi-meet
+	url = git@github.com:AfrikaBurn/TMI-Huddle.git
