@@ -22,3 +22,6 @@
 [submodule "components/face/jitsi"]
 	path = components/face/jitsi
 	url = git@github.com:AfrikaBurn/TMI-Face.git
+[submodule "components/decide"]
+	path = components/decide
+	url = https://github.com/loomio/loomio-deploy.git
