@@ -1,0 +1,9 @@
+[submodule "inform/seatable"]
+	path = inform/seatable
+	url = git@github.com:AfrikaBurn/TMI-Inform.git
+[submodule "learn/h5p-moodle-plugin"]
+	path = learn/h5p-moodle-plugin
+	url = git@github.com:AfrikaBurn/TMI-Learn-h5p.git
+[submodule "inventory/partkeepr"]
+	path = inventory/partkeepr
+	url = git@github.com:AfrikaBurn/TMI-Inventory.git
