@@ -1,27 +1,9 @@
-[submodule "components/volunteer"]
-	path = components/volunteer
-	url = https://github.com/playasoft/volunteers.git
-[submodule "components/collaborate"]
-	path = components/collaborate
-	url = https://github.com/loomio/loomio.git
-[submodule "components/web"]
-	path = components/web
-	url = https://github.com/AfrikaBurn/TMI-Web.git
-[submodule "components/inform"]
-	path = components/inform
-	url = https://github.com/seatable/seatable.git
-[submodule "components/bio/drupal"]
-	path = components/bio/drupal
-	url = git@github.com:AfrikaBurn/TMI-Bio.git
 [submodule "components/chat/rocket-chat"]
 	path = components/chat/rocket-chat
 	url = git@github.com:AfrikaBurn/TMI-Chat
 [submodule "components/cloud/nextcloud"]
 	path = components/cloud/nextcloud
 	url = git@github.com:AfrikaBurn/TMI-NextCloud.git
-[submodule "components/face/jitsi"]
-	path = components/face/jitsi
-	url = git@github.com:AfrikaBurn/TMI-Face.git
-[submodule "components/decide"]
-	path = components/decide
-	url = https://github.com/loomio/loomio-deploy.git
+[submodule "components/web"]
+	path = components/web
+	url = https://github.com/AfrikaBurn/TMI-Web.git
