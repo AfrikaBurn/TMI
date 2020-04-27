@@ -1,0 +1,27 @@
+[submodule "components/inform/seaform"]
+	path = components/inform/seaform
+	url = git@github.com:AfrikaBurn/TMI-Inform.git
+[submodule "components/learn/h5p-moodle-plugin"]
+	path = components/learn/h5p-moodle-plugin
+	url = git@github.com:AfrikaBurn/TMI-Learn-h5p.git
+[submodule "components/volunteer/playasoft-volunteers"]
+	path = components/volunteer/playasoft-volunteers
+	url = git@github.com:AfrikaBurn/TMI-Volunteer.git
+[submodule "components/inventory/partkeepr"]
+	path = components/inventory/partkeepr
+	url = git@github.com:AfrikaBurn/TMI-Inventory.git
+[submodule "components/decide/loomio"]
+	path = components/decide/loomio
+	url = git@github.com:AfrikaBurn/TMI-Decide.git
+[submodule "components/web/drupal"]
+	path = components/web/drupal
+	url = git@github.com:AfrikaBurn/TMI-Web.git
+[submodule "components/access/drupal"]
+	path = components/access/drupal
+	url = git@github.com:AfrikaBurn/TMI-Access.git
+[submodule "components/chat/rocket-chat"]
+	path = components/chat/rocket-chat
+	url = git@github.com:AfrikaBurn/TMI-chat.git
+[submodule "components/huddle/jitsi-meet"]
+	path = components/huddle/jitsi-meet
+	url = git@github.com:AfrikaBurn/TMI-Huddle.git
