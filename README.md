@@ -10,12 +10,16 @@ community to:
 * **Create**, **Find** and **Share** resources.
 * **Co-create**, **Coordinate** and **collaborate on** projects.
 * **Share**, **Expand** and **Promote** knowledge.
-* **Inspire**, **Cultivate** and **Empower** people.
+* **Inspire**, **Cultivate** and **Empower** people and their skills.
 * **Dream**, **Determine** and **Realise** a future.
 
 In an ecosystem that nurtures, protects and promotes its participants.
+Learn more about the [context](./docs/context.md), 
+[requirements](./docs/requirements.md) and 
+[information architecture](./docs/architecture.md) of the system.
 
-Learn more about the [context](./docs/context.md), [requirements](./docs/requirements.md) and [information architecture](./docs/architecture.md) of the system.
+
+## Proven and Candidate Software packages
 
 | Component |Description | Technology | Fork | Status |
 | -- | -- | -- | -- | -- |

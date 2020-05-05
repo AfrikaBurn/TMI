@@ -10,17 +10,29 @@ Represent, connect and collect participants.
 
 ### Visitor
 
-* As a visitor, I would like to create an account so I may interact with participants and collectives, create and register projects, and gain access to tickets.
-Ideally I should be added to a default AfrikaBurn collective on registration.
-* As a visitor, I would like to update my account so that my details are up to date. Ideally the system should remind me before a ticket sale.
-* As a visitor, I would like to be able to cancel my account so that I may no longer be part of the tribe or receive updates. Ideally the system should remove any personal detail permanently.
-* As a visitor, I would like to be able to log in so that I may use the toolset. Ideally the system should be able to remember me and log me in automatically.
-* As a visitor I would like to be able to retrieve my password so that I may access the toolset even when I have forgotten my details. Ideally the system should ask security questions or details to verify me.
+* As a visitor, I would like to create an account so I may interact with 
+  participants and collectives, create and register projects, and gain access to 
+  resources, systems tickets.
+  Ideally I should be added to a default AfrikaBurn collective on registration.
+* As a visitor, I would like to update my account so that my details are up to 
+  date. Ideally the system should remind me before a ticket sale.
+* As a visitor, I would like to be able to cancel my account so that I may no 
+  longer be part of the tribe or receive updates. Ideally the system should 
+  remove any personal detail permanently.
+* As a visitor, I would like to be able to log in so that I may use the toolset.
+  Ideally the system should be able to remember me and log me in automatically.
+* As a visitor I would like to be able to retrieve my password so that I may 
+  access the toolset even when I have forgotten my details. Ideally the system 
+  should ask security questions or details to verify me.
 
 
 ### Participant
 
-* As a participant I would like to be able to view my agreements, so that I may be able to see which collectives I belong to, which projects I have created and registered, and whatever other agreements like codes of conduct I have agreed to. Ideally the system should make it easy for me to view these based on projects, collectives and individuals.
+* As a participant I would like to be able to view my agreements, so that I may 
+  be able to see which collectives I belong to, which projects I have created 
+  and registered, and whatever other agreements like codes of conduct I have
+  agreed to. Ideally the system should make it easy for me to view these based
+  on projects, collectives and individuals.
 * As a participant I would like to be able to consent to agreements so that I may join collectives, become an administrator of collectives, manage my privacy, become a ranger, DPW member etc. Ideally the system should prepopulate these from existing information from my profiles.
 * As a participant I would like to be able to log out so that I may use the system on public computers in a secure manner. Ideally the system should ask whether I am using a public, computer and log me out automatically on those.
 * As a participant I would like to create collectives so that I may effectively group my communication with other participants, create and register projects, have discussions and plan and collaborate effectively.
@@ -178,15 +190,18 @@ and events.
 * As a visitor I want to search content so that I may quickly find useful informarion. Ideally search results will promote information discoverability.
 * As a visitor I want to sign up for the newsletter so that I may keep abreast of movement-wide happenings. Ideally such newsletters will promote community engagement.
 * As a visitor I want to contact the organisation so that I may access support. Ideally such enquiries would follow some research.
+* As a visitor I would like to complete training programs so that I may acculturate. Ideally successful completion would create an account, enable access to event tickets and additional systems within TMI.
 
 
 ### Participant
 
 * As a participant I want to contribute and maintain content so that visitors are encouraged to acculturate. Ideally content would be crowdsourced.
 * As a participant I want to upvote or flag content so that other participants or moderators respectively may be alerted. Ideally content would be self promoting and community moderated.
+* As a participant I would like to complete training programs so that I may learn new skills. Ideally these programs could unlock additional permissions, system functionality-, collaboration- and groups
 
 
 ### Editor
 
 * As an editor I want to be able to revert changes so that faulty updates may be reversed. Ideally revision would be reviewable and simple.
 * As an editor I want to publish or unpublish content so that community values may be promoted. Ideally editing will be crowsourced.
+* As an editor I would like to compose training programs so that I may teach new skills and help acculturate participants. Ideally the system would allow for triggers to allow the system to enable access to additional functionality, groups and collaboration.
