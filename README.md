@@ -19,7 +19,7 @@ Learn more about the [context](./docs/context.md),
 [information architecture](./docs/architecture.md) of the system.
 
 
-## Proven and Candidate Software packages
+## Identified Software
 
 | Component |Description | Technology | Fork | Status |
 | -- | -- | -- | -- | -- |
