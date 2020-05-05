@@ -3,14 +3,12 @@
 
 # Tribe Mobilisation Infrastructure
 
-An integrated collection of [open source]() software arranged in a 
-[microservice](https://microservices.io)(ish) architecture to empower a
-community to:
+Tools to empower communities to:
 
 * **Create**, **Find** and **Share** resources.
 * **Co-create**, **Coordinate** and **collaborate on** projects.
 * **Share**, **Expand** and **Promote** knowledge.
-* **Inspire**, **Cultivate** and **Empower** people and their skills.
+* **Cultivate**, **Educate** and **Inspire** people.
 * **Dream**, **Determine** and **Realise** a future.
 
 In an ecosystem that nurtures, protects and promotes its participants.

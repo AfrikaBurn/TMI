@@ -1,4 +1,7 @@
 {
-    "editor.wordWrapColumn": 0,
-    "editor.wordWrap": "off" 
+    "editor.wordWrapColumn": 1,
+    "editor.wordWrap": "off",
+    "[markdown]": {
+        "editor.wordWrap": "off", 
+    }
 }
