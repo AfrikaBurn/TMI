@@ -12,15 +12,28 @@ Tools to empower communities to:
 * **Dream**, **Determine** and **Realise** a future.
 
 In an ecosystem that nurtures, protects and promotes its participants.
-Learn more about the [context](./docs/context.md), 
-[requirements](./docs/requirements.md) and 
-[information architecture](./docs/architecture.md) of the system.
+
+
+## Analysis
+
+In order of increasing geekyness, you may want to learn more about the:
+* [context](./docs/context.md),
+* [requirements](./docs/requirements.md) and 
+* [theoretical information architecture](./docs/architecture.md) 
+
+of this ecosystem.
+
+
+## Functionality
+
+From the above analysis, certain top level functions become apparent. 
+These functions may be loosely grouped in four categories arranged around any
+arbitrary participant:
 
 ![Ecosystem](./docs/svg/Birds-Eye-View.svg)
 
 
-
-## Candidate Software Packages
+## Candidate software packages
 
 | Component |Description | Technology | Fork | Status |
 | -- | -- | -- | -- | -- |
