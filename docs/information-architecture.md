@@ -1,14 +1,16 @@
-# TMI Architecture
+# Blue Sky Information Architecture
 
-> Tools to empower and mobilise communities so that they may realise their own
-ideas.
+An organisation wide blue sky system analysis (and a few prototypes down the 
+line) revealed the underlying entities and relationships:
 
-![Ecosystem](./svg/Ecosystem.svg)
+![ERD](./svg/Entity-Relationship-Diagram.svg)
 
+Which could be normalised down to:
 
 ## People
 
 > Store and protect community data.
+> Represent, connect and collect participants.
 
 The people subsystem is intended to store participant's user login, profile,
 agreement, collective and post data in a secure manner that protects and
@@ -21,15 +23,12 @@ simple unified and permissable manner.
 ![Entity Relationships](./svg/People-Entity-Relationships.svg)
 
 
-
 ### Entity classes
 
 ![Entity Classes](./svg/People-Entity-Classes.svg)
 
 
 ## Tribe
-
-> Represent, connect and collect participants.
 
 The tribe subsystem is intended to be the social networking interface between
 participants that they may find and connect with other participants and share

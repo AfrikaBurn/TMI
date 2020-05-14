@@ -3,11 +3,11 @@
 
 # Tribe Mobilisation Infrastructure
 
-An ecosystem of online tools to nurture, protect and promote its participants:
+An ecosystem of online tools to nurture, protect and empower its participants:
 
 * **Create**, **Find** and **Share** resources.
+* **Catalise**, **Collaborate** on and **Achieve** projects.
 * **Collect**, **Expand** and **Promote** knowledge.
-* **Coordinate**, **collaborate on** and **realise** projects.
 * **Cultivate**, **Educate** and **Inspire** people.
 * **Dream**, **Determine** and **Realise** a future.
 
@@ -23,13 +23,13 @@ categories around every participant:
 ### Access
 
 The online tribe is made accessible through the Web, Wiki and Tokens. Examples 
-of tokens may include user authentication, event tickets or donations.
+of tokens may include user authentication, event tickets, subscriptions or donations.
 
 | Tool | Use | Project | Fork | Status |
 | -- | -- | -- | -- | -- |
-| Web    | Online brochureware      | [Drupal](https://drupal.org)                         | [TMI-Web](https://github.com/AfrikaBurn/TMI-Web)      | Being populated. 
-| Token  | System and event access  | [?](?) & [Drupal](https://drupal.org)                | [TMI-Access](https://github.com/AfrikaBurn/TMI-Access)| Authentication and quicket integration to be rescued from the [existing tribe system](https://github.com/afrikaburn/tribe).
-| Wiki   | Knowledge archive        | [MediaWiki](https://www.mediawiki.org/wiki/MediaWiki)| [TMI-Know](https://github.com/AfrikaBurn/TMI-Know)    | To be added to repo for evaluation. 
+| Web    | Online brochureware              | [Drupal](https://drupal.org)                         | [TMI-Web](https://github.com/AfrikaBurn/TMI-Web)       | Being populated. 
+| Token  | Token granting and distribution  | [?](?)                                               | [TMI-Token](https://github.com/AfrikaBurn/TMI-Access)  | Authentication and quicket integration to be rescued from the [existing tribe system](https://github.com/afrikaburn/tribe).
+| Wiki   | Knowledge archive                | [MediaWiki](https://www.mediawiki.org/wiki/MediaWiki)| [TMI-Know](https://github.com/AfrikaBurn/TMI-Know)     | To be added to repo for evaluation. 
 
 
 ### Personae
@@ -75,7 +75,5 @@ Managed and access Inventory.
 
 In order of increasing geekyness, you may want to learn more about the:
 * [context](./docs/context.md),
-* [requirements](./docs/requirements.md),
-* [information architecture](./docs/information-architecture.md)
-
-of this ecosystem.
+* [requirements](./docs/requirements.md) and
+* [blue sky information architecture](./docs/information-architecture.md)
