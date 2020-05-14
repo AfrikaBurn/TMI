@@ -61,8 +61,8 @@ Volunteering within their community.
 
 ### Projects
 
-Dreams of participants become ideas captured in the Cloud, then turned into 
-projects that may be Managed and access Inventory.
+Participants capture ideas in the Cloud, to turn them into projects that may be 
+Managed and access Inventory.
 
 | Tool | Use | Project | Fork | Status |
 | -- | -- | -- | -- | -- |
