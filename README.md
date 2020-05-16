@@ -3,54 +3,52 @@
 
 # Tribe Mobilisation Infrastructure
 
-An ecosystem of online tools to nurture, protect and empower its participants:
+An ecosystem of online tools to nurture, protect and empower participants to:
 
-* **Create**, **Find** and **Share** resources.
-* **Catalise**, **Collaborate** on and **Achieve** projects.
-* **Collect**, **Expand** and **Promote** knowledge.
-* **Cultivate**, **Educate** and **Inspire** people.
-* **Dream**, **Determine** and **Realise** a future.
+* **Create**, **Find** and **Share** resources
+* **Catalyse**, **Collaborate** on and **Achieve** projects
+* **Collect**, **Expand** and **Promote** knowledge
+* **Cultivate**, **Educate** and **Inspire** people
+* **Dream**, **Determine** and **Realise** a future
 
 
 ## The Tools
 
-Each tool, a complete open source project on it's own, is arranged in four 
-categories around every participant:
+Each tool, a complete open source project on its own, is arranged in four 
+categories around each participant:
 
 ![Ecosystem](./docs/svg/Ecosystem.svg)
 
 
 ### Access
 
-The online tribe is made accessible through the Web, Wiki and Tokens. Examples 
-of tokens may include user authentication, event tickets, subscriptions or donations.
+The tribe is made accessible through the Web, Wiki and Tokens.
+Tokens may include logins, subscriptions, sponsorships or gifts.
 
 | Tool | Use | Project | Fork | Status |
 | -- | -- | -- | -- | -- |
-| Web    | Online brochureware              | [Drupal](https://drupal.org)                         | [TMI-Web](https://github.com/AfrikaBurn/TMI-Web)       | Being populated. 
-| Token  | Token granting and distribution  | [?](?)                                               | [TMI-Token](https://github.com/AfrikaBurn/TMI-Access)  | Authentication and quicket integration to be rescued from the [existing tribe system](https://github.com/afrikaburn/tribe).
-| Wiki   | Knowledge archive                | [MediaWiki](https://www.mediawiki.org/wiki/MediaWiki)| [TMI-Know](https://github.com/AfrikaBurn/TMI-Know)     | To be added to repo for evaluation. 
+| Web    | Introductory website             | [Drupal](https://drupal.org)                         | [TMI-Web](https://github.com/AfrikaBurn/TMI-Web)       | Being populated. 
+| Token  | Token granting and distribution  | [Drupal](https://drupal.org) ...                     | [TMI-Token](https://github.com/AfrikaBurn/TMI-Token)   | Authentication and Quicket integration to be extracted from the [existing tribe system](https://github.com/afrikaburn/tribe).
+| Wiki   | Knowledge archive                | [MediaWiki](https://www.mediawiki.org/wiki/MediaWiki)| [TMI-Know](https://github.com/AfrikaBurn/TMI-Know)     | To be added to repo for evaluation.
 
 
 ### Personae
 
-Each participant has their own known (and anonymous) personae online as they
-express themselves radically through Chat, video conference Huddles and 
-audio/visual Streams.
+Each participant radically expresses themselves through chat, video and stream 
+personae.
 
 | Tool | Use | Project | Fork | Status |
 | -- | -- | -- | -- | -- |
-| Chat      | Social text chat and sharing  | [RocketChat](https://rocket.chat)         | [TMI-Chat](https://github.com/AfrikaBurn/TMI-Chat)      | Live. Social aspects to be developed.
-| Huddle    | Video conferencing            | [Jitsi](https://jitsi.org)                | [TMI-Huddle](https://github.com/AfrikaBurn/TMI-Huddle)  | Live.
-| Stream    | Audo/Visual streaming         | [~~MediaGoblin~~](http://mediagoblin.org) | [TMI-Stream](https://github.com/AfrikaBurn/TMI-Stream)  | Rejected - not working. 
+| Chat      | Social text chat and sharing      | [RocketChat](https://rocket.chat)         | [TMI-Chat](https://github.com/AfrikaBurn/TMI-Chat)      | Live. Social aspects to be developed.
+| Huddle    | Video conferencing                | [Jitsi](https://jitsi.org)                | [TMI-Huddle](https://github.com/AfrikaBurn/TMI-Huddle)  | Live.
+| Stream    | Text/Audio/Visual/Social streaming| [~~MediaGoblin~~](http://mediagoblin.org) | [TMI-Stream](https://github.com/AfrikaBurn/TMI-Stream)  | Rejected - not working. 
 
 
 ### Bio
 
-A participant builds social capital by how they invest in the community through 
-participation. Their bio is a testament of that investment. How civically 
-responsible they are by teaching, Learning, participation in Decisions and 
-Volunteering within their community.
+A participant builds social capital by investing in the community through 
+participation. Their bio is a testament to that in their learning, teaching, 
+decision making and volunteering within the community.
 
 | Tool | Use | Project | Fork | Status |
 | -- | -- | -- | -- | -- |
@@ -61,14 +59,15 @@ Volunteering within their community.
 
 ### Projects
 
-Participants capture ideas in the Cloud, to turn them into projects that may be 
-Managed and access Inventory.
+A participant captures ideas in the Cloud; these ideas turn into projects to be 
+managed. Within the same system assets related to the projects are able to be 
+inventoried and maintenance schedules introduced.
 
 | Tool | Use | Project | Fork | Status |
 | -- | -- | -- | -- | -- |
 | Cloud     | Data capturing/processing and information sharing/presentation suite. | [NextCloud](https://nextcloud.org)    | [TMI-Cloud](https://github.com/AfrikaBurn/TMI-Cloud)          | Pending evaluation.
 | Manage    | Project management.                                                   | [OpenProject](http://openproject.org) | [TMI-Manage](https://github.com/AfrikaBurn/TMI-Manage)        | To be added to repo for evaluation. 
-| Inventory | Asset maintenence and tracking.                                       | [PartKeepr](https://partkeepr.org)    | [TMI-Inventory](https://github.com/AfrikaBurn/TMI-Inventory)  | Pending evaluation. 
+| Inventory | Asset maintenance and tracking.                                       | [PartKeepr](https://partkeepr.org)    | [TMI-Inventory](https://github.com/AfrikaBurn/TMI-Inventory)  | Pending evaluation. 
 
 
 ## How'd we get here?
