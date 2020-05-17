@@ -16,8 +16,8 @@
 [submodule "components/web/drupal"]
 	path = components/web/drupal
 	url = git@github.com:AfrikaBurn/TMI-Web.git
-[submodule "components/access/drupal"]
-	path = components/access/drupal
+[submodule "components/token/access/drupal"]
+	path = components/token/access/drupal
 	url = git@github.com:AfrikaBurn/TMI-Access.git
 [submodule "components/chat/rocket-chat"]
 	path = components/chat/rocket-chat
