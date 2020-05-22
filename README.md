@@ -12,7 +12,7 @@ An ecosystem of online tools to nurture, protect and empower participants to:
 * **Dream**, **Determine** and **Realise** a future
 
 
-## The Tools
+## Participant Centric Tools
 
 Each tool, a complete open source project on its own, is arranged in four 
 categories around each participant:
