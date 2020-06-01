@@ -1,0 +1,2 @@
+clear
+sudo docker exec -it tmi_orchestration_token /bin/bash

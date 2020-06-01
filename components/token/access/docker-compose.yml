@@ -1,8 +1,17 @@
 version: '2'
-services:
-  web:
-    build: .
-    ports:
-      - '8080:80'
-      - '8443:443'
 
+services:
+
+  tmi_access_token:
+    container_name: tmi_access_token
+    env_file: .env
+    build:
+      context: .
+    ports:
+      - '10080:80'
+      - '10443:443'
+    volumes:
+      - ./local/config:/local/config
+      - ./local/private:/local/private
+      - ./local/data:/local/data
+      - ./local/log:/local/log

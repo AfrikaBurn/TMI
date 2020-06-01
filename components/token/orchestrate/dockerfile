@@ -1,0 +1,8 @@
+FROM swarmpit/install:1.8
+FROM swarmpit/swarmpit:1.8
+FROM swarmpit/agent:2.2
+
+
+LABEL Name="tmi_orchestration_token" Version=0.0.1
+
+# CMD docker swarm init --advertise-addr localhost
