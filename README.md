@@ -12,7 +12,7 @@ An ecosystem of online tools to nurture, protect and empower participants to:
 * **Dream**, **Determine** and **Realise** a future
 
 
-## The Tools
+## Participant Centric Toolset
 
 Each tool, a complete open source project on its own, is arranged in four 
 categories around each participant:
@@ -66,7 +66,7 @@ inventoried and maintenance schedules introduced.
 | Tool | Use | Project | Fork | Status |
 | -- | -- | -- | -- | -- |
 | Cloud     | Data capturing/processing and information sharing/presentation suite. | [NextCloud](https://nextcloud.org)    | [TMI-Cloud](https://github.com/AfrikaBurn/TMI-Cloud)          | Pending evaluation.
-| Manage    | Project management.                                                   | [OpenProject](http://openproject.org) | [TMI-Manage](https://github.com/AfrikaBurn/TMI-Manage)        | To be added to repo for evaluation. 
+| Manage    | Project management.                                                   | [OpenProject](http://openproject.org) | [TMI-Manage](https://github.com/AfrikaBurn/TMI-Manage)        | Being evaluated. 
 | Inventory | Asset maintenance and tracking.                                       | [PartKeepr](https://partkeepr.org)    | [TMI-Inventory](https://github.com/AfrikaBurn/TMI-Inventory)  | Pending evaluation. 
 
 
