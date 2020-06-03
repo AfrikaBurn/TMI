@@ -1,0 +1,84 @@
+@charset "utf-8";
+
+
+.foreground > footer{
+  position: relative;
+  font-size: 80%;
+  padding-bottom: 300px;
+}
+
+.foreground > footer img{
+  position: absolute;
+  width: 100%;
+  z-index: -1;
+  bottom: 0;
+}
+
+.region-footer{
+  padding-top: 150px;
+}
+
+
+/* ---- Legacy nav ---- */
+
+
+.region-footer .menu--footer > ul.menu{
+  display: flex;
+  justify-content: center;
+}
+
+.region-footer .menu--footer > ul.menu > .menu-item {
+  width: 20%;
+}
+
+.region-footer .menu--footer > ul.menu ul.menu {
+  padding-top: 10px;
+}
+
+.region-footer .menu--footer > ul.menu > .menu-item a{
+  text-transform: uppercase;
+  text-shadow: 0 0 2px #000;
+}
+
+.region-footer .menu--footer > ul.menu > .menu-item > a{
+  color: #f9a90c;
+  font-size: 110%;
+}
+
+.region-footer .menu--footer li{
+  list-style-type: none;
+  list-style-image: none;
+}
+
+
+/* ---- Legal ---- */
+
+
+.region-footer .menu--legalese{
+  color: #f9a90c;
+  text-align: center;
+}
+
+.region-footer .menu--legalese a{
+  color: #f9a90c;
+  text-transform: uppercase;
+  font-size: 95%;
+  font-weight: bold;
+}
+
+.region-footer .menu--legalese ul.menu{
+  display: flex;
+  justify-content: center;
+  padding: 50px 0;
+  margin: 0;
+}
+
+.region-footer .menu--legalese ul.menu li{
+  padding: 0 10px;
+  list-style-type: disc;
+  list-style-position: inside;
+}
+
+.region-footer .menu--legalese ul.menu li:first-child{
+  list-style-type: none;
+}

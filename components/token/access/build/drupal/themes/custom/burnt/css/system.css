@@ -1,0 +1,36 @@
+@charset "utf-8";
+
+.form--inline .form-item{
+  width: 25%;
+  margin: 0;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+.view-user-admin-people .form--inline .form-type-textfield{
+  width: 100%;
+}
+
+.view-user-admin-people .form--inline .form-item-permission{
+  width: 50%;
+}
+
+#edit-header .form-actions,
+.form--inline .form-actions{
+  margin-top: 20px;
+  margin-right: -62px;
+}
+
+.view-user-admin-people #edit-header,
+.views-exposed-form{
+  background: #ddd;
+  border-radius: 30px;
+  padding: 20px 20px 0 20px;
+  margin: 0 0 20px;
+}
+
+.view-user-admin-people .form-wrapper:after{
+  content: ' ';
+  display: block;
+  clear: both;
+}

@@ -1,0 +1,37 @@
+@charset "utf-8";
+
+
+/* ----- Global ----- */
+
+
+body{
+  background: #280E26;
+  color: #3e173e;
+  font-family: 'Lato', sans-serif;
+  font-size: 14pt;
+}
+
+a{
+  color: #e60;
+  text-decoration: none;
+}
+
+a:hover{
+  color: #d00;
+  text-decoration: underline;
+}
+
+strong a{
+  color: #d00;
+  white-space: nowrap;
+}
+
+h1, h2, h3 {
+  font-family: 'Julius Sans One';
+  text-transform: uppercase;
+  margin: 0 0 1em;
+}
+
+h1{ font-size: 200%;}
+h2{ font-size: 160%;}
+h3{ font-size: 140%;}

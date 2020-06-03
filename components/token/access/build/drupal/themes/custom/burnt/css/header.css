@@ -1,0 +1,50 @@
+@charset "utf-8";
+
+
+header{
+  max-width: 785px;
+  margin: 0 auto;
+}
+
+.page-front header .region-home{
+  text-align: center;
+}
+
+.page-front header .region-home img{
+  margin: -85px 0;
+  width: 420px;
+}
+
+.site-name a{
+  color: #000;
+  display: block;
+  font-size: 256%;
+  font-weight: bolder;
+  margin: 0.5em 0;
+  text-shadow: 0px 0px 10px rgba(255, 255, 180, 1);
+  text-transform: uppercase;
+}
+.site-name a:hover{
+  color: #000;
+  text-decoration: none;
+}
+
+.page-front .site-name a{
+  margin: 0;
+}
+
+.page-not-front header,
+.page-not-front header .region-home,
+.page-not-front #block-sigel{
+  display: flex;
+}
+
+.page-not-front a.site-logo,
+.page-not-front header .region-home .site-name{
+  margin: 0.5em 0;
+}
+
+.page-not-front #block-sigel img {
+  margin: -10px -30px -70px -75px;
+  height: 150px;
+}

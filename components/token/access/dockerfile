@@ -4,7 +4,8 @@ LABEL Name="tmi_access_token" Version=0.0.1
 
 # Prep
 RUN apt-get update && \
-    apt-get install -y software-properties-common expect
+    DEBIAN_FRONTEND=noninteractive \
+    apt-get install -y software-properties-common curl git unzip vim
 
 # MariaDB
 RUN apt-key adv \
@@ -13,7 +14,8 @@ RUN apt-key adv \
 RUN add-apt-repository 'deb [arch=amd64,arm64,ppc64el]\
     http://ftp.utexas.edu/mariadb/repo/10.3/ubuntu bionic main'
 RUN apt-get update  && \
-    DEBIAN_FRONTEND=noninteractive apt-get -y install mariadb-server && \
+    DEBIAN_FRONTEND=noninteractive \
+    apt-get -y install mariadb-server && \
     apt-get autoclean
 ADD build/mysql.config.sh .
 RUN rm -rf /var/lib/apt/lists/* && \
@@ -22,31 +24,41 @@ RUN bash mysql.config.sh && rm -f mysql.config.sh
 
 # Nginx
 RUN apt-add-repository ppa:ondrej/nginx
-RUN apt-get update && apt-get install -y nginx
+RUN apt-get update && apt-get install -y nginx && apt-get autoclean
 ADD build/nginx.conf /etc/nginx/nginx.conf
-RUN apt-get autoclean
-CMD nginx -g 'daemon off;'
 
 # PHP & PHP-FPM
 RUN apt-add-repository ppa:ondrej/php
 RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive \
     apt-get install -y \
-        php7.3 php7.3-fpm php7.3-cli php7.3-mbstring php7.3-xml php7.3-gd \
-        curl git unzip && \
+        php7.3 \
+        php7.3-fpm \
+        php7.3-cli \
+        php7.3-mbstring \
+        php7.3-xml \
+        php7.3-gd \
+        php7.3-mysql && \
     apt-get autoclean
 RUN echo 'listen.owner = www-data' >> /etc/php/7.3/fpm/pool.d/www.conf
 RUN echo 'listen.group = www-data' >> /etc/php/7.3/fpm/pool.d/www.conf
-RUN service php7.3-fpm start
-
-# Install Drupal
-WORKDIR /var/www/html
-ADD build/drupal drupal
-WORKDIR /var/www/html/drupal
 
 # Composer
 RUN curl -sS https://getcomposer.org/installer -o composer-setup.php
 RUN php \
     composer-setup.php --install-dir=/usr/local/bin --filename=composer &&\
     rm composer-setup.php
-RUN composer install
 
+# Drupal
+WORKDIR /var/www/html
+ADD build/drupal drupal
+RUN chown -R www-data:www-data /var/www/html/drupal
+WORKDIR /var/www/html/drupal
+RUN composer install
+RUN composer require drush/drush
+
+# Startup
+ENTRYPOINT \
+    service mysql start && \
+    service php7.3-fpm start && \
+    nginx -g "daemon off;"

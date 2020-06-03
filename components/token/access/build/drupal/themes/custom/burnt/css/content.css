@@ -1,0 +1,124 @@
+@charset "utf-8";
+
+
+/* ----- Prefix ----- */
+
+
+.block-views-blockevents-next-afrikaburn-date{
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.page-not-front .block-views-blockevents-next-afrikaburn-date{
+  position: absolute;
+  left: 83px;
+  top: -40px;
+}
+
+.page-not-front .block-views-blockevents-next-afrikaburn-date a{
+  color: #000;
+  text-shadow: 0px 0px 10px rgba(255, 255, 180, 1);
+}
+
+.page-not-front .block-views-blockevents-next-afrikaburn-date{
+  font-size: 130%;
+}
+
+
+/* ----- Main ----- */
+
+
+main{
+  max-width: 1024px;
+  margin: 0 auto;
+}
+
+.main-wrapper{
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.25);
+  margin: 0 80px;
+  opacity: 0.9;
+  padding: 40px 40px 40px;
+  position: relative;
+}
+
+
+/* ----- Bar Layout ----- */
+
+
+.layout-bars .layout-main-bar{
+  display: flex;
+}
+
+/*  1 and 3 */
+
+.region-left{
+  flex-basis: 30%;
+}
+
+.region-content{
+  flex-basis: 70%;
+}
+
+
+
+/* ----- Main Elements ----- */
+
+
+.messages{
+  background-image: none;
+  border-radius: 5px;
+  box-shadow: none;
+  margin: 0 -75px 40px;
+  padding: 40px 100px;
+  position: relative;
+
+}
+
+.messages:before{
+  position: absolute;
+  font-size: 70px;
+  left: 30px;
+  margin-top: -43px;
+  top: 50%;
+}
+
+.messages--status:before{
+  content: '\2713';
+  color: #77b259;
+}
+
+.block-help,
+.block-local-actions-block,
+table{
+    margin: 0 0 40px;
+}
+
+.breadcrumb{
+  background: #f0f0f0;
+  padding: 0.5em 40px;
+  margin: 0px -42px 40px -42px;
+  border-radius: 2.5px;
+}
+
+.button{
+  margin: 0 .25em;
+}
+
+.text-formatted img{
+  display: inline-block;
+  max-width: 100%;
+}
+
+.text-formatted .align-left{
+  padding: 5px 20px 5px 0;
+}
+
+.text-formatted .align-right{
+  padding: 5px 0 5px 20px;
+}
+
+p{
+  margin: 1em 0;
+}

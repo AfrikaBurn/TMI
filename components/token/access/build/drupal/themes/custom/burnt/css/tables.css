@@ -1,0 +1,40 @@
+@charset "utf-8";
+
+
+table{
+  font-size: 80%;
+  padding: 0 20px;
+  margin-bottom: 80px;
+  width: 100%;
+}
+
+table th{
+  text-align: left;
+  border-bottom: 1px solid;
+  padding: 10px 20px;
+}
+
+table tr.region-title td{
+  padding: 40px 5px 20px;
+}
+
+table tr td,
+table tr td.description{
+  vertical-align: top;
+  padding: 20px 20px 10px;
+  text-align: left;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+table tr td ul{
+  margin: 0;
+  padding: 0;
+}
+
+dd{
+  margin: 10px 0 40px 40px;
+}
+
+table tr:hover{
+  background: #f0f0f0;
+}

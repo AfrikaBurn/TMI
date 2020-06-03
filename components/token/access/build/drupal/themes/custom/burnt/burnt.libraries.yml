@@ -1,0 +1,22 @@
+global:
+  js:
+    js/burnt.js: {}
+  css:
+    theme:
+      css/background.css: {}
+      css/header.css: {}
+      css/global.css: {}
+      css/typeset.css: {}
+      css/icons.css: {}
+      css/forms.css: {}
+      css/footer.css: {}
+      css/tabs.css: {}
+      css/tables.css: {}
+      css/content.css: {}
+      css/book.css: {}
+      css/system.css: {}
+
+front:
+  css:
+    theme:
+      css/front.css: {}

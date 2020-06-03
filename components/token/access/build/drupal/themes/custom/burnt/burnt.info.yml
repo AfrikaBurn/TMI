@@ -1,0 +1,21 @@
+name: Burnt
+type: theme
+description: 'A light pretty desert theme for AfrikaBurn.'
+core: 8.x
+libraries:
+  - burnt/global
+base theme: classy
+regions:
+  slider: Background slider
+  home: Hearder home navigation
+  navigation: Header navigation
+  updates: Header updates
+  prefix: Prefix
+  left: Left
+  content: Content
+  right: Right
+  suffix: Suffix
+  footer: Footer
+logo: logo.png
+screenshot: screenshot.png
+favicon: favicon.ico

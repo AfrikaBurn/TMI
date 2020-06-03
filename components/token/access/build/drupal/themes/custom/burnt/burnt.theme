@@ -1,0 +1,23 @@
+<?php
+
+/**
+ * Implements hook_preprocess_page()
+ * Attached frontpage style.
+ */
+function burnt_preprocess_page(&$variables) {
+  if (\Drupal::service('path.matcher')->isFrontPage()) {
+    $variables['#attached']['library'][] = 'burnt/front';
+  }
+}
+
+/**
+ * Implements hook_preprocess_views_view_fields().
+ */
+function burnt_preprocess_views_view_fields(&$variables) {
+  if ($variables['view']->id() == 'book_pages'){
+    $node = \Drupal::routeMatch()->getParameter('node');
+    if ($node->id() == $variables['row']->nid){
+      $variables['fields']['title']->wrapper_attributes->addClass('current');
+    }
+  }
+}

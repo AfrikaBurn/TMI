@@ -13,4 +13,3 @@ services:
       - './local/private:/local/private'
       - './local/data:/local/data'
       - './local/log:/local/log'
-

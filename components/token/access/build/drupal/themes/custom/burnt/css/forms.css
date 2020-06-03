@@ -1,0 +1,121 @@
+@charset "utf-8";
+
+
+.button,
+.form-text,
+.form-search,
+.form-textarea,
+.form-select{
+  background: #fff;
+  border-radius: 5px;
+  border-width: 1px;
+  font-size: 90%;
+  outline-color: #e60;
+  padding: 5px 10px;
+}
+
+.form-text,
+.form-search,
+.form-textarea{
+  box-shadow: inset 0 2px 5px 0 rgba(0,0,0,0.1);
+  box-sizing: border-box;
+}
+
+.form-text,
+.form-search,
+.form-textarea,
+.form-select{
+  min-width: 100%;
+  width: 100%;
+}
+
+form .button,
+.js .dropbutton-widget{
+  font-size: 80%;
+  text-transform: uppercase;
+}
+.form-select{
+  box-shadow: inset 0 -5px 10px 0 rgba(0,0,0,0.1);
+}
+
+.js .dropbutton-widget{
+  border-color: #e60;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.js .dropbutton-widget:hover{
+  border-color: #e60;
+}
+
+.js .dropbutton-widget a:hover{
+  background-color: #e60;
+  color: #fff;
+}
+
+.js .dropbutton-widget a:hover{
+  color: #fff;
+}
+
+.button{
+  border: 1px solid #e60;
+  display: inline-block;
+  border-radius: 20px;
+  color: #e60;
+  outline: none;
+}
+
+.button:hover{
+  background-color: #e60;
+  color: #fff;
+  text-decoration: none;
+}
+
+.button:active{
+  color: #e60;
+  background-color: #730;
+}
+
+form .form-item{
+  margin: 0 0 20px;
+}
+
+.description{
+  color: #936a93;
+  padding: 5px 10px;
+}
+
+form .form-actions .button{
+  padding: 10px 30px;
+}
+
+summary{
+  white-space: pre-wrap;
+}
+
+details summary{
+  outline: none;
+  padding: 10px;
+}
+
+details .details-wrapper{
+  padding-bottom: 40px;
+}
+
+.compact-link{
+  text-align: right;
+}
+
+.form-actions{
+  background: #f0f0f0;
+  padding: 10px 40px 10px 10px;
+  margin: 80px -42px 0 0;
+  border-radius: 30px 2px 2px 30px;
+  float: right;
+}
+
+form:after{
+  display: block;
+  content: '';
+  clear: both;
+}

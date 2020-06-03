@@ -266,7 +266,7 @@ $databases = [];
  *   $settings['hash_salt'] = file_get_contents('/home/example/salt.txt');
  * @endcode
  */
-$settings['hash_salt'] = '';
+$settings['hash_salt'] = 'LPL95fmeGdFnuUALYB8EBpuPsD3sHHYE6TVPtbiXOJjFYnHoGQzH4_R0SAlE8hUCn1OTubz07w';
 
 /**
  * Deployment identifier.
@@ -755,24 +755,14 @@ $settings['entity_update_backup'] = TRUE;
 # if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
 #   include $app_root . '/' . $site_path . '/settings.local.php';
 # }
-
-/**
- * @file
- * Drupal site-specific configuration file.
- */
-$databases['default']['default'] = [
-  'host' => 'localhost',
-  'port' => 3306,
-  'database' => 'tmi_access_token',
-  'username' => 'tmi_access_token',
-  'password' => 'tmi_access_token',
-  'driver' => 'mysql',
+$databases['default']['default'] = array (
+  'database' => 'tmi_access_token_db',
+  'username' => 'tmi_access_token_user',
+  'password' => 'tmi_access_token_pass',
   'prefix' => '',
-  'collation' => 'utf8mb4_general_ci',
-];
-
-/**
- * Salt for one-time login links, cancel links, form tokens, etc.
- */
-// $settings['hash_salt'] = '0djnT49CtQ2nLdfT3Q7thpY5g93l2FudQy7iBFZAjaJCeYDSI3EotTkyrGczs1o0DXT-eteoOQ';
-$settings['hash_salt'] = '';
+  'host' => 'localhost',
+  'port' => '3306',
+  'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
+  'driver' => 'mysql',
+);
+$settings['config_sync_directory'] = '/local/config/sync';

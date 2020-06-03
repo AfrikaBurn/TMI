@@ -1,0 +1,173 @@
+@charset "utf-8";
+
+
+/* ----- Header ----- */
+
+
+header .region-home{
+  text-align: center;
+}
+
+header .region-home img{
+  margin: -85px 0;
+  width: 420px;
+}
+
+header .region-home .site-name{
+  display: block;
+  top: 0px;
+}
+
+
+/* ----- Prefix ----- */
+
+
+.page-front .block-views-blockevents-next-afrikaburn-date{
+  font-size: 120%;
+  margin-top: -40px;
+}
+
+/* ----- Call to Action ----- */
+
+
+.block-region-top{
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -50px;
+}
+
+.block-region-top .block.block-block-content{
+  flex-basis: 33%;
+  text-align: center;
+}
+
+.block-region-top .block.block-block-content .field{
+  padding: 10px;
+  margin: 0 auto;
+  width: 230px;
+}
+
+@media (max-width: 750px){
+  .block-region-top{
+    margin: 0;
+  }
+
+  .block-region-top .block.block-block-content{
+    flex-basis: 100%;
+    margin: 0 100px;
+    text-align: left;
+  }
+
+  .block-region-top .block.block-block-content .field img{
+    float: left;
+    margin-right: 20px;
+  }
+
+  .block-region-top .block.block-block-content .field{
+    padding: 0;
+    margin: 0 auto;
+    width: auto;
+  }
+}
+
+.block.block-block-content .field p{
+  margin: 1em 0 0;
+}
+.block.block-block-content .field h2{
+  margin: 1em 0 0;
+}
+
+
+/* ----- Slider ----- */
+
+
+.block-views-blockslideshow-front-page{
+  display: block;
+  /* height: 300px; */
+  width: 120%;
+
+  position: relative;
+  left: 50%;
+  margin-left: -60%;
+  flex-basis: 100%;
+}
+
+.block-views-blockslideshow-front-page .slick--view--slideshow{
+  display: block;
+  height: 200px;
+  margin: 20px 20px 40px;
+}
+
+.block-views-blockslideshow-front-page .slick--view--slideshow img{
+  margin-top: 10px;
+  width: 90%;
+  border: 1px solid #ffffff99;
+  box-shadow: 0 0 10px 0px #00000033;
+  border-radius: 3px;
+}
+
+.block-views-blockslideshow-front-page .slick--view--slideshow .slick-arrow{
+  height: 80px;
+  width: 30px;
+}
+
+.block-views-blockslideshow-front-page .slick--view--slideshow .slick-arrow::before{
+  font-size: 80px;
+  display: block;
+  height: 80px;
+  margin-top: -85%;
+  line-height: 80px;
+}
+.block-views-blockslideshow-front-page .slick--view--slideshow .slick-arrow:hover::before{
+  color: #d00;
+}
+
+.block-views-blockslideshow-front-page .slick--view--slideshow .slick-prev::before{
+  content: '\2329';
+}
+.block-views-blockslideshow-front-page .slick--view--slideshow .slick-prev{
+  margin-left: -20px;
+}
+
+.block-views-blockslideshow-front-page .slick--view--slideshow .slick-next::before{
+  content: '\232a';
+}
+.block-views-blockslideshow-front-page .slick--view--slideshow .slick-next{
+  margin-right: -20px;
+}
+
+
+
+/* ----- Blogs ----- */
+
+
+.block-region-bottom .view-content{
+  display: flex;
+  flex-wrap: wrap;
+  align-content: stretch;
+  justify-content: space-between;
+}
+
+.block-region-bottom .view-content .views-row{
+  flex-basis: 30%;
+  padding: 0 10px;
+}
+
+.block-region-bottom .view-content .views-row h3{
+  height: 2.5em;
+  margin-bottom: 0;
+}
+
+.block-region-bottom .view-content .views-row img{
+  width: 100%;
+  height: auto;
+}
+
+.block-region-bottom .view-content .views-row .field--name-node-post-date{
+  margin-bottom: 2em;
+}
+
+.block-region-bottom .block.block-block-content{
+  text-transform: uppercase;
+  text-align: center;
+}
