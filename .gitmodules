@@ -37,6 +37,3 @@
 [submodule "components/admin"]
 	path = components/admin
 	url = https://github.com/AfrikaBurn/TMI-Admin.git
-[submodule "components/token/access"]
-	path = components/token/access
-	url = https://github.com/AfrikaBurn/TMI-Access.git
