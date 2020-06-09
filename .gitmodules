@@ -34,9 +34,6 @@
 [submodule "components/know/wiki.js"]
 	path = components/know/wiki.js
 	url = git@github.com:AfrikaBurn/TMI-Know.git
-[submodule "components/token/access/drupal"]
-	path = components/token/access/drupal
-	url = https://github.com/AfrikaBurn/TMI-Access.git
 [submodule "components/admin"]
 	path = components/admin
 	url = https://github.com/AfrikaBurn/TMI-Admin.git
