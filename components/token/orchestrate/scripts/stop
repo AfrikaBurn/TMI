@@ -1,2 +1,0 @@
-clear
-sudo docker stop tmi_orchestration_token

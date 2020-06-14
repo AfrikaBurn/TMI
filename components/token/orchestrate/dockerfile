@@ -1,3 +1,0 @@
-FROM swarmpit/swarmpit
-
-LABEL Name="tmi_orchestration_token" Version=0.0.1
