@@ -1,2 +1,0 @@
-clear
-docker stop tmi_access_token

@@ -1,3 +1,0 @@
-docker container inspect \
-   -f '{{ range .Mounts }}{{ .Name }}:{{ .Destination }} {{ end }}' \
-   tmi_access_token

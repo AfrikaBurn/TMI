@@ -1,2 +1,0 @@
-sudo docker rmi $(sudo docker images -q) --force
-sudo docker rm $(sudo docker containers -q) --force

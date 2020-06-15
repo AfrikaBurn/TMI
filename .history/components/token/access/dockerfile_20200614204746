@@ -1,4 +1,0 @@
-FROM mariadb
-FROM keycloak
-
-LABEL key="value"
