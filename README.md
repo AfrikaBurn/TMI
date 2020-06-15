@@ -12,19 +12,20 @@ An ecosystem of online tools to nurture, protect and empower participants to:
 * **Dream**, **Determine** and **Realise** a future
 
 
-## Participant Centric Toolset
-
-Each tool, a complete open source project on its own, is arranged in four
-categories around each participant:
-
-![Ecosystem](./docs/svg/Ecosystem.svg)
-
 ### How'd we get here?
 
 In order of increasing geekyness, you may want to learn more about the:
 * [context](./docs/context.md),
 * [requirements](./docs/requirements.md) and
 * [blue sky information architecture](./docs/information-architecture.md)
+
+
+## A participant centric toolset
+
+Each tool, a complete open source project on its own, is arranged in four
+categories around each participant:
+
+![Ecosystem](./docs/svg/Ecosystem.svg)
 
 
 ### Access
