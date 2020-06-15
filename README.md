@@ -89,6 +89,7 @@ inventoried and maintenance schedules introduced.
 ## Where to now?
 
 TMI is being implemented as a collection of loosely integrated, containerised
-microservices operated using [Kubernetes](https://kubernetes.io) or
-[Swarmpit](https://swarmpit.io), integrated using [Node.js](https://nodejs.org)
-and [React](https://reactjs.org).
+micro service operated using [Docker](https://docker.io) and
+[Swarmpit](https://swarmpit.io), integrated using
+[Node.js](https://nodejs.org) and [React](https://reactjs.org) - or whatever the
+fuck works ;)
