@@ -1,0 +1,16 @@
+echo "DANGER DANGER DANGER"
+
+echo "ARE YOU FUCKING SURE? THIS WILL DELETE ALL CONTAINERS! (Y/n)"
+read $sure
+
+if [$sure == 'Y']
+
+    echo "Are you absolutely sure you want to fucking purge them (Y/n)"
+    read $sure
+
+    if [$sure == 'Y']
+        docker stop $(docker ps -a -q)
+        docker rm $(docker ps -a -q)
+        docker system prune -a
+    fi
+fi

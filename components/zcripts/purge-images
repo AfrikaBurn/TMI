@@ -1,0 +1,16 @@
+echo "DANGER DANGER DANGER"
+
+echo "ARE YOU FUCKING SURE? THIS WILL DELETE ALL IMAGES! (Y/n)"
+read $sure
+
+if [$sure == 'Y']
+
+    echo "Are you absolutely sure you want to fucking purge images (Y/n)"
+    read $sure
+
+    if [$sure == 'Y']
+        docker stop $(docker ps -a -q)
+        docker rmi $(docker images -a -q)
+        docker system prune
+    fi
+fi

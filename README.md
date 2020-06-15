@@ -14,7 +14,7 @@ An ecosystem of online tools to nurture, protect and empower participants to:
 
 ## Participant Centric Toolset
 
-Each tool, a complete open source project on its own, is arranged in four 
+Each tool, a complete open source project on its own, is arranged in four
 categories around each participant:
 
 ![Ecosystem](./docs/svg/Ecosystem.svg)
@@ -27,14 +27,17 @@ Tokens may include logins, subscriptions, sponsorships or gifts.
 
 | Tool | Use | Project | Fork | Status |
 | -- | -- | -- | -- | -- |
-| Web    | Introductory website             | [Drupal](https://drupal.org)                         | [TMI-Web](https://github.com/AfrikaBurn/TMI-Web)       | Being populated. 
-| Token  | Token granting and distribution  | [Drupal](https://drupal.org) ...                     | [TMI-Token](https://github.com/AfrikaBurn/TMI-Token)   | Authentication and Quicket integration to be extracted from the [existing tribe system](https://github.com/afrikaburn/tribe).
-| Wiki   | Knowledge archive                | [MediaWiki](https://www.mediawiki.org/wiki/MediaWiki)| [TMI-Know](https://github.com/AfrikaBurn/TMI-Know)     | To be added to repo for evaluation.
+| Web    | Introductory website             | [Drupal](https://drupal.org)                          | [TMI-Web](https://github.com/AfrikaBurn/TMI-Web)                   | Being populated.
+| Token  | Token granting and distribution  |
+|        | System access control            | [OpenLDAP](openldap.org)                              | [TMI-Access-Token](https://github.com/AfrikaBurn/TMI-Access-Token) | Users to be migrated from [existing tribe system](https://github.com/afrikaburn/tribe).
+|        |                                  | [Keycloak](https://www.keycloak.org/)                 |                                                                    | To be configured to connect to LDAP and expose OAuth etc.
+|        | Event Ticketing                  | [Drupal](https://www.drupal.org/)                     | To be forked.                                                      | Quicket integration to be extracted from the [existing tribe system](https://github.com/afrikaburn/tribe).
+| Wiki   | Knowledge archive                | [MediaWiki](https://www.mediawiki.org/wiki/MediaWiki) | [TMI-Know](https://github.com/AfrikaBurn/TMI-Know)                 | To be added to repo for evaluation.
 
 
 ### Personae
 
-Each participant radically expresses themselves through chat, video and stream 
+Each participant radically expresses themselves through chat, video and stream
 personae.
 
 | Tool | Use | Project | Fork | Status |
@@ -46,28 +49,28 @@ personae.
 
 ### Bio
 
-A participant builds social capital by investing in the community through 
-participation. Their bio is a testament to that in their learning, teaching, 
+A participant builds social capital by investing in the community through
+participation. Their bio is a testament to that in their learning, teaching,
 decision making and volunteering within the community.
 
 | Tool | Use | Project | Fork | Status |
 | -- | -- | -- | -- | -- |
-| Learn     | Learning management.                      | [Moodle](https://moodle.org) & [h5p](https://h5p.org)| [TMI-Learn-Moodle](https://github.com/AfrikaBurn/TMI-Learn-Moodle) & [TMI-Learn-h5p](https://github.com/AfrikaBurn/TMI-Learn-h5p) | Pending evaluation. 
+| Learn     | Learning management.                      | [Moodle](https://moodle.org) & [h5p](https://h5p.org)| [TMI-Learn-Moodle](https://github.com/AfrikaBurn/TMI-Learn-Moodle) & [TMI-Learn-h5p](https://github.com/AfrikaBurn/TMI-Learn-h5p) | Pending evaluation.
 | Decide    | Collaborative decision making.            | [Loomio](https://loomio.org)                         | [TMI-Decide](https://github.com/AfrikaBurn/TMI-Decide)                                                                            | Evaluating.
-| Volunteer | Volunteer, Event and Shift management.    | [Volunteers](https://github.com/playasoft/volunteers)| [TMI-Volunteer](https://github.com/AfrikaBurn/TMI-Volunteer)                                                                      | Pending evaluation. 
+| Volunteer | Volunteer, Event and Shift management.    | [Volunteers](https://github.com/playasoft/volunteers)| [TMI-Volunteer](https://github.com/AfrikaBurn/TMI-Volunteer)                                                                      | Pending evaluation.
 
 
 ### Projects
 
-A participant captures ideas in the Cloud; these ideas turn into projects to be 
-managed. Within the same system assets related to the projects are able to be 
+A participant captures ideas in the Cloud; these ideas turn into projects to be
+managed. Within the same system assets related to the projects are able to be
 inventoried and maintenance schedules introduced.
 
 | Tool | Use | Project | Fork | Status |
 | -- | -- | -- | -- | -- |
-| Cloud     | Data capturing/processing and information sharing/presentation suite. | [NextCloud](https://nextcloud.org)    | [TMI-Cloud](https://github.com/AfrikaBurn/TMI-Cloud)          | Pending evaluation.
-| Manage    | Project management.                                                   | [OpenProject](http://openproject.org) | [TMI-Manage](https://github.com/AfrikaBurn/TMI-Manage)        | Being evaluated. 
-| Inventory | Asset maintenance and tracking.                                       | [PartKeepr](https://partkeepr.org)    | [TMI-Inventory](https://github.com/AfrikaBurn/TMI-Inventory)  | Pending evaluation. 
+| Cloud     | Cloud office, data capturing/processing and information sharing/presentation suite.   | [NextCloud](https://nextcloud.org)    | [TMI-Cloud](https://github.com/AfrikaBurn/TMI-Cloud)          | Pending evaluation.
+| Manage    | Project management.                                                                   | [OpenProject](http://openproject.org) | [TMI-Manage](https://github.com/AfrikaBurn/TMI-Manage)        | Being evaluated.
+| Inventory | Asset maintenance and tracking.                                                       | [PartKeepr](https://partkeepr.org)    | [TMI-Inventory](https://github.com/AfrikaBurn/TMI-Inventory)  | Pending evaluation.
 
 
 ## How'd we get here?
