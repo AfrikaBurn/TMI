@@ -19,6 +19,13 @@ categories around each participant:
 
 ![Ecosystem](./docs/svg/Ecosystem.svg)
 
+### How'd we get here?
+
+In order of increasing geekyness, you may want to learn more about the:
+* [context](./docs/context.md),
+* [requirements](./docs/requirements.md) and
+* [blue sky information architecture](./docs/information-architecture.md)
+
 
 ### Access
 
@@ -42,7 +49,9 @@ personae.
 
 | Tool | Use | System | Fork | Status |
 | -- | -- | -- | -- | -- |
-| Chat      | Social text chat and sharing      | [RocketChat](https://rocket.chat)         | [TMI-Chat](https://github.com/AfrikaBurn/TMI-Chat)      | Live. Social aspects to be developed.
+| Social    | Online social interaction
+|           | Text chat                         | [RocketChat](https://rocket.chat)         | [TMI-Chat](https://github.com/AfrikaBurn/TMI-Chat)      | Live. Social aspects to be developed.
+|           | Social network and sharing        | TBDs
 | Huddle    | Video conferencing                | [Jitsi](https://jitsi.org)                | [TMI-Huddle](https://github.com/AfrikaBurn/TMI-Huddle)  | Live.
 | Stream    | Text/Audio/Visual/Social streaming| [~~MediaGoblin~~](http://mediagoblin.org) | [TMI-Stream](https://github.com/AfrikaBurn/TMI-Stream)  | To be found.
 
@@ -55,7 +64,9 @@ decision making and volunteering within the community.
 
 | Tool | Use | System | Fork | Status |
 | -- | -- | -- | -- | -- |
-| Learn     | Learning management.                      | [Moodle](https://moodle.org) & [h5p](https://h5p.org)| [TMI-Learn-Moodle](https://github.com/AfrikaBurn/TMI-Learn-Moodle) & [TMI-Learn-h5p](https://github.com/AfrikaBurn/TMI-Learn-h5p) | Pending evaluation.
+| Learn     | Learning and acculturation
+|           | Learning platform.                        | [Moodle](https://moodle.org) & [h5p](https://h5p.org)| [TMI-Learn-Moodle](https://github.com/AfrikaBurn/TMI-Learn-Moodle) & [TMI-Learn-h5p](https://github.com/AfrikaBurn/TMI-Learn-h5p) | Pending evaluation.
+|           | Experience and interactive enhancement.   | [Moodle](https://moodle.org) & [h5p](https://h5p.org)| [TMI-Learn-Moodle](https://github.com/AfrikaBurn/TMI-Learn-Moodle) & [TMI-Learn-h5p](https://github.com/AfrikaBurn/TMI-Learn-h5p) | Pending evaluation.
 | Decide    | Collaborative decision making.            | [Loomio](https://loomio.org)                         | [TMI-Decide](https://github.com/AfrikaBurn/TMI-Decide)                                                                            | Evaluating.
 | Volunteer | Volunteer, Event and Shift management.    | [Volunteers](https://github.com/playasoft/volunteers)| [TMI-Volunteer](https://github.com/AfrikaBurn/TMI-Volunteer)                                                                      | Pending evaluation.
 
@@ -74,9 +85,9 @@ inventoried and maintenance schedules introduced.
 | Budget    | Financial planning and tracking.                                                      | TBD
 
 
-## How'd we get here?
+## Where to now?
 
-In order of increasing geekyness, you may want to learn more about the:
-* [context](./docs/context.md),
-* [requirements](./docs/requirements.md) and
-* [blue sky information architecture](./docs/information-architecture.md)
+TMI is being implemented as a collection of loosely integrated, containerised
+microservices operated using [Kubernetes](https://kubernetes.io) or
+[Swarmpit](https://swarmpit.io), integrated using [Node.js](https://nodejs.org)
+and [React](https://reactjs.org).
