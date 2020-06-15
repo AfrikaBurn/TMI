@@ -22,3 +22,9 @@ node_modules/
 
 # Output of 'npm pack'
 *.tgz
+
+# History
+.history
+
+# VSCode
+.vscode
