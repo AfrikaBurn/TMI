@@ -1,0 +1,38 @@
+version: '2'
+
+services:
+
+  mysql:
+    container_name: mariadb
+    env_file: mariadb.env
+    image: mysql
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  ldap:
+    container_name: ldap
+    env_file: openldap.env
+    build: ./build/openldap/image
+    ports:
+      - '11389:389'
+      - '11636:636'
+    volumes:
+      - ldap_config:/etc/ldap/slapd.d
+      - ldap_data:/var/lib/ldap
+    depends_on:
+      - "mysql"
+
+  keycloak:
+    container_name: keycloak
+    env_file: keycloak.env
+    image: jboss/keycloak
+    ports:
+      - '11080:8080'
+      - '11443:443'
+    depends_on:
+      - "ldap"
+
+volumes:
+  mysql_data:
+  ldap_config:
+  ldap_data:

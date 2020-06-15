@@ -1,0 +1,5 @@
+docker stop $(docker ps -a -q)
+docker volume rm $(docker volume ls -q)
+docker start $(docker ps -a -q)
+
+docker system prune -a
