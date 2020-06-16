@@ -66,10 +66,10 @@ decision making and volunteering within the community.
 | Tool | Use | System | Fork | Status |
 | -- | -- | -- | -- | -- |
 | Learn     | Learning and acculturation
-|           | Learning platform.                        | [Moodle](https://moodle.org) & [h5p](https://h5p.org)| [TMI-Learn-Moodle](https://github.com/AfrikaBurn/TMI-Learn-Moodle) & [TMI-Learn-h5p](https://github.com/AfrikaBurn/TMI-Learn-h5p) | Pending evaluation.
-|           | Experience and interactive enhancement.   | [Moodle](https://moodle.org) & [h5p](https://h5p.org)| [TMI-Learn-Moodle](https://github.com/AfrikaBurn/TMI-Learn-Moodle) & [TMI-Learn-h5p](https://github.com/AfrikaBurn/TMI-Learn-h5p) | Pending evaluation.
-| Decide    | Collaborative decision making.            | [Loomio](https://loomio.org)                         | [TMI-Decide](https://github.com/AfrikaBurn/TMI-Decide)                                                                            | Evaluating.
-| Volunteer | Volunteer, Event and Shift management.    | [Volunteers](https://github.com/playasoft/volunteers)| [TMI-Volunteer](https://github.com/AfrikaBurn/TMI-Volunteer)                                                                      | Pending evaluation.
+|           | Learning platform.                        | [Moodle](https://moodle.org)                          | [TMI-Learn-Moodle](https://github.com/AfrikaBurn/TMI-Learn-Moodle)| Pending evaluation.
+|           | Experience and interactive enhancement.   | [h5p](https://h5p.org)                                | [TMI-Learn-h5p](https://github.com/AfrikaBurn/TMI-Learn-h5p) | Pending evaluation.
+| Decide    | Collaborative decision making.            | [Loomio](https://loomio.org)                          | [TMI-Decide](https://github.com/AfrikaBurn/TMI-Decide)                                                                            | Evaluating.
+| Volunteer | Volunteer, Event and Shift management.    | [Volunteers](https://github.com/playasoft/volunteers) | [TMI-Volunteer](https://github.com/AfrikaBurn/TMI-Volunteer)                                                                      | Pending evaluation.
 
 
 ### Projects

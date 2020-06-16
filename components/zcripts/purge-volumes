@@ -1,16 +1,23 @@
+clear;
+
 echo "DANGER DANGER DANGER"
 
-echo "ARE YOU FUCKING SURE? THIS WILL DELETE ALL IMAGES! (Y/n)"
-read $sure
+echo "ARE YOU FUCKING SURE? THIS WILL DELETE ALL VOLUMES! (Y/n)"
+read sure
 
-if [$sure == 'Y']
+if [ "$sure" == "Y" ];
+then
+    echo "Are you absolutely sure you want to fucking purge volumes, no take backsies? (Y/n)"
+    read sure
 
-    echo "Are you absolutely sure you want to fucking purge images (Y/n)"
-    read $sure
-
-    if [$sure == 'Y']
+    if [ "$sure" == "Y" ];
+    then
         docker stop $(docker ps -a -q)
         docker volume rm $(docker volume ls -q)
-        docker system prune -a
+        echo "Aaaaarghh... PURGED AF"
+    else
+        echo "PHEW ok fok, I'm STILL ALIVE :)"
     fi
+else
+    echo "Righty-ho, still here. He he."
 fi
