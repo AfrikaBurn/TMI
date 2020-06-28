@@ -50,11 +50,10 @@ personae.
 
 | Tool | Use | System | Fork | Status |
 | -- | -- | -- | -- | -- |
-| Social    | Online social interaction
-|           | Text chat                         | [RocketChat](https://rocket.chat)         | [TMI-Chat](https://github.com/AfrikaBurn/TMI-Chat)      | Live. Social aspects to be developed.
-|           | Social network and sharing        | TBDs
+| Chat      | Online social interaction
+|           | Text chat                         | [RocketChat](https://rocket.chat)         | [TMI-Chat](https://github.com/AfrikaBurn/TMI-Chat)      | Live.
 | Huddle    | Video conferencing                | [Jitsi](https://jitsi.org)                | [TMI-Huddle](https://github.com/AfrikaBurn/TMI-Huddle)  | Live.
-| Stream    | Text/Audio/Visual/Social streaming| [~~MediaGoblin~~](http://mediagoblin.org) | [TMI-Stream](https://github.com/AfrikaBurn/TMI-Stream)  | To be found.
+| Stream    | Audio, Visual & Social streaming| [~~MediaGoblin~~](http://mediagoblin.org) | [TMI-Stream](https://github.com/AfrikaBurn/TMI-Stream)  | To be found.
 
 
 ### Bio
