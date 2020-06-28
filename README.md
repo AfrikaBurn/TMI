@@ -15,7 +15,7 @@ An ecosystem of online tools to nurture, protect and empower participants to:
 ### How'd we get here?
 
 In order of increasing geekyness, you may want to learn more about the:
-* [context](./docs/context.md),
+* [Context](./docs/context.md),
 * [requirements](./docs/requirements.md) and
 * [blue sky information architecture](./docs/information-architecture.md)
 
