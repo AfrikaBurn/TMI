@@ -5,10 +5,17 @@
 
 ### Communication
 
-* AfrikabBurn.org
-    - Content population & editing.
-* Wiki.AfrikabBurn.org
-* Education & Acculturation.
+* AfrikaBurn.org
+    - Content editing & population
+    - Containerise
+* Learn.AfrikaBurn.org
+    - Introduction
+    - Principles
+    - HowTos
+    - Courses
+* Wiki.AfrikaBurn.org
+    - Installation
+    -
 
 
 ### Infrastructure
@@ -17,6 +24,7 @@
 * Hosting
 * Deployment
 * Replication
+* Architecture.
 * Orchestration
 * BED
     * SSO & Integration
@@ -25,8 +33,7 @@
     * Human Interaction development
 
 
-### Architecture
+### Analytics
 
-* Information Architecture.
 * Microservice design.
 * Human Interface, Process & Interaction design.

@@ -14,7 +14,7 @@
 	path = components/decide/loomio
 	url = git@github.com:AfrikaBurn/TMI-Decide.git
 [submodule "components/web/drupal"]
-	path = components/web/drupal
+	path = components/web
 	url = git@github.com:AfrikaBurn/TMI-Web.git
 [submodule "components/chat/rocket-chat"]
 	path = components/chat/rocket-chat
