@@ -1,9 +1,6 @@
 [submodule "components/inform/seaform"]
 	path = components/inform/seaform
 	url = git@github.com:AfrikaBurn/TMI-Inform.git
-[submodule "components/learn/h5p-moodle-plugin"]
-	path = components/learn/h5p-moodle-plugin
-	url = git@github.com:AfrikaBurn/TMI-Learn-h5p.git
 [submodule "components/volunteer/playasoft-volunteers"]
 	path = components/volunteer/playasoft-volunteers
 	url = git@github.com:AfrikaBurn/TMI-Volunteer.git
@@ -28,9 +25,6 @@
 [submodule "components/cloud/nextcloud"]
 	path = components/cloud/nextcloud
 	url = git@github.com:AfrikaBurn/TMI-Cloud
-[submodule "components/learn/moodle"]
-	path = components/learn/moodle
-	url = git@github.com:AfrikaBurn/TMI-Learn-moodle.git
 [submodule "components/know/wiki.js"]
 	path = components/know/wiki.js
 	url = git@github.com:AfrikaBurn/TMI-Know.git
@@ -40,3 +34,6 @@
 [submodule "components/token/access"]
 	path = components/token/access
 	url = https://github.com/AfrikaBurn/TMI-Access-Token.git
+[submodule "components/learn"]
+	path = components/learn
+	url = https://github.com/AfrikaBurn/TMI-Learn.git
