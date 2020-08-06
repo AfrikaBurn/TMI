@@ -19,9 +19,6 @@
 [submodule "components/huddle/jitsi-meet"]
 	path = components/huddle/jitsi-meet
 	url = git@github.com:AfrikaBurn/TMI-Huddle.git
-[submodule "components/manage/openproject"]
-	path = components/manage
-	url = git@github.com:AfrikaBurn/TMI-Manage.git
 [submodule "components/cloud/nextcloud"]
 	path = components/cloud/nextcloud
 	url = git@github.com:AfrikaBurn/TMI-Cloud
