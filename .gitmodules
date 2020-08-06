@@ -8,7 +8,7 @@
 	path = components/inventory/partkeepr
 	url = git@github.com:AfrikaBurn/TMI-Inventory.git
 [submodule "components/decide/loomio"]
-	path = components/decide/loomio
+	path = components/decide
 	url = git@github.com:AfrikaBurn/TMI-Decide.git
 [submodule "components/web/drupal"]
 	path = components/web
@@ -20,7 +20,7 @@
 	path = components/huddle/jitsi-meet
 	url = git@github.com:AfrikaBurn/TMI-Huddle.git
 [submodule "components/manage/openproject"]
-	path = components/manage/openproject
+	path = components/manage
 	url = git@github.com:AfrikaBurn/TMI-Manage.git
 [submodule "components/cloud/nextcloud"]
 	path = components/cloud/nextcloud
