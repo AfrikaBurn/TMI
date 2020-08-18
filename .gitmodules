@@ -1,12 +1,6 @@
-[submodule "components/inform/seaform"]
-	path = components/inform/seaform
-	url = https://github.com/AfrikaBurn/TMI-Inform.git
 [submodule "components/volunteer/playasoft-volunteers"]
 	path = components/volunteer/playasoft-volunteers
 	url = https://github.com/AfrikaBurn/TMI-Volunteer.git
-[submodule "components/inventory/partkeepr"]
-	path = components/inventory/partkeepr
-	url = https://github.com/AfrikaBurn/TMI-Inventory.git
 [submodule "components/decide/loomio"]
 	path = components/decide
 	url = https://github.com/AfrikaBurn/TMI-Decide.git
