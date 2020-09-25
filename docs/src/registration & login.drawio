@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2020-09-25T16:22:36.490Z" agent="5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36" etag="7H5y58qx2HiVXLmqjCYa" version="13.7.5" type="github">
+<mxfile host="app.diagrams.net" modified="2020-09-25T16:33:06.004Z" agent="5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36" etag="GMA04JDmeq5KJma6d0hM" version="13.7.5" type="github">
   <diagram name="Page-1" id="e7e014a7-5840-1c2e-5031-d8a46d1fe8dd">
     <mxGraphModel dx="870" dy="707" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="#ffffff" math="0" shadow="0">
       <root>
@@ -48,7 +48,7 @@
         <mxCell id="eTK_frsckVeU1uCwgibv-48" value="&lt;a href=&quot;https://github.com/AfrikaBurn/TMI/issues/53&quot;&gt;Shows login / Registration&lt;br&gt;form&lt;/a&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#000000;align=center;" parent="3" vertex="1">
           <mxGeometry x="80" y="90" width="80" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="eTK_frsckVeU1uCwgibv-58" value="Fail" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="3" vertex="1">
+        <mxCell id="eTK_frsckVeU1uCwgibv-58" value="&lt;a href=&quot;https://github.com/AfrikaBurn/TMI/issues/53&quot;&gt;Fail&lt;/a&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="3" vertex="1">
           <mxGeometry x="100" y="210" width="40" height="20" as="geometry" />
         </mxCell>
         <mxCell id="eTK_frsckVeU1uCwgibv-63" value="&lt;a href=&quot;https://github.com/AfrikaBurn/TMI/issues/53&quot;&gt;Lock&lt;br&gt;Account&lt;/a&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#000000;align=center;" parent="3" vertex="1">
@@ -60,7 +60,7 @@
         <mxCell id="eTK_frsckVeU1uCwgibv-97" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="3" source="eTK_frsckVeU1uCwgibv-96" target="eTK_frsckVeU1uCwgibv-72" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="eTK_frsckVeU1uCwgibv-96" value="Creates account" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#000000;align=center;" parent="3" vertex="1">
+        <mxCell id="eTK_frsckVeU1uCwgibv-96" value="&lt;a href=&quot;https://github.com/AfrikaBurn/TMI/issues/53&quot;&gt;Creates account&lt;/a&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#000000;align=center;" parent="3" vertex="1">
           <mxGeometry x="20" y="421" width="80" height="60" as="geometry" />
         </mxCell>
         <mxCell id="eTK_frsckVeU1uCwgibv-68" value="4th&lt;br&gt;Fail" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="3" vertex="1">
@@ -69,7 +69,7 @@
         <mxCell id="LSgEw5MmOkTpCxkL0QqH-6" value="&amp;lt; 4&lt;br&gt;attempts" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="3" vertex="1">
           <mxGeometry x="190" y="150" width="40" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="LSgEw5MmOkTpCxkL0QqH-7" value="Shows&lt;br&gt;Account retrieval page" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#000000;align=center;" parent="3" vertex="1">
+        <mxCell id="LSgEw5MmOkTpCxkL0QqH-7" value="&lt;a href=&quot;https://github.com/AfrikaBurn/TMI/issues/53&quot;&gt;Shows&lt;br&gt;Account retrieval page&lt;/a&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#000000;align=center;" parent="3" vertex="1">
           <mxGeometry x="140" y="350" width="80" height="60" as="geometry" />
         </mxCell>
         <mxCell id="eTK_frsckVeU1uCwgibv-88" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="3" source="eTK_frsckVeU1uCwgibv-63" target="LSgEw5MmOkTpCxkL0QqH-7" edge="1">
@@ -128,10 +128,10 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="eTK_frsckVeU1uCwgibv-93" value="Success" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+        <mxCell id="eTK_frsckVeU1uCwgibv-93" value="&lt;a href=&quot;https://github.com/AfrikaBurn/TMI/issues/53&quot;&gt;Success&lt;/a&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="349" y="319" width="40" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="eTK_frsckVeU1uCwgibv-94" value="Submits login" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+        <mxCell id="eTK_frsckVeU1uCwgibv-94" value="&lt;a href=&quot;https://github.com/AfrikaBurn/TMI/issues/53&quot;&gt;Submits login&lt;/a&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="190" y="290" width="80" height="20" as="geometry" />
         </mxCell>
         <mxCell id="eTK_frsckVeU1uCwgibv-98" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="eTK_frsckVeU1uCwgibv-91" target="eTK_frsckVeU1uCwgibv-96" edge="1">
