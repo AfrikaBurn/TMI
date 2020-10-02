@@ -7,9 +7,6 @@
 [submodule "components/chat/rocket-chat"]
 	path = components/chat/rocket-chat
 	url = https://github.com/AfrikaBurn/TMI-Chat.git
-[submodule "components/cloud/nextcloud"]
-	path = components/cloud/nextcloud
-	url = https://github.com/AfrikaBurn/TMI-Cloud
 [submodule "components/decide/loomio"]
 	path = components/decide
 	url = https://github.com/AfrikaBurn/TMI-Decide.git
