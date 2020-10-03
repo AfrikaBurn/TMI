@@ -1,0 +1,26 @@
+version: '2'
+
+services:
+  db:
+    container_name: tmi_cloud_data
+    image: mariadb
+    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+    restart: always
+    volumes:
+      - ./local/data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=change_me
+      - MYSQL_PASSWORD=change_me
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+
+  app:
+    container_name: tmi_cloud
+    image: nextcloud
+    ports:
+      - 41000:80
+    links:
+      - db
+    volumes:
+      - ./local/nextcloud:/var/www/html
+    restart: always
