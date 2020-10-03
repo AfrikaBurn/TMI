@@ -1,0 +1,13 @@
+version: '2'
+
+services:
+  web:
+    container_name: tmi_proxy
+    image: nginx:1.18.0-alpine
+    ports:
+    - 80:80
+    # environment:
+    #   - NGINX_HOST=foobar.com
+    #   - NGINX_PORT=80
+    # volumes:
+    #   - ./local/nginx.conf:/etc/nginx/nginx.conf
