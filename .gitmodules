@@ -1,33 +1,33 @@
 [submodule "components/token/access"]
 	path = components/token/access
-	url = git@github.com:AfrikaBurn/TMI-Access-Token.git
+	url = https://github.com/AfrikaBurn/TMI-Access-Token.git
 [submodule "components/admin"]
 	path = components/admin
-	url = git@github.com:AfrikaBurn/TMI-Admin.git
+	url = https://github.com/AfrikaBurn/TMI-Admin.git
 [submodule "components/chat/rocket-chat"]
 	path = components/chat/rocket-chat
-	url = git@github.com:AfrikaBurn/TMI-Chat.git
+	url = https://github.com/AfrikaBurn/TMI-Chat.git
 [submodule "components/decide/loomio"]
 	path = components/decide
-	url = git@github.com:AfrikaBurn/TMI-Decide.git
+	url = https://github.com/AfrikaBurn/TMI-Decide.git
 [submodule "components/huddle/jitsi-meet"]
 	path = components/huddle/jitsi-meet
-	url = git@github.com:AfrikaBurn/TMI-Huddle.git
+	url = https://github.com/AfrikaBurn/TMI-Huddle.git
 [submodule "components/know/wiki.js"]
 	path = components/know/wiki.js
-	url = git@github.com:AfrikaBurn/TMI-Know.git
+	url = https://github.com/AfrikaBurn/TMI-Know.git
 [submodule "components/learn"]
 	path = components/learn
-	url = git@github.com:AfrikaBurn/TMI-Learn.git
+	url = https://github.com/AfrikaBurn/TMI-Learn.git
 [submodule "components/manage"]
 	path = components/manage
-	url = git@github.com:AfrikaBurn/TMI-Manage.git
+	url = https://github.com/AfrikaBurn/TMI-Manage.git
 [submodule "components/volunteer/playasoft-volunteers"]
 	path = components/volunteer/playasoft-volunteers
-	url = git@github.com:AfrikaBurn/TMI-Volunteer.git
+	url = https://github.com/AfrikaBurn/TMI-Volunteer.git
 [submodule "components/web/drupal"]
 	path = components/web
-	url = git@github.com:AfrikaBurn/TMI-Web.git
+	url = https://github.com/AfrikaBurn/TMI-Web.git
 [submodule "components/cloud"]
 	path = components/cloud
-	url = git@github.com:AfrikaBurn/TMI-Cloud.git
+	url = https://github.com/AfrikaBurn/TMI-Cloud.git
