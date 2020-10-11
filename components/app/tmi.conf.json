@@ -1,0 +1,10 @@
+{
+
+  "title": "TMI",
+
+  "apps": {
+    "auth": {
+      "title": "Authenticate"
+    }
+  }
+}
