@@ -7,9 +7,6 @@
 [submodule "components/chat/rocket-chat"]
 	path = components/chat/rocket-chat
 	url = https://github.com/AfrikaBurn/TMI-Chat.git
-[submodule "components/decide/loomio"]
-	path = components/decide
-	url = https://github.com/AfrikaBurn/TMI-Decide.git
 [submodule "components/huddle/jitsi-meet"]
 	path = components/huddle/jitsi-meet
 	url = https://github.com/AfrikaBurn/TMI-Huddle.git
@@ -31,3 +28,6 @@
 [submodule "components/cloud"]
 	path = components/cloud
 	url = https://github.com/AfrikaBurn/TMI-Cloud.git
+[submodule "components/decide"]
+	path = components/decide
+	url = git@github.com:AfrikaBurn/TMI-Decide.git
