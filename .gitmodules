@@ -30,4 +30,4 @@
 	url = https://github.com/AfrikaBurn/TMI-Cloud.git
 [submodule "components/decide"]
 	path = components/decide
-	url = git@github.com:AfrikaBurn/TMI-Decide.git
+	url = https://github.com/AfrikaBurn/TMI-Decide.git
