@@ -16,7 +16,7 @@ An ecosystem of online tools to nurture, protect and empower participants to:
 * **Dream**, **Determine** and **Realise** a future seeking consensus and
   collective decision making through participatory democracy.
 
-[Learn more about the context, requirements and ](./MORE.md)
+[Learn more](./MORE.md)
 
 
 ## How'd we get here? In order of increasing geekyness, you may want to learn more about the:
