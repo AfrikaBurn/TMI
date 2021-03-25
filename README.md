@@ -16,28 +16,11 @@ An ecosystem of online tools to nurture, protect and empower participants to:
 * **Dream**, **Determine** and **Realise** a future seeking consensus and
   collective decision making through participatory democracy.
 
-[Learn more](./MORE.md)
+[Learn more about the context, requirements and ](./MORE.md)
 
 
-## Participate
+## How'd we get here? In order of increasing geekyness, you may want to learn more about the:
 
-
-### Designers
-
-*Coming soon*
-
-
-### Developers
-
-*Coming soon*
-
-
-### Devops
-
-*Coming soon*
-
-
-### Sysadmins
-
-*Coming soon*
-
+* [Context](./docs/context.md),
+* [requirements](./docs/requirements.md) and
+* [blue sky information architecture](./docs/information-architecture.md)
