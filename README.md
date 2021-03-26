@@ -19,8 +19,8 @@ An ecosystem of online tools to nurture, protect and empower participants to:
 [Learn more](./MORE.md)
 
 
-## How'd we get here? In order of increasing geekyness, you may want to learn more about the:
+## How to contribute
 
-* [Context](./docs/context.md),
-* [requirements](./docs/requirements.md) and
-* [blue sky information architecture](./docs/information-architecture.md)
+## Devops
+
+Do you have mad docker and docker compose skills? Have a look at our planned [components](./components)
