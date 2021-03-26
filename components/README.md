@@ -1,9 +1,9 @@
 # TMI Components
 
 
-## Orchestration
+## Containerisation
 
-Systems are containerised using [Docker](https://docker.io), managed by [Swarmpit](https://swarmpit.io).
+Systems are containerised using [Docker](https://docker.io).
 
 ## Port Assignment
 
