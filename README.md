@@ -21,6 +21,16 @@ An ecosystem of online tools to nurture, protect and empower participants to:
 
 ## How to contribute
 
-## Devops
+Take a look at the [components](./components) that we've identified to fill
+these roles.
 
-Do you have mad docker and docker compose skills? Have a look at our planned [components](./components)
+
+### Devops
+
+
+Clone this repository and its modules:
+
+```
+git clone https://github.com/AfrikaBurn/TMI.git --recurse-submodules
+```
+

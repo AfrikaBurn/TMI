@@ -6,8 +6,9 @@ services:
     image: nginx:1.18.0-alpine
     ports:
     - 80:80
-    # environment:
-    #   - NGINX_HOST=foobar.com
-    #   - NGINX_PORT=80
-    # volumes:
-    #   - ./local/nginx.conf:/etc/nginx/nginx.conf
+    - 443:443
+    environment:
+      - NGINX_HOST=tmi.mobi
+      - NGINX_PORT=80
+    volumes:
+      - ./local/nginx:/etc/nginx
