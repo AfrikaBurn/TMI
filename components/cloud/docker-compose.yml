@@ -1,0 +1,148 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:alpine
+    restart: always
+    volumes:
+      - ./local/data/base:/var/lib/postgresql/data
+    env_file:
+      - db.env
+
+  pgbackups:
+    image: prodrigestivill/postgres-backup-local
+    restart: always
+    volumes:
+      - ./local/data/backups:/backups
+    links:
+      - db
+    depends_on:
+      - db
+    env_file:
+      - db.env
+
+  app:
+    image: nextcloud:fpm-alpine
+    restart: always
+    volumes:
+      - ./local/nextcloud:/var/www/html
+    env_file:
+      - db.env
+    depends_on:
+      - db
+
+  web:
+    build: ./web
+    restart: always
+    volumes:
+      - ./local/nextcloud:/var/www/html:ro
+    environment:
+      - VIRTUAL_HOST=cloud.tmi.mobi
+      - LETSENCRYPT_HOST=<nextcloud.domain.tld>
+      - LETSENCRYPT_EMAIL=<admin@domain.tld>
+    depends_on:
+      - app
+    networks:
+      - proxy-tier
+      - default
+
+  proxy:
+    build: ./proxy
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    labels:
+      com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy: "true"
+    volumes:
+      - certs:/etc/nginx/certs:ro
+      - vhost.d:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    networks:
+      - proxy-tier
+
+  letsencrypt-companion:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    restart: always
+    volumes:
+      - certs:/etc/nginx/certs
+      - vhost.d:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - proxy-tier
+    depends_on:
+      - proxy
+
+  collabora:
+    image: collabora/code
+    container_name: collabora
+    restart: always
+    expose:
+      - 9980
+    cap_add:
+      - MKNOD
+    environment:
+      - domain=<nextcloud.domain.tld>
+      - VIRTUAL_HOST=<collabora.domain.tld>
+      - VIRTUAL_NETWORK=nginx-proxy
+      - VIRTUAL_PORT=9980
+      - VIRTUAL_PROTO=https
+      - LETSENCRYPT_HOST=<collabora.domain.tld>
+      - LETSENCRYPT_EMAIL=<admin@domain.tld>
+    networks:
+      - proxy-tier
+
+  image-export:
+    image: jgraph/export-server
+    container_name: nextcloud-drawio-export
+    expose:
+      - "8000"
+    networks:
+      - proxy-tier
+    volumes:
+      - fonts:/usr/share/fonts/drawio
+    restart: always
+
+  drawio:
+    image: jgraph/drawio
+    container_name: nextcloud-drawio
+    expose:
+      - 8080
+    networks:
+      - proxy-tier
+    depends_on:
+      - image-export
+    environment:
+      - VIRTUAL_HOST=<drawio.domain.tld>
+      - VIRTUAL_PORT=8080
+      - VIRTUAL_NETWORK=nginx-proxy
+      - LETSENCRYPT_HOST=<drawio.domain.tld>
+      - LETSENCRYPT_EMAIL=<admin@domain.tld>
+      - EXPORT_URL=http://image-export:8000/
+    restart: always
+
+volumes:
+  db:
+  nextcloud:
+    driver_opts:
+      type: 'nfs'
+      o: 'addr=<NAS IP address>,nolock,soft,rw'
+      device: ':/path/to/nextcloud/folder'
+  certs:
+  vhost.d:
+  html:
+  backups:
+    driver_opts:
+      type: 'nfs'
+      o: 'addr=<NAS IP address>,nolock,soft,rw'
+      device: ':/path/to/database/backup/folder'
+  fonts:
+    driver_opts:
+      type: 'nfs'
+      o: 'addr=<NAS IP address>,nolock,soft,rw'
+      device: ':/path/to/fonts/folder'
+
+networks:
+  proxy-tier:
