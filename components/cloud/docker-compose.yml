@@ -1,127 +1,72 @@
-version: '3'
+version: '2'
+
+# Copy default.env to environment.env and change passwords.
 
 services:
-  db:
-    image: postgres:alpine
-    restart: always
-    volumes:
-      - ./local/data/base:/var/lib/postgresql/data
-    env_file:
-      - db.env
-
-  pgbackups:
-    image: prodrigestivill/postgres-backup-local
-    restart: always
-    volumes:
-      - ./local/data/backups:/backups
-    links:
-      - db
-    depends_on:
-      - db
-    env_file:
-      - db.env
 
   app:
-    image: nextcloud:fpm-alpine
-    restart: always
-    volumes:
-      - ./local/nextcloud:/var/www/html
-    env_file:
-      - db.env
+    container_name: tmi_cloud
+    image: nextcloud:18.0
+    networks:
+      - nextcloud_network
     depends_on:
       - db
-
-  web:
-    build: ./local/images/web
-    restart: always
+      - proxy
     volumes:
-      - ./local/nextcloud:/var/www/html:ro
-    environment:
-      - VIRTUAL_HOST=cloud.tmi.mobi
-      - LETSENCRYPT_HOST=cloud.tmi.mobi
-      - LETSENCRYPT_EMAIL=cia@afrikaburn.org
-    depends_on:
-      - app
-    networks:
-      - proxy-tier
-      - default
+      - /etc/localtime:/etc/localtime:ro
+      - ./local/proxy/certs:/etc/nginx/certs:ro
+      - ./local/nextcloud/config:/var/www/html/config
+      - ./local/nextcloud/custom_apps:/var/www/html/custom_apps
+      - ./local/nextcloud/data:/var/www/html/data
+      - ./local/nextcloud/themes:/var/www/html/themes
+    env_file: environment.env
+    restart: unless-stopped
 
-  proxy:
-    build: ./local/images/proxy
-    restart: always
-    ports:
-      - 80:80
-      - 443:443
-    labels:
-      com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy: "true"
-    volumes:
-      - ./local/certs:/etc/nginx/certs:ro
-      - ./local/proxy/vhost.d:/etc/nginx/vhost.d
-      - ./local/proxy/html:/usr/share/nginx/html
-      - /var/run/docker.sock:/tmp/docker.sock:ro
+  office:
+    container_name: tmi_cloud_office
+    image: collabora/code
     networks:
-      - proxy-tier
-
-  letsencrypt-companion:
-    image: jrcs/letsencrypt-nginx-proxy-companion
-    restart: always
-    volumes:
-      - ./local/certs:/etc/nginx/certs
-      - ./local/proxy/vhost.d:/etc/nginx/vhost.d
-      - ./local/proxy/html:/usr/share/nginx/html
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    networks:
-      - proxy-tier
+      - nextcloud_network
     depends_on:
       - proxy
-
-  collabora:
-    image: collabora/code
-    container_name: collabora
-    restart: always
-    expose:
-      - 9980
     cap_add:
       - MKNOD
-    environment:
-      - domain=collabora.cloud.tmi.mobi
-      - VIRTUAL_HOST=collabora.cloud.tmi.mobi
-      - VIRTUAL_NETWORK=nginx-proxy
-      - VIRTUAL_PORT=9980
-      - VIRTUAL_PROTO=https
-      - LETSENCRYPT_HOST=collabora.cloud.tmi.mobi
-      - LETSENCRYPT_EMAIL=cia@afrikaburn.org
-    networks:
-      - proxy-tier
-
-  image-export:
-    image: jgraph/export-server
-    container_name: nextcloud-drawio-export
-    expose:
-      - "8000"
-    networks:
-      - proxy-tier
+    ports:
+      - 9980:9980
     volumes:
-      - ./local/fonts:/usr/share/fonts/drawio
-    restart: always
+      - /etc/localtime:/etc/localtime:ro
+      - ./local/proxy/certs:/etc/nginx/certs:ro
+    env_file: environment.env
+    restart: unless-stopped
 
-  drawio:
-    image: jgraph/drawio
-    container_name: nextcloud-drawio
-    expose:
-      - 8080
-    networks:
-      - proxy-tier
-    depends_on:
-      - image-export
-    environment:
-      - VIRTUAL_HOST=drawio.cloud.tmi.mobi
-      - VIRTUAL_PORT=8080
-      - VIRTUAL_NETWORK=nginx-proxy
-      - LETSENCRYPT_HOST=drawio.cloud.tmi.mobi
-      - LETSENCRYPT_EMAIL=cia@afrikaburn.org
-      - EXPORT_URL=http://image-export:8000/
+  db:
+    container_name: tmi_cloud_data
+    image: mariadb
     restart: always
+    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./local/data:/var/lib/mysql
+      - ./local/proxy/certs:/etc/nginx/certs:ro
+    env_file: environment.env
+    restart: unless-stopped
+
+  proxy:
+    container_name: tmi_cloud_proxy
+    image: jwilder/nginx-proxy:alpine
+    networks:
+      - nextcloud_network
+    ports:
+      - 41000:80
+      - 41010:443
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./local/proxy/certs:/etc/nginx/certs:ro
+      - ./local/proxy/conf.d:/etc/nginx/conf.d:rw
+      - ./local/proxy/vhost.d:/etc/nginx/vhost.d:rw
+      - ./local/proxy/html:/usr/share/nginx/html:rw
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    restart: unless-stopped
 
 networks:
-  proxy-tier:
+  nextcloud_network:
