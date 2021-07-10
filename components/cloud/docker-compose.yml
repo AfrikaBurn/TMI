@@ -32,7 +32,7 @@ services:
       - db
 
   web:
-    build: ./web
+    build: ./local/images/web
     restart: always
     volumes:
       - ./local/nextcloud:/var/www/html:ro
