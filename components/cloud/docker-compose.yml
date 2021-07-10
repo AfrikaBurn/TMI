@@ -38,8 +38,8 @@ services:
       - ./local/nextcloud:/var/www/html:ro
     environment:
       - VIRTUAL_HOST=cloud.tmi.mobi
-      - LETSENCRYPT_HOST=<nextcloud.domain.tld>
-      - LETSENCRYPT_EMAIL=<admin@domain.tld>
+      - LETSENCRYPT_HOST=cloud.tmi.mobi
+      - LETSENCRYPT_EMAIL=cia@afrikaburn.org
     depends_on:
       - app
     networks:
@@ -55,9 +55,9 @@ services:
     labels:
       com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy: "true"
     volumes:
-      - certs:/etc/nginx/certs:ro
-      - vhost.d:/etc/nginx/vhost.d
-      - html:/usr/share/nginx/html
+      - ./local/certs:/etc/nginx/certs:ro
+      - ./local/proxy/vhost.d:/etc/nginx/vhost.d
+      - ./local/proxy/html:/usr/share/nginx/html
       - /var/run/docker.sock:/tmp/docker.sock:ro
     networks:
       - proxy-tier
@@ -66,9 +66,9 @@ services:
     image: jrcs/letsencrypt-nginx-proxy-companion
     restart: always
     volumes:
-      - certs:/etc/nginx/certs
-      - vhost.d:/etc/nginx/vhost.d
-      - html:/usr/share/nginx/html
+      - ./local/certs:/etc/nginx/certs
+      - ./local/proxy/vhost.d:/etc/nginx/vhost.d
+      - ./local/proxy/html:/usr/share/nginx/html
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       - proxy-tier
@@ -84,13 +84,13 @@ services:
     cap_add:
       - MKNOD
     environment:
-      - domain=<nextcloud.domain.tld>
-      - VIRTUAL_HOST=<collabora.domain.tld>
+      - domain=collabora.cloud.tmi.mobi
+      - VIRTUAL_HOST=collabora.cloud.tmi.mobi
       - VIRTUAL_NETWORK=nginx-proxy
       - VIRTUAL_PORT=9980
       - VIRTUAL_PROTO=https
-      - LETSENCRYPT_HOST=<collabora.domain.tld>
-      - LETSENCRYPT_EMAIL=<admin@domain.tld>
+      - LETSENCRYPT_HOST=collabora.cloud.tmi.mobi
+      - LETSENCRYPT_EMAIL=cia@afrikaburn.org
     networks:
       - proxy-tier
 
@@ -102,7 +102,7 @@ services:
     networks:
       - proxy-tier
     volumes:
-      - fonts:/usr/share/fonts/drawio
+      - ./local/fonts:/usr/share/fonts/drawio
     restart: always
 
   drawio:
@@ -115,34 +115,13 @@ services:
     depends_on:
       - image-export
     environment:
-      - VIRTUAL_HOST=<drawio.domain.tld>
+      - VIRTUAL_HOST=drawio.cloud.tmi.mobi
       - VIRTUAL_PORT=8080
       - VIRTUAL_NETWORK=nginx-proxy
-      - LETSENCRYPT_HOST=<drawio.domain.tld>
-      - LETSENCRYPT_EMAIL=<admin@domain.tld>
+      - LETSENCRYPT_HOST=drawio.cloud.tmi.mobi
+      - LETSENCRYPT_EMAIL=cia@afrikaburn.org
       - EXPORT_URL=http://image-export:8000/
     restart: always
-
-volumes:
-  db:
-  nextcloud:
-    driver_opts:
-      type: 'nfs'
-      o: 'addr=<NAS IP address>,nolock,soft,rw'
-      device: ':/path/to/nextcloud/folder'
-  certs:
-  vhost.d:
-  html:
-  backups:
-    driver_opts:
-      type: 'nfs'
-      o: 'addr=<NAS IP address>,nolock,soft,rw'
-      device: ':/path/to/database/backup/folder'
-  fonts:
-    driver_opts:
-      type: 'nfs'
-      o: 'addr=<NAS IP address>,nolock,soft,rw'
-      device: ':/path/to/fonts/folder'
 
 networks:
   proxy-tier:
