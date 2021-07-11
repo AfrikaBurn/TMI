@@ -1,7 +1,8 @@
 version: '2'
 
 services:
-  web:
+
+  proxy:
     container_name: tmi_proxy
     image: nginx:1.18.0-alpine
     ports:
@@ -11,4 +12,6 @@ services:
       - NGINX_HOST=tmi.mobi
       - NGINX_PORT=80
     volumes:
-      - ./src/nginx:/etc/nginx
+      - ./src/nginx/nginx.conf:/etc/nginx.conf:ro
+      - ./src/nginx/access.token.conf:/etc/nginx/access.token.conf:ro
+      - ./src/nginx/cloud.conf:/etc/cloud.conf:ro
