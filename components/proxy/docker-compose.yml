@@ -12,6 +12,6 @@ services:
       - NGINX_HOST=tmi.mobi
       - NGINX_PORT=80
     volumes:
-      - ./src/nginx/nginx.conf:/etc/nginx.conf:ro
+      - ./src/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./src/nginx/access.token.conf:/etc/nginx/access.token.conf:ro
-      - ./src/nginx/cloud.conf:/etc/cloud.conf:ro
+      - ./src/nginx/cloud.conf:/etc/nginx/cloud.conf:ro
