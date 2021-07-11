@@ -29,3 +29,5 @@ node_modules/
 # VSCode
 .vscode
 .env
+
+**/local

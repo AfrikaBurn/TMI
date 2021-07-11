@@ -1,101 +1,39 @@
 version: '2'
 
-# Copy default.env to environment.env and change passwords.
+volumes:
+  nextcloud:
+  db:
 
 services:
 
-  app:
-    container_name: tmi_cloud
-    image: nextcloud:18.0
-    networks:
-      - nextcloud_network
-    depends_on:
-      - db
-      - proxy
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ./local/proxy/certs:/etc/nginx/certs:ro
-      - ./local/nextcloud/config:/var/www/html/config
-      - ./local/nextcloud/custom_apps:/var/www/html/custom_apps
-      - ./local/nextcloud/data:/var/www/html/data
-      - ./local/nextcloud/themes:/var/www/html/themes
-    env_file: environment.env
-    restart: unless-stopped
-
-  office:
-    container_name: tmi_cloud_office
-    image: collabora/code
-    networks:
-      - nextcloud_network
-    depends_on:
-      - proxy
-    cap_add:
-      - MKNOD
-    ports:
-      - 9980:9980
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ./local/proxy/certs:/etc/nginx/certs:ro
-    env_file: environment.env
-    restart: unless-stopped
-
   db:
-    container_name: tmi_cloud_data
-    image: mariadb
-    restart: always
+    container_name: tmi_cloud_db
+    image: mariadb:10.5
     command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
     volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ./local/data:/var/lib/mysql
-      - ./local/proxy/certs:/etc/nginx/certs:ro
-    env_file: environment.env
-    restart: unless-stopped
+      - ./local/db/data:/var/lib/mysql
+      - ./local/db/log:/var/log
+    environment:
+      - MYSQL_ROOT_PASSWORD=nextcloud
+      - MYSQL_PASSWORD=nextcloud
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+    restart: always
 
-  proxy:
-    container_name: tmi_cloud_proxy
-    image: jwilder/nginx-proxy:alpine
-    networks:
-      - nextcloud_network
+  app:
+    container_name: tmi_cloud_app
+    image: nextcloud:stable-apache
     ports:
       - 41000:80
-      - 41010:443
+    links:
+      - db
     volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ./local/proxy/certs:/etc/nginx/certs:ro
-      - ./local/proxy/conf.d:/etc/nginx/conf.d:rw
-      - ./local/proxy/vhost.d:/etc/nginx/vhost.d:rw
-      - ./local/proxy/html:/usr/share/nginx/html:rw
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-    restart: unless-stopped
-
-  image-export:
-    image: jgraph/export-server
-    container_name: tmi_cloud_drawio_export
-    expose:
-      - 8000
-    networks:
-      - nextcloud_network
-    volumes:
-      - ./local/fonts:/usr/share/fonts/drawio
-    restart: always
-
-  drawio:
-    image: jgraph/drawio
-    container_name: nextcloud-drawio
-    expose:
-      - 8080
-    networks:
-      - proxy-tier
-    depends_on:
-      - image-export
+      - ./local/app/html:/var/www/html
+      - ./local/app/log:/var/log
     environment:
-      - VIRTUAL_HOST=drawio.cloud.tmi.mobi
-      - VIRTUAL_PORT=8080
-      - VIRTUAL_NETWORK=nextcloud_network
-      - LETSENCRYPT_HOST=drawio.cloud.tmi.mobi
-      - LETSENCRYPT_EMAIL=cia@afrikaburn.org
-      - EXPORT_URL=http://image-export:8000/
+      - MYSQL_PASSWORD=nextcloud
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+      - MYSQL_HOST=db
     restart: always
 
-networks:
-  nextcloud_network:
