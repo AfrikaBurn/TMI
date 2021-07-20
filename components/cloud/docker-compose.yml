@@ -1,15 +1,13 @@
 version: '2'
 
-volumes:
-  nextcloud:
-  db:
-
 services:
 
-  db:
+  cloud_db:
     container_name: tmi_cloud_db
     image: mariadb:10.5
     command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+    networks:
+      - proxy_tmi
     volumes:
       - ./local/db/data:/var/lib/mysql
       - ./local/db/log:/var/log
@@ -20,13 +18,15 @@ services:
       - MYSQL_USER=nextcloud
     restart: always
 
-  app:
+  cloud_app:
     container_name: tmi_cloud_app
     image: nextcloud:stable-apache
+    networks:
+      - proxy_tmi
     ports:
       - 41000:80
     links:
-      - db
+      - cloud_db
     volumes:
       - ./local/app/html:/var/www/html
       - ./local/app/log:/var/log
@@ -34,7 +34,5 @@ services:
       - MYSQL_PASSWORD=nextcloud
       - MYSQL_DATABASE=nextcloud
       - MYSQL_USER=nextcloud
-      - MYSQL_HOST=db
+      - MYSQL_HOST=cloud_db
     restart: always
-
-

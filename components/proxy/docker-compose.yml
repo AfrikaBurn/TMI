@@ -15,3 +15,9 @@ services:
       - ./src/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./src/nginx/access.token.conf:/etc/nginx/access.token.conf:ro
       - ./src/nginx/cloud.conf:/etc/nginx/cloud.conf:ro
+    networks:
+      - tmi
+
+networks:
+  tmi:
+    driver: bridge
